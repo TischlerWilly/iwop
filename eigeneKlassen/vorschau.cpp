@@ -86,7 +86,7 @@ void vorschau::paintEvent(QPaintEvent *)
     //Aktuelle Zeile noch einmal rot überzeichen, da bereits wieder überdeckt
     //durch deckungsgleiche Elemente in späteren Zeilen:
     if(aktuelle_zeilennummer <= geotext.zeilenanzahl() && \
-            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(PROGRAMMKOPF_DIALOG))
+            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
@@ -98,7 +98,7 @@ void vorschau::paintEvent(QPaintEvent *)
         }
     }
     if(aktuelle_zeilennummer <= fkontext.zeilenanzahl() && \
-            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(PROGRAMMKOPF_DIALOG))
+            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);

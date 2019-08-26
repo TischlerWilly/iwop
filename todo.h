@@ -12,6 +12,11 @@
     ->void programmtext::aktualisiere_anzeigetext()
 
 
+- void MainWindow::on_actionMakeProgrammkopf_triggered()
+    ->OK-Button des Dialoges: Dialogdaten in Programmliste schreiben
+    -->QString DialogPrgKopf::dialogDataToString()
+    -->void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
+
 
 
 

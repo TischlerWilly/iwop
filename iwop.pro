@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         Dialoge/dialog_programmlisten.cpp \
+        dialogprgkopf.cpp \
         eigeneFunktionen/geometrie.cpp \
         eigeneFunktionen/myfunktion.cpp \
         eigeneFunktionen/runden.cpp \
@@ -49,17 +50,18 @@ SOURCES += \
         eigeneKlassen/tabelle_tz3.cpp \
         eigeneKlassen/text_zeilenweise.cpp \
         eigeneKlassen/undo_redo.cpp \
-        eigeneKlassen/undo_redo_wkz.cpp \
         eigeneKlassen/vorschau.cpp \
         eigeneKlassen/wenndannsonst.cpp \
-        eigeneKlassen/werkzeug.cpp \
         eigeneKlassen/wuerfel.cpp \
         eigeneKlassen/zylinder.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        programmkopf.cpp
 
 HEADERS += \
         Dialoge/dialog_programmlisten.h \
+        dialogprgkopf.h \
+        eigeneDefines/define_programmkpf.h \
         eigeneDefines/defines_geometrie.h \
         eigeneFunktionen/geometrie.h \
         eigeneFunktionen/myfunktion.h \
@@ -84,20 +86,20 @@ HEADERS += \
         eigeneKlassen/tabelle_tz3.h \
         eigeneKlassen/text_zeilenweise.h \
         eigeneKlassen/undo_redo.h \
-        eigeneKlassen/undo_redo_wkz.h \
         eigeneKlassen/vorschau.h \
         eigeneKlassen/wenndannsonst.h \
-        eigeneKlassen/werkzeug.h \
         eigeneKlassen/wuerfel.h \
         eigeneKlassen/zylinder.h \
         eigeneMakros/makro_geometrie.h \
         eigeneStruncts/punkt.h \
         mainwindow.h \
         myDefines.h \
+        programmkopf.h \
         todo.h
 
 FORMS += \
         Dialoge/dialog_programmlisten.ui \
+        dialogprgkopf.ui \
         mainwindow.ui
 
 # Default rules for deployment.

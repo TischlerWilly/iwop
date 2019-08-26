@@ -25,7 +25,7 @@ QString variablen_durch_werte_ersetzten(QString variablen, QString formeltext)
                 QString wert;
                 if(variablen.contains("["+variablennahme+"]"))
                 {
-                    wert = text_mitte(variablen, "["+variablennahme+"]", ENDE_EINTRAG);
+                    wert = text_mitte(variablen, "["+variablennahme+"]", ENDPAR);
                 }else
                 {
                     wert = "0";
@@ -39,7 +39,7 @@ QString variablen_durch_werte_ersetzten(QString variablen, QString formeltext)
                 QString wert;
                 if(variablen.contains("["+variablennahme+"]"))
                 {
-                    wert = text_mitte(variablen, "["+variablennahme+"]", ENDE_EINTRAG);
+                    wert = text_mitte(variablen, "["+variablennahme+"]", ENDPAR);
                 }else
                 {
                     wert = "0";

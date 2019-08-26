@@ -82,8 +82,15 @@
     </property>
     <addaction name="actionProgrammliste_anzeigen"/>
    </widget>
+   <widget class="QMenu" name="menuProduzieren">
+    <property name="title">
+     <string>Produzieren</string>
+    </property>
+    <addaction name="actionMakeProgrammkopf"/>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuExtras"/>
+   <addaction name="menuProduzieren"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -105,6 +112,11 @@
   <action name="actionProgrammliste_anzeigen">
    <property name="text">
     <string>Programmliste anzeigen</string>
+   </property>
+  </action>
+  <action name="actionMakeProgrammkopf">
+   <property name="text">
+    <string>Programmkopf</string>
    </property>
   </action>
  </widget>

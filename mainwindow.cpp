@@ -188,7 +188,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     //ui->actionAuswahl_Einblenden->setDisabled(true);
     //ui->actionAuswahl_Ausblenden->setDisabled(true);
     //Menü CAM:
-    //ui->actionMakeProgrammkopf->setDisabled(true);
+    ui->actionMakeProgrammkopf->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -215,7 +215,7 @@ void MainWindow::showElements_aFileIsOpen()
     //ui->actionAuswahl_Einblenden->setEnabled(true);
     //ui->actionAuswahl_Ausblenden->setEnabled(true);
     //Menü CAM:
-    //ui->actionMakeProgrammkopf->setEnabled(true);
+    ui->actionMakeProgrammkopf->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -417,4 +417,9 @@ void MainWindow::on_actionProgrammliste_anzeigen_triggered()
                                 tmp_var,\
                                 tmp_geom,\
                                 tmp_fkon);
+}
+
+void MainWindow::on_actionMakeProgrammkopf_triggered()
+{
+    prgkopf.neu();
 }

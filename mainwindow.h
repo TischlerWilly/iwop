@@ -18,6 +18,7 @@
 #include "eigeneKlassen/programmtexte.h"
 #include "todo.h"
 #include "Dialoge/dialog_programmlisten.h"
+#include "programmkopf.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -45,6 +46,7 @@ private:
     vorschau vorschaufenster;
     programmtexte   tt;
     Dialog_Programmlisten programmlisten;
+    programmkopf    prgkopf;
 
     //Variablen:
     uint            anz_neue_dateien;
@@ -73,6 +75,7 @@ private slots:
     void resizeEvent(QResizeEvent *event);
     void on_actionNeu_triggered();
     void on_actionProgrammliste_anzeigen_triggered();
+    void on_actionMakeProgrammkopf_triggered();
 };
 
 #endif // MAINWINDOW_H
