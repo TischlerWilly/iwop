@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "myDefines.h"
 #include "eigeneFunktionen/text.h"
-#include "eigeneDefines/define_programmkpf.h"
+#include "eigeneDefines/define_prgkopf.h"
 
 namespace Ui {
 class DialogPrgKopf;

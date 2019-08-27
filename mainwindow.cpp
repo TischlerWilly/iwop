@@ -421,5 +421,17 @@ void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 
 void MainWindow::on_actionMakeProgrammkopf_triggered()
 {
-    prgkopf.neu();
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &prgkopf, SLOT(getDialogData(QString,bool)));
+        //QString msg = vorlage_pkopf;
+        QString msg = "";
+        emit sendDialogData(msg, false);
+    }
 }

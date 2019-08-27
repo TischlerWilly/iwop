@@ -5,6 +5,11 @@
 
 /*
 
+- MainWindow::MainWindow(QWidget *parent) :
+    ->connect() programmieren
+    ->Default-Werte für Dialoge
+
+
 - Klasse Programmtaxt wieder mit Leben füllen
     ->void programmtext::aktualisieren()
     ->void programmtext::aktualisiere_klartext_var()
@@ -12,10 +17,11 @@
     ->void programmtext::aktualisiere_anzeigetext()
 
 
-- void MainWindow::on_actionMakeProgrammkopf_triggered()
-    ->OK-Button des Dialoges: Dialogdaten in Programmliste schreiben
-    -->QString DialogPrgKopf::dialogDataToString()
-    -->void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
+
+
+
+
+
 
 
 

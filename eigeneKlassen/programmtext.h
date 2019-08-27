@@ -4,7 +4,7 @@
 #include <QString>
 #include <math.h>
 #include "../myDefines.h"
-#include "../eigeneDefines/define_programmkpf.h"
+#include "../eigeneDefines/define_prgkopf.h"
 #include "../eigeneFunktionen/myfunktion.h"
 #include "text_zeilenweise.h"
 #include "wenndannsonst.h"

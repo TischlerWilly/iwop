@@ -25,8 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
-        dialogprgkopf.cpp \
         eigeneFunktionen/geometrie.cpp \
         eigeneFunktionen/myfunktion.cpp \
         eigeneFunktionen/runden.cpp \
@@ -55,13 +55,12 @@ SOURCES += \
         eigeneKlassen/wuerfel.cpp \
         eigeneKlassen/zylinder.cpp \
         main.cpp \
-        mainwindow.cpp \
-        programmkopf.cpp
+        mainwindow.cpp
 
 HEADERS += \
+        Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
-        dialogprgkopf.h \
-        eigeneDefines/define_programmkpf.h \
+        eigeneDefines/define_prgkopf.h \
         eigeneDefines/defines_geometrie.h \
         eigeneFunktionen/geometrie.h \
         eigeneFunktionen/myfunktion.h \
@@ -94,12 +93,11 @@ HEADERS += \
         eigeneStruncts/punkt.h \
         mainwindow.h \
         myDefines.h \
-        programmkopf.h \
         todo.h
 
 FORMS += \
+        Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
-        dialogprgkopf.ui \
         mainwindow.ui
 
 # Default rules for deployment.

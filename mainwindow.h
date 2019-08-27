@@ -18,7 +18,7 @@
 #include "eigeneKlassen/programmtexte.h"
 #include "todo.h"
 #include "Dialoge/dialog_programmlisten.h"
-#include "programmkopf.h"
+#include "Dialoge/dialog_prgkopf.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -39,6 +39,7 @@ signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
     void send_an_programmlisten(QString prgtext, QString klartext, \
                         QString variabel, QString geotext, QString fkon);
+    void sendDialogData(QString text, bool openToChangeData);
 
 private:
     Ui::MainWindow *ui;
@@ -46,7 +47,7 @@ private:
     vorschau vorschaufenster;
     programmtexte   tt;
     Dialog_Programmlisten programmlisten;
-    programmkopf    prgkopf;
+    DialogPrgKopf    prgkopf;
 
     //Variablen:
     uint            anz_neue_dateien;
