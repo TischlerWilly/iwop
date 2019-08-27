@@ -4,12 +4,6 @@
 #define PROGRAMMVERSION     "1.2019.08.15"
 
 /*
-
-- MainWindow::MainWindow(QWidget *parent) :
-    ->connect() programmieren
-    ->Default-Werte für Dialoge
-
-
 - Klasse Programmtaxt wieder mit Leben füllen
     ->void programmtext::aktualisieren()
     ->void programmtext::aktualisiere_klartext_var()

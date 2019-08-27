@@ -102,7 +102,7 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOFP_RTB;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rl->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rb->text());
     msg += ENDPAR;
 
     msg += PKOPF_LOESEN;
@@ -113,6 +113,10 @@ QString DialogPrgKopf::dialogDataToString()
     {
         msg += "0";
     }
+    msg += ENDPAR;
+
+    msg += PKOPF_SCHABH;
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_schabh->text());
     msg += ENDPAR;
 
     msg += PKOPF_SIABST;
@@ -179,4 +183,83 @@ void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
     ui->lineEdit_bez->setText(selektiereEintrag(text, PKOPF_BEZ, ENDPAR));
     ui->lineEdit_afb->setText(selektiereEintrag(text, PKOPF_AFB, ENDPAR));
     this->show();
+}
+
+QString DialogPrgKopf::get_default()
+{
+    QString msg = DLG_PKOPF ;
+
+    msg += PKOPF_KOM1;
+    msg += "";
+    msg += ENDPAR;
+
+    msg += PKOPF_KOM2;
+    msg += "";
+    msg += ENDPAR;
+
+    msg += PKOPF_L;
+    msg += "500";
+    msg += ENDPAR;
+
+    msg += PKOPF_B;
+    msg += "300";
+    msg += ENDPAR;
+
+    msg += PKOPF_D;
+    msg += "19";
+    msg += ENDPAR;
+
+    msg += PKOPF_FUENFSEI;
+    msg += "0";
+    msg += ENDPAR;
+
+    msg += PKOPF_SPEIGELN;
+    msg += "0";
+    msg += ENDPAR;
+
+    msg += PKOPF_BELEGART;
+    msg += "0";
+    msg += ENDPAR;
+
+    msg += PKOPF_XVERS;
+    msg += "0";
+    msg += ENDPAR;
+
+    msg += PKOPF_YVERS;
+    msg += "0";
+    msg += ENDPAR;
+
+    msg += PKOFP_RTL;
+    msg += "500";
+    msg += ENDPAR;
+
+    msg += PKOFP_RTB;
+    msg += "300";
+    msg += ENDPAR;
+
+    msg += PKOPF_LOESEN;
+    msg += "1";
+    msg += ENDPAR;
+
+    msg += PKOPF_SCHABH;
+    msg += "0";
+    msg += ENDPAR;
+
+    msg += PKOPF_SIABST;
+    msg += "20";
+    msg += ENDPAR;
+
+    msg += PKOPF_PAPO;
+    msg += "2";
+    msg += ENDPAR;
+
+    msg += PKOPF_BEZ;
+    msg += "Programmkopf";
+    msg += ENDPAR;
+
+    msg += PKOPF_AFB;
+    msg += "1";
+    msg += ENDPAR;
+
+    return msg;
 }

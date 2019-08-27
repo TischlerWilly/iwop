@@ -35,6 +35,12 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void getDialogData(QString text);
+    void getDialogDataModify(QString text);
+    void slotSaveConfig(QString text);
+    //void slot_maus_pos(QPoint p);
+
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
     void send_an_programmlisten(QString prgtext, QString klartext, \
@@ -50,10 +56,15 @@ private:
     DialogPrgKopf    prgkopf;
 
     //Variablen:
+    QStringList     konfiguration_ini;
+    bool            konfiguration_ini_ist_vorhanden;
     uint            anz_neue_dateien;
     QString         settings_anz_undo_t;
+    QString         vorlage_pkopf;
 
     //Funktionen:
+    QString loadConfig();
+    QString saveConfig();
     void update_gui();
     void update_windowtitle();
     int aktualisiere_anzeigetext(bool undo_redo_on = true);
@@ -77,6 +88,8 @@ private slots:
     void on_actionNeu_triggered();
     void on_actionProgrammliste_anzeigen_triggered();
     void on_actionMakeProgrammkopf_triggered();
+    void on_action_aendern_triggered();
+    void on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item);
 };
 
 #endif // MAINWINDOW_H

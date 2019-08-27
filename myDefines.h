@@ -8,9 +8,8 @@
 #define WKZ_BILDER_PFAD             "/.iwop/werkzeugbilder/"
 #define PFAD_LETZTE_DATEIEN         "/.iwop/letzte_dateien.ini"
 #define CAD_Maschine                "/.iwop/maschine_cad.ini"
-#define DATEIENDUNG_EIGENE          ".ggf"
+#define DATEIENDUNG_EIGENE          ".fmc"
 #define DATEIENDUNG_BACKUP          ".bak_"
-#define DATEIENDUNG_GCODE           ".ngc"
 #define PROGRAMMNAME                "IWOP"
 #define SICHERHEITSABSTAND_WERT     "5"
 #define ANZAHL_LETZTER_DATEIEN      15

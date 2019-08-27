@@ -22,6 +22,7 @@ signals:
 public:
     explicit DialogPrgKopf(QWidget *parent = nullptr);
     ~DialogPrgKopf();
+    QString get_default();
 
 public slots:
     void getDialogData(QString text, bool openToChangeData);

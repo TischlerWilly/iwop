@@ -10,13 +10,83 @@ MainWindow::MainWindow(QWidget *parent) :
     //Defaultwerte:
     //kopierterEintrag_t              = NICHT_DEFINIERT;
     //kopiertesWerkzeug               = NICHT_DEFINIERT;
+    vorlage_pkopf                   = NICHT_DEFINIERT;
     settings_anz_undo_t             = "10";
-    //settings_anz_undo_w             = "30";
     //speichern_unter_flag            = false;
     tt.clear();
     anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen
 
     vorschaufenster.setParent(ui->tab_Programmliste);
+
+    QDir dir(QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER);
+    if(!dir.exists())
+    {
+        QString nachricht;
+        nachricht = "Programmpfad nicht gefunden. Pfad \"";
+        nachricht += QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER;
+        nachricht += "\" wird angelegt";
+        QMessageBox mb;
+        mb.setText(nachricht);
+        mb.exec();
+        dir.mkdir(QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER);
+        //dir.mkdir(QDir::homePath() + PFAD_ZU_DEN_WERKZEUGBILDERN);
+/*
+        QFile file(QDir::homePath() + WKZ_FILE);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
+        {
+            QMessageBox mb;
+            mb.setText("Fehler beim Datei-Zugriff");
+            mb.exec();
+        }else
+        {
+
+            file.write(werkzeug_dialog.getDefault().toUtf8());
+            QMessageBox mb;
+            mb.setText("Neue, Werkzeugdatei wurde erzeugt.");
+            mb.exec();
+        }
+        file.close();
+*/
+    }
+    QString msg = this->loadConfig();
+    if(msg != "OK")
+    {
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+    }
+    if(konfiguration_ini_ist_vorhanden == false)
+    {
+        //Sicherheitsabfrage:
+        QMessageBox mb;
+        mb.setWindowTitle("Konnte Konfiguratiosdatei nicht finden!");
+        mb.setText("Die Konfigurationsdatei ist nicht vorhanden oder konnte nicht gelesen werden.Soll eine neue Konfigurationsdatei erstellt werden?");
+        mb.setStandardButtons(QMessageBox::Yes);
+        mb.addButton(QMessageBox::No);
+        mb.setDefaultButton(QMessageBox::No);
+        if(mb.exec() == QMessageBox::Yes)
+        {
+            saveConfig();
+            loadConfig();
+        }else
+        {
+            QMessageBox mb2;
+            mb2.setText("Konfiguration wurde nicht angelegt.");
+            mb2.exec();
+        }
+    }
+
+    //on_pushButton_WKZ_Laden_clicked();
+    //ladeWerkzeugnamen();
+    //loadConfig_letzte_Dateien();
+
+    //connect:
+    connect(&prgkopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+
+    connect(&prgkopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+
+    connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
 
@@ -167,6 +237,150 @@ int MainWindow::aktualisiere_anzeigetext(bool undo_redo_on)
     return row;
 }
 
+//---------------------------------------------------Konfiguration
+
+QString MainWindow::loadConfig()
+{
+    QString returnString = "OK";
+
+    QFile file(QDir::homePath() + INI_FILE);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        konfiguration_ini_ist_vorhanden = false;
+        returnString = "Konnte Konfiguratiosdatei nicht finden!\nBitte ueberpruefen Sie die Einstellungen.";
+    } else
+    {
+        konfiguration_ini_ist_vorhanden = true;
+        while(!file.atEnd())
+        {
+            QString line = file.readLine();
+            konfiguration_ini += line;
+        }
+        file.close();
+        //Konfiguration Zeilenweise auswerten:
+        for (QStringList::iterator it = konfiguration_ini.begin(); it != konfiguration_ini.end(); ++it)
+            {
+                QString text = *it;
+
+                //-----------------------------------------------------Settings:
+                if(text.contains(SETTINGS_ANZ_UNDO_T))
+                {
+                    settings_anz_undo_t = selektiereEintrag(text, SETTINGS_ANZ_UNDO_T, ENDE_ZEILE);
+                }
+                //-----------------------------------------------------Dialoge:
+                if(text.contains(DLG_PKOPF))
+                {
+                    vorlage_pkopf = selektiereEintrag(text, DLG_PKOPF, ENDE_ZEILE);
+                }
+            }
+    }
+
+    return returnString;
+}
+
+QString MainWindow::saveConfig()
+{
+    QString returnString = "OK";
+
+    //Daten in QString schreiben:
+    QString inhaltVonKonfiguration;
+
+    inhaltVonKonfiguration =        BEGIN_EINSTELLUNGEN;
+    inhaltVonKonfiguration +=       "\n";
+    //----------------------------------------------------Einstellungen:
+    inhaltVonKonfiguration +=       SETTINGS_ANZ_UNDO_T;
+    inhaltVonKonfiguration +=       settings_anz_undo_t;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    //----------------------------------------------------
+
+    inhaltVonKonfiguration +=       ENDE_EINSTELLUNGEN;
+    inhaltVonKonfiguration +=       "\n";
+
+
+    inhaltVonKonfiguration +=       BEGIN_DIALOGE;
+    inhaltVonKonfiguration +=       "\n";
+
+    //----------------------------------------------------Dialog Programmkopf:
+    inhaltVonKonfiguration +=       DLG_PKOPF;
+    if(vorlage_pkopf == NICHT_DEFINIERT)
+    {
+        inhaltVonKonfiguration +=   prgkopf.get_default();
+    }else
+    {
+        inhaltVonKonfiguration +=   vorlage_pkopf;
+    }
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+
+    //-------------------------------------------
+    inhaltVonKonfiguration +=       ENDE_DIALOGE;
+    inhaltVonKonfiguration +=       "\n";
+    //---------------------------------------------------------------------------------------------------------
+
+    //Daten Speichern:
+    QFile file(QDir::homePath() + INI_FILE);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
+    {
+        QMessageBox mb;
+        mb.setText("Fehler beim Zugriff auf die Datei \"konfiguration.ini\"");
+        mb.exec();
+    } else
+    {
+        file.remove(); //lösche alte Datei wenn vorhanden
+        file.close(); //beende Zugriff
+        file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
+        file.write(inhaltVonKonfiguration.toUtf8()); //fülle Datei mit Inhalt
+        file.close(); //beende Zugriff
+        QMessageBox mb;
+        mb.setText("Konfiguration wurde erfolgreich geschrieben.");
+        mb.exec();
+    }
+    return returnString;
+}
+
+void MainWindow::slotSaveConfig(QString text)
+{
+    //Sicherheitsabfrage:
+    QMessageBox mb;
+    mb.setWindowTitle("Konfiguration speichern");
+    mb.setText("Sind Sie sicher, dass die Konfoguration gespeichert werden soll?");
+    mb.setStandardButtons(QMessageBox::Yes);
+    mb.addButton(QMessageBox::No);
+    mb.setDefaultButton(QMessageBox::No);
+    if(mb.exec() == QMessageBox::Yes)
+    {
+        //Daten vom Dialog in lokale Variabeln speichern:
+        //------------------------------------------------Settings:
+        if(text.contains(SETTINGS_ANZ_UNDO_T))
+        {
+            settings_anz_undo_t = selektiereEintrag(text, SETTINGS_ANZ_UNDO_T, ENDE_ZEILE);
+        }
+        if(text.contains(SETTINGS_FKON_BERECHNEN))
+        {
+            //fkon_berechnen = selektiereEintrag(text, SETTINGS_FKON_BERECHNEN, ENDE_ZEILE);
+        }
+        //------------------------------------------------Dialoge:
+        if(text.contains(DLG_PKOPF))
+        {
+            vorlage_pkopf = selektiereEintrag(text, DLG_PKOPF, ENDE_ZEILE);
+        }//else if....
+
+        //Daten in Datei sichern:
+        saveConfig();
+        //Konfiguration neu laden:
+        loadConfig();
+        //Anzeige aktualisieren:
+        tt.get_prgtext()->aktualisieren();
+        vorschauAktualisieren();
+    }else
+    {
+        QMessageBox mb2;
+        mb2.setText("Konfiguration wurde nicht geaendert.");
+        mb2.exec();
+    }
+}
+
 //---------------------------------------------------Sichtbarkeiten
 void MainWindow::hideElemets_noFileIsOpen()
 {
@@ -176,9 +390,9 @@ void MainWindow::hideElemets_noFileIsOpen()
     //ui->actionDateiSpeichern_unter->setDisabled(true);
     //ui->actionDateiSchliessen->setDisabled(true);
     //Menü Bearbeiten:
-    //if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
-        //ui->actionAendern->setDisabled(true);
+        ui->action_aendern->setDisabled(true);
         //ui->actionEinfuegen->setDisabled(true);
         //ui->actionKopieren->setDisabled(true);
         //ui->actionAusschneiden->setDisabled(true);
@@ -203,9 +417,9 @@ void MainWindow::showElements_aFileIsOpen()
     //ui->actionDateiSpeichern_unter->setEnabled(true);
     //ui->actionDateiSchliessen->setEnabled(true);
     //Menü Bearbeiten:
-    //if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
-        //ui->actionAendern->setEnabled(true);
+        ui->action_aendern->setEnabled(true);
         //ui->actionEinfuegen->setEnabled(true);
         //ui->actionKopieren->setEnabled(true);
         //ui->actionAusschneiden->setEnabled(true);
@@ -342,6 +556,48 @@ void MainWindow::on_actionNeu_triggered()
     ui->listWidget_Programmliste->setCurrentRow(0);
 }
 
+void MainWindow::on_action_aendern_triggered()
+{
+    disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+    disconnect(this, SIGNAL(sendDialogData(QString, bool, QStringList)), 0, 0);
+
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+        int items_menge = items.count();
+
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            QString programmzeile;
+            if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+            {
+                programmzeile = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+            } else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+            //ermitteln an welches Unterfenster der string gehen soll und die Zeile Übergeben:
+            if(programmzeile.contains(DLG_PKOPF))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &prgkopf, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }//else if....
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+}
+
+void MainWindow::on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item)
+{
+    emit on_action_aendern_triggered();
+}
+
 //---------------------------------------------------Vorschaufenster
 
 void MainWindow::vorschauAktualisieren()
@@ -351,6 +607,60 @@ void MainWindow::vorschauAktualisieren()
 }
 
 //---------------------------------------------------Dialoge:
+void MainWindow::getDialogData(QString text)
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        text_zeilenweise at = tt.get_prgtext()->get_anzeigetext_zeilenweise();
+        if(at.zeilenanzahl() == 0)
+        {
+            tt.get_prgtext()->zeile_anhaengen(text);
+            aktualisiere_anzeigetext();
+            //pruefe_benutzereingaben(ui->listWidget_Programmliste->currentRow()+1);
+        }else
+        {
+            //Zeile über aktiver Zeile einfügen:
+            tt.get_prgtext()->zeile_einfuegen(ui->listWidget_Programmliste->currentRow(), text);
+            //aktualisieren und Element darunter aktivieren:
+            int row = aktualisiere_anzeigetext() + 1;
+            ui->listWidget_Programmliste->setCurrentRow(row);
+            //pruefe_benutzereingaben(ui->listWidget_Programmliste->currentRow());
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+    vorschauAktualisieren();
+    update_windowtitle();
+}
+
+void MainWindow::getDialogDataModify(QString text)
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QString text_alt = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+        if(text != text_alt)
+        {
+            if(elementIstEingeblendet())
+            {
+                tt.get_prgtext()->zeile_ersaetzen(ui->listWidget_Programmliste->currentRow()+1, text);
+                aktualisiere_anzeigetext();
+                //pruefe_benutzereingaben(ui->listWidget_Programmliste->currentRow()+1);
+            }else
+            {
+                tt.get_prgtext()->zeile_ersaetzen(ui->listWidget_Programmliste->currentRow()+1, "//"+text);
+                aktualisiere_anzeigetext();
+            }
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+    vorschauAktualisieren();
+    update_windowtitle();
+}
+
+
 void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 {
     QString tmp_text;
@@ -430,8 +740,11 @@ void MainWindow::on_actionMakeProgrammkopf_triggered()
     {
         disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
         connect(this, SIGNAL(sendDialogData(QString,bool)), &prgkopf, SLOT(getDialogData(QString,bool)));
-        //QString msg = vorlage_pkopf;
-        QString msg = "";
+        QString msg = vorlage_pkopf;
         emit sendDialogData(msg, false);
     }
 }
+
+
+
+

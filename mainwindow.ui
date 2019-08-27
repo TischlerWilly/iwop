@@ -88,9 +88,16 @@
     </property>
     <addaction name="actionMakeProgrammkopf"/>
    </widget>
+   <widget class="QMenu" name="menuBearbeiten">
+    <property name="title">
+     <string>Bearbeiten</string>
+    </property>
+    <addaction name="action_aendern"/>
+   </widget>
    <addaction name="menuDatei"/>
-   <addaction name="menuExtras"/>
+   <addaction name="menuBearbeiten"/>
    <addaction name="menuProduzieren"/>
+   <addaction name="menuExtras"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -117,6 +124,11 @@
   <action name="actionMakeProgrammkopf">
    <property name="text">
     <string>Programmkopf</string>
+   </property>
+  </action>
+  <action name="action_aendern">
+   <property name="text">
+    <string>Ändern</string>
    </property>
   </action>
  </widget>
