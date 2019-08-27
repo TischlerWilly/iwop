@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
         eigeneFunktionen/geometrie.cpp \
         eigeneFunktionen/myfunktion.cpp \
@@ -49,17 +50,17 @@ SOURCES += \
         eigeneKlassen/tabelle_tz3.cpp \
         eigeneKlassen/text_zeilenweise.cpp \
         eigeneKlassen/undo_redo.cpp \
-        eigeneKlassen/undo_redo_wkz.cpp \
         eigeneKlassen/vorschau.cpp \
         eigeneKlassen/wenndannsonst.cpp \
-        eigeneKlassen/werkzeug.cpp \
         eigeneKlassen/wuerfel.cpp \
         eigeneKlassen/zylinder.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        eigeneDefines/define_prgkopf.h \
         eigeneDefines/defines_geometrie.h \
         eigeneFunktionen/geometrie.h \
         eigeneFunktionen/myfunktion.h \
@@ -84,10 +85,8 @@ HEADERS += \
         eigeneKlassen/tabelle_tz3.h \
         eigeneKlassen/text_zeilenweise.h \
         eigeneKlassen/undo_redo.h \
-        eigeneKlassen/undo_redo_wkz.h \
         eigeneKlassen/vorschau.h \
         eigeneKlassen/wenndannsonst.h \
-        eigeneKlassen/werkzeug.h \
         eigeneKlassen/wuerfel.h \
         eigeneKlassen/zylinder.h \
         eigeneMakros/makro_geometrie.h \
@@ -97,6 +96,7 @@ HEADERS += \
         todo.h
 
 FORMS += \
+        Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
         mainwindow.ui
 

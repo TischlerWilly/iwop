@@ -4,12 +4,12 @@
 #include <QString>
 #include <math.h>
 #include "../myDefines.h"
+#include "../eigeneDefines/define_prgkopf.h"
 #include "../eigeneFunktionen/myfunktion.h"
 #include "text_zeilenweise.h"
 #include "wenndannsonst.h"
 #include "rechtecktasche.h"
 #include "geometrietext.h"
-#include "werkzeug.h"
 #include "tabelle_tz3.h"
 //#include "../Dialoge/dialog_variable.h"
 
@@ -19,7 +19,7 @@ class programmtext
 public:
     programmtext();
             void                set_text(QString neuer_Text);
-            void                set_wkz(werkzeug wkz);
+//            void                set_wkz(werkzeug wkz);
             void                set_maschinengeometrie(text_zeilenweise tz);
             void                clear();
     inline  void                warnungen_einschalten(bool einschalten)
@@ -191,7 +191,6 @@ private:
     text_zeilenweise    anzeigetext;    //Programmliste
     geometrietext       geo;            //Geometrieen zur Darstellung
     geometrietext       fkon;           //Fräskonturen
-    werkzeug            w;              //Werkzeug
     geometrietext       maschinengeo;   //Maschinengeometrie
     geometrietext       fraeserdarst;   //Darstellung des Fräsers
 

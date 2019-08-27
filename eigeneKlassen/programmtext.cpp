@@ -323,7 +323,7 @@ void programmtext::aktualisiere_klartext_var()
             var.zeilen_anhaengen("");
             continue;//Ausgeblendete Zeile überspringen
         }
-        if(zeile.contains(PROGRAMMKOPF_DIALOG))
+        if(zeile.contains(DLG_PKOPF))
         {
 
         }else
@@ -364,9 +364,9 @@ void programmtext::aktualisiere_anzeigetext()
         tmp = QString::fromStdString(int_to_string(i));
         tmp += ": ";
         //-----------------------
-        if(zeile.contains(PROGRAMMKOPF_DIALOG))
+        if(zeile.contains(DLG_PKOPF))
         {
-            tmp += text_mitte(zeile, BEZEICHNUNG, ENDE_EINTRAG);
+            tmp += text_mitte(zeile, PKOPF_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
