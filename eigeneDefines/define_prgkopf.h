@@ -4,6 +4,8 @@
 #include "eigeneFunktionen/umwandeln.h"
 
 //#define DLG_PKOPF     "[PGKOPF40]"
+
+//--------------------------------Parameternahmen in der fmc-Datei
 #define PKOPF_KOM1      "KOM1="
 #define PKOPF_KOM2      "KOM2="
 #define PKOPF_L         "FTL="
@@ -23,5 +25,13 @@
 #define PKOPF_BEZ       "BEZB="
 #define PKOPF_AFB       "AFB="
 #define PKOPF_AUSGEBL   "@@@\=1"
+
+//--------------------------------Parameternahmen der Variablen
+#define VAR_PKOPF_L         "L"
+#define VAR_PKOPF_B         "B"
+#define VAR_PKOPF_D         "D"
+#define VAR_PKOPF_XVERS     "AX"
+#define VAR_PKOPF_YVERS     "AY"
+
 
 #endif // DEFINE_PROGRAMMKPF_H

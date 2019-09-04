@@ -325,7 +325,119 @@ void programmtext::aktualisiere_klartext_var()
         }
         if(zeile.contains(DLG_PKOPF))
         {
+            QString tmp;
+            tmp = text_mitte(zeile, PKOPF_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                if(  (hat_programmkopf == true)  &&  (warnungen_sind_eingeschaltet == true)  )
+                {
+                    QMessageBox mb;
+                    mb.setText("Achtung!\nProgrammkopf mehrfach vorhanden!");
+                    mb.exec();
+                }
+                hat_programmkopf = true;
+                QString zeile_klartext;
+                zeile_klartext += DLG_PKOPF;
 
+                zeile_klartext += PKOPF_L;
+                tmp = text_mitte(zeile, PKOPF_L, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+                float l = tmp.toFloat();
+                set_werkstuecklaenge(l);
+                if(!variablen.contains(VAR_PKOPF_L))
+                {
+                    variablen += VAR_PKOPF_L;
+                    variablen += tmp;
+                    variablen += ENDPAR;
+                }else
+                {
+                    QString alterWert = text_mitte(variablen, VAR_PKOPF_L, ENDPAR);
+                    variablen.replace(VAR_PKOPF_L+alterWert, VAR_PKOPF_L+tmp);
+                }
+
+                zeile_klartext += PKOPF_B;
+                tmp = text_mitte(zeile, PKOPF_B, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+                float b = tmp.toFloat();
+                set_werkstueckbreite(b);
+                if(!variablen.contains(VAR_PKOPF_B))
+                {
+                    variablen += VAR_PKOPF_B;
+                    variablen += tmp;
+                    variablen += ENDPAR;
+                }else
+                {
+                    QString alterWert = text_mitte(variablen, VAR_PKOPF_B, ENDPAR);
+                    variablen.replace(VAR_PKOPF_B+alterWert, VAR_PKOPF_B+tmp);
+                }
+
+                zeile_klartext += PKOPF_D;
+                tmp = text_mitte(zeile, PKOPF_D, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+                float d = tmp.toFloat();
+                set_werkstueckdicke(d);
+                if(!variablen.contains(VAR_PKOPF_D))
+                {
+                    variablen += VAR_PKOPF_D;
+                    variablen += tmp;
+                    variablen += ENDPAR;
+                }else
+                {
+                    QString alterWert = text_mitte(variablen, VAR_PKOPF_D, ENDPAR);
+                    variablen.replace(VAR_PKOPF_D+alterWert, VAR_PKOPF_D+tmp);
+                }
+
+                zeile_klartext += PKOPF_XVERS;
+                tmp = text_mitte(zeile, PKOPF_XVERS, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+                set_versatz_x(tmp.toFloat());
+                if(!variablen.contains(VAR_PKOPF_XVERS))
+                {
+                    variablen += VAR_PKOPF_XVERS;
+                    variablen += tmp;
+                    variablen += ENDPAR;
+                }else
+                {
+                    QString alterWert = text_mitte(variablen, VAR_PKOPF_XVERS, ENDPAR);
+                    variablen.replace(VAR_PKOPF_XVERS+alterWert, VAR_PKOPF_XVERS+tmp);
+                }
+
+                zeile_klartext += PKOPF_YVERS;
+                tmp = text_mitte(zeile, PKOPF_YVERS, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+                set_versatz_y(tmp.toFloat());
+                if(!variablen.contains(VAR_PKOPF_YVERS))
+                {
+                    variablen += VAR_PKOPF_YVERS;
+                    variablen += tmp;
+                    variablen += ENDPAR;
+                }else
+                {
+                    QString alterWert = text_mitte(variablen, VAR_PKOPF_YVERS, ENDPAR);
+                    variablen.replace(VAR_PKOPF_YVERS+alterWert, VAR_PKOPF_YVERS+tmp);
+                }
+
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");
@@ -336,7 +448,44 @@ void programmtext::aktualisiere_klartext_var()
 
 void programmtext::aktualisiere_geo()
 {
+    if(!aktualisieren_eingeschaltet)
+    {
+        return;
+    }
+    //Die Funktion "aktualisiere_klartext_var()" muss jeweils vorab aufgerufen worden sein!
 
+    //CAD-Parameter ergänzen:
+    if(warnung_frDial == false)
+    {
+        //QString abtyp = NICHT_DEFINIERT; //brauchen wir an dieser Stelle, damit der Wert später
+                                         //beim Fräser-Abfahren verfügbar ist
+        //float fdm=0;                     //Fräser-Durchmesser
+
+        for(uint i=1 ; i<=klartext.zeilenanzahl() ; i++)
+        {
+            QString zeile = klartext.zeile(i), tmp;
+
+            if(zeile.isEmpty())
+            {
+                geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_PKOPF))
+            {
+                punkt3d nullpunkt(0,0,0);
+                nullpunkt.set_linienbreite(15);
+                geo.add_punkt(nullpunkt);
+
+                rechteck3d rec;
+                rec.set_bezugspunkt(UNTEN_LINKS);
+                rec.set_einfuegepunkt(versatz_x,versatz_y,0);
+                rec.set_laenge(text_mitte(zeile, PKOPF_L, ENDPAR));
+                rec.set_breite(text_mitte(zeile, PKOPF_B, ENDPAR));
+                rec.set_farbe_fuellung(FARBE_GRAU);
+                geo.add_rechteck(rec);
+
+                geo.zeilenvorschub();
+            }
+        }
+    }
 }
 
 void programmtext::aktualisiere_fraeserdarst()

@@ -46,6 +46,7 @@ signals:
     void send_an_programmlisten(QString prgtext, QString klartext, \
                         QString variabel, QString geotext, QString fkon);
     void sendDialogData(QString text, bool openToChangeData);
+    void sendAktiveProgrammzeile(int zeilennummer);
 
 private:
     Ui::MainWindow *ui;
@@ -90,6 +91,7 @@ private slots:
     void on_actionMakeProgrammkopf_triggered();
     void on_action_aendern_triggered();
     void on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item);
+    void on_listWidget_Programmliste_currentRowChanged(int currentRow);
 };
 
 #endif // MAINWINDOW_H

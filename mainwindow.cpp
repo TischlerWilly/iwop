@@ -130,7 +130,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     vorschaufenster.move(ui->tab_Programmliste->width()/3+5,10);
     vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-ui->tab_Programmliste->width()/3-10);
-    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-35);
+    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-70);
     ui->listWidget_Programmliste->setFixedWidth(ui->tab_Programmliste->width()/3-10);
     ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-30);
 
@@ -606,6 +606,12 @@ void MainWindow::vorschauAktualisieren()
     emit sendVorschauAktualisieren(*tt.get_prgtext(), ui->listWidget_Programmliste->currentRow()+1);
 }
 
+void MainWindow::on_listWidget_Programmliste_currentRowChanged(int currentRow)
+{
+    connect(this, SIGNAL(sendAktiveProgrammzeile(int)), &vorschaufenster, SLOT(slot_aktives_Element_einfaerben(int)));
+    emit sendAktiveProgrammzeile(currentRow+1);
+}
+
 //---------------------------------------------------Dialoge:
 void MainWindow::getDialogData(QString text)
 {
@@ -744,6 +750,8 @@ void MainWindow::on_actionMakeProgrammkopf_triggered()
         emit sendDialogData(msg, false);
     }
 }
+
+
 
 
 

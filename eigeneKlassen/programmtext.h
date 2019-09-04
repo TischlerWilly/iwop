@@ -12,6 +12,7 @@
 #include "geometrietext.h"
 #include "tabelle_tz3.h"
 //#include "../Dialoge/dialog_variable.h"
+#include "eigeneDefines/define_prgkopf.h"
 
 
 class programmtext
