@@ -11,9 +11,6 @@
         >Kantendarstellung Programmkopf
     ->void programmtext::aktualisiere_anzeigetext()
 
-- Dialog Programmkopf soll keinen Eintrag in der Taskleiste bekommen!
-
-- Cursor-Koordinaten in Statusleiste anzeigen lassen
 
 
 

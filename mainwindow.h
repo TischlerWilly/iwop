@@ -39,7 +39,7 @@ public slots:
     void getDialogData(QString text);
     void getDialogDataModify(QString text);
     void slotSaveConfig(QString text);
-    //void slot_maus_pos(QPoint p);
+    void slot_maus_pos(QPoint p);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);

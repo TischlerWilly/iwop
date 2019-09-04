@@ -87,6 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
+    connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
+
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
 
@@ -610,6 +612,15 @@ void MainWindow::on_listWidget_Programmliste_currentRowChanged(int currentRow)
 {
     connect(this, SIGNAL(sendAktiveProgrammzeile(int)), &vorschaufenster, SLOT(slot_aktives_Element_einfaerben(int)));
     emit sendAktiveProgrammzeile(currentRow+1);
+}
+
+void MainWindow::slot_maus_pos(QPoint p)
+{
+    int x = p.x();
+    int y = p.y();
+    QString x_ = QString::fromStdString(int_to_string(x));
+    QString y_ = QString::fromStdString(int_to_string(y));
+    ui->statusBar->showMessage("X:" + x_ + " / Y:" + y_);
 }
 
 //---------------------------------------------------Dialoge:
