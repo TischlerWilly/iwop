@@ -36,6 +36,7 @@
 #define ENDE_DIALOGE        "---------------------------"
 #define DLG_PKOPF               "[PGKOPF40]"
 #define LISTENENDE              ">ENDE"
+#define FMCNULL                 "(NULL)"
 
 //Parameter:
 //Parameter müssen immer zwischen [ und ] definiert sein
