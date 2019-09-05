@@ -75,6 +75,7 @@
      <string>Datei</string>
     </property>
     <addaction name="actionNeu"/>
+    <addaction name="actionOffnen"/>
    </widget>
    <widget class="QMenu" name="menuExtras">
     <property name="title">
@@ -129,6 +130,14 @@
   <action name="action_aendern">
    <property name="text">
     <string>Ändern</string>
+   </property>
+  </action>
+  <action name="actionOffnen">
+   <property name="text">
+    <string>Offnen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>

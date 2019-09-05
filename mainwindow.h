@@ -39,13 +39,14 @@ public slots:
     void getDialogData(QString text);
     void getDialogDataModify(QString text);
     void slotSaveConfig(QString text);
-    //void slot_maus_pos(QPoint p);
+    void slot_maus_pos(QPoint p);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
     void send_an_programmlisten(QString prgtext, QString klartext, \
                         QString variabel, QString geotext, QString fkon);
     void sendDialogData(QString text, bool openToChangeData);
+    void sendAktiveProgrammzeile(int zeilennummer);
 
 private:
     Ui::MainWindow *ui;
@@ -61,6 +62,7 @@ private:
     uint            anz_neue_dateien;
     QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
+    QString         pfad_oefne_fmc;
 
     //Funktionen:
     QString loadConfig();
@@ -69,6 +71,9 @@ private:
     void update_windowtitle();
     int aktualisiere_anzeigetext(bool undo_redo_on = true);
     void vorschauAktualisieren();
+    void openFile(QString pfad);
+    text_zeilenweise kompatiblitaetspruefung(text_zeilenweise dateiinhalt);
+    text_zeilenweise import_fmc(text_zeilenweise tz);
 
     //Funktionen Sichtbarkeiten:
     void hideElemets_noFileIsOpen();
@@ -90,6 +95,8 @@ private slots:
     void on_actionMakeProgrammkopf_triggered();
     void on_action_aendern_triggered();
     void on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item);
+    void on_listWidget_Programmliste_currentRowChanged(int currentRow);
+    void on_actionOffnen_triggered();
 };
 
 #endif // MAINWINDOW_H

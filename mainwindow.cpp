@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //speichern_unter_flag            = false;
     tt.clear();
     anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen
+    pfad_oefne_fmc                  = QDir::homePath() + "/Dokumente/CNC-Programme";
 
     vorschaufenster.setParent(ui->tab_Programmliste);
 
@@ -87,6 +88,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
+    connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
+
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
 
@@ -130,7 +133,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     vorschaufenster.move(ui->tab_Programmliste->width()/3+5,10);
     vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-ui->tab_Programmliste->width()/3-10);
-    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-35);
+    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-70);
     ui->listWidget_Programmliste->setFixedWidth(ui->tab_Programmliste->width()/3-10);
     ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-30);
 
@@ -526,7 +529,7 @@ void MainWindow::elementAusblendenSichtbarMachen(QListWidgetItem *item)
     item->setForeground(QBrush(farbe));
 }
 
-//---------------------------------------------------Menüs:
+//---------------------------------------------------Datei:
 
 void MainWindow::on_actionNeu_triggered()
 {
@@ -555,6 +558,280 @@ void MainWindow::on_actionNeu_triggered()
     ui->listWidget_Programmliste->item(0)->setSelected(true);
     ui->listWidget_Programmliste->setCurrentRow(0);
 }
+
+void MainWindow::on_actionOffnen_triggered()
+{
+    int max = ANZAHL_OFFENER_DATEIEN;
+    if(tt.get_size() >= max)
+    {
+        QString msg;
+        msg += "Bitter zuerst eine Datei schliessen!\n";
+        msg += "Es koennen maximal ";
+        msg += int_to_qstring(max);
+        msg += " Dateien gleichzeitig offen sein!";
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+        return;
+    }else
+    {
+        //Dialog öffnen zum Wählen der Datei:
+        QString pfad = QFileDialog::getOpenFileName(this, tr("Waehle WOP-Datei"), \
+                                                    pfad_oefne_fmc, tr("fmc Dateien (*.fmc)"));
+        if(!pfad.isEmpty())
+        {
+            openFile(pfad);
+        }
+    }
+}
+
+void MainWindow::openFile(QString pfad)
+{
+    //Prüfen, ob Datei bereits geöffnet ist:
+    if(tt.isopen(pfad))
+    {
+        tt.set_current_index(pfad);
+        update_gui();
+    }else
+    {
+        QFile file(pfad);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            //Programmdatei laden:
+            QFileInfo info = pfad;
+            pfad_oefne_fmc = info.path();
+            QApplication::setOverrideCursor(Qt::WaitCursor);
+            text_zeilenweise tz;
+            while(!file.atEnd())
+            {
+                QString line = file.readLine();
+                if(line.right(1) == "\n")
+                {
+                    line = line.left(line.length()-1);
+                }
+                if(tz.zeilenanzahl() == 0)
+                {
+                    tz.set_text(line);
+                }else
+                {
+                    tz.zeilen_anhaengen(line);
+                }
+            }
+            tz = kompatiblitaetspruefung(tz);
+            tz = import_fmc(tz);
+            programmtext t;
+            t.set_text(tz.get_text());
+            t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
+            undo_redo tmpur;
+            tmpur.set_groesse_max(settings_anz_undo_t.toInt());
+            tt.add(t, pfad, tmpur);
+            tt.get_prgtext()->set_maschinengeometrie(tz);
+            file.close();
+
+            //aktuelisiere_letzte_dateien_inifile();
+            //aktualisiere_letzte_dateien_menu();
+            tt.get_prgtext()->wurde_gespeichert();
+            update_gui();
+            QApplication::restoreOverrideCursor();
+        }else
+        {
+            if(!file.exists())
+            {
+                QMessageBox mb;
+                mb.setText("Datei existiert nicht mehr oder wurde verschoben oder umbenannt!");
+                mb.exec();
+            }else
+            {
+                QMessageBox mb;
+                mb.setText("Datei existiert, konnte jedoch nicht geoeffnet werden!");
+                mb.exec();
+            }
+            //letzte_geoefnete_dateien.datei_vergessen(pfad);
+            //aktualisiere_letzte_dateien_menu();
+            //aktuelisiere_letzte_dateien_inifile();
+        }
+    }
+}
+
+text_zeilenweise MainWindow::kompatiblitaetspruefung(text_zeilenweise dateiinhalt)
+{
+    return dateiinhalt;
+}
+
+text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
+{
+    text_zeilenweise retz;
+    for(uint i=1; i<= tz.zeilenanzahl();i++)
+    {
+        QString zeile = tz.zeile(i);
+        if(zeile.contains(DLG_PKOPF))
+        {
+            QString prgzeile;
+            prgzeile = DLG_PKOPF;
+            prgzeile += vorlage_pkopf;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(PKOPF_KOM1))
+                {
+                    QString alterWert = text_mitte(prgzeile, PKOPF_KOM1, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, PKOPF_KOM1);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(PKOPF_KOM1+alterWert, PKOPF_KOM1+neuerWert);
+                }else if (zeile.contains(PKOPF_KOM2))
+                {
+                    QString alterWert = text_mitte(prgzeile, PKOPF_KOM2, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, PKOPF_KOM2);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(PKOPF_KOM2+alterWert, PKOPF_KOM2+neuerWert);
+                }else if (zeile.contains(PKOPF_L))
+                {
+                    QString param = PKOPF_L;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_B))
+                {
+                    QString param = PKOPF_B;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_D))
+                {
+                    QString param = PKOPF_D;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_FUENFSEI))
+                {
+                    QString param = PKOPF_FUENFSEI;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_SPEIGELN))
+                {
+
+                }else if (zeile.contains(PKOPF_BELEGART))
+                {
+
+                }else if (zeile.contains(PKOPF_XVERS))
+                {
+                    QString param = PKOPF_XVERS;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_YVERS))
+                {
+                    QString param = PKOPF_YVERS;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOFP_RTL))
+                {
+                    QString param = PKOFP_RTL;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOFP_RTB))
+                {
+                    QString param = PKOFP_RTB;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_LOESEN))
+                {
+
+                }else if (zeile.contains(PKOPF_SCHABH))
+                {
+                    QString param = PKOPF_SCHABH;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_SIABST))
+                {
+                    QString param = PKOPF_SIABST;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_PAPO))
+                {
+
+                }else if (zeile.contains(PKOPF_BEZ))
+                {
+                    QString param = PKOPF_BEZ;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
+                }else if (zeile.contains(PKOPF_AFB))
+                {
+
+                }else if (zeile.contains(PKOPF_AUSGEBL))
+                {
+
+                }
+                i++;
+                zeile = tz.zeile(i);
+            }
+            retz.zeile_anhaengen(prgzeile);
+        }
+    }
+
+    return retz;
+}
+
+//---------------------------------------------------Bearbeiten:
 
 void MainWindow::on_action_aendern_triggered()
 {
@@ -598,12 +875,28 @@ void MainWindow::on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *
     emit on_action_aendern_triggered();
 }
 
+
 //---------------------------------------------------Vorschaufenster
 
 void MainWindow::vorschauAktualisieren()
 {
     connect(this, SIGNAL(sendVorschauAktualisieren(programmtext,int)), &vorschaufenster, SLOT(slot_aktualisieren(programmtext,int)));
     emit sendVorschauAktualisieren(*tt.get_prgtext(), ui->listWidget_Programmliste->currentRow()+1);
+}
+
+void MainWindow::on_listWidget_Programmliste_currentRowChanged(int currentRow)
+{
+    connect(this, SIGNAL(sendAktiveProgrammzeile(int)), &vorschaufenster, SLOT(slot_aktives_Element_einfaerben(int)));
+    emit sendAktiveProgrammzeile(currentRow+1);
+}
+
+void MainWindow::slot_maus_pos(QPoint p)
+{
+    int x = p.x();
+    int y = p.y();
+    QString x_ = QString::fromStdString(int_to_string(x));
+    QString y_ = QString::fromStdString(int_to_string(y));
+    ui->statusBar->showMessage("X:" + x_ + " / Y:" + y_);
 }
 
 //---------------------------------------------------Dialoge:
@@ -659,7 +952,6 @@ void MainWindow::getDialogDataModify(QString text)
     vorschauAktualisieren();
     update_windowtitle();
 }
-
 
 void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 {
@@ -744,6 +1036,10 @@ void MainWindow::on_actionMakeProgrammkopf_triggered()
         emit sendDialogData(msg, false);
     }
 }
+
+//---------------------------------------------------
+
+
 
 
 
