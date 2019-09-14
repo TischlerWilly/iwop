@@ -63,6 +63,7 @@ private:
     QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
     QString         pfad_oefne_fmc;
+    QString         kopierterEintrag_t;
 
     //Funktionen:
     QString loadConfig();
@@ -97,6 +98,15 @@ private slots:
     void on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item);
     void on_listWidget_Programmliste_currentRowChanged(int currentRow);
     void on_actionOffnen_triggered();
+    void on_actionEin_Ausblenden_triggered();
+    void on_actionAuswahl_Einblenden_triggered();
+    void on_actionAuswahl_Ausblenden_triggered();
+    void on_actionRueckgaengig_triggered();
+    void on_actionWiederholen_triggered();
+    void on_actionEinfuegen_triggered();
+    void on_actionKopieren_triggered();
+    void on_actionAusschneiden_triggered();
+    void on_actionEntfernen_triggered();
 };
 
 #endif // MAINWINDOW_H

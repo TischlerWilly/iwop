@@ -131,10 +131,16 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     ui->listWidget_Werkzeug->setFixedSize(breite_widget, hoehe_widget);
 
-    vorschaufenster.move(ui->tab_Programmliste->width()/3+5,10);
-    vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-ui->tab_Programmliste->width()/3-10);
+    double breitePrgListe =ui->tab_Programmliste->width()/3;
+    if(breitePrgListe > 250)
+    {
+        breitePrgListe =250;
+    }
+
+    vorschaufenster.move(breitePrgListe+5,10);
+    vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-breitePrgListe-10);
     vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-70);
-    ui->listWidget_Programmliste->setFixedWidth(ui->tab_Programmliste->width()/3-10);
+    ui->listWidget_Programmliste->setFixedWidth(breitePrgListe-10);
     ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-30);
 
     QMainWindow::resizeEvent(event);
@@ -529,6 +535,178 @@ void MainWindow::elementAusblendenSichtbarMachen(QListWidgetItem *item)
     item->setForeground(QBrush(farbe));
 }
 
+void MainWindow::on_actionEin_Ausblenden_triggered()
+{
+    tt.get_prgtext()->warnungen_einschalten(false);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  \
+                (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+            int row_letztes = row_erstes + items_menge-1;
+
+            int menge_ausgeblendet = 0;
+            int menge_eingeblendet = 0;
+            for(int i=row_erstes ; i<=row_letztes ; i++)
+            {
+                QString zeilentext = tt.get_prgtext()->zeile(i+1);
+                if(elementIstEingeblendet(zeilentext))
+                {
+                    menge_eingeblendet++;
+                }else
+                {
+                    menge_ausgeblendet++;
+                }
+            }
+            if(menge_eingeblendet == items_menge)
+            {
+                on_actionAuswahl_Ausblenden_triggered();
+            }else if(menge_ausgeblendet == items_menge)
+            {
+                on_actionAuswahl_Einblenden_triggered();
+            }
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Dieser Befehl kann nur im TAB Programmliste verwendet werden!");
+        mb.exec();
+    }
+    tt.get_prgtext()->warnungen_einschalten(true);
+    QApplication::restoreOverrideCursor();
+}
+
+void MainWindow::on_actionAuswahl_Einblenden_triggered()
+{
+     tt.get_prgtext()->warnungen_einschalten(false);
+     QApplication::setOverrideCursor(Qt::WaitCursor);
+     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+     {
+         if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  \
+                 (ui->listWidget_Programmliste->currentItem()->isSelected()))
+         {
+             QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+             int items_menge = items.count();
+             int row_erstes = 0;//Nummer des ersten Elementes
+             for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+             {
+                 if(ui->listWidget_Programmliste->item(i)->isSelected())
+                 {
+                     row_erstes = i;
+                     break;
+                 }
+             }
+             int row_letztes = row_erstes + items_menge-1;
+
+            tt.get_prgtext()->aktualisieren_ein_aus(false);
+             for(int i=row_erstes ; i<=row_letztes ; i++)
+             {
+                 QString zeilentext =tt.get_prgtext()->zeile(i+1);
+                 if(!elementIstEingeblendet(zeilentext))
+                 {
+                     int laenge = zeilentext.length();
+                     zeilentext = zeilentext.right(laenge-2);
+                    tt.get_prgtext()->zeile_ersaetzen(i+1, zeilentext);
+                     QColor farbe(180,205,205);//grau
+                     ui->listWidget_Programmliste->item(i)->setForeground(QBrush(farbe));
+                 }
+             }
+            tt.get_prgtext()->aktualisieren_ein_aus(true);
+             aktualisiere_anzeigetext();
+             vorschauAktualisieren();
+             for(int i=row_erstes ; i<=row_letztes ; i++)
+             {
+                 ui->listWidget_Programmliste->item(i)->setSelected(true);
+             }
+         } else
+         {
+             QMessageBox mb;
+             mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
+             mb.exec();
+         }
+     }else
+     {
+         QMessageBox mb;
+         mb.setText("Dieser Befehl kann nur im TAB Programmliste verwendet werden!");
+         mb.exec();
+     }
+    tt.get_prgtext()->warnungen_einschalten(true);
+     QApplication::restoreOverrideCursor();
+}
+
+void MainWindow::on_actionAuswahl_Ausblenden_triggered()
+{
+    tt.get_prgtext()->warnungen_einschalten(false);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  \
+                (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+            int row_letztes = row_erstes + items_menge-1;
+
+            tt.get_prgtext()->aktualisieren_ein_aus(false);
+            for(int i=row_erstes ; i<=row_letztes ; i++)
+            {
+                QString zeilentext =tt.get_prgtext()->zeile(i+1);
+                if(elementIstEingeblendet(zeilentext))
+                {
+                   tt.get_prgtext()->zeile_ersaetzen(i+1,"//"+zeilentext);
+                    QColor farbe(180,205,205);//grau
+                    ui->listWidget_Programmliste->item(i)->setForeground(QBrush(farbe));
+                }
+            }
+            tt.get_prgtext()->aktualisieren_ein_aus(true);
+            aktualisiere_anzeigetext();
+            vorschauAktualisieren();
+            for(int i=row_erstes ; i<=row_letztes ; i++)
+            {
+                ui->listWidget_Programmliste->item(i)->setSelected(true);
+            }
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Dieser Befehl kann nur im TAB Programmliste verwendet werden!");
+        mb.exec();
+    }
+    tt.get_prgtext()->warnungen_einschalten(true);
+    QApplication::restoreOverrideCursor();
+}
+
 //---------------------------------------------------Datei:
 
 void MainWindow::on_actionNeu_triggered()
@@ -734,10 +912,24 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
                     prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_SPEIGELN))
                 {
-
+                    QString param = PKOPF_SPEIGELN;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_BELEGART))
                 {
-
+                    QString param = PKOPF_BELEGART;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_XVERS))
                 {
                     QString param = PKOPF_XVERS;
@@ -780,7 +972,14 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
                     prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_LOESEN))
                 {
-
+                    QString param = PKOPF_LOESEN;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_SCHABH))
                 {
                     QString param = PKOPF_SCHABH;
@@ -803,7 +1002,14 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
                     prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_PAPO))
                 {
-
+                    QString param = PKOPF_PAPO;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_BEZ))
                 {
                     QString param = PKOPF_BEZ;
@@ -816,10 +1022,18 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
                     prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_AFB))
                 {
-
+                    QString param = PKOPF_AFB;
+                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
+                    QString neuerWert = text_rechts(zeile, param);
+                    if(neuerWert == FMCNULL)
+                    {
+                        neuerWert = "";
+                    }
+                    prgzeile.replace(param+alterWert, param+neuerWert);
                 }else if (zeile.contains(PKOPF_AUSGEBL))
                 {
-
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
                 }
                 i++;
                 zeile = tz.zeile(i);
@@ -875,6 +1089,231 @@ void MainWindow::on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *
     emit on_action_aendern_triggered();
 }
 
+void MainWindow::on_actionRueckgaengig_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        //t = ur.undo();
+        *tt.get_prgtext() = tt.get_prg_undo_redo()->undo();
+        aktualisiere_anzeigetext(false);
+        vorschauAktualisieren();
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        //w = ur_wkz.undo();
+        //aktualisiere_anzeigetext_wkz(false);
+    }
+}
+
+void MainWindow::on_actionWiederholen_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        //t = ur.redo();
+        *tt.get_prgtext() = tt.get_prg_undo_redo()->redo();
+        aktualisiere_anzeigetext(false);
+        vorschauAktualisieren();
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        //w = ur_wkz.redo();
+        //aktualisiere_anzeigetext_wkz(false);
+    }
+}
+
+void MainWindow::on_actionEinfuegen_triggered()
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if(kopierterEintrag_t != NICHT_DEFINIERT)
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+
+            //Einfügen über ausgewähltem Eintrag:
+            text_zeilenweise tmp_tz;
+            tmp_tz.set_text(kopierterEintrag_t);
+            if(tmp_tz.zeilenanzahl()==1)
+            {
+                tt.get_prgtext()->zeile_einfuegen(ui->listWidget_Programmliste->currentRow()-items_menge+1 \
+                                                 , kopierterEintrag_t);
+                int row = aktualisiere_anzeigetext()-items_menge+2 ;
+                ui->listWidget_Programmliste->setCurrentRow(row);
+            }else
+            {
+                tt.get_prgtext()->zeilen_einfuegen(row_erstes, kopierterEintrag_t);
+                int row = aktualisiere_anzeigetext()-items_menge+2+tmp_tz.zeilenanzahl()-1 ;
+                ui->listWidget_Programmliste->setCurrentRow(row);
+            }
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts kopiert!");
+            mb.exec();
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+    vorschauAktualisieren();
+    update_windowtitle();
+    QApplication::restoreOverrideCursor();
+}
+
+void MainWindow::on_actionKopieren_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+
+            if(items_menge==1)
+            {
+                QString tmp = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+                if(tmp == LISTENENDE)
+                {
+                    return;
+                }
+                kopierterEintrag_t = tmp;
+            }else
+            {
+                QString tmp = tt.get_prgtext()->zeilen(row_erstes+1, items_menge);
+                kopierterEintrag_t = tmp;
+            }
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was kopiert werden kann!");
+            mb.exec();
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+}
+
+void MainWindow::on_actionAusschneiden_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+
+            if(items_menge==1)
+            {
+                QString tmp = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+                if(tmp == LISTENENDE)
+                {
+                    return;
+                }
+                kopierterEintrag_t = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+                tt.get_prgtext()->zeile_loeschen(ui->listWidget_Programmliste->currentRow()+1);
+                aktualisiere_anzeigetext();
+            }else
+            {
+                //Zeilen kopieren:
+                QString tmp = tt.get_prgtext()->zeilen(row_erstes+1, items_menge);
+                kopierterEintrag_t = tmp;
+                //Zeilen löschen:
+                tt.get_prgtext()->zeilen_loeschen(row_erstes+1, items_menge);
+                aktualisiere_anzeigetext();
+                ui->listWidget_Programmliste->setCurrentRow(row_erstes);
+            }
+            QApplication::setOverrideCursor(Qt::WaitCursor);
+            vorschauAktualisieren();
+            update_windowtitle();
+            QApplication::restoreOverrideCursor();
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was ausgeschnitten werden kann!");
+            mb.exec();
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+}
+
+void MainWindow::on_actionEntfernen_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  \
+                (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+
+            if(items_menge == 1)
+            {
+                QString tmp = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+                if(tmp == LISTENENDE)
+                {
+                    return;
+                }
+                tt.get_prgtext()->zeile_loeschen(ui->listWidget_Programmliste->currentRow()+1);
+                aktualisiere_anzeigetext();
+            }else
+            {
+                tt.get_prgtext()->zeilen_loeschen(row_erstes+1, items_menge);
+                aktualisiere_anzeigetext();
+                ui->listWidget_Programmliste->setCurrentRow(row_erstes);
+            }
+            QApplication::setOverrideCursor(Qt::WaitCursor);
+            vorschauAktualisieren();
+            update_windowtitle();
+            QApplication::restoreOverrideCursor();
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was geloescht werden kann!");
+            mb.exec();
+        }
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+
+    }
+}
 
 //---------------------------------------------------Vorschaufenster
 
@@ -1038,6 +1477,12 @@ void MainWindow::on_actionMakeProgrammkopf_triggered()
 }
 
 //---------------------------------------------------
+
+
+
+
+
+
 
 
 
