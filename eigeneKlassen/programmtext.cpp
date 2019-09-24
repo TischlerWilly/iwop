@@ -493,7 +493,7 @@ void programmtext::aktualisiere_geo()
                 if(fuenfseiten == "1")
                 {
                     kantenansicht = true;
-                    float abst = 100;
+                    float abst = 20;
                     //Kante unten:
                     rec.set_einfuegepunkt(versatz_x,versatz_y-abst-get_werkstueckdicke(),0);
                     rec.set_breite(get_werkstueckdicke());

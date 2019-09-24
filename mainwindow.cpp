@@ -8,14 +8,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //Defaultwerte:
-    //kopierterEintrag_t              = NICHT_DEFINIERT;
+    kopierterEintrag_t              = NICHT_DEFINIERT;
     //kopiertesWerkzeug               = NICHT_DEFINIERT;
     vorlage_pkopf                   = NICHT_DEFINIERT;
     settings_anz_undo_t             = "10";
-    //speichern_unter_flag            = false;
+    speichern_unter_flag            = false;
     tt.clear();
     anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen
     pfad_oefne_fmc                  = QDir::homePath() + "/Dokumente/CNC-Programme";
+    letzte_geoefnete_dateien.set_anz_eintreage(ANZAHL_LETZTER_DATEIEN);
+    speichern_unter_flag            = false;
 
     vorschaufenster.setParent(ui->tab_Programmliste);
 
@@ -79,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //on_pushButton_WKZ_Laden_clicked();
     //ladeWerkzeugnamen();
-    //loadConfig_letzte_Dateien();
+    loadConfig_letzte_Dateien();
 
     //connect:
     connect(&prgkopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
@@ -160,15 +162,15 @@ void MainWindow::update_gui()
     }
     if(tt.get_size() > 1)
     {
-        //ui->actionNaechste_offen_Datei->setEnabled(true);
-        //ui->actionLetzte_offene_Datei->setEnabled(true);
+        ui->actionNaechste_offen_Datei->setEnabled(true);
+        ui->actionLetzte_offene_Datei->setEnabled(true);
     }else
     {
-        //ui->actionNaechste_offen_Datei->setDisabled(true);
-        //ui->actionLetzte_offene_Datei->setDisabled(true);
+        ui->actionNaechste_offen_Datei->setDisabled(true);
+        ui->actionLetzte_offene_Datei->setDisabled(true);
     }
-    //aktualisiere_letzte_dateien_menu();
-    //aktualisiere_offene_dateien_menu();
+    aktualisiere_letzte_dateien_menu();
+    aktualisiere_offene_dateien_menu();
     update_windowtitle();
 }
 
@@ -387,6 +389,31 @@ void MainWindow::slotSaveConfig(QString text)
         QMessageBox mb2;
         mb2.setText("Konfiguration wurde nicht geaendert.");
         mb2.exec();
+    }
+}
+
+void MainWindow::loadConfig_letzte_Dateien()
+{
+    QFile file(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QString tmp;
+        while(!file.atEnd())
+        {
+            tmp += QString::fromUtf8(file.readLine());
+        }
+        file.close();
+        text_zeilenweise tz;
+        tz.set_text(tmp);
+        QString liste;
+        //Reihenfolge umdrehen:
+        for(uint i=tz.zeilenanzahl(); i>0;i--)
+        {
+            liste += tz.zeile(i);
+            liste += "\n";
+        }
+        liste = liste.left(liste.length() - 1);//letzets Zeichen löschen = "\n"
+        letzte_geoefnete_dateien.set_text(liste);
     }
 }
 
@@ -806,8 +833,8 @@ void MainWindow::openFile(QString pfad)
             tt.get_prgtext()->set_maschinengeometrie(tz);
             file.close();
 
-            //aktuelisiere_letzte_dateien_inifile();
-            //aktualisiere_letzte_dateien_menu();
+            aktuelisiere_letzte_dateien_inifile();
+            aktualisiere_letzte_dateien_menu();
             tt.get_prgtext()->wurde_gespeichert();
             update_gui();
             QApplication::restoreOverrideCursor();
@@ -824,11 +851,104 @@ void MainWindow::openFile(QString pfad)
                 mb.setText("Datei existiert, konnte jedoch nicht geoeffnet werden!");
                 mb.exec();
             }
-            //letzte_geoefnete_dateien.datei_vergessen(pfad);
-            //aktualisiere_letzte_dateien_menu();
-            //aktuelisiere_letzte_dateien_inifile();
+            letzte_geoefnete_dateien.datei_vergessen(pfad);
+            aktualisiere_letzte_dateien_menu();
+            aktuelisiere_letzte_dateien_inifile();
         }
     }
+}
+
+void MainWindow::aktuelisiere_letzte_dateien_inifile()
+{
+    if(tt.dateien_sind_offen() == true)
+    {
+        letzte_geoefnete_dateien.datei_merken(tt.get_prgname());
+    }
+    //Daten Speichern:
+    QFile inifile(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    if (!inifile.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
+    {
+        QMessageBox mb;
+        mb.setText("Fehler beim Zugriff auf die Datei \"letzte_dateien.ini\"");
+        mb.exec();
+    } else
+    {
+        inifile.remove(); //lösche alte Datei wenn vorhanden
+        inifile.close(); //beende Zugriff
+        inifile.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
+        inifile.write(letzte_geoefnete_dateien.get_text().toUtf8()); //fülle Datei mit Inhalt
+        inifile.close(); //beende Zugriff
+    }
+}
+
+void MainWindow::aktualisiere_letzte_dateien_menu()
+{
+    ui->menuLetzte_Dateien->clear();
+
+    text_zeilenweise namen;
+    namen.set_text(letzte_geoefnete_dateien.get_text());
+    for(uint i=1; i<=namen.zeilenanzahl() ;i++)
+    {
+        oefneLetzteDateien[i-1] = new QAction(namen.zeile(i), this);
+        ui->menuLetzte_Dateien->addAction(oefneLetzteDateien[i-1]);
+        oefneLetzteDateien[i-1]->setData(namen.zeile(i));
+        connect(oefneLetzteDateien[i-1], SIGNAL(triggered()), \
+                this, SLOT(actionLetzteDateiOefnenTriggered()));
+    }
+
+}
+
+void MainWindow::aktualisiere_offene_dateien_menu()
+{
+    ui->menuOffene_Dateien->clear();
+
+    text_zeilenweise namen;
+    namen = tt.get_names();
+    for(uint i=1; i<=namen.zeilenanzahl() ;i++)
+    {
+        OffeneDateieFokus[i-1] = new QAction(namen.zeile(i), this);
+        ui->menuOffene_Dateien->addAction(OffeneDateieFokus[i-1]);
+        OffeneDateieFokus[i-1]->setData(namen.zeile(i));
+        connect(OffeneDateieFokus[i-1], SIGNAL(triggered(bool)),        \
+                this, SLOT(actionFokuswechselOffeneDateiTriggered())    );
+    }
+}
+
+void MainWindow::actionFokuswechselOffeneDateiTriggered()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+    {
+        QString msg = action->data().toString();
+        tt.set_current_index(msg);
+        update_gui();
+    }
+}
+
+void MainWindow::actionLetzteDateiOefnenTriggered()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+    {
+        QString msg = action->data().toString();
+        int max = ANZAHL_OFFENER_DATEIEN;
+        if(tt.get_size() >= max)
+        {
+            QString msg;
+            msg += "Bitter zuerst eine Datei schliessen!\n";
+            msg += "Es koennen maximal ";
+            msg += int_to_qstring(max);
+            msg += " Dateien gleichzeitig offen sein!";
+            QMessageBox mb;
+            mb.setText(msg);
+            mb.exec();
+            return;
+        }else
+        {
+            openFile(msg);
+        }
+    }
+
 }
 
 text_zeilenweise MainWindow::kompatiblitaetspruefung(text_zeilenweise dateiinhalt)
@@ -850,6 +970,7 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
             prgzeile += ENDE_ZEILE;
             i++;
             zeile = tz.zeile(i);
+            zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
                 if(zeile.contains(PKOPF_KOM1))
@@ -1037,12 +1158,40 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
                 }
                 i++;
                 zeile = tz.zeile(i);
+                zeile.replace("'",".");
             }
             retz.zeile_anhaengen(prgzeile);
         }
     }
 
     return retz;
+}
+
+void MainWindow::on_actionNaechste_offen_Datei_triggered()
+{
+    tt.set_index_nach();
+    update_gui();
+}
+
+void MainWindow::on_actionLetzte_offene_Datei_triggered()
+{
+    tt.set_index_vor();
+    update_gui();
+}
+
+void MainWindow::on_actionDateiSpeichern_triggered()
+{
+
+}
+
+void MainWindow::on_actionDateiSpeichern_unter_triggered()
+{
+
+}
+
+void MainWindow::on_actionDateiSchliessen_triggered()
+{
+
 }
 
 //---------------------------------------------------Bearbeiten:
@@ -1477,6 +1626,7 @@ void MainWindow::on_actionMakeProgrammkopf_triggered()
 }
 
 //---------------------------------------------------
+
 
 
 

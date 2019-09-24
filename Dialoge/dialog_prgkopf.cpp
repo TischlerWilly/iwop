@@ -54,15 +54,15 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_L;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_l->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_l->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_B;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_b->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_b->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_D;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_d->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_d->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_FUENFSEI;
@@ -86,23 +86,23 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_BELEGART;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_belegart->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_belegart->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_XVERS;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_ax->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_ax->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_YVERS;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_ay->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_ay->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOFP_RTL;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rl->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rl->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOFP_RTB;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rb->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rb->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_LOESEN;
@@ -116,11 +116,11 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_SCHABH;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_schabh->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_schabh->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_SIABST;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_siabst->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_siabst->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_PAPO;
@@ -132,7 +132,7 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_AFB;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_afb->text());
+    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_afb->text()).replace(",",".");
     msg += ENDPAR;
 
     msg += ENDE_ZEILE;
