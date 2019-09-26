@@ -10,9 +10,7 @@
     ->void programmtext::aktualisiere_geo()
     ->void programmtext::aktualisiere_anzeigetext()
 
-- void MainWindow::on_actionDateiSpeichern_triggered()
-- void MainWindow::on_actionDateiSpeichern_unter_triggered()
-- void MainWindow::on_actionDateiSchliessen_triggered()
+- QString MainWindow::tofmc()
 
 
 

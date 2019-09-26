@@ -886,6 +886,10 @@ void programmtext::aktualisiere_min_max()
             }
         }
     }
+    min_x -= 50;
+    min_y -= 50;
+    max_x += 50;
+    max_y += 50;
 }
 
 

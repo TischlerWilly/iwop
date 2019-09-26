@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     speichern_unter_flag            = false;
     tt.clear();
     anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen
-    pfad_oefne_fmc                  = QDir::homePath() + "/Dokumente/CNC-Programme";
+    pfad_oefne_fmc                  = "P:\\CNC";
     letzte_geoefnete_dateien.set_anz_eintreage(ANZAHL_LETZTER_DATEIEN);
     speichern_unter_flag            = false;
 
@@ -146,6 +146,24 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-30);
 
     QMainWindow::resizeEvent(event);
+}
+
+void MainWindow::closeEvent(QCloseEvent *ce)
+{
+    while(tt.dateien_sind_offen() == true)
+    {
+        if(on_actionDateiSchliessen_triggered() == false)
+        {
+            break;
+        }
+    }
+    if(tt.dateien_sind_offen() == true)
+    {
+        ce->ignore();
+    }else
+    {
+        ce->accept();
+    }
 }
 
 void MainWindow::update_gui()
@@ -1179,19 +1197,152 @@ void MainWindow::on_actionLetzte_offene_Datei_triggered()
     update_gui();
 }
 
-void MainWindow::on_actionDateiSpeichern_triggered()
+bool MainWindow::on_actionDateiSpeichern_triggered()
 {
+    if(tt.dateien_sind_offen() == false)
+    {
+        return true;//Funktion erfolgreich beendet
+    }
+    QString fileName;
+    if((tt.get_prgname().contains("Unbekannt ") && tt.get_prgname().length() <= 13)  ||  speichern_unter_flag == true)
+    {
+        //Dialog öffnen zum Wählen des Speicherortes und des Namens:
+        fileName = QFileDialog::getSaveFileName(this, tr("Datei Speichern"), \
+                                                pfad_oefne_fmc, tr("fmc Dateien (*.fmc)"));
+        if(!fileName.isEmpty())
+        {
+            QFileInfo info = fileName;
+            pfad_oefne_fmc = info.path();
+            if(!fileName.contains(DATEIENDUNG_EIGENE))
+            {
+                fileName += DATEIENDUNG_EIGENE;
+            }
+            if(fileName == DATEIENDUNG_EIGENE)//Wenn der Speichen-Dialog abgebrochen wurde
+            {
+                return false;//Funktion nicht erfolgreich beendet
+            }else
+            {
+                tt.set_prgname(fileName);
+            }
+        }else //Speichen-Dialog wurde abgebrochen
+        {
+            return false;//Funktion nicht erfolgreich beendet
+        }
+    }else
+    {
+        //Namen der offenen Datei verwenden:
 
+        fileName = tt.get_prgname();
+        if(!fileName.contains(DATEIENDUNG_EIGENE))
+        {
+            fileName += DATEIENDUNG_EIGENE;
+        }
+    }
+
+    //Programmliste in String schreiben
+    QString dateiInhalt = tofmc();
+
+    //Datei füllen und speichern
+    if(!fileName.isEmpty())
+    {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
+        {
+            QMessageBox mb;
+            mb.setText("Fehler beim Dateizugriff");
+            mb.exec();
+            return false;//Funktion nicht erfolgreich beendet
+        } else
+        {
+            file.remove(); //lösche alte Datei wenn vorhanden
+            file.close(); //beende Zugriff
+            file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
+            file.write(dateiInhalt.toUtf8()); //fülle Datei mit Inhalt
+            file.close(); //beende Zugriff
+            QFileInfo info = tt.get_prgname();
+            QString tmp = PROGRAMMNAME;
+            tmp += " ( " + info.baseName() + " )";
+            this->setWindowTitle(tmp);
+            tt.get_prgtext()->wurde_gespeichert();
+            aktuelisiere_letzte_dateien_inifile();
+            aktualisiere_letzte_dateien_menu();
+            aktualisiere_offene_dateien_menu();
+        }
+    }
+    return true;//Funktion erfolgreich beendet
+}
+
+QString MainWindow::tofmc()
+{
+    QString dateiInhalt;
+    //dateiInhalt  = PROGRAMMNAME;
+    //dateiInhalt += " Version 2\n";
+    //dateiInhalt += tt.get_prgtext()->get_text();
+
+    return dateiInhalt;
 }
 
 void MainWindow::on_actionDateiSpeichern_unter_triggered()
 {
-
+    speichern_unter_flag = true;
+    on_actionDateiSpeichern_triggered();
+    speichern_unter_flag = false;
+    QFileInfo info = tt.get_prgname();
+    QString tmp = PROGRAMMNAME;
+    tmp += " ( " + info.baseName() + " )";
+    this->setWindowTitle(tmp);
 }
 
-void MainWindow::on_actionDateiSchliessen_triggered()
+bool MainWindow::on_actionDateiSchliessen_triggered()
 {
+    //Sicherheitsabfrage:
+    if(tt.get_prgtext()->get_hat_ungesicherte_inhalte() == true)
+    {
+        QFileInfo info;
+        info = tt.get_prgname();
+        QString dateiname = info.baseName();
+        QString msg;
 
+        if(dateiname == NICHT_DEFINIERT)
+        {
+            msg = "Soll die neue Datei vor dem Schliessen gespeichert werden?";
+        }else
+        {
+            msg = "Soll die Datei \"";
+            msg += dateiname;
+            msg += "\" vor dem Schliessen gespeichert werden?";
+        }
+        QMessageBox mb;
+        mb.setWindowTitle("Datei schliessen");
+        mb.setText(msg);
+        mb.setStandardButtons(QMessageBox::Yes);
+        mb.addButton(QMessageBox::No);
+        mb.addButton(QMessageBox::Abort);
+        mb.setDefaultButton(QMessageBox::Abort);
+
+        int mb_returnwert = mb.exec();
+        if(mb_returnwert == QMessageBox::Yes)
+        {
+            if(on_actionDateiSpeichern_triggered() == false)//Speichern nicht erfolgreich abgeschlossen
+            {
+                return false;//Funktion nicht erfolgreich abgeschlossen
+            }
+        }else if(mb_returnwert == QMessageBox::No)
+        {
+            ;//nichts tun = nicht speichern
+        }else if(mb_returnwert == QMessageBox::Abort)
+        {
+            return false;//Funktion nicht erfolgreich abgeschlossen
+        }
+    }
+    //Datei schließen:
+    tt.del();
+    ui->listWidget_Programmliste->clear();
+    aktualisiere_offene_dateien_menu();
+    //GUI aktualisieren:
+    update_gui();
+
+    return true;//Funktion erfolgreich abgeschlossen
 }
 
 //---------------------------------------------------Bearbeiten:

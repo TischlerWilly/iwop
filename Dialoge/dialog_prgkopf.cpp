@@ -54,15 +54,15 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_L;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_l->text()).replace(",",".");
+    msg += ui->lineEdit_l->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_B;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_b->text()).replace(",",".");
+    msg += ui->lineEdit_b->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_D;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_d->text()).replace(",",".");
+    msg += ui->lineEdit_d->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_FUENFSEI;
@@ -86,23 +86,23 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_BELEGART;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_belegart->text()).replace(",",".");
+    msg += ui->lineEdit_belegart->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_XVERS;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_ax->text()).replace(",",".");
+    msg += ui->lineEdit_ax->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_YVERS;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_ay->text()).replace(",",".");
+    msg += ui->lineEdit_ay->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOFP_RTL;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rl->text()).replace(",",".");
+    msg += ui->lineEdit_rl->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOFP_RTB;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_rb->text()).replace(",",".");
+    msg += ui->lineEdit_rb->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_LOESEN;
@@ -116,11 +116,11 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_SCHABH;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_schabh->text()).replace(",",".");
+    msg += ui->lineEdit_schabh->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_SIABST;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_siabst->text()).replace(",",".");
+    msg += ui->lineEdit_siabst->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += PKOPF_PAPO;
@@ -132,7 +132,7 @@ QString DialogPrgKopf::dialogDataToString()
     msg += ENDPAR;
 
     msg += PKOPF_AFB;
-    msg += buchstaben_alle_GROSS_schreiben(ui->lineEdit_afb->text()).replace(",",".");
+    msg += ui->lineEdit_afb->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += ENDE_ZEILE;
@@ -144,9 +144,9 @@ void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
     openToModifyData = openToChangeData;
     ui->lineEdit_kom1->setText(selektiereEintrag(text, PKOPF_KOM1, ENDPAR));
     ui->lineEdit_kom2->setText(selektiereEintrag(text, PKOPF_KOM2, ENDPAR));
-    ui->lineEdit_l->setText(selektiereEintrag(text, PKOPF_L, ENDPAR));
-    ui->lineEdit_b->setText(selektiereEintrag(text, PKOPF_B, ENDPAR));
-    ui->lineEdit_d->setText(selektiereEintrag(text, PKOPF_D, ENDPAR));
+    ui->lineEdit_l->setText(selektiereEintrag(text, PKOPF_L, ENDPAR).replace(".",","));
+    ui->lineEdit_b->setText(selektiereEintrag(text, PKOPF_B, ENDPAR).replace(".",","));
+    ui->lineEdit_d->setText(selektiereEintrag(text, PKOPF_D, ENDPAR).replace(".",","));
     QString tmp;
     tmp = selektiereEintrag(text, PKOPF_FUENFSEI, ENDPAR);
     if(tmp == "1")
@@ -164,11 +164,11 @@ void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
     {
         ui->checkBox_spiegeln->setChecked(false);
     }
-    ui->lineEdit_belegart->setText(selektiereEintrag(text, PKOPF_BELEGART, ENDPAR));
-    ui->lineEdit_ax->setText(selektiereEintrag(text, PKOPF_XVERS, ENDPAR));
-    ui->lineEdit_ay->setText(selektiereEintrag(text, PKOPF_YVERS, ENDPAR));
-    ui->lineEdit_rl->setText(selektiereEintrag(text, PKOFP_RTL, ENDPAR));
-    ui->lineEdit_rb->setText(selektiereEintrag(text, PKOFP_RTB, ENDPAR));
+    ui->lineEdit_belegart->setText(selektiereEintrag(text, PKOPF_BELEGART, ENDPAR).replace(".",","));
+    ui->lineEdit_ax->setText(selektiereEintrag(text, PKOPF_XVERS, ENDPAR).replace(".",","));
+    ui->lineEdit_ay->setText(selektiereEintrag(text, PKOPF_YVERS, ENDPAR).replace(".",","));
+    ui->lineEdit_rl->setText(selektiereEintrag(text, PKOFP_RTL, ENDPAR).replace(".",","));
+    ui->lineEdit_rb->setText(selektiereEintrag(text, PKOFP_RTB, ENDPAR).replace(".",","));
     tmp = selektiereEintrag(text, PKOPF_LOESEN, ENDPAR);
     if(tmp == "1")
     {
@@ -177,11 +177,12 @@ void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
     {
         ui->checkBox_loesen->setChecked(false);
     }
-    ui->lineEdit_schabh->setText(selektiereEintrag(text, PKOPF_SCHABH, ENDPAR));
+    ui->lineEdit_schabh->setText(selektiereEintrag(text, PKOPF_SCHABH, ENDPAR).replace(".",","));
+    ui->lineEdit_siabst->setText(selektiereEintrag(text, PKOPF_SIABST, ENDPAR).replace(".",","));
     tmp = selektiereEintrag(text, PKOPF_PAPO, ENDPAR);
     ui->spinBox_pura->setValue(tmp.toInt());
     ui->lineEdit_bez->setText(selektiereEintrag(text, PKOPF_BEZ, ENDPAR));
-    ui->lineEdit_afb->setText(selektiereEintrag(text, PKOPF_AFB, ENDPAR));
+    ui->lineEdit_afb->setText(selektiereEintrag(text, PKOPF_AFB, ENDPAR).replace(".",","));
     this->show();
 }
 

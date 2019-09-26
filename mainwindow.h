@@ -84,6 +84,8 @@ private:
     void aktuelisiere_letzte_dateien_inifile();
     void aktualisiere_letzte_dateien_menu();
     void aktualisiere_offene_dateien_menu();
+    QString tofmc();
+    void closeEvent(QCloseEvent *ce);
 
     //Funktionen Sichtbarkeiten:
     void hideElemets_noFileIsOpen();
@@ -118,9 +120,9 @@ private slots:
     void on_actionEntfernen_triggered();
     void on_actionNaechste_offen_Datei_triggered();
     void on_actionLetzte_offene_Datei_triggered();
-    void on_actionDateiSpeichern_triggered();
+    bool on_actionDateiSpeichern_triggered();
     void on_actionDateiSpeichern_unter_triggered();
-    void on_actionDateiSchliessen_triggered();
+    bool on_actionDateiSchliessen_triggered();
     void actionFokuswechselOffeneDateiTriggered();
     void actionLetzteDateiOefnenTriggered();
 };
