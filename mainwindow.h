@@ -81,10 +81,10 @@ private:
     void openFile(QString pfad);
     text_zeilenweise kompatiblitaetspruefung(text_zeilenweise dateiinhalt);
     text_zeilenweise import_fmc(text_zeilenweise tz);
+    QString          export_fmc(text_zeilenweise tz);
     void aktuelisiere_letzte_dateien_inifile();
     void aktualisiere_letzte_dateien_menu();
-    void aktualisiere_offene_dateien_menu();
-    QString tofmc();
+    void aktualisiere_offene_dateien_menu();    
     void closeEvent(QCloseEvent *ce);
 
     //Funktionen Sichtbarkeiten:

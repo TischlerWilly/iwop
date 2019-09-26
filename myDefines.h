@@ -37,6 +37,7 @@
 #define DLG_PKOPF               "[PGKOPF40]"
 #define LISTENENDE              ">ENDE"
 #define FMCNULL                 "(NULL)"
+#define FMCAUSGEBL              "@@@/=1"
 
 //Parameter:
 //Parameter müssen immer zwischen [ und ] definiert sein

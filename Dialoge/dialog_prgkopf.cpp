@@ -231,11 +231,11 @@ QString DialogPrgKopf::get_default()
     msg += ENDPAR;
 
     msg += PKOFP_RTL;
-    msg += "500";
+    msg += "L+(2*AX)";
     msg += ENDPAR;
 
     msg += PKOFP_RTB;
-    msg += "300";
+    msg += "B+(2*AY)";
     msg += ENDPAR;
 
     msg += PKOPF_LOESEN;

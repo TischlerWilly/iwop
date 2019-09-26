@@ -258,15 +258,24 @@
    <property name="text">
     <string>Speichern</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionDateiSpeichern_unter">
    <property name="text">
     <string>Speichern unter</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
   </action>
   <action name="actionDateiSchliessen">
    <property name="text">
     <string>Schließen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>

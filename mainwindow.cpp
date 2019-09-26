@@ -14,8 +14,29 @@ MainWindow::MainWindow(QWidget *parent) :
     settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
-    anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen
-    pfad_oefne_fmc                  = "P:\\CNC";
+    anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen    
+    QDir tmpdir("P:\\CNC");
+    if(tmpdir.exists())
+    {
+        pfad_oefne_fmc = "P:\\CNC";
+    }else
+    {
+        //pfad_oefne_fmc += "C:\\Users\\AV6\\Documents\\CNC-Programme";
+        QString tmp;
+        tmp  = QDir::homePath();
+        tmp += QDir::separator();
+        tmp += "Documents";
+        tmp += QDir::separator();
+        tmp += "CNC-Programme";
+
+        QDir d(tmp);
+        if(!d.exists())
+        {
+            d.mkpath(tmp);
+        }
+
+        pfad_oefne_fmc = tmp;
+    }
     letzte_geoefnete_dateien.set_anz_eintreage(ANZAHL_LETZTER_DATEIEN);
     speichern_unter_flag            = false;
 
@@ -1185,6 +1206,98 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
     return retz;
 }
 
+QString MainWindow::export_fmc(text_zeilenweise tz)
+{
+    QString msg;
+    QString tmp;
+    for(uint i=1; i<=tz.zeilenanzahl();i++)
+    {
+        QString zeile = tz.zeile(i);
+        if(zeile.contains(DLG_PKOPF))
+        {
+            msg += DLG_PKOPF;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += PKOPF_KOM1;
+            tmp = selektiereEintrag(zeile, PKOPF_KOM1, ENDPAR);
+            if(tmp.isEmpty())
+            {
+                msg += FMCNULL;
+            }else
+            {
+                msg += tmp;
+            }
+            msg += "\n";
+            msg += PKOPF_KOM2;
+            tmp = selektiereEintrag(zeile, PKOPF_KOM2, ENDPAR);
+            if(tmp.isEmpty())
+            {
+                msg += FMCNULL;
+            }else
+            {
+                msg += tmp;
+            }
+            msg += "\n";
+            msg += PKOPF_L;
+            msg += selektiereEintrag(zeile, PKOPF_L, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_B;
+            msg += selektiereEintrag(zeile, PKOPF_B, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_D;
+            msg += selektiereEintrag(zeile, PKOPF_D, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_FUENFSEI;
+            msg += selektiereEintrag(zeile, PKOPF_FUENFSEI, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_SPEIGELN;
+            msg += selektiereEintrag(zeile, PKOPF_SPEIGELN, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_BELEGART;
+            msg += selektiereEintrag(zeile, PKOPF_BELEGART, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_XVERS;
+            msg += selektiereEintrag(zeile, PKOPF_XVERS, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_YVERS;
+            msg += selektiereEintrag(zeile, PKOPF_YVERS, ENDPAR);
+            msg += "\n";
+            msg += PKOFP_RTL;
+            msg += selektiereEintrag(zeile, PKOFP_RTL, ENDPAR);
+            msg += "\n";
+            msg += PKOFP_RTB;
+            msg += selektiereEintrag(zeile, PKOFP_RTB, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_LOESEN;
+            msg += selektiereEintrag(zeile, PKOPF_LOESEN, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_SCHABH;
+            msg += selektiereEintrag(zeile, PKOPF_SCHABH, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_SIABST;
+            msg += selektiereEintrag(zeile, PKOPF_SIABST, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_PAPO;
+            msg += selektiereEintrag(zeile, PKOPF_PAPO, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_BEZ;
+            msg += selektiereEintrag(zeile, PKOPF_BEZ, ENDPAR);
+            msg += "\n";
+            msg += PKOPF_AFB;
+            msg += selektiereEintrag(zeile, PKOPF_AFB, ENDPAR);
+            msg += "\n";
+
+            msg += "\n";
+        }
+    }
+    return msg;
+}
+
 void MainWindow::on_actionNaechste_offen_Datei_triggered()
 {
     tt.set_index_nach();
@@ -1240,7 +1353,7 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
     }
 
     //Programmliste in String schreiben
-    QString dateiInhalt = tofmc();
+    QString dateiInhalt = export_fmc(tt.get_prgtext()->get_text_zeilenweise());
 
     //Datei füllen und speichern
     if(!fileName.isEmpty())
@@ -1270,16 +1383,6 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
         }
     }
     return true;//Funktion erfolgreich beendet
-}
-
-QString MainWindow::tofmc()
-{
-    QString dateiInhalt;
-    //dateiInhalt  = PROGRAMMNAME;
-    //dateiInhalt += " Version 2\n";
-    //dateiInhalt += tt.get_prgtext()->get_text();
-
-    return dateiInhalt;
 }
 
 void MainWindow::on_actionDateiSpeichern_unter_triggered()

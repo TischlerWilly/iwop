@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2019.08.15"
+#define PROGRAMMVERSION     "1.2019.09.26"
 
 /*
 - Klasse Programmtext wieder mit Leben füllen
@@ -10,7 +10,8 @@
     ->void programmtext::aktualisiere_geo()
     ->void programmtext::aktualisiere_anzeigetext()
 
-- QString MainWindow::tofmc()
+- Dialog PKOPF Bild mit Erklärung Werte
+- Dialog Programmende
 
 
 
