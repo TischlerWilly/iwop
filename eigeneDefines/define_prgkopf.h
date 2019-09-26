@@ -24,7 +24,7 @@
 #define PKOPF_PAPO      "PP="
 #define PKOPF_BEZ       "BEZB="
 #define PKOPF_AFB       "AFB="
-#define PKOPF_AUSGEBL   "@@@\=1"
+#define PKOPF_AUSGEBL   "@@@/=1"
 
 //--------------------------------Parameternahmen der Variablen
 #define VAR_PKOPF_L         "L"

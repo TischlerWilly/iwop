@@ -398,6 +398,11 @@ void programmtext::aktualisiere_klartext_var()
                     variablen.replace(VAR_PKOPF_D+alterWert, VAR_PKOPF_D+tmp);
                 }
 
+                zeile_klartext += PKOPF_FUENFSEI;
+                tmp = text_mitte(zeile, PKOPF_FUENFSEI, ENDPAR);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+
                 zeile_klartext += PKOPF_XVERS;
                 tmp = text_mitte(zeile, PKOPF_XVERS, ENDPAR);
                 tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
@@ -460,6 +465,7 @@ void programmtext::aktualisiere_geo()
         //QString abtyp = NICHT_DEFINIERT; //brauchen wir an dieser Stelle, damit der Wert später
                                          //beim Fräser-Abfahren verfügbar ist
         //float fdm=0;                     //Fräser-Durchmesser
+        bool kantenansicht = false;
 
         for(uint i=1 ; i<=klartext.zeilenanzahl() ; i++)
         {
@@ -477,10 +483,36 @@ void programmtext::aktualisiere_geo()
                 rechteck3d rec;
                 rec.set_bezugspunkt(UNTEN_LINKS);
                 rec.set_einfuegepunkt(versatz_x,versatz_y,0);
-                rec.set_laenge(text_mitte(zeile, PKOPF_L, ENDPAR));
-                rec.set_breite(text_mitte(zeile, PKOPF_B, ENDPAR));
+                rec.set_laenge(get_werkstuecklaenge());
+                rec.set_breite(get_werkstueckbreite());
                 rec.set_farbe_fuellung(FARBE_GRAU);
                 geo.add_rechteck(rec);
+
+                //WST-Kanten anzeigen lassen:
+                QString fuenfseiten = text_mitte(zeile, PKOPF_FUENFSEI, ENDPAR);
+                if(fuenfseiten == "1")
+                {
+                    kantenansicht = true;
+                    float abst = 20;
+                    //Kante unten:
+                    rec.set_einfuegepunkt(versatz_x,versatz_y-abst-get_werkstueckdicke(),0);
+                    rec.set_breite(get_werkstueckdicke());
+                    geo.add_rechteck(rec);
+
+                    //Kante oben:
+                    rec.set_einfuegepunkt(versatz_x,versatz_y+abst+get_werkstueckbreite(),0);
+                    geo.add_rechteck(rec);
+
+                    //Kante_links:
+                    rec.set_einfuegepunkt(versatz_x-abst-get_werkstueckdicke(),versatz_y,0);
+                    rec.set_laenge(get_werkstueckdicke());
+                    rec.set_breite(get_werkstueckbreite());
+                    geo.add_rechteck(rec);
+
+                    //Kante_rechts:
+                    rec.set_einfuegepunkt(versatz_x+abst+get_werkstuecklaenge(),versatz_y,0);
+                    geo.add_rechteck(rec);
+                }
 
                 geo.zeilenvorschub();
             }
@@ -854,6 +886,10 @@ void programmtext::aktualisiere_min_max()
             }
         }
     }
+    min_x -= 50;
+    min_y -= 50;
+    max_x += 50;
+    max_y += 50;
 }
 
 

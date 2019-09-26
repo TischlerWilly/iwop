@@ -19,6 +19,7 @@
 #include "todo.h"
 #include "Dialoge/dialog_programmlisten.h"
 #include "Dialoge/dialog_prgkopf.h"
+#include "eigeneKlassen/letzte_dateien.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -53,6 +54,9 @@ private:
     //Objekte:
     vorschau vorschaufenster;
     programmtexte   tt;
+    letzte_dateien  letzte_geoefnete_dateien;
+    QAction         *oefneLetzteDateien[ANZAHL_LETZTER_DATEIEN];
+    QAction         *OffeneDateieFokus[ANZAHL_OFFENER_DATEIEN];
     Dialog_Programmlisten programmlisten;
     DialogPrgKopf    prgkopf;
 
@@ -63,10 +67,13 @@ private:
     QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
     QString         pfad_oefne_fmc;
+    QString         kopierterEintrag_t;
+    bool            speichern_unter_flag;
 
     //Funktionen:
     QString loadConfig();
     QString saveConfig();
+    void loadConfig_letzte_Dateien();
     void update_gui();
     void update_windowtitle();
     int aktualisiere_anzeigetext(bool undo_redo_on = true);
@@ -74,6 +81,11 @@ private:
     void openFile(QString pfad);
     text_zeilenweise kompatiblitaetspruefung(text_zeilenweise dateiinhalt);
     text_zeilenweise import_fmc(text_zeilenweise tz);
+    QString          export_fmc(text_zeilenweise tz);
+    void aktuelisiere_letzte_dateien_inifile();
+    void aktualisiere_letzte_dateien_menu();
+    void aktualisiere_offene_dateien_menu();    
+    void closeEvent(QCloseEvent *ce);
 
     //Funktionen Sichtbarkeiten:
     void hideElemets_noFileIsOpen();
@@ -97,6 +109,22 @@ private slots:
     void on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item);
     void on_listWidget_Programmliste_currentRowChanged(int currentRow);
     void on_actionOffnen_triggered();
+    void on_actionEin_Ausblenden_triggered();
+    void on_actionAuswahl_Einblenden_triggered();
+    void on_actionAuswahl_Ausblenden_triggered();
+    void on_actionRueckgaengig_triggered();
+    void on_actionWiederholen_triggered();
+    void on_actionEinfuegen_triggered();
+    void on_actionKopieren_triggered();
+    void on_actionAusschneiden_triggered();
+    void on_actionEntfernen_triggered();
+    void on_actionNaechste_offen_Datei_triggered();
+    void on_actionLetzte_offene_Datei_triggered();
+    bool on_actionDateiSpeichern_triggered();
+    void on_actionDateiSpeichern_unter_triggered();
+    bool on_actionDateiSchliessen_triggered();
+    void actionFokuswechselOffeneDateiTriggered();
+    void actionLetzteDateiOefnenTriggered();
 };
 
 #endif // MAINWINDOW_H

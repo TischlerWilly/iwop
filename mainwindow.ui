@@ -74,8 +74,25 @@
     <property name="title">
      <string>Datei</string>
     </property>
+    <widget class="QMenu" name="menuLetzte_Dateien">
+     <property name="title">
+      <string>erneut Öffnen</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuOffene_Dateien">
+     <property name="title">
+      <string>offene Dateien</string>
+     </property>
+    </widget>
     <addaction name="actionNeu"/>
     <addaction name="actionOffnen"/>
+    <addaction name="menuLetzte_Dateien"/>
+    <addaction name="menuOffene_Dateien"/>
+    <addaction name="actionNaechste_offen_Datei"/>
+    <addaction name="actionLetzte_offene_Datei"/>
+    <addaction name="actionDateiSpeichern"/>
+    <addaction name="actionDateiSpeichern_unter"/>
+    <addaction name="actionDateiSchliessen"/>
    </widget>
    <widget class="QMenu" name="menuExtras">
     <property name="title">
@@ -94,6 +111,18 @@
      <string>Bearbeiten</string>
     </property>
     <addaction name="action_aendern"/>
+    <addaction name="separator"/>
+    <addaction name="actionEinfuegen"/>
+    <addaction name="actionKopieren"/>
+    <addaction name="actionAusschneiden"/>
+    <addaction name="actionEntfernen"/>
+    <addaction name="separator"/>
+    <addaction name="actionEin_Ausblenden"/>
+    <addaction name="actionAuswahl_Einblenden"/>
+    <addaction name="actionAuswahl_Ausblenden"/>
+    <addaction name="separator"/>
+    <addaction name="actionRueckgaengig"/>
+    <addaction name="actionWiederholen"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -131,6 +160,9 @@
    <property name="text">
     <string>Ändern</string>
    </property>
+   <property name="shortcut">
+    <string>Return</string>
+   </property>
   </action>
   <action name="actionOffnen">
    <property name="text">
@@ -138,6 +170,112 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionEin_Ausblenden">
+   <property name="text">
+    <string>Ein/Ausblenden</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="actionAuswahl_Einblenden">
+   <property name="text">
+    <string>Auswahl Einblenden</string>
+   </property>
+  </action>
+  <action name="actionAuswahl_Ausblenden">
+   <property name="text">
+    <string>Auswahl Ausblenden</string>
+   </property>
+  </action>
+  <action name="actionRueckgaengig">
+   <property name="text">
+    <string>Rückgängig</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionWiederholen">
+   <property name="text">
+    <string>Wiederholen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actionEinfuegen">
+   <property name="text">
+    <string>Einfügen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionKopieren">
+   <property name="text">
+    <string>Kopieren</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionAusschneiden">
+   <property name="text">
+    <string>Ausschnieden</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionEntfernen">
+   <property name="text">
+    <string>Entfernen</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionNaechste_offen_Datei">
+   <property name="text">
+    <string>nächste offene Datei</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Up</string>
+   </property>
+  </action>
+  <action name="actionLetzte_offene_Datei">
+   <property name="text">
+    <string>letzte offene Datei</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Down</string>
+   </property>
+  </action>
+  <action name="actionDateiSpeichern">
+   <property name="text">
+    <string>Speichern</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionDateiSpeichern_unter">
+   <property name="text">
+    <string>Speichern unter</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionDateiSchliessen">
+   <property name="text">
+    <string>Schließen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>
