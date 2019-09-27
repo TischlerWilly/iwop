@@ -846,21 +846,7 @@ void MainWindow::openFile(QString pfad)
             pfad_oefne_fmc = info.path();
             QApplication::setOverrideCursor(Qt::WaitCursor);
             text_zeilenweise tz;
-            while(!file.atEnd())
-            {
-                QString line = file.readLine();
-                if(line.right(1) == "\n")
-                {
-                    line = line.left(line.length()-1);
-                }
-                if(tz.zeilenanzahl() == 0)
-                {
-                    tz.set_text(line);
-                }else
-                {
-                    tz.zeilen_anhaengen(line);
-                }
-            }
+            tz.set_text(QString::fromLatin1(file.readAll()));
             tz = kompatiblitaetspruefung(tz);
             tz = import_fmc(tz);
             programmtext t;
@@ -1370,7 +1356,7 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
             file.remove(); //lösche alte Datei wenn vorhanden
             file.close(); //beende Zugriff
             file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
-            file.write(dateiInhalt.toUtf8()); //fülle Datei mit Inhalt
+            file.write(dateiInhalt.toLatin1()); //fülle Datei mit Inhalt
             file.close(); //beende Zugriff
             QFileInfo info = tt.get_prgname();
             QString tmp = PROGRAMMNAME;
