@@ -105,6 +105,7 @@
      <string>Produzieren</string>
     </property>
     <addaction name="actionMakeProgrammkopf"/>
+    <addaction name="actionMakeProgrammende"/>
    </widget>
    <widget class="QMenu" name="menuBearbeiten">
     <property name="title">
@@ -276,6 +277,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionMakeProgrammende">
+   <property name="text">
+    <string>Programmende</string>
    </property>
   </action>
  </widget>

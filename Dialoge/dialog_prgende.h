@@ -1,18 +1,18 @@
-#ifndef DIALOGPRGKOPF_H
-#define DIALOGPRGKOPF_H
+#ifndef DIALOG_PRGENDE_H
+#define DIALOG_PRGENDE_H
 
 #include <QDialog>
 #include <QDir>
 #include "myDefines.h"
 #include "eigeneFunktionen/text.h"
 #include "eigeneFunktionen/umwandeln.h"
-#include "eigeneDefines/define_prgkopf.h"
+#include "eigeneDefines/define_prgende.h"
 
 namespace Ui {
-class DialogPrgKopf;
+class Dialog_prgende;
 }
 
-class DialogPrgKopf : public QDialog
+class Dialog_prgende : public QDialog
 {
     Q_OBJECT
 
@@ -22,8 +22,8 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit DialogPrgKopf(QWidget *parent = nullptr);
-    ~DialogPrgKopf();
+    explicit Dialog_prgende(QWidget *parent = nullptr);
+    ~Dialog_prgende();
     QString get_default();
 
 public slots:
@@ -35,9 +35,9 @@ private slots:
     void on_pushButton_save_clicked();
 
 private:
-    Ui::DialogPrgKopf *ui;
+    Ui::Dialog_prgende *ui;
     bool openToModifyData;
     QString dialogDataToString();
 };
 
-#endif // DIALOGPRGKOPF_H
+#endif // DIALOG_PRGENDE_H

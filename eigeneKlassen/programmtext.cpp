@@ -316,13 +316,24 @@ void programmtext::aktualisiere_klartext_var()
     QString variablen;
     for(uint i=1 ; i<=text.zeilenanzahl() ; i++)
     {
-        QString zeile = text.zeile(i);
+        QString zeile;
+        zeile = text.zeile(i);
+
+        QString msg;
+        msg = int_to_qstring(i);
+        msg += "\n";
+        msg += zeile;
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+
         if(  (zeile.at(0) == '/')  &&  (zeile.at(1) == '/')  )
         {
-            klartext.zeilen_anhaengen("");
-            var.zeilen_anhaengen("");
+            klartext.zeilen_anhaengen(" ");
+            var.zeilen_anhaengen(" ");
             continue;//Ausgeblendete Zeile überspringen
         }
+
         if(zeile.contains(DLG_PKOPF))
         {
             QString tmp;
@@ -439,8 +450,32 @@ void programmtext::aktualisiere_klartext_var()
                     variablen.replace(VAR_PKOPF_YVERS+alterWert, VAR_PKOPF_YVERS+tmp);
                 }
 
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_PENDE))
+        {
+            QMessageBox mb;
+            mb.setText("hat ende");
+            mb.exec();
+            QString tmp;
+            tmp = text_mitte(zeile, PENDE_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_PENDE;
 
                 klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
         }else
@@ -515,6 +550,9 @@ void programmtext::aktualisiere_geo()
                 }
 
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_PENDE))
+            {
+                geo.zeilenvorschub();
             }
         }
     }
@@ -548,6 +586,9 @@ void programmtext::aktualisiere_anzeigetext()
         if(zeile.contains(DLG_PKOPF))
         {
             tmp += text_mitte(zeile, PKOPF_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_PENDE))
+        {
+            tmp += text_mitte(zeile, PENDE_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

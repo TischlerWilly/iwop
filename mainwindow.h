@@ -19,6 +19,7 @@
 #include "todo.h"
 #include "Dialoge/dialog_programmlisten.h"
 #include "Dialoge/dialog_prgkopf.h"
+#include "Dialoge/dialog_prgende.h"
 #include "eigeneKlassen/letzte_dateien.h"
 
 #define INDEX_PROGRAMMLISTE 0
@@ -59,6 +60,7 @@ private:
     QAction         *OffeneDateieFokus[ANZAHL_OFFENER_DATEIEN];
     Dialog_Programmlisten programmlisten;
     DialogPrgKopf    prgkopf;
+    Dialog_prgende   prgende;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -66,6 +68,7 @@ private:
     uint            anz_neue_dateien;
     QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
+    QString         vorlage_pende;
     QString         pfad_oefne_fmc;
     QString         kopierterEintrag_t;
     bool            speichern_unter_flag;
@@ -81,6 +84,7 @@ private:
     void openFile(QString pfad);
     text_zeilenweise kompatiblitaetspruefung(text_zeilenweise dateiinhalt);
     text_zeilenweise import_fmc(text_zeilenweise tz);
+    QString replaceparam(QString param, QString ziel, QString quelle);
     QString          export_fmc(text_zeilenweise tz);
     void aktuelisiere_letzte_dateien_inifile();
     void aktualisiere_letzte_dateien_menu();
@@ -103,8 +107,7 @@ private:
 private slots:
     void resizeEvent(QResizeEvent *event);
     void on_actionNeu_triggered();
-    void on_actionProgrammliste_anzeigen_triggered();
-    void on_actionMakeProgrammkopf_triggered();
+    void on_actionProgrammliste_anzeigen_triggered();    
     void on_action_aendern_triggered();
     void on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item);
     void on_listWidget_Programmliste_currentRowChanged(int currentRow);
@@ -125,6 +128,8 @@ private slots:
     bool on_actionDateiSchliessen_triggered();
     void actionFokuswechselOffeneDateiTriggered();
     void actionLetzteDateiOefnenTriggered();
+    void on_actionMakeProgrammkopf_triggered();
+    void on_actionMakeProgrammende_triggered();
 };
 
 #endif // MAINWINDOW_H
