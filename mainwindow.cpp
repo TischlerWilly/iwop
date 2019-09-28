@@ -357,15 +357,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       BEGIN_DIALOGE;
     inhaltVonKonfiguration +=       "\n";
 
-    //----------------------------------------------------Dialog Programmkopf:
-    inhaltVonKonfiguration +=       DLG_PKOPF;
+    //-------------------------------------------
     inhaltVonKonfiguration +=       vorlage_pkopf;
-    inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
-    //----------------------------------------------------Dialog Programmende:
-    inhaltVonKonfiguration +=       DLG_PENDE;
     inhaltVonKonfiguration +=       vorlage_pende;
-    inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     //-------------------------------------------
     inhaltVonKonfiguration +=       ENDE_DIALOGE;
@@ -854,17 +849,13 @@ void MainWindow::openFile(QString pfad)
             QFileInfo info = pfad;
             pfad_oefne_fmc = info.path();
             QApplication::setOverrideCursor(Qt::WaitCursor);
-            text_zeilenweise tz;
-            tz.set_text(QString::fromLatin1(file.readAll()));
-            tz = kompatiblitaetspruefung(tz);
-            tz = import_fmc(tz);
+            QString quelle = QString::fromLatin1(file.readAll());
             programmtext t;
-            t.set_text(tz.get_text());
+            t.set_text(import_fmc(quelle).get_text());
             t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
             undo_redo tmpur;
             tmpur.set_groesse_max(settings_anz_undo_t.toInt());
             tt.add(t, pfad, tmpur);
-            tt.get_prgtext()->set_maschinengeometrie(tz);
             file.close();
 
             aktuelisiere_letzte_dateien_inifile();
@@ -985,21 +976,20 @@ void MainWindow::actionLetzteDateiOefnenTriggered()
 
 }
 
-text_zeilenweise MainWindow::kompatiblitaetspruefung(text_zeilenweise dateiinhalt)
+text_zeilenweise MainWindow::import_fmc(QString quelle)
 {
-    return dateiinhalt;
-}
-
-text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
-{
+    text_zeilenweise tz;
+    tz.set_text(quelle);
     text_zeilenweise retz;
     for(uint i=1; i<= tz.zeilenanzahl();i++)
     {
         QString zeile = tz.zeile(i);
+        zeile.replace("'",".");
+
         if(zeile.contains(DLG_PKOPF))
         {
             QString prgzeile;
-            prgzeile = DLG_PKOPF;
+            prgzeile  = DLG_PKOPF;
             prgzeile += vorlage_pkopf;
             prgzeile += ENDE_ZEILE;
             i++;
@@ -1009,182 +999,58 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
             {
                 if(zeile.contains(PKOPF_KOM1))
                 {
-                    QString alterWert = text_mitte(prgzeile, PKOPF_KOM1, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, PKOPF_KOM1);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(PKOPF_KOM1+alterWert, PKOPF_KOM1+neuerWert);
+                    prgzeile = replaceparam(PKOPF_KOM1, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_KOM2))
                 {
-                    QString alterWert = text_mitte(prgzeile, PKOPF_KOM2, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, PKOPF_KOM2);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(PKOPF_KOM2+alterWert, PKOPF_KOM2+neuerWert);
+                    prgzeile = replaceparam(PKOPF_KOM2, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_L))
                 {
-                    QString param = PKOPF_L;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_L, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_B))
                 {
-                    QString param = PKOPF_B;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_B, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_D))
                 {
-                    QString param = PKOPF_D;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_D, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_FUENFSEI))
                 {
-                    QString param = PKOPF_FUENFSEI;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_FUENFSEI, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_SPEIGELN))
                 {
-                    QString param = PKOPF_SPEIGELN;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_SPEIGELN, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_BELEGART))
                 {
-                    QString param = PKOPF_BELEGART;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_BELEGART, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_XVERS))
                 {
-                    QString param = PKOPF_XVERS;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_XVERS, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_YVERS))
                 {
-                    QString param = PKOPF_YVERS;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_YVERS, prgzeile, zeile);
                 }else if (zeile.contains(PKOFP_RTL))
                 {
-                    QString param = PKOFP_RTL;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOFP_RTL, prgzeile, zeile);
                 }else if (zeile.contains(PKOFP_RTB))
                 {
-                    QString param = PKOFP_RTB;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOFP_RTB, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_LOESEN))
                 {
-                    QString param = PKOPF_LOESEN;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_LOESEN, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_SCHABH))
                 {
-                    QString param = PKOPF_SCHABH;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_SCHABH, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_SIABST))
                 {
-                    QString param = PKOPF_SIABST;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_SIABST, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_PAPO))
                 {
-                    QString param = PKOPF_PAPO;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_PAPO, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_BEZ))
                 {
-                    QString param = PKOPF_BEZ;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_BEZ, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_AFB))
                 {
-                    QString param = PKOPF_AFB;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_AFB, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_AUSGEBL))
                 {
                     QString tmp = "//";
@@ -1199,7 +1065,7 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
         }else if(zeile.contains(DLG_PENDE))
         {
             QString prgzeile;
-            prgzeile = DLG_PENDE;
+            prgzeile  = DLG_PENDE;
             prgzeile += vorlage_pende;
             prgzeile += ENDE_ZEILE;
             i++;
@@ -1229,7 +1095,6 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
             retz.zeile_anhaengen(prgzeile);
         }
     }
-
     return retz;
 }
 

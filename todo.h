@@ -10,11 +10,7 @@
     ->void programmtext::aktualisiere_geo()
     ->void programmtext::aktualisiere_anzeigetext()
 
-- Dialog Programmende
 
-
-- nocht Fehler in:
-void programmtext::aktualisiere_klartext_var()
 
 
 

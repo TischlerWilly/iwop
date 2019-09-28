@@ -278,5 +278,7 @@ QString DialogPrgKopf::get_default()
     msg += "1";
     msg += ENDPAR;
 
+    msg += ENDE_ZEILE;
+
     return msg;
 }

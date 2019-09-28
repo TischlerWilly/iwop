@@ -319,14 +319,6 @@ void programmtext::aktualisiere_klartext_var()
         QString zeile;
         zeile = text.zeile(i);
 
-        QString msg;
-        msg = int_to_qstring(i);
-        msg += "\n";
-        msg += zeile;
-        QMessageBox mb;
-        mb.setText(msg);
-        mb.exec();
-
         if(  (zeile.at(0) == '/')  &&  (zeile.at(1) == '/')  )
         {
             klartext.zeilen_anhaengen(" ");
@@ -459,9 +451,6 @@ void programmtext::aktualisiere_klartext_var()
             }
         }else if(zeile.contains(DLG_PENDE))
         {
-            QMessageBox mb;
-            mb.setText("hat ende");
-            mb.exec();
             QString tmp;
             tmp = text_mitte(zeile, PENDE_AFB, ENDPAR);
             tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen

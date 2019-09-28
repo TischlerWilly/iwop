@@ -82,8 +82,7 @@ private:
     int aktualisiere_anzeigetext(bool undo_redo_on = true);
     void vorschauAktualisieren();
     void openFile(QString pfad);
-    text_zeilenweise kompatiblitaetspruefung(text_zeilenweise dateiinhalt);
-    text_zeilenweise import_fmc(text_zeilenweise tz);
+    text_zeilenweise import_fmc(QString quelle);
     QString replaceparam(QString param, QString ziel, QString quelle);
     QString          export_fmc(text_zeilenweise tz);
     void aktuelisiere_letzte_dateien_inifile();

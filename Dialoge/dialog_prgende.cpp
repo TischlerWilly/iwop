@@ -82,7 +82,7 @@ void Dialog_prgende::getDialogData(QString text, bool openToChangeData)
 
 QString Dialog_prgende::get_default()
 {
-    QString msg = DLG_PKOPF ;
+    QString msg = DLG_PENDE ;
 
     msg += PENDE_PAPO;
     msg += "2";
@@ -95,6 +95,8 @@ QString Dialog_prgende::get_default()
     msg += PENDE_AFB;
     msg += "1";
     msg += ENDPAR;
+
+    msg += ENDE_ZEILE;
 
     return msg;
 }
