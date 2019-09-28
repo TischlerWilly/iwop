@@ -1,8 +1,6 @@
 #ifndef DEFINE_PROGRAMMKPF_H
 #define DEFINE_PROGRAMMKPF_H
 
-#include "eigeneFunktionen/umwandeln.h"
-
 //#define DLG_PKOPF     "[PGKOPF40]"
 
 //--------------------------------Parameternahmen in der fmc-Datei

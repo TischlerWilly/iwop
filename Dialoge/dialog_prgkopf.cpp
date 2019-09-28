@@ -8,6 +8,22 @@ DialogPrgKopf::DialogPrgKopf(QWidget *parent) :
     ui->setupUi(this);
     openToModifyData = false;
     ui->pushButton_ok->setDefault(true);
+
+    QString bild1;
+    bild1  = PFAD_DLGBILDER;
+    bild1 += QDir::separator();
+    bild1 += "pkopf_1.bmp";
+    QPixmap pix1(bild1);
+    ui->label_bild->setPixmap(pix1);
+    ui->label_bild->setScaledContents(true);//Bild skallieren
+
+    QString bild2;
+    bild2  = PFAD_DLGBILDER;
+    bild2 += QDir::separator();
+    bild2 += "pkopf_2.bmp";
+    QPixmap pix2(bild2);
+    ui->label_bild_2->setPixmap(pix2);
+    ui->label_bild_2->setScaledContents(true);//Bild skallieren
 }
 
 DialogPrgKopf::~DialogPrgKopf()
@@ -261,6 +277,8 @@ QString DialogPrgKopf::get_default()
     msg += PKOPF_AFB;
     msg += "1";
     msg += ENDPAR;
+
+    msg += ENDE_ZEILE;
 
     return msg;
 }

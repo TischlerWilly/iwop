@@ -13,6 +13,7 @@
 #include "tabelle_tz3.h"
 //#include "../Dialoge/dialog_variable.h"
 #include "eigeneDefines/define_prgkopf.h"
+#include "eigeneDefines/define_prgende.h"
 
 
 class programmtext

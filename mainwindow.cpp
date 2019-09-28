@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Defaultwerte:
     kopierterEintrag_t              = NICHT_DEFINIERT;
     //kopiertesWerkzeug               = NICHT_DEFINIERT;
-    vorlage_pkopf                   = NICHT_DEFINIERT;
+    vorlage_pkopf                   = prgkopf.get_default();
+    vorlage_pende                   = prgende.get_default();
     settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
@@ -106,10 +107,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //connect:
     connect(&prgkopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&prgende, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&prgende, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -307,7 +311,7 @@ QString MainWindow::loadConfig()
             konfiguration_ini += line;
         }
         file.close();
-        //Konfiguration Zeilenweise auswerten:
+        //Konfiguration Zeilenweise auswerten:      
         for (QStringList::iterator it = konfiguration_ini.begin(); it != konfiguration_ini.end(); ++it)
             {
                 QString text = *it;
@@ -321,10 +325,12 @@ QString MainWindow::loadConfig()
                 if(text.contains(DLG_PKOPF))
                 {
                     vorlage_pkopf = selektiereEintrag(text, DLG_PKOPF, ENDE_ZEILE);
+                }else if(text.contains(DLG_PENDE))
+                {
+                    vorlage_pende = selektiereEintrag(text, DLG_PENDE, ENDE_ZEILE);
                 }
             }
     }
-
     return returnString;
 }
 
@@ -351,18 +357,11 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       BEGIN_DIALOGE;
     inhaltVonKonfiguration +=       "\n";
 
-    //----------------------------------------------------Dialog Programmkopf:
-    inhaltVonKonfiguration +=       DLG_PKOPF;
-    if(vorlage_pkopf == NICHT_DEFINIERT)
-    {
-        inhaltVonKonfiguration +=   prgkopf.get_default();
-    }else
-    {
-        inhaltVonKonfiguration +=   vorlage_pkopf;
-    }
-    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    //-------------------------------------------
+    inhaltVonKonfiguration +=       vorlage_pkopf;
     inhaltVonKonfiguration +=       "\n";
-
+    inhaltVonKonfiguration +=       vorlage_pende;
+    inhaltVonKonfiguration +=       "\n";
     //-------------------------------------------
     inhaltVonKonfiguration +=       ENDE_DIALOGE;
     inhaltVonKonfiguration +=       "\n";
@@ -414,7 +413,10 @@ void MainWindow::slotSaveConfig(QString text)
         if(text.contains(DLG_PKOPF))
         {
             vorlage_pkopf = selektiereEintrag(text, DLG_PKOPF, ENDE_ZEILE);
-        }//else if....
+        }else  if(text.contains(DLG_PENDE))
+        {
+            vorlage_pende = selektiereEintrag(text, DLG_PENDE, ENDE_ZEILE);
+        }
 
         //Daten in Datei sichern:
         saveConfig();
@@ -461,9 +463,9 @@ void MainWindow::hideElemets_noFileIsOpen()
 {
     ui->listWidget_Programmliste->hide();
     //Menü Datei:
-    //ui->actionDateiSpeichern->setDisabled(true);
-    //ui->actionDateiSpeichern_unter->setDisabled(true);
-    //ui->actionDateiSchliessen->setDisabled(true);
+    ui->actionDateiSpeichern->setDisabled(true);
+    ui->actionDateiSpeichern_unter->setDisabled(true);
+    ui->actionDateiSchliessen->setDisabled(true);
     //Menü Bearbeiten:
     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
@@ -473,11 +475,12 @@ void MainWindow::hideElemets_noFileIsOpen()
         //ui->actionAusschneiden->setDisabled(true);
         //ui->actionEntfernen->setDisabled(true);
     }
-    //ui->actionEin_Ausblenden->setDisabled(true);
-    //ui->actionAuswahl_Einblenden->setDisabled(true);
-    //ui->actionAuswahl_Ausblenden->setDisabled(true);
+    ui->actionEin_Ausblenden->setDisabled(true);
+    ui->actionAuswahl_Einblenden->setDisabled(true);
+    ui->actionAuswahl_Ausblenden->setDisabled(true);
     //Menü CAM:
     ui->actionMakeProgrammkopf->setDisabled(true);
+    ui->actionMakeProgrammende->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -488,9 +491,9 @@ void MainWindow::showElements_aFileIsOpen()
 {
     ui->listWidget_Programmliste->show();
     //Menü Datei:
-    //ui->actionDateiSpeichern->setEnabled(true);
-    //ui->actionDateiSpeichern_unter->setEnabled(true);
-    //ui->actionDateiSchliessen->setEnabled(true);
+    ui->actionDateiSpeichern->setEnabled(true);
+    ui->actionDateiSpeichern_unter->setEnabled(true);
+    ui->actionDateiSchliessen->setEnabled(true);
     //Menü Bearbeiten:
     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
@@ -500,11 +503,12 @@ void MainWindow::showElements_aFileIsOpen()
         //ui->actionAusschneiden->setEnabled(true);
         //ui->actionEntfernen->setEnabled(true);
     }
-    //ui->actionEin_Ausblenden->setEnabled(true);
-    //ui->actionAuswahl_Einblenden->setEnabled(true);
-    //ui->actionAuswahl_Ausblenden->setEnabled(true);
+    ui->actionEin_Ausblenden->setEnabled(true);
+    ui->actionAuswahl_Einblenden->setEnabled(true);
+    ui->actionAuswahl_Ausblenden->setEnabled(true);
     //Menü CAM:
     ui->actionMakeProgrammkopf->setEnabled(true);
+    ui->actionMakeProgrammende->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -845,31 +849,13 @@ void MainWindow::openFile(QString pfad)
             QFileInfo info = pfad;
             pfad_oefne_fmc = info.path();
             QApplication::setOverrideCursor(Qt::WaitCursor);
-            text_zeilenweise tz;
-            while(!file.atEnd())
-            {
-                QString line = file.readLine();
-                if(line.right(1) == "\n")
-                {
-                    line = line.left(line.length()-1);
-                }
-                if(tz.zeilenanzahl() == 0)
-                {
-                    tz.set_text(line);
-                }else
-                {
-                    tz.zeilen_anhaengen(line);
-                }
-            }
-            tz = kompatiblitaetspruefung(tz);
-            tz = import_fmc(tz);
+            QString quelle = QString::fromLatin1(file.readAll());
             programmtext t;
-            t.set_text(tz.get_text());
+            t.set_text(import_fmc(quelle).get_text());
             t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
             undo_redo tmpur;
             tmpur.set_groesse_max(settings_anz_undo_t.toInt());
             tt.add(t, pfad, tmpur);
-            tt.get_prgtext()->set_maschinengeometrie(tz);
             file.close();
 
             aktuelisiere_letzte_dateien_inifile();
@@ -990,21 +976,20 @@ void MainWindow::actionLetzteDateiOefnenTriggered()
 
 }
 
-text_zeilenweise MainWindow::kompatiblitaetspruefung(text_zeilenweise dateiinhalt)
+text_zeilenweise MainWindow::import_fmc(QString quelle)
 {
-    return dateiinhalt;
-}
-
-text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
-{
+    text_zeilenweise tz;
+    tz.set_text(quelle);
     text_zeilenweise retz;
     for(uint i=1; i<= tz.zeilenanzahl();i++)
     {
         QString zeile = tz.zeile(i);
+        zeile.replace("'",".");
+
         if(zeile.contains(DLG_PKOPF))
         {
             QString prgzeile;
-            prgzeile = DLG_PKOPF;
+            prgzeile  = DLG_PKOPF;
             prgzeile += vorlage_pkopf;
             prgzeile += ENDE_ZEILE;
             i++;
@@ -1014,182 +999,58 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
             {
                 if(zeile.contains(PKOPF_KOM1))
                 {
-                    QString alterWert = text_mitte(prgzeile, PKOPF_KOM1, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, PKOPF_KOM1);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(PKOPF_KOM1+alterWert, PKOPF_KOM1+neuerWert);
+                    prgzeile = replaceparam(PKOPF_KOM1, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_KOM2))
                 {
-                    QString alterWert = text_mitte(prgzeile, PKOPF_KOM2, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, PKOPF_KOM2);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(PKOPF_KOM2+alterWert, PKOPF_KOM2+neuerWert);
+                    prgzeile = replaceparam(PKOPF_KOM2, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_L))
                 {
-                    QString param = PKOPF_L;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_L, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_B))
                 {
-                    QString param = PKOPF_B;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_B, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_D))
                 {
-                    QString param = PKOPF_D;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_D, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_FUENFSEI))
                 {
-                    QString param = PKOPF_FUENFSEI;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_FUENFSEI, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_SPEIGELN))
                 {
-                    QString param = PKOPF_SPEIGELN;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_SPEIGELN, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_BELEGART))
                 {
-                    QString param = PKOPF_BELEGART;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_BELEGART, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_XVERS))
                 {
-                    QString param = PKOPF_XVERS;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_XVERS, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_YVERS))
                 {
-                    QString param = PKOPF_YVERS;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_YVERS, prgzeile, zeile);
                 }else if (zeile.contains(PKOFP_RTL))
                 {
-                    QString param = PKOFP_RTL;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOFP_RTL, prgzeile, zeile);
                 }else if (zeile.contains(PKOFP_RTB))
                 {
-                    QString param = PKOFP_RTB;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOFP_RTB, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_LOESEN))
                 {
-                    QString param = PKOPF_LOESEN;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_LOESEN, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_SCHABH))
                 {
-                    QString param = PKOPF_SCHABH;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_SCHABH, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_SIABST))
                 {
-                    QString param = PKOPF_SIABST;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_SIABST, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_PAPO))
                 {
-                    QString param = PKOPF_PAPO;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_PAPO, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_BEZ))
                 {
-                    QString param = PKOPF_BEZ;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_BEZ, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_AFB))
                 {
-                    QString param = PKOPF_AFB;
-                    QString alterWert = text_mitte(prgzeile, param, ENDPAR);
-                    QString neuerWert = text_rechts(zeile, param);
-                    if(neuerWert == FMCNULL)
-                    {
-                        neuerWert = "";
-                    }
-                    prgzeile.replace(param+alterWert, param+neuerWert);
+                    prgzeile = replaceparam(PKOPF_AFB, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_AUSGEBL))
                 {
                     QString tmp = "//";
@@ -1199,11 +1060,54 @@ text_zeilenweise MainWindow::import_fmc(text_zeilenweise tz)
                 zeile = tz.zeile(i);
                 zeile.replace("'",".");
             }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_PENDE))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_PENDE;
+            prgzeile += vorlage_pende;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(PENDE_PAPO))
+                {
+                    prgzeile = replaceparam(PENDE_PAPO, prgzeile, zeile);
+                }else if (zeile.contains(PENDE_BEZ))
+                {
+                    prgzeile = replaceparam(PENDE_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(PENDE_AFB))
+                {
+                   prgzeile = replaceparam(PENDE_AFB, prgzeile, zeile);
+                }else if (zeile.contains(PENDE_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
             retz.zeile_anhaengen(prgzeile);
         }
     }
-
     return retz;
+}
+
+QString MainWindow::replaceparam(QString param, QString ziel, QString quelle)
+{
+    QString alterWert = text_mitte(ziel, param, ENDPAR);
+    QString neuerWert = text_rechts(quelle, param);
+    if(neuerWert == FMCNULL)
+    {
+        neuerWert = "";
+    }
+    ziel.replace(param+alterWert, param+neuerWert);
+    return ziel;
 }
 
 QString MainWindow::export_fmc(text_zeilenweise tz)
@@ -1293,6 +1197,27 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += "\n";
 
             msg += "\n";
+        }else if(zeile.contains(DLG_PENDE))
+        {
+            msg += DLG_PENDE;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += PENDE_PAPO;
+            msg += selektiereEintrag(zeile, PENDE_PAPO, ENDPAR);
+            msg += "\n";
+            msg += PENDE_BEZ;
+            msg += selektiereEintrag(zeile, PENDE_BEZ, ENDPAR);
+            msg += "\n";
+            msg += PENDE_AFB;
+            msg += selektiereEintrag(zeile, PENDE_AFB, ENDPAR);
+            msg += "\n";
+
+            msg += "\n";
         }
     }
     return msg;
@@ -1370,7 +1295,7 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
             file.remove(); //lösche alte Datei wenn vorhanden
             file.close(); //beende Zugriff
             file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
-            file.write(dateiInhalt.toUtf8()); //fülle Datei mit Inhalt
+            file.write(dateiInhalt.toLatin1()); //fülle Datei mit Inhalt
             file.close(); //beende Zugriff
             QFileInfo info = tt.get_prgname();
             QString tmp = PROGRAMMNAME;
@@ -1479,7 +1404,11 @@ void MainWindow::on_action_aendern_triggered()
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &prgkopf, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
-            }//else if....
+            }else if(programmzeile.contains(DLG_PENDE))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &prgende, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
@@ -1879,7 +1808,24 @@ void MainWindow::on_actionMakeProgrammkopf_triggered()
     }
 }
 
+void MainWindow::on_actionMakeProgrammende_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &prgende, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_pende;
+        emit sendDialogData(msg, false);
+    }
+}
 //---------------------------------------------------
+
+
 
 
 
