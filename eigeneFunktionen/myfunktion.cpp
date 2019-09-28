@@ -152,3 +152,4 @@ bool cagleich(double p1, double p2, double tolleranz = 0.1)
         return false;
     }
 }
+

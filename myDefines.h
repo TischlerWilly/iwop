@@ -1,17 +1,19 @@
 #ifndef MYDEFINES_H
 #define MYDEFINES_H
-                            ///home/oliver +
+                            //home/oliver +
 #define PFAD_ZUM_PROGRAMMORDNER     "/.iwop"
-#define PFAD_ZU_DEN_WERKZEUGBILDERN "/.iwop/werkzeugbilder"
 #define INI_FILE                    "/.iwop/konfiguration.ini"
-#define WKZ_FILE                    "/.iwop/werkzeug.ini"
-#define WKZ_BILDER_PFAD             "/.iwop/werkzeugbilder/"
 #define PFAD_LETZTE_DATEIEN         "/.iwop/letzte_dateien.ini"
 #define CAD_Maschine                "/.iwop/maschine_cad.ini"
+
+#define PFAD_DLGBILDER              "C:\\Program Files\\iwop\\dlgbilder"
+//#define WKZ_FILE                    "/.iwop/werkzeug.ini"
+//#define WKZ_BILDER_PFAD             "/.iwop/werkzeugbilder/"
+
+
 #define DATEIENDUNG_EIGENE          ".fmc"
 #define DATEIENDUNG_BACKUP          ".bak_"
 #define PROGRAMMNAME                "IWOP"
-#define SICHERHEITSABSTAND_WERT     "5"
 #define ANZAHL_LETZTER_DATEIEN      15
 #define ANZAHL_OFFENER_DATEIEN      20
 
@@ -35,7 +37,9 @@
 #define BEGIN_DIALOGE       "Dialoge:"
 #define ENDE_DIALOGE        "---------------------------"
 #define DLG_PKOPF               "[PGKOPF40]"
+#define DLG_PENDE               "[PGENDE40]"
 #define LISTENENDE              ">ENDE"
+
 #define FMCNULL                 "(NULL)"
 #define FMCAUSGEBL              "@@@/=1"
 

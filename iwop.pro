@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
         eigeneFunktionen/geometrie.cpp \
@@ -58,8 +59,10 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
         eigeneDefines/defines_geometrie.h \
         eigeneFunktionen/geometrie.h \
@@ -96,6 +99,7 @@ HEADERS += \
         todo.h
 
 FORMS += \
+        Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
         mainwindow.ui
