@@ -38,6 +38,8 @@
 #define ENDE_DIALOGE        "---------------------------"
 #define DLG_PKOPF               "[PGKOPF40]"
 #define DLG_PENDE               "[PGENDE40]"
+#define DLG_KOM                 "[SWKOMT40]"
+#define DLG_HALT                "[SNHALT40]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"

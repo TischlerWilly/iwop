@@ -14,6 +14,8 @@
 //#include "../Dialoge/dialog_variable.h"
 #include "eigeneDefines/define_prgkopf.h"
 #include "eigeneDefines/define_prgende.h"
+#include "eigeneDefines/defines_kom.h"
+#include "eigeneDefines/defines_halt.h"
 
 
 class programmtext

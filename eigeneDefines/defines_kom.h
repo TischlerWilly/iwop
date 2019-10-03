@@ -1,16 +1,16 @@
-#ifndef DEFINE_PRGENDE_H
-#define DEFINE_PRGENDE_H
+#ifndef DEFINES_KOM_H
+#define DEFINES_KOM_H
 
-//#define DLG_PENDE     "[PGENDE40]"
 
 //--------------------------------Parameternahmen in der fmc-Datei
-#define PENDE_PAPO      "PP="
-#define PENDE_BEZ       "BEZB="
-#define PENDE_AFB       "AFB="
-#define PENDE_AUSGEBL   "@@@/=1"
+#define KOM_BEZ       "BEZB="
+#define KOM_AUSGEBL   "@@@/=1"
 
 //--------------------------------Parameternahmen der Variablen
 //Variabelnnahmen müssen immer mit "[" beginnen und mit "]" enden
 //#define VAR_ENDE_XYZ         "[xyz]"
 
-#endif // DEFINE_PRGENDE_H
+
+
+
+#endif // DEFINES_KOM_H

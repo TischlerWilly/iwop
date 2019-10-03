@@ -25,11 +25,12 @@
 #define PKOPF_AUSGEBL   "@@@/=1"
 
 //--------------------------------Parameternahmen der Variablen
-#define VAR_PKOPF_L         "L"
-#define VAR_PKOPF_B         "B"
-#define VAR_PKOPF_D         "D"
-#define VAR_PKOPF_XVERS     "AX"
-#define VAR_PKOPF_YVERS     "AY"
+//Variabelnnahmen müssen immer mit "[" beginnen und mit "]" enden
+#define VAR_PKOPF_L         "[L]"
+#define VAR_PKOPF_B         "[B]"
+#define VAR_PKOPF_D         "[D]"
+#define VAR_PKOPF_XVERS     "[AX]"
+#define VAR_PKOPF_YVERS     "[AY]"
 
 
 #endif // DEFINE_PROGRAMMKPF_H

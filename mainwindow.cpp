@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //kopiertesWerkzeug               = NICHT_DEFINIERT;
     vorlage_pkopf                   = prgkopf.get_default();
     vorlage_pende                   = prgende.get_default();
+    vorlage_kom                     = kom.get_default();
+    vorlage_halt                    = halt.get_default();
     settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
@@ -108,12 +110,18 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect:
     connect(&prgkopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&prgende, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&kom, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&halt, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&prgende, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&kom, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&halt, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&kom, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&halt, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -328,6 +336,12 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_PENDE))
                 {
                     vorlage_pende = selektiereEintrag(text, DLG_PENDE, ENDE_ZEILE);
+                }else if(text.contains(DLG_KOM))
+                {
+                    vorlage_kom = selektiereEintrag(text, DLG_KOM, ENDE_ZEILE);
+                }else if(text.contains(DLG_HALT))
+                {
+                    vorlage_kom = selektiereEintrag(text, DLG_HALT, ENDE_ZEILE);
                 }
             }
     }
@@ -358,9 +372,21 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
 
     //-------------------------------------------
+    inhaltVonKonfiguration +=       DLG_PKOPF;
     inhaltVonKonfiguration +=       vorlage_pkopf;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_PENDE;
     inhaltVonKonfiguration +=       vorlage_pende;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_KOM;
+    inhaltVonKonfiguration +=       vorlage_kom;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HALT;
+    inhaltVonKonfiguration +=       vorlage_halt;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     //-------------------------------------------
     inhaltVonKonfiguration +=       ENDE_DIALOGE;
@@ -413,9 +439,15 @@ void MainWindow::slotSaveConfig(QString text)
         if(text.contains(DLG_PKOPF))
         {
             vorlage_pkopf = selektiereEintrag(text, DLG_PKOPF, ENDE_ZEILE);
-        }else  if(text.contains(DLG_PENDE))
+        }else if(text.contains(DLG_PENDE))
         {
             vorlage_pende = selektiereEintrag(text, DLG_PENDE, ENDE_ZEILE);
+        }else if(text.contains(DLG_KOM))
+        {
+            vorlage_kom = selektiereEintrag(text, DLG_KOM, ENDE_ZEILE);
+        }else if(text.contains(DLG_HALT))
+        {
+            vorlage_halt = selektiereEintrag(text, DLG_HALT, ENDE_ZEILE);
         }
 
         //Daten in Datei sichern:
@@ -481,6 +513,8 @@ void MainWindow::hideElemets_noFileIsOpen()
     //Menü CAM:
     ui->actionMakeProgrammkopf->setDisabled(true);
     ui->actionMakeProgrammende->setDisabled(true);
+    ui->actionMakeKommentar->setDisabled(true);
+    ui->actionMakeHalt->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -509,6 +543,8 @@ void MainWindow::showElements_aFileIsOpen()
     //Menü CAM:
     ui->actionMakeProgrammkopf->setEnabled(true);
     ui->actionMakeProgrammende->setEnabled(true);
+    ui->actionMakeKommentar->setEnabled(true);
+    ui->actionMakeHalt->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -1093,6 +1129,65 @@ text_zeilenweise MainWindow::import_fmc(QString quelle)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_KOM))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_KOM;
+            prgzeile += vorlage_kom;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if (zeile.contains(KOM_BEZ))
+                {
+                    prgzeile = replaceparam(KOM_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(KOM_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HALT))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HALT;
+            prgzeile += vorlage_halt;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HALT_X))
+                {
+                    prgzeile = replaceparam(HALT_X, prgzeile, zeile);
+                }else if(zeile.contains(HALT_Y))
+                {
+                    prgzeile = replaceparam(HALT_Y, prgzeile, zeile);
+                }else if (zeile.contains(HALT_BEZ))
+                {
+                    prgzeile = replaceparam(HALT_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HALT_AFB))
+                {
+                   prgzeile = replaceparam(HALT_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HALT_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }
     }
     return retz;
@@ -1215,6 +1310,45 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += "\n";
             msg += PENDE_AFB;
             msg += selektiereEintrag(zeile, PENDE_AFB, ENDPAR);
+            msg += "\n";
+
+            msg += "\n";
+        }else if(zeile.contains(DLG_KOM))
+        {
+            msg += DLG_KOM;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += KOM_BEZ;
+            msg += selektiereEintrag(zeile, KOM_BEZ, ENDPAR);
+            msg += "\n";
+
+            msg += "\n";
+        }else if(zeile.contains(DLG_HALT))
+        {
+            msg += DLG_HALT;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += HALT_X;
+            msg += selektiereEintrag(zeile, HALT_X, ENDPAR);
+            msg += "\n";
+            msg += HALT_Y;
+            msg += selektiereEintrag(zeile, HALT_Y, ENDPAR);
+            msg += "\n";
+            msg += HALT_BEZ;
+            msg += selektiereEintrag(zeile, HALT_BEZ, ENDPAR);
+            msg += "\n";
+            msg += HALT_AFB;
+            msg += selektiereEintrag(zeile, HALT_AFB, ENDPAR);
             msg += "\n";
 
             msg += "\n";
@@ -1407,6 +1541,14 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_PENDE))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &prgende, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_KOM))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &kom, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HALT))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &halt, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }
         }
@@ -1671,6 +1813,7 @@ void MainWindow::slot_maus_pos(QPoint p)
 }
 
 //---------------------------------------------------Dialoge:
+
 void MainWindow::getDialogData(QString text)
 {
     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
@@ -1823,7 +1966,44 @@ void MainWindow::on_actionMakeProgrammende_triggered()
         emit sendDialogData(msg, false);
     }
 }
+
+void MainWindow::on_actionMakeKommentar_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &kom, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_kom;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeHalt_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &halt, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_halt;
+        emit sendDialogData(msg, false);
+    }
+}
+
 //---------------------------------------------------
+
+
+
+
 
 
 
