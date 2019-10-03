@@ -467,10 +467,18 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_KOM))
+        {
+            QString zeile_klartext;
+            zeile_klartext += DLG_KOM;
+            zeile_klartext += text_mitte(zeile, KOM_BEZ, ENDPAR);
+
+            klartext.zeilen_anhaengen(zeile_klartext);
+            var.zeile_anhaengen(variablen);
         }else
         {
-            klartext.zeilen_anhaengen(" ");
-            var.zeilen_anhaengen(" ");
+            klartext.zeilen_anhaengen(" ");//leere Zeile
+            var.zeile_anhaengen(variablen);
         }
     }
 }
@@ -542,6 +550,9 @@ void programmtext::aktualisiere_geo()
             }else if(zeile.contains(DLG_PENDE))
             {
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_KOM))
+            {
+                geo.zeilenvorschub();
             }
         }
     }
@@ -578,6 +589,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_PENDE))
         {
             tmp += text_mitte(zeile, PENDE_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_KOM))
+        {
+            tmp += text_mitte(zeile, KOM_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

@@ -21,6 +21,7 @@
 #include "Dialoge/dialog_prgkopf.h"
 #include "Dialoge/dialog_prgende.h"
 #include "eigeneKlassen/letzte_dateien.h"
+#include "Dialoge/dialog_kom.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -52,6 +53,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
+
     //Objekte:
     vorschau vorschaufenster;
     programmtexte   tt;
@@ -61,6 +63,7 @@ private:
     Dialog_Programmlisten programmlisten;
     DialogPrgKopf    prgkopf;
     Dialog_prgende   prgende;
+    Dialog_kom       kom;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -69,6 +72,7 @@ private:
     QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
     QString         vorlage_pende;
+    QString         vorlage_kom;
     QString         pfad_oefne_fmc;
     QString         kopierterEintrag_t;
     bool            speichern_unter_flag;
@@ -129,6 +133,7 @@ private slots:
     void actionLetzteDateiOefnenTriggered();
     void on_actionMakeProgrammkopf_triggered();
     void on_actionMakeProgrammende_triggered();
+    void on_actionMakeKommentar_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -204,7 +204,7 @@ void DialogPrgKopf::getDialogData(QString text, bool openToChangeData)
 
 QString DialogPrgKopf::get_default()
 {
-    QString msg = DLG_PKOPF ;
+    QString msg;
 
     msg += PKOPF_KOM1;
     msg += "";
@@ -277,8 +277,6 @@ QString DialogPrgKopf::get_default()
     msg += PKOPF_AFB;
     msg += "1";
     msg += ENDPAR;
-
-    msg += ENDE_ZEILE;
 
     return msg;
 }

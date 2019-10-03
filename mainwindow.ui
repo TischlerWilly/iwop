@@ -99,6 +99,7 @@
      <string>Extras</string>
     </property>
     <addaction name="actionProgrammliste_anzeigen"/>
+    <addaction name="actionMakeKommentar"/>
    </widget>
    <widget class="QMenu" name="menuProduzieren">
     <property name="title">
@@ -282,6 +283,11 @@
   <action name="actionMakeProgrammende">
    <property name="text">
     <string>Programmende</string>
+   </property>
+  </action>
+  <action name="actionMakeKommentar">
+   <property name="text">
+    <string>Kommentar</string>
    </property>
   </action>
  </widget>

@@ -4,11 +4,11 @@
 #define PROGRAMMVERSION     "1.2019.09.26"
 
 /*
-- Klasse Programmtext wieder mit Leben füllen
-    ->void programmtext::aktualisieren()
-    ->void programmtext::aktualisiere_klartext_var()
-    ->void programmtext::aktualisiere_geo()
-    ->void programmtext::aktualisiere_anzeigetext()
+->Dialog Halt
+->Dialog Bohren
+
+
+
 
 
 
@@ -22,6 +22,12 @@ ToDo für neuen Dialoge anlegen:
 - myDefines.h ->DLG_...
 - define_xyz.h anlegen
 - Qt-Designer-Formularklasse anlegen
+- dialog_xyz.ui
+    ->ui entwerfen
+        -->WindowTitel
+        -->modal true
+        -->TAB-Reihenfolge
+            ->slots anlegen
 - dialog_xyz.h
     ->includes
         #include <QDir>
@@ -40,12 +46,6 @@ ToDo für neuen Dialoge anlegen:
     ->private:
         bool openToModifyData;
         QString dialogDataToString();
-- dialog_xyz.ui
-    ->ui entwerfen
-        -->WindowTitel
-        -->modal true
-        -->TAB-Reihenfolge
-    ->slots anlegen
 - dialog_xyz.cpp
 - mainwindow.h
     ->include
