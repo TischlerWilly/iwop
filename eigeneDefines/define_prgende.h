@@ -10,6 +10,7 @@
 #define PENDE_AUSGEBL   "@@@/=1"
 
 //--------------------------------Parameternahmen der Variablen
-//#define VAR_ENDE_XYZ         "xyz"
+//Variabelnnahmen müssen immer mit "[" beginnen und mit "]" enden
+//#define VAR_ENDE_XYZ         "[xyz]"
 
 #endif // DEFINE_PRGENDE_H

@@ -4,13 +4,11 @@
 #define PROGRAMMVERSION     "1.2019.09.26"
 
 /*
-->Dialog Halt
 ->Dialog Bohren
 
 
 
-
-
+->Schnelländerung Bohrgruppe
 
 
 
@@ -29,23 +27,6 @@ ToDo für neuen Dialoge anlegen:
         -->TAB-Reihenfolge
             ->slots anlegen
 - dialog_xyz.h
-    ->includes
-        #include <QDir>
-        #include "myDefines.h"
-        #include "eigeneFunktionen/text.h"
-        #include "eigeneFunktionen/umwandeln.h"
-        #include "eigeneDefines/define_xyz.h"
-    ->signals:
-        void sendDialogData(QString text);
-        void sendDialogDataModifyed(QString text);
-        void signalSaveConfig(QString text);
-    ->public:
-        QString get_default()
-    ->public slots:
-        void getDialogData(QString text, bool openToChangeData);
-    ->private:
-        bool openToModifyData;
-        QString dialogDataToString();
 - dialog_xyz.cpp
 - mainwindow.h
     ->include

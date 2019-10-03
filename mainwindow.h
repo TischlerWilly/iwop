@@ -22,6 +22,7 @@
 #include "Dialoge/dialog_prgende.h"
 #include "eigeneKlassen/letzte_dateien.h"
 #include "Dialoge/dialog_kom.h"
+#include "Dialoge/dialog_halt.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -64,6 +65,7 @@ private:
     DialogPrgKopf    prgkopf;
     Dialog_prgende   prgende;
     Dialog_kom       kom;
+    Dialog_halt      halt;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -73,6 +75,7 @@ private:
     QString         vorlage_pkopf;
     QString         vorlage_pende;
     QString         vorlage_kom;
+    QString         vorlage_halt;
     QString         pfad_oefne_fmc;
     QString         kopierterEintrag_t;
     bool            speichern_unter_flag;
@@ -134,6 +137,7 @@ private slots:
     void on_actionMakeProgrammkopf_triggered();
     void on_actionMakeProgrammende_triggered();
     void on_actionMakeKommentar_triggered();
+    void on_actionMakeHalt_triggered();
 };
 
 #endif // MAINWINDOW_H

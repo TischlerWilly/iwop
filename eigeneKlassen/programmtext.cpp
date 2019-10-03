@@ -475,6 +475,38 @@ void programmtext::aktualisiere_klartext_var()
 
             klartext.zeilen_anhaengen(zeile_klartext);
             var.zeile_anhaengen(variablen);
+        }else if(zeile.contains(DLG_HALT))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, HALT_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_HALT;
+
+                zeile_klartext += HALT_X;
+                tmp = text_mitte(zeile, HALT_X, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+
+                zeile_klartext += HALT_Y;
+                tmp = text_mitte(zeile, HALT_Y, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -553,6 +585,9 @@ void programmtext::aktualisiere_geo()
             }else if(zeile.contains(DLG_KOM))
             {
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_HALT))
+            {
+                geo.zeilenvorschub();
             }
         }
     }
@@ -592,6 +627,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_KOM))
         {
             tmp += text_mitte(zeile, KOM_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_HALT))
+        {
+            tmp += text_mitte(zeile, HALT_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
