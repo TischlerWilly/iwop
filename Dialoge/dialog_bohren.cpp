@@ -62,47 +62,47 @@ QString Dialog_Bohren::dialogDataToString()
     QString msg = DLG_BO ;
 
     msg += BO_X;
-    msg += ui->lineEdit_x1->text();
+    msg += ui->lineEdit_x1->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_Y;
-    msg += ui->lineEdit_y1->text();
+    msg += ui->lineEdit_y1->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_BOTI;
-    msg += ui->lineEdit_boti->text();
+    msg += ui->lineEdit_boti->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_DM;
-    msg += ui->lineEdit_dm->text();
+    msg += ui->lineEdit_dm->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_GRUPPE;
-    msg += ui->lineEdit_grp->text();
+    msg += ui->lineEdit_grp->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_ANBOTI;
-    msg += ui->lineEdit_anboti->text();
+    msg += ui->lineEdit_anboti->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_ANBOVO;
-    msg += ui->lineEdit_anbovo->text();
+    msg += ui->lineEdit_anbovo->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_REBOMA;
-    msg += ui->lineEdit_reboma->text();
+    msg += ui->lineEdit_reboma->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_BOVO;
-    msg += ui->lineEdit_bovo->text();
+    msg += ui->lineEdit_bovo->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_ZSM;
-    msg += ui->lineEdit_zsm->text();
+    msg += ui->lineEdit_zsm->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_DREHZ;
-    msg += ui->lineEdit_n->text();
+    msg += ui->lineEdit_n->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += BO_MESSEI;
@@ -122,7 +122,7 @@ QString Dialog_Bohren::dialogDataToString()
     msg += ENDPAR;
 
     msg += BO_AFB;
-    msg += ui->lineEdit_afb->text();
+    msg += ui->lineEdit_afb->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += ENDE_ZEILE;

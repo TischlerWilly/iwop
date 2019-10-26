@@ -16,6 +16,7 @@ QString variablen_durch_werte_ersetzten(QString variablen, QString formeltext);
 
 bool ist_ziffer(const QChar zeichen);
 bool ist_zahl(const QString text);
+bool ist_buchstabe(QChar zeichen);
 
 QString genauigkeit_reduzieren(QString zahl, uint nachkommastellen);
 

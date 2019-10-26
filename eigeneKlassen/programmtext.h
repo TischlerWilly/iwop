@@ -253,6 +253,7 @@ private:
 
 
             void    aktualisiere_klartext_var();
+            QString param_to_klartext(QString prgzeile, QString parname, QString varname, QString &varlist, bool varmerken);
             void    aktualisiere_geo();
             void    aktualisiere_anzeigetext();
             void    aktualisiere_wkz();

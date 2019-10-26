@@ -344,104 +344,27 @@ void programmtext::aktualisiere_klartext_var()
                 hat_programmkopf = true;
                 QString zeile_klartext;
                 zeile_klartext += DLG_PKOPF;
+                //PKOPF_KOM1
+                //PKOPF_KOM2
+                zeile_klartext += param_to_klartext(zeile, PKOPF_L, VAR_PKOPF_L, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, PKOPF_B, VAR_PKOPF_B, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, PKOPF_D, VAR_PKOPF_D, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, PKOPF_FUENFSEI, "void", variablen, false);
+                //PKOPF_SPEIGELN
+                //PKOPF_BELEGART
+                zeile_klartext += param_to_klartext(zeile, PKOPF_XVERS, VAR_PKOPF_XVERS, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, PKOPF_YVERS, VAR_PKOPF_YVERS, variablen, true);
+                //PKOFP_RTL
+                //PKOFP_RTB
+                //PKOPF_LOESEN
+                //PKOPF_SCHABH
+                //PKOPF_SIABST
+                //PKOPF_PAPO
+                //PKOPF_BEZ
 
-                zeile_klartext += PKOPF_L;
-                tmp = text_mitte(zeile, PKOPF_L, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-                float l = tmp.toFloat();
-                set_werkstuecklaenge(l);
-                if(!variablen.contains(VAR_PKOPF_L))
-                {
-                    variablen += VAR_PKOPF_L;
-                    variablen += tmp;
-                    variablen += ENDPAR;
-                }else
-                {
-                    QString alterWert = text_mitte(variablen, VAR_PKOPF_L, ENDPAR);
-                    variablen.replace(VAR_PKOPF_L+alterWert, VAR_PKOPF_L+tmp);
-                }
-
-                zeile_klartext += PKOPF_B;
-                tmp = text_mitte(zeile, PKOPF_B, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-                float b = tmp.toFloat();
-                set_werkstueckbreite(b);
-                if(!variablen.contains(VAR_PKOPF_B))
-                {
-                    variablen += VAR_PKOPF_B;
-                    variablen += tmp;
-                    variablen += ENDPAR;
-                }else
-                {
-                    QString alterWert = text_mitte(variablen, VAR_PKOPF_B, ENDPAR);
-                    variablen.replace(VAR_PKOPF_B+alterWert, VAR_PKOPF_B+tmp);
-                }
-
-                zeile_klartext += PKOPF_D;
-                tmp = text_mitte(zeile, PKOPF_D, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-                float d = tmp.toFloat();
-                set_werkstueckdicke(d);
-                if(!variablen.contains(VAR_PKOPF_D))
-                {
-                    variablen += VAR_PKOPF_D;
-                    variablen += tmp;
-                    variablen += ENDPAR;
-                }else
-                {
-                    QString alterWert = text_mitte(variablen, VAR_PKOPF_D, ENDPAR);
-                    variablen.replace(VAR_PKOPF_D+alterWert, VAR_PKOPF_D+tmp);
-                }
-
-                zeile_klartext += PKOPF_FUENFSEI;
-                tmp = text_mitte(zeile, PKOPF_FUENFSEI, ENDPAR);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-
-                zeile_klartext += PKOPF_XVERS;
-                tmp = text_mitte(zeile, PKOPF_XVERS, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-                set_versatz_x(tmp.toFloat());
-                if(!variablen.contains(VAR_PKOPF_XVERS))
-                {
-                    variablen += VAR_PKOPF_XVERS;
-                    variablen += tmp;
-                    variablen += ENDPAR;
-                }else
-                {
-                    QString alterWert = text_mitte(variablen, VAR_PKOPF_XVERS, ENDPAR);
-                    variablen.replace(VAR_PKOPF_XVERS+alterWert, VAR_PKOPF_XVERS+tmp);
-                }
-
-                zeile_klartext += PKOPF_YVERS;
-                tmp = text_mitte(zeile, PKOPF_YVERS, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-                set_versatz_y(tmp.toFloat());
-                if(!variablen.contains(VAR_PKOPF_YVERS))
-                {
-                    variablen += VAR_PKOPF_YVERS;
-                    variablen += tmp;
-                    variablen += ENDPAR;
-                }else
-                {
-                    QString alterWert = text_mitte(variablen, VAR_PKOPF_YVERS, ENDPAR);
-                    variablen.replace(VAR_PKOPF_YVERS+alterWert, VAR_PKOPF_YVERS+tmp);
-                }
+                set_werkstuecklaenge(text_mitte(variablen, VAR_PKOPF_L, ENDPAR).toFloat());
+                set_werkstueckbreite(text_mitte(variablen, VAR_PKOPF_B, ENDPAR).toFloat());
+                set_werkstueckdicke(text_mitte(variablen, VAR_PKOPF_D, ENDPAR).toFloat());
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -486,20 +409,8 @@ void programmtext::aktualisiere_klartext_var()
             {
                 QString zeile_klartext;
                 zeile_klartext += DLG_HALT;
-
-                zeile_klartext += HALT_X;
-                tmp = text_mitte(zeile, HALT_X, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-
-                zeile_klartext += HALT_Y;
-                tmp = text_mitte(zeile, HALT_Y, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
+                zeile_klartext += param_to_klartext(zeile, HALT_X, "void", variablen, false);
+                zeile_klartext += param_to_klartext(zeile, HALT_Y, "void", variablen, false);
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -518,22 +429,21 @@ void programmtext::aktualisiere_klartext_var()
             {
                 QString zeile_klartext;
                 zeile_klartext += DLG_BO;
-
-                zeile_klartext += BO_X;
-                tmp = text_mitte(zeile, BO_X, ENDPAR);
-                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
-                tmp = ausdruck_auswerten(tmp);
-                zeile_klartext += tmp;
-                zeile_klartext += ENDPAR;
-
-                //Hier weiter machen
-                //...
-                //...
-                //...
-                //...
-                //...
-                //...
-                //...
+                zeile_klartext += param_to_klartext(zeile, BO_X, VAR_BO_X, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_Y, VAR_BO_Y, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_BOTI, VAR_BO_BOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_DM, VAR_BO_DM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_GRUPPE, VAR_BO_GRUPPE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_ANBOTI, VAR_BO_ANBOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_ANBOVO, VAR_BO_ANBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_REBOMA, VAR_BO_REBOMA, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_BOVO, VAR_BO_BOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_ZSM, VAR_BO_ZSM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_DREHZ, VAR_BO_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_MESSEI, VAR_BO_MESSEI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_TASATZ, VAR_BO_TASATZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, BO_PLM, VAR_BO_PLM, variablen, true);
+                //BO_BEZ
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -548,6 +458,42 @@ void programmtext::aktualisiere_klartext_var()
             var.zeile_anhaengen(variablen);
         }
     }
+}
+
+QString programmtext::param_to_klartext(QString prgzeile, QString parname, QString varname, QString &varlist, bool varmerken)
+{
+    //prgzeile == ganze Programmzeile mit allen Parametern
+    //param    == Parameter der in Klartext umgerechnet werden soll z.B. BO_X
+    //varname  == Variablen-Name mit dem dieser Parameter über das GUI angesprochen werden kann
+    //varlist  == liste aller Variablen die in dieser Programmzeile bekannt sind
+    //varmerken
+    //  0 ->Variable wird nicht zur varlist hinzugefügt
+    //  1 ->sie wird hinzugefügt
+
+    QString parwert;
+    parwert = text_mitte(prgzeile, parname, ENDPAR);              //Parameter-Wert selektieren
+    parwert = variablen_durch_werte_ersetzten(varlist, parwert);  //Variablen durch Werte ersetzen
+    parwert = ausdruck_auswerten(parwert);                        //Ergebnis der Berechnung bekommen
+
+    QString kt = parname;
+    kt += parwert;
+    kt += ENDPAR;
+
+    if(varmerken == true)
+    {
+        if(!varlist.contains(varname))
+        {
+            varlist += varname;
+            varlist += parwert;
+            varlist += ENDPAR;
+        }else
+        {
+            QString alterWert = text_mitte(varlist, varname, ENDPAR);
+            varlist.replace(varname+alterWert, varname+parwert);
+        }
+    }
+
+    return  kt;
 }
 
 void programmtext::aktualisiere_geo()
@@ -623,6 +569,31 @@ void programmtext::aktualisiere_geo()
             }else if(zeile.contains(DLG_HALT))
             {
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_BO))
+            {
+                punkt3d mipu;
+                mipu.set_x(text_mitte(zeile, BO_X, ENDPAR));
+                mipu.set_y(text_mitte(zeile, BO_Y, ENDPAR));
+                mipu.set_z(0);
+
+                float boti = text_mitte(zeile, BO_BOTI, ENDPAR).toFloat();
+
+                kreis k;
+                k.set_farbe(FARBE_SCHWARZ);
+                if(boti<=0 || boti > get_werkstueckdicke())
+                {
+                    k.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    k.set_farbe_fuellung(FARBE_HELLBLAU);
+                }
+                k.set_stil(STIL_DURCHGEHEND);
+
+                k.set_mittelpunkt(mipu);
+                k.set_radius(text_mitte(zeile, BO_DM, ENDPAR).toDouble()/2);
+
+                geo.add_kreis(k);
+                geo.zeilenvorschub();
             }
         }
     }
@@ -665,6 +636,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_HALT))
         {
             tmp += text_mitte(zeile, HALT_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_BO))
+        {
+            tmp += text_mitte(zeile, BO_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

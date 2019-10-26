@@ -1207,17 +1207,6 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
-        }else if(  zeile.contains("[DOCINFO]") || zeile.contains("[VARDEFAU]")  )
-        {
-            continue;
-        }else if(  zeile.contains("[") && zeile.contains("]")  )
-        {
-            //QApplication::setOverrideCursor(Qt::ArrowCursor);
-            QMessageBox mb;
-            mb.setText("Datei enthällt nicht programmierte Dialoge.\nOriginaldatei kann nur lesend geöffnet werden!\n\"Speichern unter\" kann verwendet werden.");
-            mb.exec();
-            //QApplication::setOverrideCursor(Qt::WaitCursor);
-            readonly = true;
         }else if(zeile.contains(DLG_BO))
         {
             QString prgzeile;
@@ -1288,6 +1277,17 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(  zeile.contains("[DOCINFO]") || zeile.contains("[VARDEFAU]")  )
+        {
+            continue;
+        }else if(  zeile.contains("[") && zeile.contains("]")  )
+        {
+            //QApplication::setOverrideCursor(Qt::ArrowCursor);
+            QMessageBox mb;
+            mb.setText("Datei enthällt nicht programmierte Dialoge.\nOriginaldatei kann nur lesend geöffnet werden!\n\"Speichern unter\" kann verwendet werden.");
+            mb.exec();
+            //QApplication::setOverrideCursor(Qt::WaitCursor);
+            readonly = true;
         }
 
     }

@@ -16,7 +16,7 @@ QString variablen_durch_werte_ersetzten(QString variablen, QString formeltext)
     QString returnstring = "";
     for(int i=0 ; i<formeltext.count() ;i++)
     {
-        if(formeltext.at(i)=='A'||formeltext.at(i)=='B'||formeltext.at(i)=='C'||formeltext.at(i)=='D'||formeltext.at(i)=='E'||formeltext.at(i)=='F'||formeltext.at(i)=='G'||formeltext.at(i)=='H'||formeltext.at(i)=='I'||formeltext.at(i)=='J'||formeltext.at(i)=='K'||formeltext.at(i)=='L'||formeltext.at(i)=='M'||formeltext.at(i)=='N'||formeltext.at(i)=='O'||formeltext.at(i)=='P'||formeltext.at(i)=='Q'||formeltext.at(i)=='R'||formeltext.at(i)=='S'||formeltext.at(i)=='T'||formeltext.at(i)=='U'||formeltext.at(i)=='V'||formeltext.at(i)=='W'||formeltext.at(i)=='X'||formeltext.at(i)=='Y'||formeltext.at(i)=='Z')
+        if(  ist_buchstabe(formeltext.at(i)) || (i>0 && ist_buchstabe(formeltext.at(i-1)) && ist_ziffer(formeltext.at(i)))   )
         {
             variablennahme += formeltext.at(i);
 
@@ -82,6 +82,19 @@ bool ist_zahl(const QString text)
     }
     //Wenn diese Stelle erreicht wird dann enthällt der Text nur Zahlen:
     return true;
+}
+
+bool ist_buchstabe(QChar zeichen)
+{
+    zeichen = zeichen.toUpper();
+    bool erg = false;
+
+    if(zeichen=='A'||zeichen=='B'||zeichen=='C'||zeichen=='D'||zeichen=='E'||zeichen=='F'||zeichen=='G'||zeichen=='H'||zeichen=='I'||zeichen=='J'||zeichen=='K'||zeichen=='L'||zeichen=='M'||zeichen=='N'||zeichen=='O'||zeichen=='P'||zeichen=='Q'||zeichen=='R'||zeichen=='S'||zeichen=='T'||zeichen=='U'||zeichen=='V'||zeichen=='W'||zeichen=='X'||zeichen=='Y'||zeichen=='Z')
+    {
+        erg = true;
+    }
+
+    return erg;
 }
 
 QString genauigkeit_reduzieren(QString zahl, uint nachkommastellen)

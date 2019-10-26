@@ -4,20 +4,11 @@
 #define PROGRAMMVERSION     "1.2019.09.26"
 
 /*
-->Dialog Bohren
-
-
-
 ->Schnelländerung Bohrgruppe
 
 
 
----------------------------------------------------------------------------Einzelbohrung
-- programmtext.cpp
-    ->aktualisiere_klartext_var()
-    ->aktualisiere_geo()
-    ->aktualisiere_anzeigetext()
----------------------------------------------------------------------------
+
 
 
 
