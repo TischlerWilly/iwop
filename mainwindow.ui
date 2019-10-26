@@ -128,9 +128,16 @@
     <addaction name="actionRueckgaengig"/>
     <addaction name="actionWiederholen"/>
    </widget>
+   <widget class="QMenu" name="menuBohren">
+    <property name="title">
+     <string>Bohren</string>
+    </property>
+    <addaction name="actionMakeBohren_Durchmesser"/>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
    <addaction name="menuProduzieren"/>
+   <addaction name="menuBohren"/>
    <addaction name="menuExtras"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -295,6 +302,11 @@
   <action name="actionMakeHalt">
    <property name="text">
     <string>Programm-Halt</string>
+   </property>
+  </action>
+  <action name="actionMakeBohren_Durchmesser">
+   <property name="text">
+    <string>Bohren Durchmesser</string>
    </property>
   </action>
  </widget>

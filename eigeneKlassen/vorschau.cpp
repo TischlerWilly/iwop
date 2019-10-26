@@ -935,6 +935,9 @@ QColor vorschau::set_farbe(QString farbe)
     }else if(farbe == FARBE_BLAU)
     {
         qfarbe = Qt::blue;
+    }else if(farbe == FARBE_HELLBLAU)
+    {
+        qfarbe.setRgb(0,240,240);
     }else if(farbe == FARBE_ROT)
     {
         qfarbe = Qt::red;

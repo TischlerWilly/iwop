@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Dialoge/dialog_bohren.cpp \
         Dialoge/dialog_halt.cpp \
         Dialoge/dialog_kom.cpp \
         Dialoge/dialog_prgende.cpp \
@@ -61,11 +62,13 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        Dialoge/dialog_bohren.h \
         Dialoge/dialog_halt.h \
         Dialoge/dialog_kom.h \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        eigeneDefines/define_bo.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
         eigeneDefines/defines_geometrie.h \
@@ -105,6 +108,7 @@ HEADERS += \
         todo.h
 
 FORMS += \
+        Dialoge/dialog_bohren.ui \
         Dialoge/dialog_halt.ui \
         Dialoge/dialog_kom.ui \
         Dialoge/dialog_prgende.ui \

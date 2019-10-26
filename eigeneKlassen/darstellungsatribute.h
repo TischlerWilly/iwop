@@ -58,6 +58,7 @@ private:
 #define FARBE_SCHWARZ   "schwarz"
 #define FARBE_WEISS     "weiss"
 #define FARBE_BLAU      "blau"
+#define FARBE_HELLBLAU  "hellblau"
 #define FARBE_ROT       "rot"
 #define FARBE_GRUEN     "gruen"
 #define FARBE_GELB      "gelb"

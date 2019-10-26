@@ -4,11 +4,9 @@
 #define PROGRAMMVERSION     "1.2019.09.26"
 
 /*
-->Dialog Bohren
-
-
-
 ->Schnelländerung Bohrgruppe
+
+
 
 
 
