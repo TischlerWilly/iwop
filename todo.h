@@ -12,6 +12,13 @@
 
 
 
+---------------------------------------------------------------------------Einzelbohrung
+- programmtext.cpp
+    ->aktualisiere_klartext_var()
+    ->aktualisiere_geo()
+    ->aktualisiere_anzeigetext()
+---------------------------------------------------------------------------
+
 
 
 

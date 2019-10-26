@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_pende                   = prgende.get_default();
     vorlage_kom                     = kom.get_default();
     vorlage_halt                    = halt.get_default();
+    vorlage_bo                      = dlgbo.get_default();
     settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
@@ -112,16 +113,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&prgende, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&kom, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&halt, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgbo, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&prgende, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&kom, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&halt, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgbo, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&kom, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&halt, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgbo, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -342,6 +346,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_HALT))
                 {
                     vorlage_kom = selektiereEintrag(text, DLG_HALT, ENDE_ZEILE);
+                }else if(text.contains(DLG_BO))
+                {
+                    vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
                 }
             }
     }
@@ -386,6 +393,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_HALT;
     inhaltVonKonfiguration +=       vorlage_halt;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_BO;
+    inhaltVonKonfiguration +=       vorlage_bo;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     //-------------------------------------------
@@ -448,6 +459,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_HALT))
         {
             vorlage_halt = selektiereEintrag(text, DLG_HALT, ENDE_ZEILE);
+        }else if(text.contains(DLG_BO))
+        {
+            vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
         }
 
         //Daten in Datei sichern:
@@ -515,6 +529,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeProgrammende->setDisabled(true);
     ui->actionMakeKommentar->setDisabled(true);
     ui->actionMakeHalt->setDisabled(true);
+    ui->actionMakeBohren_Durchmesser->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -545,6 +560,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeProgrammende->setEnabled(true);
     ui->actionMakeKommentar->setEnabled(true);
     ui->actionMakeHalt->setEnabled(true);
+    ui->actionMakeBohren_Durchmesser->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -887,7 +903,9 @@ void MainWindow::openFile(QString pfad)
             QApplication::setOverrideCursor(Qt::WaitCursor);
             QString quelle = QString::fromLatin1(file.readAll());
             programmtext t;
-            t.set_text(import_fmc(quelle).get_text());
+            bool readonly;
+            t.set_text(import_fmc(quelle, readonly).get_text());
+            t.nurlesend(readonly);
             t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
             undo_redo tmpur;
             tmpur.set_groesse_max(settings_anz_undo_t.toInt());
@@ -1012,8 +1030,9 @@ void MainWindow::actionLetzteDateiOefnenTriggered()
 
 }
 
-text_zeilenweise MainWindow::import_fmc(QString quelle)
+text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
 {
+    readonly = false;
     text_zeilenweise tz;
     tz.set_text(quelle);
     text_zeilenweise retz;
@@ -1188,7 +1207,89 @@ text_zeilenweise MainWindow::import_fmc(QString quelle)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(  zeile.contains("[DOCINFO]") || zeile.contains("[VARDEFAU]")  )
+        {
+            continue;
+        }else if(  zeile.contains("[") && zeile.contains("]")  )
+        {
+            //QApplication::setOverrideCursor(Qt::ArrowCursor);
+            QMessageBox mb;
+            mb.setText("Datei enthällt nicht programmierte Dialoge.\nOriginaldatei kann nur lesend geöffnet werden!\n\"Speichern unter\" kann verwendet werden.");
+            mb.exec();
+            //QApplication::setOverrideCursor(Qt::WaitCursor);
+            readonly = true;
+        }else if(zeile.contains(DLG_BO))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_BO;
+            prgzeile += vorlage_bo;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(BO_X))
+                {
+                    prgzeile = replaceparam(BO_X, prgzeile, zeile);
+                }else if(zeile.contains(BO_Y))
+                {
+                    prgzeile = replaceparam(BO_Y, prgzeile, zeile);
+                }else if(zeile.contains(BO_BOTI))
+                {
+                    prgzeile = replaceparam(BO_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(BO_DM))
+                {
+                    prgzeile = replaceparam(BO_DM, prgzeile, zeile);
+                }else if(zeile.contains(BO_GRUPPE))
+                {
+                    prgzeile = replaceparam(BO_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(BO_ANBOTI))
+                {
+                    prgzeile = replaceparam(BO_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(BO_ANBOVO))
+                {
+                    prgzeile = replaceparam(BO_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(BO_REBOMA))
+                {
+                    prgzeile = replaceparam(BO_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(BO_BOVO))
+                {
+                    prgzeile = replaceparam(BO_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(BO_ZSM))
+                {
+                    prgzeile = replaceparam(BO_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(BO_DREHZ))
+                {
+                    prgzeile = replaceparam(BO_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(BO_MESSEI))
+                {
+                    prgzeile = replaceparam(BO_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(BO_TASATZ))
+                {
+                    prgzeile = replaceparam(BO_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(BO_PLM))
+                {
+                    prgzeile = replaceparam(BO_PLM, prgzeile, zeile);
+                }else if (zeile.contains(BO_BEZ))
+                {
+                    prgzeile = replaceparam(BO_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(BO_AFB))
+                {
+                   prgzeile = replaceparam(BO_AFB, prgzeile, zeile);
+                }else if (zeile.contains(BO_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }
+
     }
     return retz;
 }
@@ -1352,6 +1453,66 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += "\n";
 
             msg += "\n";
+        }else if(zeile.contains(DLG_BO))
+        {
+            msg += DLG_BO;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += BO_X;
+            msg += selektiereEintrag(zeile, BO_X, ENDPAR);
+            msg += "\n";
+            msg += BO_Y;
+            msg += selektiereEintrag(zeile, BO_Y, ENDPAR);
+            msg += "\n";
+            msg += BO_BOTI;
+            msg += selektiereEintrag(zeile, BO_BOTI, ENDPAR);
+            msg += "\n";
+            msg += BO_DM;
+            msg += selektiereEintrag(zeile, BO_DM, ENDPAR);
+            msg += "\n";
+            msg += BO_GRUPPE;
+            msg += selektiereEintrag(zeile, BO_GRUPPE, ENDPAR);
+            msg += "\n";
+            msg += BO_ANBOTI;
+            msg += selektiereEintrag(zeile, BO_ANBOTI, ENDPAR);
+            msg += "\n";
+            msg += BO_ANBOVO;
+            msg += selektiereEintrag(zeile, BO_ANBOVO, ENDPAR);
+            msg += "\n";
+            msg += BO_REBOMA;
+            msg += selektiereEintrag(zeile, BO_REBOMA, ENDPAR);
+            msg += "\n";
+            msg += BO_BOVO;
+            msg += selektiereEintrag(zeile, BO_BOVO, ENDPAR);
+            msg += "\n";
+            msg += BO_ZSM;
+            msg += selektiereEintrag(zeile, BO_ZSM, ENDPAR);
+            msg += "\n";
+            msg += BO_DREHZ;
+            msg += selektiereEintrag(zeile, BO_DREHZ, ENDPAR);
+            msg += "\n";
+            msg += BO_MESSEI;
+            msg += selektiereEintrag(zeile, BO_MESSEI, ENDPAR);
+            msg += "\n";
+            msg += BO_TASATZ;
+            msg += selektiereEintrag(zeile, BO_TASATZ, ENDPAR);
+            msg += "\n";
+            msg += BO_PLM;
+            msg += selektiereEintrag(zeile, BO_PLM, ENDPAR);
+            msg += "\n";
+            msg += BO_BEZ;
+            msg += selektiereEintrag(zeile, BO_BEZ, ENDPAR);
+            msg += "\n";
+            msg += BO_AFB;
+            msg += selektiereEintrag(zeile, BO_AFB, ENDPAR);
+            msg += "\n";
+
+            msg += "\n";
         }
     }
     return msg;
@@ -1374,6 +1535,13 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
     if(tt.dateien_sind_offen() == false)
     {
         return true;//Funktion erfolgreich beendet
+    }
+    if(  (tt.get_prgtext()->get_nurlesend() == true) && (speichern_unter_flag == false)  )
+    {
+        QMessageBox mb;
+        mb.setText("Datei kann nicht gespeichert werden da sie nur lesend geöffnet ist.");
+        mb.exec();
+        return false;
     }
     QString fileName;
     if((tt.get_prgname().contains("Unbekannt ") && tt.get_prgname().length() <= 13)  ||  speichern_unter_flag == true)
@@ -1549,6 +1717,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_HALT))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &halt, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_BO))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbo, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }
         }
@@ -1999,7 +2171,24 @@ void MainWindow::on_actionMakeHalt_triggered()
     }
 }
 
+void MainWindow::on_actionMakeBohren_Durchmesser_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbo, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_bo;
+        emit sendDialogData(msg, false);
+    }
+}
 //---------------------------------------------------
+
+
 
 
 

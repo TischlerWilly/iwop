@@ -8,6 +8,7 @@ programmtext::programmtext()
     warnungen_einschalten(true);
     aktualisieren_ein_aus(true);
     aktualisieren_fkon_ein_aus(false);
+    nurlesend(false);
 }
 
 void programmtext::set_text(QString neuer_Text)
@@ -499,6 +500,40 @@ void programmtext::aktualisiere_klartext_var()
                 tmp = ausdruck_auswerten(tmp);
                 zeile_klartext += tmp;
                 zeile_klartext += ENDPAR;
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_BO))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, BO_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_BO;
+
+                zeile_klartext += BO_X;
+                tmp = text_mitte(zeile, BO_X, ENDPAR);
+                tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+                tmp = ausdruck_auswerten(tmp);
+                zeile_klartext += tmp;
+                zeile_klartext += ENDPAR;
+
+                //Hier weiter machen
+                //...
+                //...
+                //...
+                //...
+                //...
+                //...
+                //...
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);

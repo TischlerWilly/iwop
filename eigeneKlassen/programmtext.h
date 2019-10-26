@@ -16,6 +16,7 @@
 #include "eigeneDefines/define_prgende.h"
 #include "eigeneDefines/defines_kom.h"
 #include "eigeneDefines/defines_halt.h"
+#include "eigeneDefines/define_bo.h"
 
 
 class programmtext
@@ -29,6 +30,14 @@ public:
     inline  void                warnungen_einschalten(bool einschalten)
     {
         warnungen_sind_eingeschaltet = einschalten;
+    }
+    inline  void                nurlesend(bool einschalten)
+    {
+        readonly = einschalten;
+    }
+    inline bool                 get_nurlesend()
+    {
+        return readonly;
     }
     inline  QString             get_text()
     {
@@ -213,6 +222,7 @@ private:
     bool    warnung_frDial;
     bool    aktualisieren_eingeschaltet;
     bool    aktualisieren_fkon_eingeschaltet;
+    bool    readonly;
 
             void    clear_ausser_text();
     inline  void    set_werkstuecklaenge(float neue_laenge)
