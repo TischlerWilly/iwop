@@ -31,6 +31,7 @@ SOURCES += \
         Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
+        Dialoge/dialog_spiegeln.cpp \
         eigeneFunktionen/geometrie.cpp \
         eigeneFunktionen/myfunktion.cpp \
         eigeneFunktionen/runden.cpp \
@@ -68,9 +69,11 @@ HEADERS += \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        Dialoge/dialog_spiegeln.h \
         eigeneDefines/define_bo.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
+        eigeneDefines/define_spiegeln.h \
         eigeneDefines/defines_geometrie.h \
         eigeneDefines/defines_halt.h \
         eigeneDefines/defines_kom.h \
@@ -114,6 +117,7 @@ FORMS += \
         Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
+        Dialoge/dialog_spiegeln.ui \
         mainwindow.ui
 
 # Default rules for deployment.

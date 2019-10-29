@@ -24,6 +24,7 @@
 #include "Dialoge/dialog_kom.h"
 #include "Dialoge/dialog_halt.h"
 #include "Dialoge/dialog_bohren.h"
+#include "Dialoge/dialog_spiegeln.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -68,6 +69,7 @@ private:
     Dialog_kom       kom;
     Dialog_halt      halt;
     Dialog_Bohren    dlgbo;
+    Dialog_spiegeln  dlgspiegeln;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -79,6 +81,7 @@ private:
     QString         vorlage_kom;
     QString         vorlage_halt;
     QString         vorlage_bo;
+    QString         vorlage_spiegeln;
     QString         pfad_oefne_fmc;
     QString         kopierterEintrag_t;
     bool            speichern_unter_flag;
@@ -142,6 +145,7 @@ private slots:
     void on_actionMakeKommentar_triggered();
     void on_actionMakeHalt_triggered();
     void on_actionMakeBohren_Durchmesser_triggered();
+    void on_actionMakeSpiegeln_triggered();
 };
 
 #endif // MAINWINDOW_H

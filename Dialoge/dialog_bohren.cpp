@@ -132,26 +132,57 @@ QString Dialog_Bohren::dialogDataToString()
 void Dialog_Bohren::getDialogData(QString text, bool openToChangeData)
 {
     openToModifyData = openToChangeData;
-    ui->lineEdit_x1->setText(selektiereEintrag(text, BO_X, ENDPAR).replace(".",","));
-    ui->lineEdit_y1->setText(selektiereEintrag(text, BO_Y, ENDPAR).replace(".",","));
-    ui->lineEdit_boti->setText(selektiereEintrag(text, BO_BOTI, ENDPAR).replace(".",","));
-    ui->lineEdit_dm->setText(selektiereEintrag(text, BO_DM, ENDPAR).replace(".",","));
-    ui->lineEdit_grp->setText(selektiereEintrag(text, BO_GRUPPE, ENDPAR).replace(".",","));
-    ui->lineEdit_anboti->setText(selektiereEintrag(text, BO_ANBOTI, ENDPAR).replace(".",","));
-    ui->lineEdit_anbovo->setText(selektiereEintrag(text, BO_ANBOVO, ENDPAR).replace(".",","));
-    ui->lineEdit_reboma->setText(selektiereEintrag(text, BO_REBOMA, ENDPAR).replace(".",","));
-    ui->lineEdit_bovo->setText(selektiereEintrag(text, BO_BOVO, ENDPAR).replace(".",","));
-    ui->lineEdit_zsm->setText(selektiereEintrag(text, BO_ZSM, ENDPAR).replace(".",","));
-    ui->lineEdit_n->setText(selektiereEintrag(text, BO_DREHZ, ENDPAR).replace(".",","));
+    QString parname = BO_X;
+    ui->lineEdit_x1->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_Y;
+    ui->lineEdit_y1->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_BOTI;
+    ui->lineEdit_boti->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_DM;
+    ui->lineEdit_dm->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_GRUPPE;
+    ui->lineEdit_grp->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_ANBOTI;
+    ui->lineEdit_anboti->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_ANBOVO;
+    ui->lineEdit_anbovo->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_REBOMA;
+    ui->lineEdit_reboma->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_BOVO;
+    ui->lineEdit_bovo->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_ZSM;
+    ui->lineEdit_zsm->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_DREHZ;
+    ui->lineEdit_n->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     QString tmp;
-    tmp = selektiereEintrag(text, BO_MESSEI, ENDPAR);
+    parname = ENDPAR;
+    parname += BO_MESSEI;
+    tmp = selektiereEintrag(text, parname, ENDPAR);
     ui->spinBox_messei->setValue(tmp.toInt());
-    tmp = selektiereEintrag(text, BO_TASATZ, ENDPAR);
+    parname = ENDPAR;
+    parname += BO_TASATZ;
+    tmp = selektiereEintrag(text, parname, ENDPAR);
     ui->spinBox_tasatz->setValue(tmp.toInt());
-    tmp = selektiereEintrag(text, BO_PLM, ENDPAR);
+    parname = ENDPAR;
+    parname += BO_PLM;
+    tmp = selektiereEintrag(text, parname, ENDPAR);
     ui->spinBox_plm->setValue(tmp.toInt());
-    ui->lineEdit_bez->setText(selektiereEintrag(text, BO_BEZ, ENDPAR));
-    ui->lineEdit_afb->setText(selektiereEintrag(text, BO_AFB, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += BO_BEZ;
+    ui->lineEdit_bez->setText(selektiereEintrag(text, parname, ENDPAR));
+    parname = ENDPAR;
+    parname += BO_AFB;
+    ui->lineEdit_afb->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     this->show();
 }
 
@@ -184,7 +215,7 @@ QString Dialog_Bohren::get_default()
     msg += ENDPAR;
 
     msg += BO_ANBOVO;
-    msg += "2000";
+    msg += "AUTO";
     msg += ENDPAR;
 
     msg += BO_REBOMA;
@@ -192,7 +223,7 @@ QString Dialog_Bohren::get_default()
     msg += ENDPAR;
 
     msg += BO_BOVO;
-    msg += "8000";
+    msg += "AUTO";
     msg += ENDPAR;
 
     msg += BO_ZSM;
@@ -200,7 +231,7 @@ QString Dialog_Bohren::get_default()
     msg += ENDPAR;
 
     msg += BO_DREHZ;
-    msg += "9000";
+    msg += "AUTO";
     msg += ENDPAR;
 
     msg += BO_MESSEI;

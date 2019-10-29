@@ -134,10 +134,17 @@
     </property>
     <addaction name="actionMakeBohren_Durchmesser"/>
    </widget>
+   <widget class="QMenu" name="menuManipulation">
+    <property name="title">
+     <string>Manipulation</string>
+    </property>
+    <addaction name="actionMakeSpiegeln"/>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
    <addaction name="menuProduzieren"/>
    <addaction name="menuBohren"/>
+   <addaction name="menuManipulation"/>
    <addaction name="menuExtras"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -307,6 +314,11 @@
   <action name="actionMakeBohren_Durchmesser">
    <property name="text">
     <string>Bohren Durchmesser</string>
+   </property>
+  </action>
+  <action name="actionMakeSpiegeln">
+   <property name="text">
+    <string>Spiegeln</string>
    </property>
   </action>
  </widget>

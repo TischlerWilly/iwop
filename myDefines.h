@@ -41,6 +41,7 @@
 #define DLG_KOM                 "[SWKOMT40]"
 #define DLG_HALT                "[SNHALT40]"
 #define DLG_BO                  "[VBDMES40]"
+#define DLG_SPIEGELN            "[SWSPIE40]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"

@@ -17,6 +17,7 @@
 #include "eigeneDefines/defines_kom.h"
 #include "eigeneDefines/defines_halt.h"
 #include "eigeneDefines/define_bo.h"
+#include "eigeneDefines/define_spiegeln.h"
 
 
 class programmtext
