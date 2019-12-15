@@ -265,6 +265,7 @@ private:
 
             text_zeilenweise fkon_use_values(text_zeilenweise cam);
 
+            kreis   spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, double ypos);
 
 
 

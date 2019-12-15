@@ -419,6 +419,29 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_SPIEGELN))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, SPIEGELN_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_SPIEGELN;
+                zeile_klartext += param_to_klartext(zeile, SPIEGELN_XPOS, VAR_SPIEGELN_XPOS, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, SPIEGELN_YPOS, VAR_SPIEGELN_YPOS, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, SPIEGELN_XBED, "void", variablen, false);
+                zeile_klartext += param_to_klartext(zeile, SPIEGELN_YBED, "void", variablen, false);
+                zeile_klartext += param_to_klartext(zeile, SPIEGELN_BEZ, "void", variablen, false);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else if(zeile.contains(DLG_BO))
         {
             QString tmp;
@@ -498,6 +521,11 @@ QString programmtext::param_to_klartext(QString prgzeile, QString parname, QStri
 
 void programmtext::aktualisiere_geo()
 {
+    bool spiegeln_xbed = false;
+    bool spiegeln_ybed = false;
+    double spiegeln_xpos = 0;
+    double spiegeln_ypos = 0;
+
     if(!aktualisieren_eingeschaltet)
     {
         return;
@@ -569,6 +597,29 @@ void programmtext::aktualisiere_geo()
             }else if(zeile.contains(DLG_HALT))
             {
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_SPIEGELN))
+            {
+                geo.zeilenvorschub();
+                QString tmp;
+                tmp = text_mitte(zeile, SPIEGELN_XBED, ENDPAR);
+                if(tmp.toDouble() == 0)
+                {
+                    spiegeln_xbed = false;
+                }else
+                {
+                    spiegeln_xbed = true;
+                    spiegeln_xpos = text_mitte(zeile, SPIEGELN_XPOS, ENDPAR).toDouble();
+                }
+                tmp = text_mitte(zeile, SPIEGELN_YBED, ENDPAR);
+                if(tmp.toDouble() == 0)
+                {
+                    spiegeln_ybed = false;
+                }else
+                {
+                    spiegeln_ybed = true;
+                    spiegeln_ypos = text_mitte(zeile, SPIEGELN_YPOS, ENDPAR).toDouble();
+                }
+
             }else if(zeile.contains(DLG_BO))
             {
                 punkt3d mipu;
@@ -592,6 +643,7 @@ void programmtext::aktualisiere_geo()
                 k.set_mittelpunkt(mipu);
                 k.set_radius(text_mitte(zeile, BO_DM, ENDPAR).toDouble()/2);
 
+                k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                 geo.add_kreis(k);
                 geo.zeilenvorschub();
             }
@@ -636,6 +688,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_HALT))
         {
             tmp += text_mitte(zeile, HALT_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_SPIEGELN))
+        {
+            tmp += text_mitte(zeile, SPIEGELN_BEZ, ENDPAR);
         }else if(zeile.contains(DLG_BO))
         {
             tmp += text_mitte(zeile, BO_BEZ, ENDPAR);
@@ -983,7 +1038,28 @@ void programmtext::aktualisiere_min_max()
     max_y += 50;
 }
 
-
+kreis programmtext::spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, double ypos)
+{
+    punkt3d mipu;
+    mipu = k.mitte3d();
+    if(xbed == true)
+    {
+        double x = mipu.x();
+        double abstspiegelachse = xpos - x;
+        x = x + (2*abstspiegelachse);
+        mipu.set_x(x);
+        k.set_mittelpunkt(mipu);
+    }
+    if(ybed == true)
+    {
+        double y = mipu.y();
+        double abstspiegelachse = ypos - y;
+        y = y + (2*abstspiegelachse);
+        mipu.set_y(y);
+        k.set_mittelpunkt(mipu);
+    }
+    return  k;
+}
 
 
 

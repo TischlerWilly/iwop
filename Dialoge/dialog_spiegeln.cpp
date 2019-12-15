@@ -143,7 +143,7 @@ QString Dialog_spiegeln::get_default()
     msg += ENDPAR;
 
     msg += SPIEGELN_BEZ;
-    msg += "Bohren Durchmesser";
+    msg += "spiegeln";
     msg += ENDPAR;
 
     msg += SPIEGELN_AFB;
