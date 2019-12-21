@@ -74,7 +74,7 @@ QString Dialog_lage_aendern::dialogDataToString()
     msg += ENDPAR;
 
     msg += LAGE_AENDERN_BEZ;
-    msg += ui->lineEdit_bez->text().toUpper();
+    msg += ui->lineEdit_bez->text();
     msg += ENDPAR;
 
     msg += LAGE_AENDERN_AFB;
@@ -91,27 +91,35 @@ void Dialog_lage_aendern::getDialogData(QString text, bool openToChangeData)
     QString parname = LAGE_AENDERN_XALT;
     ui->lineEdit_xalt->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_YALT;
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_YALT;
     ui->lineEdit_yalt->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_XNEU;
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_XNEU;
     ui->lineEdit_xneu->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_YNEU;
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_YNEU;
     ui->lineEdit_yneu->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_DREHWI;
-    ui->lineEdit_xneu->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_DREHWI;
+    ui->lineEdit_drehwi->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_KETTENMAS;
-    ui->lineEdit_xneu->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_KETTENMAS;
+    ui->lineEdit_kettenmas->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_GESWI;
-    ui->lineEdit_xneu->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_GESWI;
+    ui->lineEdit_geswi->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
 
-    parname = LAGE_AENDERN_BEZ;
-    ui->lineEdit_xneu->setText(selektiereEintrag(text, parname, ENDPAR));
+    parname = ENDPAR;
+    parname += LAGE_AENDERN_BEZ;
+    ui->lineEdit_bez->setText(selektiereEintrag(text, parname, ENDPAR));
 
+    parname = ENDPAR;
     parname += LAGE_AENDERN_AFB;
     ui->lineEdit_afb->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     this->show();

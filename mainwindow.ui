@@ -139,6 +139,7 @@
      <string>Manipulation</string>
     </property>
     <addaction name="actionMakeSpiegeln"/>
+    <addaction name="actionMakeLage_aendern"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -319,6 +320,11 @@
   <action name="actionMakeSpiegeln">
    <property name="text">
     <string>Spiegeln</string>
+   </property>
+  </action>
+  <action name="actionMakeLage_aendern">
+   <property name="text">
+    <string>Lage ändern</string>
    </property>
   </action>
  </widget>

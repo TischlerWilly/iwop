@@ -7,6 +7,7 @@
 #include "eigeneFunktionen/text.h"
 #include "eigeneFunktionen/umwandeln.h"
 #include "eigeneDefines/define_lage_aendern.h"
+#include <QMessageBox>
 
 namespace Ui {
 class Dialog_lage_aendern;

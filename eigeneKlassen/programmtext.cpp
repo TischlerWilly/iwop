@@ -442,6 +442,32 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_LAGE_AENDERN))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, LAGE_AENDERN_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_LAGE_AENDERN;
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_XALT, VAR_LAGE_AENDERN_XALT, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_YALT, VAR_LAGE_AENDERN_YALT, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_XNEU, VAR_LAGE_AENDERN_XNEU, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_YNEU, VAR_LAGE_AENDERN_YNEU, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_DREHWI, VAR_LAGE_AENDERN_DREHWI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_KETTENMAS, VAR_LAGE_AENDERN_KETTENMAS, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_GESWI, VAR_LAGE_AENDERN_GESWI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LAGE_AENDERN_BEZ, "void", variablen, false);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else if(zeile.contains(DLG_BO))
         {
             QString tmp;
@@ -521,10 +547,26 @@ QString programmtext::param_to_klartext(QString prgzeile, QString parname, QStri
 
 void programmtext::aktualisiere_geo()
 {
+    //Variablen für Spiegeln:
     bool spiegeln_xbed = false;
     bool spiegeln_ybed = false;
     double spiegeln_xpos = 0;
     double spiegeln_ypos = 0;
+    //Variablen für Lage ändern:
+    bool lageaendern_afb = false;
+    double lageaendern_xalt = 0;
+    double lageaendern_yalt = 0;
+    double lageaendern_xneu = 0;
+    double lageaendern_yneu = 0;
+    double lageaendern_wi = 0;
+    double lageaendern_geswi = 0;
+    bool lageaendern_kettenmas = false;
+    double lageaendern_xalt_alt = 0;
+    double lageaendern_yalt_alt = 0;
+    double lageaendern_xneu_alt = 0;
+    double lageaendern_yneu_alt = 0;
+    double lageaendern_wi_alt = 0;
+    double lageaendern_geswi_alt = 0;
 
     if(!aktualisieren_eingeschaltet)
     {
@@ -620,6 +662,34 @@ void programmtext::aktualisiere_geo()
                     spiegeln_ypos = text_mitte(zeile, SPIEGELN_YPOS, ENDPAR).toDouble();
                 }
 
+            }else if(zeile.contains(DLG_LAGE_AENDERN))
+            {
+                geo.zeilenvorschub();
+
+                lageaendern_xalt_alt    = lageaendern_xalt;
+                lageaendern_yalt_alt    = lageaendern_yalt;
+                lageaendern_xneu_alt    = lageaendern_xneu;
+                lageaendern_yneu_alt    = lageaendern_yneu;
+                lageaendern_wi_alt      = lageaendern_wi;
+                lageaendern_geswi_alt   = lageaendern_geswi;
+
+                lageaendern_afb = true;
+                lageaendern_xalt = text_mitte(zeile, LAGE_AENDERN_XALT, ENDPAR).toDouble();
+                lageaendern_yalt = text_mitte(zeile, LAGE_AENDERN_YALT, ENDPAR).toDouble();
+                lageaendern_xneu = text_mitte(zeile, LAGE_AENDERN_XNEU, ENDPAR).toDouble();
+                lageaendern_yneu = text_mitte(zeile, LAGE_AENDERN_YNEU, ENDPAR).toDouble();
+                lageaendern_wi = text_mitte(zeile, LAGE_AENDERN_DREHWI, ENDPAR).toDouble();
+                lageaendern_geswi = text_mitte(zeile, LAGE_AENDERN_GESWI, ENDPAR).toDouble();
+                QString tmp;
+                tmp = text_mitte(zeile, LAGE_AENDERN_KETTENMAS, ENDPAR);
+                if(tmp.toDouble() == 0)
+                {
+                    lageaendern_kettenmas = false;
+                }else
+                {
+                    lageaendern_kettenmas = true;
+                }
+
             }else if(zeile.contains(DLG_BO))
             {
                 punkt3d mipu;
@@ -644,6 +714,11 @@ void programmtext::aktualisiere_geo()
                 k.set_radius(text_mitte(zeile, BO_DM, ENDPAR).toDouble()/2);
 
                 k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                k = lageaendern_kreis(k, lageaendern_afb,\
+                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                      lageaendern_wi_alt, lageaendern_geswi_alt);
                 geo.add_kreis(k);
                 geo.zeilenvorschub();
             }
@@ -691,6 +766,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             tmp += text_mitte(zeile, SPIEGELN_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_LAGE_AENDERN))
+        {
+            tmp += text_mitte(zeile, LAGE_AENDERN_BEZ, ENDPAR);
         }else if(zeile.contains(DLG_BO))
         {
             tmp += text_mitte(zeile, BO_BEZ, ENDPAR);
@@ -1061,6 +1139,52 @@ kreis programmtext::spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, d
     return  k;
 }
 
+kreis programmtext::lageaendern_kreis(kreis k, bool afb, \
+                                      double xalt, double yalt, double xneu, double yneu, \
+                                      double wi, double geswi, bool kettenmas, \
+                                      double xalt2, double yalt2, double xneu2, double yneu2, \
+                                      double wi2, double geswi2)
+{
+    if(afb == true)
+    {
+        punkt3d mipu;
+        mipu = k.mitte3d();
+        double x = mipu.x();
+        double y = mipu.y();
+        double ax = xneu - xalt;
+        double ay = yneu - yalt;
+        double w = wi + geswi;
+        if(kettenmas == true)
+        {
+            double ax2 = xneu2 - xalt2;
+            double ay2 = yneu2 - yalt2;
+            double w2 = wi2 + geswi2;
+            ax = ax + ax2;
+            ay = ay + ay2;
+            w = w + w2;
+        }
+        if(w != 0)
+        {
+            punkt3d sp, ep;
+            sp.set_x(xalt);
+            sp.set_y(yalt);
+            ep.set_x(mipu.x());
+            ep.set_y(mipu.y());
+            strecke s;
+            s.set_start(sp);
+            s.set_ende(ep);
+            s.drenen_um_startpunkt_2d(w, false);
+            x = s.endp().x();
+            y = s.endp().y();
+        }
+        x = x + ax;
+        y = y + ay;
+        mipu.set_x(x);
+        mipu.set_y(y);
+        k.set_mittelpunkt(mipu);
+    }
+    return  k;
+}
 
 
 

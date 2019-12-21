@@ -6,7 +6,18 @@
 /*
 ->Schnelländerung Bohrgruppe
 
----------------------------------------------------------------------------Lage ändern
+---------------------------------------------------------------------------Bohren in Y
+- myDefines.h ->DLG_...
+- define_xyz.h anlegen
+- Qt-Designer-Formularklasse anlegen
+- dialog_xyz.ui
+    ->ui entwerfen
+        -->WindowTitel
+        -->modal true
+        -->TAB-Reihenfolge
+            ->slots anlegen
+- dialog_xyz.h
+- dialog_xyz.cpp
 - mainwindow.h
     ->include
     ->DLG-Objekt anlegen (private:)
@@ -32,8 +43,6 @@
     ->aktualisiere_geo()
     ->aktualisiere_anzeigetext()
 ---------------------------------------------------------------------------
-
-
 
 
 

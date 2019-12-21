@@ -18,6 +18,7 @@
 #include "eigeneDefines/defines_halt.h"
 #include "eigeneDefines/define_bo.h"
 #include "eigeneDefines/define_spiegeln.h"
+#include "eigeneDefines/define_lage_aendern.h"
 
 
 class programmtext
@@ -266,6 +267,11 @@ private:
             text_zeilenweise fkon_use_values(text_zeilenweise cam);
 
             kreis   spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, double ypos);
+            kreis   lageaendern_kreis(kreis k, bool afb,\
+                                      double xalt, double yalt, double xneu, double yneu, \
+                                      double wi, double geswi, bool kettenmas,\
+                                      double xalt2, double yalt2, double xneu2, double yneu2, \
+                                      double wi2, double geswi2);
 
 
 

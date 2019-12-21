@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_halt                    = halt.get_default();
     vorlage_bo                      = dlgbo.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
+    vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
@@ -116,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgbo, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&prgende, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -123,6 +125,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgbo, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -130,6 +133,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgbo, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -349,13 +353,16 @@ QString MainWindow::loadConfig()
                     vorlage_kom = selektiereEintrag(text, DLG_KOM, ENDE_ZEILE);
                 }else if(text.contains(DLG_HALT))
                 {
-                    vorlage_kom = selektiereEintrag(text, DLG_HALT, ENDE_ZEILE);
+                    vorlage_halt = selektiereEintrag(text, DLG_HALT, ENDE_ZEILE);
                 }else if(text.contains(DLG_BO))
                 {
                     vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
+                }else if(text.contains(DLG_LAGE_AENDERN))
+                {
+                    vorlage_lageaendern = selektiereEintrag(text, DLG_LAGE_AENDERN, ENDE_ZEILE);
                 }
             }
     }
@@ -408,6 +415,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
     inhaltVonKonfiguration +=       vorlage_spiegeln;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_LAGE_AENDERN;
+    inhaltVonKonfiguration +=       vorlage_lageaendern;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     //-------------------------------------------
@@ -476,6 +487,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
+        }else if(text.contains(DLG_LAGE_AENDERN))
+        {
+            vorlage_lageaendern = selektiereEintrag(text, DLG_LAGE_AENDERN, ENDE_ZEILE);
         }
 
         //Daten in Datei sichern:
@@ -545,6 +559,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeHalt->setDisabled(true);
     ui->actionMakeBohren_Durchmesser->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
+    ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -577,6 +592,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeHalt->setEnabled(true);
     ui->actionMakeBohren_Durchmesser->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
+    ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -1333,6 +1349,55 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_LAGE_AENDERN))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_LAGE_AENDERN;
+            prgzeile += vorlage_lageaendern;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(LAGE_AENDERN_XALT))
+                {
+                    prgzeile = replaceparam(LAGE_AENDERN_XALT, prgzeile, zeile);
+                }else if(zeile.contains(LAGE_AENDERN_YALT))
+                {
+                    prgzeile = replaceparam(LAGE_AENDERN_YALT, prgzeile, zeile);
+                }else if(zeile.contains(LAGE_AENDERN_XNEU))
+                {
+                    prgzeile = replaceparam(LAGE_AENDERN_XNEU, prgzeile, zeile);
+                }else if(zeile.contains(LAGE_AENDERN_YNEU))
+                {
+                    prgzeile = replaceparam(LAGE_AENDERN_YNEU, prgzeile, zeile);
+                }else if (zeile.contains(LAGE_AENDERN_DREHWI))
+                {
+                    prgzeile = replaceparam(LAGE_AENDERN_DREHWI, prgzeile, zeile);
+                }else if (zeile.contains(LAGE_AENDERN_KETTENMAS))
+                {
+                   prgzeile = replaceparam(LAGE_AENDERN_KETTENMAS, prgzeile, zeile);
+                }else if (zeile.contains(LAGE_AENDERN_GESWI))
+                {
+                   prgzeile = replaceparam(LAGE_AENDERN_GESWI, prgzeile, zeile);
+                }else if (zeile.contains(LAGE_AENDERN_BEZ))
+                {
+                   prgzeile = replaceparam(LAGE_AENDERN_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(LAGE_AENDERN_AFB))
+                {
+                   prgzeile = replaceparam(LAGE_AENDERN_AFB, prgzeile, zeile);
+                }else if (zeile.contains(LAGE_AENDERN_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(  zeile.contains("[DOCINFO]") || zeile.contains("[VARDEFAU]")  )
         {
             continue;
@@ -1599,6 +1664,45 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += "\n";
 
             msg += "\n";
+        }else if(zeile.contains(DLG_LAGE_AENDERN))
+        {
+            msg += DLG_LAGE_AENDERN;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += LAGE_AENDERN_XALT;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_XALT, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_YALT;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_YALT, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_XNEU;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_XNEU, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_YNEU;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_YNEU, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_DREHWI;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_DREHWI, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_KETTENMAS;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_KETTENMAS, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_GESWI;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_GESWI, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_BEZ;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_BEZ, ENDPAR);
+            msg += "\n";
+            msg += LAGE_AENDERN_AFB;
+            msg += selektiereEintrag(zeile, LAGE_AENDERN_AFB, ENDPAR);
+            msg += "\n";
+
+            msg += "\n";
         }
     }
     return msg;
@@ -1811,6 +1915,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgspiegeln, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_LAGE_AENDERN))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlglageaendern, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }
         }
@@ -2292,7 +2400,25 @@ void MainWindow::on_actionMakeSpiegeln_triggered()
         emit sendDialogData(msg, false);
     }
 }
+
+void MainWindow::on_actionMakeLage_aendern_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlglageaendern, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_lageaendern;
+        emit sendDialogData(msg, false);
+    }
+}
 //---------------------------------------------------
+
+
 
 
 
