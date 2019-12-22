@@ -3,6 +3,10 @@
 
 QString ausdruck_auswerten(QString ausdruck)
 {
+    if(ausdruck == "AUTO")
+    {
+        return ausdruck;
+    }
     QString returnstring ="";
     WennDannSonst f(ausdruck);
     returnstring = f.bekomme_Ergebnis_als_String();
@@ -12,6 +16,10 @@ QString ausdruck_auswerten(QString ausdruck)
 
 QString variablen_durch_werte_ersetzten(QString variablen, QString formeltext)
 {
+    if(formeltext == "AUTO")
+    {
+        return formeltext;
+    }
     QString variablennahme = "";
     QString returnstring = "";
     for(int i=0 ; i<formeltext.count() ;i++)
