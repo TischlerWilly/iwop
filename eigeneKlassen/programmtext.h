@@ -17,6 +17,7 @@
 #include "eigeneDefines/defines_kom.h"
 #include "eigeneDefines/defines_halt.h"
 #include "eigeneDefines/define_bo.h"
+#include "eigeneDefines/define_boY.h"
 #include "eigeneDefines/define_spiegeln.h"
 #include "eigeneDefines/define_lage_aendern.h"
 

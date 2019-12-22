@@ -60,6 +60,7 @@ private:
 #define FARBE_BLAU      "blau"
 #define FARBE_HELLBLAU  "hellblau"
 #define FARBE_ROT       "rot"
+#define FARBE_ROSE      "rose"
 #define FARBE_GRUEN     "gruen"
 #define FARBE_GELB      "gelb"
 #define FARBE_GRAU      "grau"

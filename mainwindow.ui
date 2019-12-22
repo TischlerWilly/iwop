@@ -133,6 +133,7 @@
      <string>Bohren</string>
     </property>
     <addaction name="actionMakeBohren_Durchmesser"/>
+    <addaction name="actionMakeBohren_in_Y"/>
    </widget>
    <widget class="QMenu" name="menuManipulation">
     <property name="title">
@@ -325,6 +326,11 @@
   <action name="actionMakeLage_aendern">
    <property name="text">
     <string>Lage ändern</string>
+   </property>
+  </action>
+  <action name="actionMakeBohren_in_Y">
+   <property name="text">
+    <string>Bohren in Y</string>
    </property>
   </action>
  </widget>

@@ -24,6 +24,7 @@
 #include "Dialoge/dialog_kom.h"
 #include "Dialoge/dialog_halt.h"
 #include "Dialoge/dialog_bohren.h"
+#include "Dialoge/dialog_bohren_y.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
 
@@ -70,6 +71,7 @@ private:
     Dialog_kom       kom;
     Dialog_halt      halt;
     Dialog_Bohren    dlgbo;
+    Dialog_bohren_y  dlgboy;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
 
@@ -83,6 +85,7 @@ private:
     QString         vorlage_kom;
     QString         vorlage_halt;
     QString         vorlage_bo;
+    QString         vorlage_boy;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -100,6 +103,7 @@ private:
     void openFile(QString pfad);
     text_zeilenweise import_fmc(QString quelle, bool &readonly);
     QString replaceparam(QString param, QString ziel, QString quelle);
+    QString exportparam(QString param, QString paramzeile);
     QString          export_fmc(text_zeilenweise tz);
     void aktuelisiere_letzte_dateien_inifile();
     void aktualisiere_letzte_dateien_menu();
@@ -150,6 +154,7 @@ private slots:
     void on_actionMakeBohren_Durchmesser_triggered();
     void on_actionMakeSpiegeln_triggered();
     void on_actionMakeLage_aendern_triggered();
+    void on_actionMakeBohren_in_Y_triggered();
 };
 
 #endif // MAINWINDOW_H

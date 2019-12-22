@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_kom                     = kom.get_default();
     vorlage_halt                    = halt.get_default();
     vorlage_bo                      = dlgbo.get_default();
+    vorlage_boy                     = dlgboy.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -116,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&kom, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&halt, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgbo, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgboy, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -124,6 +126,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&kom, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&halt, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgbo, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgboy, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
@@ -132,6 +135,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&kom, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&halt, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgbo, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgboy, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
@@ -357,6 +361,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_BO))
                 {
                     vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
+                }else if(text.contains(DLG_BOY))
+                {
+                    vorlage_boy = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -411,6 +418,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_BO;
     inhaltVonKonfiguration +=       vorlage_bo;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_BOY;
+    inhaltVonKonfiguration +=       vorlage_boy;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -484,6 +495,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_BO))
         {
             vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
+        }else if(text.contains(DLG_BOY))
+        {
+            vorlage_boy = selektiereEintrag(text, DLG_BOY, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -558,6 +572,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeKommentar->setDisabled(true);
     ui->actionMakeHalt->setDisabled(true);
     ui->actionMakeBohren_Durchmesser->setDisabled(true);
+    ui->actionMakeBohren_in_Y->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -591,6 +606,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeKommentar->setEnabled(true);
     ui->actionMakeHalt->setEnabled(true);
     ui->actionMakeBohren_Durchmesser->setEnabled(true);
+    ui->actionMakeBohren_in_Y->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1309,6 +1325,97 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_BOY))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_BOY;
+            prgzeile += vorlage_boy;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(BOY_X))
+                {
+                    prgzeile = replaceparam(BOY_X, prgzeile, zeile);
+                }else if(zeile.contains(BOY_X2))
+                {
+                    prgzeile = replaceparam(BOY_X2, prgzeile, zeile);
+                }else if(zeile.contains(BOY_Y1))
+                {
+                    prgzeile = replaceparam(BOY_Y1, prgzeile, zeile);
+                }else if(zeile.contains(BOY_Y2))
+                {
+                    prgzeile = replaceparam(BOY_Y2, prgzeile, zeile);
+                }else if(zeile.contains(BOY_Y3))
+                {
+                    prgzeile = replaceparam(BOY_Y3, prgzeile, zeile);
+                }else if(zeile.contains(BOY_Y4))
+                {
+                    prgzeile = replaceparam(BOY_Y4, prgzeile, zeile);
+                }else if(zeile.contains(BOY_Y5))
+                {
+                    prgzeile = replaceparam(BOY_Y5, prgzeile, zeile);
+                }else if(zeile.contains(BOY_Y6))
+                {
+                    prgzeile = replaceparam(BOY_Y6, prgzeile, zeile);
+                }else if(zeile.contains(BOY_BOTI))
+                {
+                    prgzeile = replaceparam(BOY_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(BOY_DM))
+                {
+                    prgzeile = replaceparam(BOY_DM, prgzeile, zeile);
+                }else if(zeile.contains(BOY_KETTE))
+                {
+                    prgzeile = replaceparam(BOY_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(BOY_GRUPPE))
+                {
+                    prgzeile = replaceparam(BOY_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(BOY_ANBOTI))
+                {
+                    prgzeile = replaceparam(BOY_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(BOY_ANBOVO))
+                {
+                    prgzeile = replaceparam(BOY_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(BOY_REBOMA))
+                {
+                    prgzeile = replaceparam(BOY_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(BOY_BOVO))
+                {
+                    prgzeile = replaceparam(BOY_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(BOY_ZSM))
+                {
+                    prgzeile = replaceparam(BOY_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(BOY_DREHZ))
+                {
+                    prgzeile = replaceparam(BOY_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(BOY_MESSEI))
+                {
+                    prgzeile = replaceparam(BOY_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(BOY_TASATZ))
+                {
+                    prgzeile = replaceparam(BOY_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(BOY_PLM))
+                {
+                    prgzeile = replaceparam(BOY_PLM, prgzeile, zeile);
+                }else if (zeile.contains(BOY_BEZ))
+                {
+                    prgzeile = replaceparam(BOY_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(BOY_AFB))
+                {
+                   prgzeile = replaceparam(BOY_AFB, prgzeile, zeile);
+                }else if (zeile.contains(BOY_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -1427,6 +1534,20 @@ QString MainWindow::replaceparam(QString param, QString ziel, QString quelle)
     return ziel;
 }
 
+QString MainWindow::exportparam(QString param, QString paramzeile)
+{
+    QString msg = param;
+    QString wert;
+    wert = selektiereEintrag(paramzeile, param, ENDPAR);
+    if(wert.isEmpty())
+    {
+        wert = FMCNULL;
+    }
+    msg += wert;
+    msg += "\n";
+    return  msg;
+}
+
 QString MainWindow::export_fmc(text_zeilenweise tz)
 {
     QString msg;
@@ -1444,75 +1565,24 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += PKOPF_KOM1;
-            tmp = selektiereEintrag(zeile, PKOPF_KOM1, ENDPAR);
-            if(tmp.isEmpty())
-            {
-                msg += FMCNULL;
-            }else
-            {
-                msg += tmp;
-            }
-            msg += "\n";
-            msg += PKOPF_KOM2;
-            tmp = selektiereEintrag(zeile, PKOPF_KOM2, ENDPAR);
-            if(tmp.isEmpty())
-            {
-                msg += FMCNULL;
-            }else
-            {
-                msg += tmp;
-            }
-            msg += "\n";
-            msg += PKOPF_L;
-            msg += selektiereEintrag(zeile, PKOPF_L, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_B;
-            msg += selektiereEintrag(zeile, PKOPF_B, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_D;
-            msg += selektiereEintrag(zeile, PKOPF_D, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_FUENFSEI;
-            msg += selektiereEintrag(zeile, PKOPF_FUENFSEI, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_SPEIGELN;
-            msg += selektiereEintrag(zeile, PKOPF_SPEIGELN, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_BELEGART;
-            msg += selektiereEintrag(zeile, PKOPF_BELEGART, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_XVERS;
-            msg += selektiereEintrag(zeile, PKOPF_XVERS, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_YVERS;
-            msg += selektiereEintrag(zeile, PKOPF_YVERS, ENDPAR);
-            msg += "\n";
-            msg += PKOFP_RTL;
-            msg += selektiereEintrag(zeile, PKOFP_RTL, ENDPAR);
-            msg += "\n";
-            msg += PKOFP_RTB;
-            msg += selektiereEintrag(zeile, PKOFP_RTB, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_LOESEN;
-            msg += selektiereEintrag(zeile, PKOPF_LOESEN, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_SCHABH;
-            msg += selektiereEintrag(zeile, PKOPF_SCHABH, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_SIABST;
-            msg += selektiereEintrag(zeile, PKOPF_SIABST, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_PAPO;
-            msg += selektiereEintrag(zeile, PKOPF_PAPO, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_BEZ;
-            msg += selektiereEintrag(zeile, PKOPF_BEZ, ENDPAR);
-            msg += "\n";
-            msg += PKOPF_AFB;
-            msg += selektiereEintrag(zeile, PKOPF_AFB, ENDPAR);
-            msg += "\n";
-
+            msg += exportparam(PKOPF_KOM1, zeile);
+            msg += exportparam(PKOPF_KOM2, zeile);
+            msg += exportparam(PKOPF_L, zeile);
+            msg += exportparam(PKOPF_B, zeile);
+            msg += exportparam(PKOPF_D, zeile);
+            msg += exportparam(PKOPF_FUENFSEI, zeile);
+            msg += exportparam(PKOPF_SPEIGELN, zeile);
+            msg += exportparam(PKOPF_BELEGART, zeile);
+            msg += exportparam(PKOPF_XVERS, zeile);
+            msg += exportparam(PKOPF_YVERS, zeile);
+            msg += exportparam(PKOFP_RTL, zeile);
+            msg += exportparam(PKOFP_RTB, zeile);
+            msg += exportparam(PKOPF_LOESEN, zeile);
+            msg += exportparam(PKOPF_SCHABH, zeile);
+            msg += exportparam(PKOPF_SIABST, zeile);
+            msg += exportparam(PKOPF_PAPO, zeile);
+            msg += exportparam(PKOPF_BEZ, zeile);
+            msg += exportparam(PKOPF_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_PENDE))
         {
@@ -1524,16 +1594,9 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += PENDE_PAPO;
-            msg += selektiereEintrag(zeile, PENDE_PAPO, ENDPAR);
-            msg += "\n";
-            msg += PENDE_BEZ;
-            msg += selektiereEintrag(zeile, PENDE_BEZ, ENDPAR);
-            msg += "\n";
-            msg += PENDE_AFB;
-            msg += selektiereEintrag(zeile, PENDE_AFB, ENDPAR);
-            msg += "\n";
-
+            msg += exportparam(PENDE_PAPO, zeile);
+            msg += exportparam(PENDE_BEZ, zeile);
+            msg += exportparam(PENDE_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_KOM))
         {
@@ -1545,10 +1608,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += KOM_BEZ;
-            msg += selektiereEintrag(zeile, KOM_BEZ, ENDPAR);
-            msg += "\n";
-
+            msg += exportparam(KOM_BEZ, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_HALT))
         {
@@ -1560,19 +1620,10 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += HALT_X;
-            msg += selektiereEintrag(zeile, HALT_X, ENDPAR);
-            msg += "\n";
-            msg += HALT_Y;
-            msg += selektiereEintrag(zeile, HALT_Y, ENDPAR);
-            msg += "\n";
-            msg += HALT_BEZ;
-            msg += selektiereEintrag(zeile, HALT_BEZ, ENDPAR);
-            msg += "\n";
-            msg += HALT_AFB;
-            msg += selektiereEintrag(zeile, HALT_AFB, ENDPAR);
-            msg += "\n";
-
+            msg += exportparam(HALT_X, zeile);
+            msg += exportparam(HALT_Y, zeile);
+            msg += exportparam(HALT_BEZ, zeile);
+            msg += exportparam(HALT_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_BO))
         {
@@ -1584,55 +1635,55 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += BO_X;
-            msg += selektiereEintrag(zeile, BO_X, ENDPAR);
+            msg += exportparam(BO_X, zeile);
+            msg += exportparam(BO_Y, zeile);
+            msg += exportparam(BO_BOTI, zeile);
+            msg += exportparam(BO_DM, zeile);
+            msg += exportparam(BO_GRUPPE, zeile);
+            msg += exportparam(BO_ANBOTI, zeile);
+            msg += exportparam(BO_ANBOVO, zeile);
+            msg += exportparam(BO_REBOMA, zeile);
+            msg += exportparam(BO_BOVO, zeile);
+            msg += exportparam(BO_ZSM, zeile);
+            msg += exportparam(BO_DREHZ, zeile);
+            msg += exportparam(BO_MESSEI, zeile);
+            msg += exportparam(BO_TASATZ, zeile);
+            msg += exportparam(BO_PLM, zeile);
+            msg += exportparam(BO_BEZ, zeile);
+            msg += exportparam(BO_AFB, zeile);
             msg += "\n";
-            msg += BO_Y;
-            msg += selektiereEintrag(zeile, BO_Y, ENDPAR);
+        }else if(zeile.contains(DLG_BOY))
+        {
+            msg += DLG_BOY;
             msg += "\n";
-            msg += BO_BOTI;
-            msg += selektiereEintrag(zeile, BO_BOTI, ENDPAR);
-            msg += "\n";
-            msg += BO_DM;
-            msg += selektiereEintrag(zeile, BO_DM, ENDPAR);
-            msg += "\n";
-            msg += BO_GRUPPE;
-            msg += selektiereEintrag(zeile, BO_GRUPPE, ENDPAR);
-            msg += "\n";
-            msg += BO_ANBOTI;
-            msg += selektiereEintrag(zeile, BO_ANBOTI, ENDPAR);
-            msg += "\n";
-            msg += BO_ANBOVO;
-            msg += selektiereEintrag(zeile, BO_ANBOVO, ENDPAR);
-            msg += "\n";
-            msg += BO_REBOMA;
-            msg += selektiereEintrag(zeile, BO_REBOMA, ENDPAR);
-            msg += "\n";
-            msg += BO_BOVO;
-            msg += selektiereEintrag(zeile, BO_BOVO, ENDPAR);
-            msg += "\n";
-            msg += BO_ZSM;
-            msg += selektiereEintrag(zeile, BO_ZSM, ENDPAR);
-            msg += "\n";
-            msg += BO_DREHZ;
-            msg += selektiereEintrag(zeile, BO_DREHZ, ENDPAR);
-            msg += "\n";
-            msg += BO_MESSEI;
-            msg += selektiereEintrag(zeile, BO_MESSEI, ENDPAR);
-            msg += "\n";
-            msg += BO_TASATZ;
-            msg += selektiereEintrag(zeile, BO_TASATZ, ENDPAR);
-            msg += "\n";
-            msg += BO_PLM;
-            msg += selektiereEintrag(zeile, BO_PLM, ENDPAR);
-            msg += "\n";
-            msg += BO_BEZ;
-            msg += selektiereEintrag(zeile, BO_BEZ, ENDPAR);
-            msg += "\n";
-            msg += BO_AFB;
-            msg += selektiereEintrag(zeile, BO_AFB, ENDPAR);
-            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
 
+            msg += exportparam(BOY_X, zeile);
+            msg += exportparam(BOY_Y1, zeile);
+            msg += exportparam(BOY_Y2, zeile);
+            msg += exportparam(BOY_Y3, zeile);
+            msg += exportparam(BOY_Y4, zeile);
+            msg += exportparam(BOY_Y5, zeile);
+            msg += exportparam(BOY_Y6, zeile);
+            msg += exportparam(BOY_BOTI, zeile);
+            msg += exportparam(BOY_DM, zeile);
+            msg += exportparam(BOY_KETTE, zeile);
+            msg += exportparam(BOY_GRUPPE, zeile);
+            msg += exportparam(BOY_ANBOTI, zeile);
+            msg += exportparam(BOY_ANBOVO, zeile);
+            msg += exportparam(BOY_REBOMA, zeile);
+            msg += exportparam(BOY_BOVO, zeile);
+            msg += exportparam(BOY_ZSM, zeile);
+            msg += exportparam(BOY_DREHZ, zeile);
+            msg += exportparam(BOY_MESSEI, zeile);
+            msg += exportparam(BOY_TASATZ, zeile);
+            msg += exportparam(BOY_PLM, zeile);
+            msg += exportparam(BOY_BEZ, zeile);
+            msg += exportparam(BOY_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
@@ -1644,26 +1695,12 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += SPIEGELN_XPOS;
-            msg += selektiereEintrag(zeile, SPIEGELN_XPOS, ENDPAR);
-            msg += "\n";
-            msg += SPIEGELN_YPOS;
-            msg += selektiereEintrag(zeile, SPIEGELN_YPOS, ENDPAR);
-            msg += "\n";
-            msg += SPIEGELN_XBED;
-            msg += selektiereEintrag(zeile, SPIEGELN_XBED, ENDPAR);
-            msg += "\n";
-            msg += SPIEGELN_YBED;
-            msg += selektiereEintrag(zeile, SPIEGELN_YBED, ENDPAR);
-            msg += "\n";
-            msg += SPIEGELN_BEZ;
-            msg += selektiereEintrag(zeile, SPIEGELN_BEZ, ENDPAR);
-            msg += "\n";
-            msg += SPIEGELN_AFB;
-            msg += selektiereEintrag(zeile, SPIEGELN_AFB, ENDPAR);
-            msg += "\n";
-
-            msg += "\n";
+            msg += exportparam(SPIEGELN_XPOS, zeile);
+            msg += exportparam(SPIEGELN_YPOS, zeile);
+            msg += exportparam(SPIEGELN_XBED, zeile);
+            msg += exportparam(SPIEGELN_YBED, zeile);
+            msg += exportparam(SPIEGELN_BEZ, zeile);
+            msg += exportparam(SPIEGELN_AFB, zeile);msg += "\n";
         }else if(zeile.contains(DLG_LAGE_AENDERN))
         {
             msg += DLG_LAGE_AENDERN;
@@ -1674,34 +1711,15 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
                 msg += "\n";
             }
 
-            msg += LAGE_AENDERN_XALT;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_XALT, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_YALT;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_YALT, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_XNEU;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_XNEU, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_YNEU;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_YNEU, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_DREHWI;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_DREHWI, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_KETTENMAS;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_KETTENMAS, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_GESWI;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_GESWI, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_BEZ;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_BEZ, ENDPAR);
-            msg += "\n";
-            msg += LAGE_AENDERN_AFB;
-            msg += selektiereEintrag(zeile, LAGE_AENDERN_AFB, ENDPAR);
-            msg += "\n";
-
+            msg += exportparam(LAGE_AENDERN_XALT, zeile);
+            msg += exportparam(LAGE_AENDERN_YALT, zeile);
+            msg += exportparam(LAGE_AENDERN_XNEU, zeile);
+            msg += exportparam(LAGE_AENDERN_YNEU, zeile);
+            msg += exportparam(LAGE_AENDERN_DREHWI, zeile);
+            msg += exportparam(LAGE_AENDERN_KETTENMAS, zeile);
+            msg += exportparam(LAGE_AENDERN_GESWI, zeile);
+            msg += exportparam(LAGE_AENDERN_BEZ, zeile);
+            msg += exportparam(LAGE_AENDERN_AFB, zeile);
             msg += "\n";
         }
     }
@@ -1911,6 +1929,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_BO))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbo, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_BOY))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgboy, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -2385,6 +2407,22 @@ void MainWindow::on_actionMakeBohren_Durchmesser_triggered()
     }
 }
 
+void MainWindow::on_actionMakeBohren_in_Y_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgboy, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_boy;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -2417,6 +2455,8 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 //---------------------------------------------------
+
+
 
 
 

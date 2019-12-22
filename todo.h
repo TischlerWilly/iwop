@@ -6,7 +6,7 @@
 /*
 ->Schnelländerung Bohrgruppe
 
----------------------------------------------------------------------------Bohren in Y
+---------------------------------------------------------------------------Bohren in X
 - myDefines.h ->DLG_...
 - define_xyz.h anlegen
 - Qt-Designer-Formularklasse anlegen

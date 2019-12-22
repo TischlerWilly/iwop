@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         Dialoge/dialog_bohren.cpp \
+        Dialoge/dialog_bohren_y.cpp \
         Dialoge/dialog_halt.cpp \
         Dialoge/dialog_kom.cpp \
         Dialoge/dialog_lage_aendern.cpp \
@@ -65,6 +66,7 @@ SOURCES += \
 
 HEADERS += \
         Dialoge/dialog_bohren.h \
+        Dialoge/dialog_bohren_y.h \
         Dialoge/dialog_halt.h \
         Dialoge/dialog_kom.h \
         Dialoge/dialog_lage_aendern.h \
@@ -73,6 +75,7 @@ HEADERS += \
         Dialoge/dialog_programmlisten.h \
         Dialoge/dialog_spiegeln.h \
         eigeneDefines/define_bo.h \
+        eigeneDefines/define_boY.h \
         eigeneDefines/define_lage_aendern.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
@@ -115,6 +118,7 @@ HEADERS += \
 
 FORMS += \
         Dialoge/dialog_bohren.ui \
+        Dialoge/dialog_bohren_y.ui \
         Dialoge/dialog_halt.ui \
         Dialoge/dialog_kom.ui \
         Dialoge/dialog_lage_aendern.ui \
