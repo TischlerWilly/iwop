@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         Dialoge/dialog_bohren.cpp \
+        Dialoge/dialog_bohren_x.cpp \
         Dialoge/dialog_bohren_y.cpp \
         Dialoge/dialog_halt.cpp \
         Dialoge/dialog_kom.cpp \
         Dialoge/dialog_lage_aendern.cpp \
+        Dialoge/dialog_loreiae.cpp \
         Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
@@ -66,17 +68,21 @@ SOURCES += \
 
 HEADERS += \
         Dialoge/dialog_bohren.h \
+        Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
         Dialoge/dialog_halt.h \
         Dialoge/dialog_kom.h \
         Dialoge/dialog_lage_aendern.h \
+        Dialoge/dialog_loreiae.h \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
         Dialoge/dialog_spiegeln.h \
         eigeneDefines/define_bo.h \
+        eigeneDefines/define_boX.h \
         eigeneDefines/define_boY.h \
         eigeneDefines/define_lage_aendern.h \
+        eigeneDefines/define_loreiae.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
         eigeneDefines/define_spiegeln.h \
@@ -118,10 +124,12 @@ HEADERS += \
 
 FORMS += \
         Dialoge/dialog_bohren.ui \
+        Dialoge/dialog_bohren_x.ui \
         Dialoge/dialog_bohren_y.ui \
         Dialoge/dialog_halt.ui \
         Dialoge/dialog_kom.ui \
         Dialoge/dialog_lage_aendern.ui \
+        Dialoge/dialog_loreiae.ui \
         Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \

@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_halt                    = halt.get_default();
     vorlage_bo                      = dlgbo.get_default();
     vorlage_boy                     = dlgboy.get_default();
+    vorlage_box                     = dlgbox.get_default();
+    vorlage_loreiae                 = dlgloreiae.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -118,6 +120,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgbo, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgboy, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgbox, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgloreiae, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -127,6 +131,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgbo, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgboy, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgbox, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgloreiae, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
@@ -136,6 +142,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgbo, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgboy, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgbox, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgloreiae, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
@@ -363,7 +371,13 @@ QString MainWindow::loadConfig()
                     vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
                 }else if(text.contains(DLG_BOY))
                 {
-                    vorlage_boy = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
+                    vorlage_boy = selektiereEintrag(text, DLG_BOY, ENDE_ZEILE);
+                }else if(text.contains(DLG_BOX))
+                {
+                    vorlage_box = selektiereEintrag(text, DLG_BOX, ENDE_ZEILE);
+                }else if(text.contains(DLG_LOREIAE))
+                {
+                    vorlage_loreiae = selektiereEintrag(text, DLG_LOREIAE, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -422,6 +436,14 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_BOY;
     inhaltVonKonfiguration +=       vorlage_boy;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_BOX;
+    inhaltVonKonfiguration +=       vorlage_box;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_LOREIAE;
+    inhaltVonKonfiguration +=       vorlage_loreiae;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -498,6 +520,12 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_BOY))
         {
             vorlage_boy = selektiereEintrag(text, DLG_BOY, ENDE_ZEILE);
+        }else if(text.contains(DLG_BOX))
+        {
+            vorlage_box = selektiereEintrag(text, DLG_BOX, ENDE_ZEILE);
+        }else if(text.contains(DLG_LOREIAE))
+        {
+            vorlage_loreiae = selektiereEintrag(text, DLG_LOREIAE, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -573,6 +601,8 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeHalt->setDisabled(true);
     ui->actionMakeBohren_Durchmesser->setDisabled(true);
     ui->actionMakeBohren_in_Y->setDisabled(true);
+    ui->actionMakeBohren_in_X->setDisabled(true);
+    ui->actionMakeLochreihe_Anfang_Ende->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -607,6 +637,8 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeHalt->setEnabled(true);
     ui->actionMakeBohren_Durchmesser->setEnabled(true);
     ui->actionMakeBohren_in_Y->setEnabled(true);
+    ui->actionMakeBohren_in_X->setEnabled(true);
+    ui->actionMakeLochreihe_Anfang_Ende->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1416,6 +1448,182 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_BOX))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_BOX;
+            prgzeile += vorlage_box;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(BOX_Y))
+                {
+                    prgzeile = replaceparam(BOX_Y, prgzeile, zeile);
+                }else if(zeile.contains(BOX_Y2))
+                {
+                    prgzeile = replaceparam(BOX_Y2, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X1))
+                {
+                    prgzeile = replaceparam(BOX_X1, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X2))
+                {
+                    prgzeile = replaceparam(BOX_X2, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X3))
+                {
+                    prgzeile = replaceparam(BOX_X3, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X4))
+                {
+                    prgzeile = replaceparam(BOX_X4, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X5))
+                {
+                    prgzeile = replaceparam(BOX_X5, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X6))
+                {
+                    prgzeile = replaceparam(BOX_X6, prgzeile, zeile);
+                }else if(zeile.contains(BOX_BOTI))
+                {
+                    prgzeile = replaceparam(BOX_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(BOX_DM))
+                {
+                    prgzeile = replaceparam(BOX_DM, prgzeile, zeile);
+                }else if(zeile.contains(BOX_KETTE))
+                {
+                    prgzeile = replaceparam(BOX_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(BOX_GRUPPE))
+                {
+                    prgzeile = replaceparam(BOX_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(BOX_ANBOTI))
+                {
+                    prgzeile = replaceparam(BOX_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(BOX_ANBOVO))
+                {
+                    prgzeile = replaceparam(BOX_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(BOX_REBOMA))
+                {
+                    prgzeile = replaceparam(BOX_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(BOX_BOVO))
+                {
+                    prgzeile = replaceparam(BOX_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(BOX_ZSM))
+                {
+                    prgzeile = replaceparam(BOX_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(BOX_DREHZ))
+                {
+                    prgzeile = replaceparam(BOX_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(BOX_MESSEI))
+                {
+                    prgzeile = replaceparam(BOX_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(BOX_TASATZ))
+                {
+                    prgzeile = replaceparam(BOX_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(BOX_PLM))
+                {
+                    prgzeile = replaceparam(BOX_PLM, prgzeile, zeile);
+                }else if (zeile.contains(BOX_BEZ))
+                {
+                    prgzeile = replaceparam(BOX_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(BOX_AFB))
+                {
+                   prgzeile = replaceparam(BOX_AFB, prgzeile, zeile);
+                }else if (zeile.contains(BOX_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_LOREIAE))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_LOREIAE;
+            prgzeile += vorlage_loreiae;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(LOREIAE_XS))
+                {
+                    prgzeile = replaceparam(LOREIAE_XS, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_XE))
+                {
+                    prgzeile = replaceparam(LOREIAE_XE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_Y1))
+                {
+                    prgzeile = replaceparam(LOREIAE_Y1, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_Y2))
+                {
+                    prgzeile = replaceparam(LOREIAE_Y2, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_YE))
+                {
+                    prgzeile = replaceparam(LOREIAE_YE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_RASTER))
+                {
+                    prgzeile = replaceparam(LOREIAE_RASTER, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_BOTI))
+                {
+                    prgzeile = replaceparam(LOREIAE_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_DM))
+                {
+                    prgzeile = replaceparam(LOREIAE_DM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_GRUPPE))
+                {
+                    prgzeile = replaceparam(LOREIAE_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_VERMIT))
+                {
+                    prgzeile = replaceparam(LOREIAE_VERMIT, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_ANBOTI))
+                {
+                    prgzeile = replaceparam(LOREIAE_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_ANBOVO))
+                {
+                    prgzeile = replaceparam(LOREIAE_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_REBOMA))
+                {
+                    prgzeile = replaceparam(LOREIAE_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_BOVO))
+                {
+                    prgzeile = replaceparam(LOREIAE_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_ZSM))
+                {
+                    prgzeile = replaceparam(LOREIAE_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_DREHZ))
+                {
+                    prgzeile = replaceparam(LOREIAE_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_MESSEI))
+                {
+                    prgzeile = replaceparam(LOREIAE_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_TASATZ))
+                {
+                    prgzeile = replaceparam(LOREIAE_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_PLM))
+                {
+                    prgzeile = replaceparam(LOREIAE_PLM, prgzeile, zeile);
+                }else if (zeile.contains(LOREIAE_BEZ))
+                {
+                    prgzeile = replaceparam(LOREIAE_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(LOREIAE_AFB))
+                {
+                   prgzeile = replaceparam(LOREIAE_AFB, prgzeile, zeile);
+                }else if (zeile.contains(LOREIAE_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -1663,6 +1871,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             }
 
             msg += exportparam(BOY_X, zeile);
+            msg += exportparam(BOY_X2, zeile);
             msg += exportparam(BOY_Y1, zeile);
             msg += exportparam(BOY_Y2, zeile);
             msg += exportparam(BOY_Y3, zeile);
@@ -1684,6 +1893,72 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(BOY_PLM, zeile);
             msg += exportparam(BOY_BEZ, zeile);
             msg += exportparam(BOY_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_BOX))
+        {
+            msg += DLG_BOX;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(BOX_Y, zeile);
+            msg += exportparam(BOX_Y2, zeile);
+            msg += exportparam(BOX_X1, zeile);
+            msg += exportparam(BOX_X2, zeile);
+            msg += exportparam(BOX_X3, zeile);
+            msg += exportparam(BOX_X4, zeile);
+            msg += exportparam(BOX_X5, zeile);
+            msg += exportparam(BOX_X6, zeile);
+            msg += exportparam(BOX_BOTI, zeile);
+            msg += exportparam(BOX_DM, zeile);
+            msg += exportparam(BOX_KETTE, zeile);
+            msg += exportparam(BOX_GRUPPE, zeile);
+            msg += exportparam(BOX_ANBOTI, zeile);
+            msg += exportparam(BOX_ANBOVO, zeile);
+            msg += exportparam(BOX_REBOMA, zeile);
+            msg += exportparam(BOX_BOVO, zeile);
+            msg += exportparam(BOX_ZSM, zeile);
+            msg += exportparam(BOX_DREHZ, zeile);
+            msg += exportparam(BOX_MESSEI, zeile);
+            msg += exportparam(BOX_TASATZ, zeile);
+            msg += exportparam(BOX_PLM, zeile);
+            msg += exportparam(BOX_BEZ, zeile);
+            msg += exportparam(BOX_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_LOREIAE))
+        {
+            msg += DLG_LOREIAE;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(LOREIAE_XS, zeile);
+            msg += exportparam(LOREIAE_XE, zeile);
+            msg += exportparam(LOREIAE_Y1, zeile);
+            msg += exportparam(LOREIAE_Y2, zeile);
+            msg += exportparam(LOREIAE_YE, zeile);
+            msg += exportparam(LOREIAE_RASTER, zeile);
+            msg += exportparam(LOREIAE_BOTI, zeile);
+            msg += exportparam(LOREIAE_DM, zeile);
+            msg += exportparam(LOREIAE_GRUPPE, zeile);
+            msg += exportparam(LOREIAE_VERMIT, zeile);
+            msg += exportparam(LOREIAE_ANBOTI, zeile);
+            msg += exportparam(LOREIAE_ANBOVO, zeile);
+            msg += exportparam(LOREIAE_REBOMA, zeile);
+            msg += exportparam(LOREIAE_BOVO, zeile);
+            msg += exportparam(LOREIAE_ZSM, zeile);
+            msg += exportparam(LOREIAE_DREHZ, zeile);
+            msg += exportparam(LOREIAE_MESSEI, zeile);
+            msg += exportparam(LOREIAE_TASATZ, zeile);
+            msg += exportparam(LOREIAE_PLM, zeile);
+            msg += exportparam(LOREIAE_BEZ, zeile);
+            msg += exportparam(LOREIAE_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
@@ -1933,6 +2208,14 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_BOY))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgboy, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_BOX))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbox, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_LOREIAE))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreiae, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -2423,6 +2706,38 @@ void MainWindow::on_actionMakeBohren_in_Y_triggered()
     }
 }
 
+void MainWindow::on_actionMakeBohren_in_X_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbox, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_box;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeLochreihe_Anfang_Ende_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreiae, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_loreiae;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -2455,6 +2770,10 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 //---------------------------------------------------
+
+
+
+
 
 
 

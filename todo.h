@@ -6,7 +6,18 @@
 /*
 ->Schnelländerung Bohrgruppe
 
----------------------------------------------------------------------------Bohren in X
+Lochreihe Anfang-Ende:
+->Endpunkt Y [YE] bewirkt was?
+->Vermitteln [0|1|2]
+    -->was bewirken 1 und 2?
+
+
+---------------------------------------------------------------------------Lochreihe Anfang-Ende
+- programmtext.cpp
+    ->aktualisiere_geo()
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------Lochreihe Mitte-Anfang
+ToDo für neuen Dialoge anlegen:
 - myDefines.h ->DLG_...
 - define_xyz.h anlegen
 - Qt-Designer-Formularklasse anlegen
@@ -43,7 +54,6 @@
     ->aktualisiere_geo()
     ->aktualisiere_anzeigetext()
 ---------------------------------------------------------------------------
-
 
 
 

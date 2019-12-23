@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog_bohren_x</class>
+ <widget class="QDialog" name="Dialog_bohren_x">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>901</width>
+    <height>547</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Bohren in X</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>500</y>
+     <width>371</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton_ok">
+      <property name="text">
+       <string>OK</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_esc">
+      <property name="text">
+       <string>Abbruch</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_save">
+      <property name="text">
+       <string>Speichern</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>881</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Seite 1</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>391</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="7" column="1">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>[BT]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>2. X-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_35">
+        <property name="text">
+         <string>5. X-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLineEdit" name="lineEdit_boti"/>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Bohrgruppe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Bohrtiefe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="label_42">
+        <property name="text">
+         <string>[X6]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>[DM]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_x2"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_34">
+        <property name="text">
+         <string>6. X-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_x1"/>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLineEdit" name="lineEdit_dm"/>
+      </item>
+      <item row="10" column="2">
+       <widget class="QLineEdit" name="lineEdit_grp"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_37">
+        <property name="text">
+         <string>3. X-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="label_41">
+        <property name="text">
+         <string>[X5]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>[Y1]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Durchmesser</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>[X1]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLineEdit" name="lineEdit_x6"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>1. X-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Y-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLineEdit" name="lineEdit_x5"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_x3"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="label_39">
+        <property name="text">
+         <string>[X3]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_x4"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_38">
+        <property name="text">
+         <string>[X2]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="label_40">
+        <property name="text">
+         <string>[X4]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>[GRP]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="lineEdit_y1"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_36">
+        <property name="text">
+         <string>4. X-Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLineEdit" name="lineEdit_kette"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_43">
+        <property name="text">
+         <string>Kettenmaß</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLabel" name="label_44">
+        <property name="text">
+         <string>[KM]</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="label_bild">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>461</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Seite 2</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>9</y>
+       <width>391</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_bovo"/>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_33">
+        <property name="text">
+         <string>Ausführbedingung</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_24">
+        <property name="text">
+         <string>Drehzahl</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="2">
+       <widget class="QLineEdit" name="lineEdit_afb"/>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLabel" name="label_29">
+        <property name="text">
+         <string>[ZNR]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Anbohrtiefe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Anbohrvorschub</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>[MEB]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_30">
+        <property name="text">
+         <string>Bezeichnung</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>[PLM]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_26">
+        <property name="text">
+         <string>Messen Seite</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>[BV]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QSpinBox" name="spinBox_messei">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>5</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_anbovo"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Restbohrmaß</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLabel" name="label_31">
+        <property name="text">
+         <string>[BEZ]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="QLineEdit" name="lineEdit_bez"/>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLabel" name="label_32">
+        <property name="text">
+         <string>[AFB]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>[N]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Zustellmaß</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLineEdit" name="lineEdit_zsm"/>
+      </item>
+      <item row="8" column="2">
+       <widget class="QSpinBox" name="spinBox_tasatz">
+        <property name="minimum">
+         <number>-1</number>
+        </property>
+        <property name="maximum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>-1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>[RBM]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Punktlasermodi</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>[ABT]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLineEdit" name="lineEdit_n"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>[ZSM]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_28">
+        <property name="text">
+         <string>Taste Satz ein (Nein/-1)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>[ABV]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_reboma"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Bohrvorschub</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_anboti"/>
+      </item>
+      <item row="9" column="2">
+       <widget class="QSpinBox" name="spinBox_plm">
+        <property name="maximum">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_45">
+        <property name="text">
+         <string>Y-Maß 2. Reihe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_46">
+        <property name="text">
+         <string>[GEY]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="lineEdit_y2"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="label_bild_2">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>461</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lineEdit_y1</tabstop>
+  <tabstop>lineEdit_x1</tabstop>
+  <tabstop>lineEdit_x2</tabstop>
+  <tabstop>lineEdit_x3</tabstop>
+  <tabstop>lineEdit_x4</tabstop>
+  <tabstop>lineEdit_x5</tabstop>
+  <tabstop>lineEdit_x6</tabstop>
+  <tabstop>lineEdit_boti</tabstop>
+  <tabstop>lineEdit_dm</tabstop>
+  <tabstop>lineEdit_kette</tabstop>
+  <tabstop>lineEdit_grp</tabstop>
+  <tabstop>pushButton_ok</tabstop>
+  <tabstop>pushButton_esc</tabstop>
+  <tabstop>pushButton_save</tabstop>
+  <tabstop>lineEdit_y2</tabstop>
+  <tabstop>lineEdit_anboti</tabstop>
+  <tabstop>lineEdit_anbovo</tabstop>
+  <tabstop>lineEdit_reboma</tabstop>
+  <tabstop>lineEdit_bovo</tabstop>
+  <tabstop>lineEdit_zsm</tabstop>
+  <tabstop>lineEdit_n</tabstop>
+  <tabstop>spinBox_messei</tabstop>
+  <tabstop>spinBox_tasatz</tabstop>
+  <tabstop>spinBox_plm</tabstop>
+  <tabstop>lineEdit_bez</tabstop>
+  <tabstop>lineEdit_afb</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

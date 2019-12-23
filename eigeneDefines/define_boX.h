@@ -1,0 +1,57 @@
+#ifndef DEFINE_BOX_H
+#define DEFINE_BOX_H
+
+//#define DLG_BOX                 "[VBX_40]"
+
+//--------------------------------Parameternahmen in der fmc-Datei
+#define BOX_Y         "Y="
+#define BOX_Y2        "Y2="
+#define BOX_X1        "X1="
+#define BOX_X2        "X2="
+#define BOX_X3        "X3="
+#define BOX_X4        "X4="
+#define BOX_X5        "X5="
+#define BOX_X6        "X6="
+#define BOX_BOTI      "TI="
+#define BOX_DM        "DM="
+#define BOX_KETTE     "KETTE="
+#define BOX_GRUPPE    "GRP="
+#define BOX_ANBOTI    "LGEAN="
+#define BOX_ANBOVO    "FAN="
+#define BOX_REBOMA    "LGEAB="
+#define BOX_BOVO      "F="
+#define BOX_ZSM       "ZSM="
+#define BOX_DREHZ     "N="
+#define BOX_MESSEI    "MRICHT="
+#define BOX_TASATZ    "TASTEIN="
+#define BOX_PLM       "PLM="
+#define BOX_BEZ       "BEZB="
+#define BOX_AFB       "AFB="
+#define BOX_AUSGEBL   "@@@/=1"
+
+//--------------------------------Parameternahmen der Variablen
+//Variabelnnahmen müssen immer mit "[" beginnen und mit "]" enden
+#define VAR_BOX_Y        "[Y1]"
+#define VAR_BOX_Y2       "[GEY]"
+#define VAR_BOX_X1       "[X1]"
+#define VAR_BOX_X2       "[X2]"
+#define VAR_BOX_X3       "[X3]"
+#define VAR_BOX_X4       "[X4]"
+#define VAR_BOX_X5       "[X5]"
+#define VAR_BOX_X6       "[X6]"
+#define VAR_BOX_BOTI     "[BT]"
+#define VAR_BOX_DM       "[DM]"
+#define VAR_BOX_KETTE    "[KM]"
+#define VAR_BOX_GRUPPE   "[GRP]"
+#define VAR_BOX_ANBOTI   "[ABT]"
+#define VAR_BOX_ANBOVO   "[ABV]"
+#define VAR_BOX_REBOMA   "[RBM]"
+#define VAR_BOX_BOVO     "[BV]"
+#define VAR_BOX_ZSM      "[ZSM]"
+#define VAR_BOX_DREHZ    "[N]"
+#define VAR_BOX_MESSEI   "[MEB]"
+#define VAR_BOX_TASATZ   "[ZNR]"
+#define VAR_BOX_PLM      "[PLM]"
+#define VAR_BOX_AFB      "[AFB]"
+
+#endif // DEFINE_BOX_H
