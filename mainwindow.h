@@ -27,6 +27,8 @@
 #include "Dialoge/dialog_bohren_y.h"
 #include "Dialoge/dialog_bohren_x.h"
 #include "Dialoge/dialog_loreiae.h"
+#include "Dialoge/dialog_loreima.h"
+#include "Dialoge/dialog_topf.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
 
@@ -76,6 +78,8 @@ private:
     Dialog_bohren_y  dlgboy;
     Dialog_bohren_x  dlgbox;
     Dialog_loreiae   dlgloreiae;
+    Dialog_loreima   dlgloreima;
+    Dialog_topf      dlgtopf;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
 
@@ -92,6 +96,8 @@ private:
     QString         vorlage_boy;
     QString         vorlage_box;
     QString         vorlage_loreiae;
+    QString         vorlage_loreima;
+    QString         vorlage_topf;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -163,6 +169,8 @@ private slots:
     void on_actionMakeBohren_in_Y_triggered();
     void on_actionMakeBohren_in_X_triggered();
     void on_actionMakeLochreihe_Anfang_Ende_triggered();
+    void on_actionMakeLochreihe_Mitte_Anfang_triggered();
+    void on_actionMakeTopfband_triggered();
 };
 
 #endif // MAINWINDOW_H

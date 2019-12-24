@@ -136,6 +136,8 @@
     <addaction name="actionMakeBohren_in_X"/>
     <addaction name="actionMakeBohren_in_Y"/>
     <addaction name="actionMakeLochreihe_Anfang_Ende"/>
+    <addaction name="actionMakeLochreihe_Mitte_Anfang"/>
+    <addaction name="actionMakeTopfband"/>
    </widget>
    <widget class="QMenu" name="menuManipulation">
     <property name="title">
@@ -343,6 +345,16 @@
   <action name="actionMakeLochreihe_Anfang_Ende">
    <property name="text">
     <string>Lochreihe Anfang-Ende</string>
+   </property>
+  </action>
+  <action name="actionMakeLochreihe_Mitte_Anfang">
+   <property name="text">
+    <string>Lochreihe Mitte-Anfang</string>
+   </property>
+  </action>
+  <action name="actionMakeTopfband">
+   <property name="text">
+    <string>Topfband</string>
    </property>
   </action>
  </widget>

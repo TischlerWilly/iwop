@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_boy                     = dlgboy.get_default();
     vorlage_box                     = dlgbox.get_default();
     vorlage_loreiae                 = dlgloreiae.get_default();
+    vorlage_loreima                 = dlgloreima.get_default();
+    vorlage_topf                    = dlgtopf.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -122,6 +124,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgboy, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgbox, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgloreiae, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgloreima, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgtopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -133,6 +137,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgboy, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgbox, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgloreiae, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgloreima, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgtopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
@@ -144,6 +150,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgboy, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgbox, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgloreiae, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgloreima, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgtopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
@@ -378,6 +386,12 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_LOREIAE))
                 {
                     vorlage_loreiae = selektiereEintrag(text, DLG_LOREIAE, ENDE_ZEILE);
+                }else if(text.contains(DLG_LOREIMA))
+                {
+                    vorlage_loreima = selektiereEintrag(text, DLG_LOREIMA, ENDE_ZEILE);
+                }else if(text.contains(DLG_TOPF))
+                {
+                    vorlage_topf = selektiereEintrag(text, DLG_TOPF, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -444,6 +458,14 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_LOREIAE;
     inhaltVonKonfiguration +=       vorlage_loreiae;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_LOREIMA;
+    inhaltVonKonfiguration +=       vorlage_loreima;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_TOPF;
+    inhaltVonKonfiguration +=       vorlage_topf;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -526,6 +548,12 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_LOREIAE))
         {
             vorlage_loreiae = selektiereEintrag(text, DLG_LOREIAE, ENDE_ZEILE);
+        }else if(text.contains(DLG_LOREIMA))
+        {
+            vorlage_loreima = selektiereEintrag(text, DLG_LOREIMA, ENDE_ZEILE);
+        }else if(text.contains(DLG_TOPF))
+        {
+            vorlage_topf = selektiereEintrag(text, DLG_TOPF, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -603,6 +631,8 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeBohren_in_Y->setDisabled(true);
     ui->actionMakeBohren_in_X->setDisabled(true);
     ui->actionMakeLochreihe_Anfang_Ende->setDisabled(true);
+    ui->actionMakeLochreihe_Mitte_Anfang->setDisabled(true);
+    ui->actionMakeTopfband->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -639,6 +669,8 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeBohren_in_Y->setEnabled(true);
     ui->actionMakeBohren_in_X->setEnabled(true);
     ui->actionMakeLochreihe_Anfang_Ende->setEnabled(true);
+    ui->actionMakeLochreihe_Mitte_Anfang->setEnabled(true);
+    ui->actionMakeTopfband->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1624,6 +1656,191 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_LOREIMA))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_LOREIMA;
+            prgzeile += vorlage_loreima;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(LOREIMA_XS))
+                {
+                    prgzeile = replaceparam(LOREIMA_XS, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_XM))
+                {
+                    prgzeile = replaceparam(LOREIMA_XM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_Y1))
+                {
+                    prgzeile = replaceparam(LOREIMA_Y1, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_Y2))
+                {
+                    prgzeile = replaceparam(LOREIMA_Y2, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_RASTER))
+                {
+                    prgzeile = replaceparam(LOREIMA_RASTER, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_BOTI))
+                {
+                    prgzeile = replaceparam(LOREIMA_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_DM))
+                {
+                    prgzeile = replaceparam(LOREIMA_DM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_GRUPPE))
+                {
+                    prgzeile = replaceparam(LOREIMA_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_ANBOTI))
+                {
+                    prgzeile = replaceparam(LOREIMA_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_ANBOVO))
+                {
+                    prgzeile = replaceparam(LOREIMA_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_REBOMA))
+                {
+                    prgzeile = replaceparam(LOREIMA_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_BOVO))
+                {
+                    prgzeile = replaceparam(LOREIMA_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_ZSM))
+                {
+                    prgzeile = replaceparam(LOREIMA_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_DREHZ))
+                {
+                    prgzeile = replaceparam(LOREIMA_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_MESSEI))
+                {
+                    prgzeile = replaceparam(LOREIMA_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_TASATZ))
+                {
+                    prgzeile = replaceparam(LOREIMA_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_PLM))
+                {
+                    prgzeile = replaceparam(LOREIMA_PLM, prgzeile, zeile);
+                }else if (zeile.contains(LOREIMA_BEZ))
+                {
+                    prgzeile = replaceparam(LOREIMA_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(LOREIMA_AFB))
+                {
+                   prgzeile = replaceparam(LOREIMA_AFB, prgzeile, zeile);
+                }else if (zeile.contains(LOREIMA_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_TOPF))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_TOPF;
+            prgzeile += vorlage_topf;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(TOPF_TA))
+                {
+                    prgzeile = replaceparam(TOPF_TA, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A1))
+                {
+                    prgzeile = replaceparam(TOPF_A1, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A2))
+                {
+                    prgzeile = replaceparam(TOPF_A2, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A3))
+                {
+                    prgzeile = replaceparam(TOPF_A3, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A4))
+                {
+                    prgzeile = replaceparam(TOPF_A4, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A5))
+                {
+                    prgzeile = replaceparam(TOPF_A5, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_MA))
+                {
+                    prgzeile = replaceparam(TOPF_MA, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_MB))
+                {
+                    prgzeile = replaceparam(TOPF_MB, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_KETTE))
+                {
+                    prgzeile = replaceparam(TOPF_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_GRUPPE))
+                {
+                    prgzeile = replaceparam(TOPF_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_SEITE))
+                {
+                    prgzeile = replaceparam(TOPF_SEITE, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_MESSEI))
+                {
+                    prgzeile = replaceparam(TOPF_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BODM))
+                {
+                    prgzeile = replaceparam(TOPF_BODM, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TODM))
+                {
+                    prgzeile = replaceparam(TOPF_TODM, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOTI))
+                {
+                    prgzeile = replaceparam(TOPF_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_WKZ))
+                {
+                    prgzeile = replaceparam(TOPF_WKZ, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TOTI))
+                {
+                    prgzeile = replaceparam(TOPF_TOTI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_ANBOTI))
+                {
+                    prgzeile = replaceparam(TOPF_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOANBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_BOANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TOANBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_TOANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_REBOMA))
+                {
+                    prgzeile = replaceparam(TOPF_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_BOBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TOBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_TOBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOZSM))
+                {
+                    prgzeile = replaceparam(TOPF_BOZSM, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_DREHZ))
+                {
+                    prgzeile = replaceparam(TOPF_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_PLM))
+                {
+                    prgzeile = replaceparam(TOPF_PLM, prgzeile, zeile);
+                }else if (zeile.contains(TOPF_BEZ))
+                {
+                    prgzeile = replaceparam(TOPF_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(TOPF_AFB))
+                {
+                   prgzeile = replaceparam(TOPF_AFB, prgzeile, zeile);
+                }else if (zeile.contains(TOPF_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -1960,6 +2177,75 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(LOREIAE_BEZ, zeile);
             msg += exportparam(LOREIAE_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_LOREIMA))
+        {
+            msg += DLG_LOREIMA;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(LOREIMA_XS, zeile);
+            msg += exportparam(LOREIMA_XM, zeile);
+            msg += exportparam(LOREIMA_Y1, zeile);
+            msg += exportparam(LOREIMA_Y2, zeile);
+            msg += exportparam(LOREIMA_RASTER, zeile);
+            msg += exportparam(LOREIMA_BOTI, zeile);
+            msg += exportparam(LOREIMA_DM, zeile);
+            msg += exportparam(LOREIMA_GRUPPE, zeile);
+            msg += exportparam(LOREIMA_ANBOTI, zeile);
+            msg += exportparam(LOREIMA_ANBOVO, zeile);
+            msg += exportparam(LOREIMA_REBOMA, zeile);
+            msg += exportparam(LOREIMA_BOVO, zeile);
+            msg += exportparam(LOREIMA_ZSM, zeile);
+            msg += exportparam(LOREIMA_DREHZ, zeile);
+            msg += exportparam(LOREIMA_MESSEI, zeile);
+            msg += exportparam(LOREIMA_TASATZ, zeile);
+            msg += exportparam(LOREIMA_PLM, zeile);
+            msg += exportparam(LOREIMA_BEZ, zeile);
+            msg += exportparam(LOREIMA_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_TOPF))
+        {
+            msg += DLG_TOPF;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(TOPF_TA, zeile);
+            msg += exportparam(TOPF_A1, zeile);
+            msg += exportparam(TOPF_A2, zeile);
+            msg += exportparam(TOPF_A3, zeile);
+            msg += exportparam(TOPF_A4, zeile);
+            msg += exportparam(TOPF_A5, zeile);
+            msg += exportparam(TOPF_MA, zeile);
+            msg += exportparam(TOPF_MB, zeile);
+            msg += exportparam(TOPF_KETTE, zeile);
+            msg += exportparam(TOPF_GRUPPE, zeile);
+            msg += exportparam(TOPF_SEITE, zeile);
+            msg += exportparam(TOPF_MESSEI, zeile);
+            msg += exportparam(TOPF_BODM, zeile);
+            msg += exportparam(TOPF_TODM, zeile);
+            msg += exportparam(TOPF_BOTI, zeile);
+            msg += exportparam(TOPF_WKZ, zeile);
+            msg += exportparam(TOPF_TOTI, zeile);
+            msg += exportparam(TOPF_ANBOTI, zeile);
+            msg += exportparam(TOPF_BOANBOVO, zeile);
+            msg += exportparam(TOPF_TOANBOVO, zeile);
+            msg += exportparam(TOPF_REBOMA, zeile);
+            msg += exportparam(TOPF_BOBOVO, zeile);
+            msg += exportparam(TOPF_TOBOVO, zeile);
+            msg += exportparam(TOPF_BOZSM, zeile);
+            msg += exportparam(TOPF_DREHZ, zeile);
+            msg += exportparam(TOPF_PLM, zeile);
+            msg += exportparam(TOPF_BEZ, zeile);
+            msg += exportparam(TOPF_AFB, zeile);
+            msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             msg += DLG_SPIEGELN;
@@ -2216,6 +2502,14 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_LOREIAE))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreiae, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_LOREIMA))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreima, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_TOPF))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgtopf, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -2738,6 +3032,38 @@ void MainWindow::on_actionMakeLochreihe_Anfang_Ende_triggered()
     }
 }
 
+void MainWindow::on_actionMakeLochreihe_Mitte_Anfang_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreima, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_loreima;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeTopfband_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgtopf, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_topf;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -2770,6 +3096,10 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 //---------------------------------------------------
+
+
+
+
 
 
 

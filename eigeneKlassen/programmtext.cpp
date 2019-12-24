@@ -619,6 +619,87 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_LOREIMA))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, LOREIMA_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_LOREIMA;
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_XM, VAR_LOREIMA_XM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_XS, VAR_LOREIMA_XS, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_Y1, VAR_LOREIMA_Y1, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_Y2, VAR_LOREIMA_Y2, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_RASTER, VAR_LOREIMA_RASTER, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_BOTI, VAR_LOREIMA_BOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_DM, VAR_LOREIMA_DM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_GRUPPE, VAR_LOREIMA_GRUPPE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_ANBOTI, VAR_LOREIMA_ANBOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_ANBOVO, VAR_LOREIMA_ANBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_REBOMA, VAR_LOREIMA_REBOMA, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_BOVO, VAR_LOREIMA_BOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_ZSM, VAR_LOREIMA_ZSM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_DREHZ, VAR_LOREIMA_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_MESSEI, VAR_LOREIMA_MESSEI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_TASATZ, VAR_LOREIMA_TASATZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, LOREIMA_PLM, VAR_LOREIMA_PLM, variablen, true);
+                //BO_BEZ
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_TOPF))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, TOPF_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_TOPF;
+                zeile_klartext += param_to_klartext(zeile, TOPF_TA, VAR_TOPF_TA, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_A1, VAR_TOPF_A1, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_A2, VAR_TOPF_A2, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_A3, VAR_TOPF_A3, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_A4, VAR_TOPF_A4, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_A5, VAR_TOPF_A5, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_MA, VAR_TOPF_MA, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_MB, VAR_TOPF_MB, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_KETTE, VAR_TOPF_KETTE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_GRUPPE, VAR_TOPF_GRUPPE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_SEITE, VAR_TOPF_SEITE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_MESSEI, VAR_TOPF_MESSEI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_BODM, VAR_TOPF_BODM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_TODM, VAR_TOPF_TODM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_BOTI, VAR_TOPF_BOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_WKZ, VAR_TOPF_WKZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_TOTI, VAR_TOPF_TOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_ANBOTI, VAR_TOPF_ANBOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_BOANBOVO, VAR_TOPF_BOANBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_TOANBOVO, VAR_TOPF_TOANBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_REBOMA, VAR_TOPF_REBOMA, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_BOBOVO, VAR_TOPF_BOBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_TOBOVO, VAR_TOPF_TOBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_BOZSM, VAR_TOPF_BOZSM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_DREHZ, VAR_TOPF_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, TOPF_PLM, VAR_TOPF_PLM, variablen, true);
+                //BO_BEZ
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -1244,6 +1325,152 @@ void programmtext::aktualisiere_geo()
                 //...
                 //...
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_LOREIMA))
+            {
+                double xs = text_mitte(zeile, LOREIMA_XS, ENDPAR).toDouble();
+                double xm = text_mitte(zeile, LOREIMA_XM, ENDPAR).toDouble();
+                double y1 = text_mitte(zeile, LOREIMA_Y1, ENDPAR).toDouble();
+                double y2 = text_mitte(zeile, LOREIMA_Y2, ENDPAR).toDouble();
+                double raster = text_mitte(zeile, LOREIMA_RASTER, ENDPAR).toDouble();
+                float boti = text_mitte(zeile, LOREIMA_BOTI, ENDPAR).toFloat();
+                kreis k;
+                k.set_farbe(FARBE_SCHWARZ);
+                if(boti<=0 || boti > get_werkstueckdicke())
+                {
+                    k.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    k.set_farbe_fuellung(FARBE_GELB);
+                }
+                k.set_stil(STIL_DURCHGEHEND);
+                double abst = xm-xs;
+                int anz = (abst/raster)*2 + 1;//Nachkommastellen werden abgeschnitten durch double zu int
+
+                for(int i=0; i<anz;i++)
+                {
+                    punkt3d mipu;
+                    mipu.set_x(xm-((abst/raster)*raster)+(i*raster));
+                    mipu.set_y(y1);
+                    k.set_mittelpunkt(mipu);
+                    k.set_radius(text_mitte(zeile, LOREIMA_DM, ENDPAR).toDouble()/2);
+
+                    k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    k = lageaendern_kreis(k, lageaendern_afb,\
+                                          lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                          lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                          lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                          lageaendern_wi_alt, lageaendern_geswi_alt);
+                    geo.add_kreis(k);
+
+                    if(y2 >0)
+                    {
+                        mipu.set_x(xm-((abst/raster)*raster)+(i*raster));
+                        mipu.set_y(y2);
+                        k.set_mittelpunkt(mipu);
+                        k.set_radius(text_mitte(zeile, LOREIMA_DM, ENDPAR).toDouble()/2);
+
+                        k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        k = lageaendern_kreis(k, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_kreis(k);
+                    }
+                }
+                geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_TOPF))
+            {
+                double ta = text_mitte(zeile, TOPF_TA, ENDPAR).toDouble();//Topfabstand von WST-Kante
+                double a1 = text_mitte(zeile, TOPF_A1, ENDPAR).toDouble();
+                double a2 = 0;
+                double a3 = 0;
+                double a4 = 0;
+                double a5 = 0;
+                double ma = text_mitte(zeile, TOPF_MA, ENDPAR).toDouble();//Abstand zischen den Bohrungen der Schrauben
+                double mb = text_mitte(zeile, TOPF_MB, ENDPAR).toDouble();//Abstand zwischen BO und TO
+                bool kette = false;
+                if(text_mitte(zeile, TOPF_KETTE, ENDPAR).toDouble() > 0)
+                {
+                    kette = true;
+                }
+                int seite = text_mitte(zeile, TOPF_SEITE, ENDPAR).toInt();
+                double bodm = text_mitte(zeile, TOPF_BODM, ENDPAR).toDouble();
+                double to = text_mitte(zeile, TOPF_TODM, ENDPAR).toDouble();
+                float boti = text_mitte(zeile, TOPF_BOTI, ENDPAR).toFloat();
+                float toti = text_mitte(zeile, TOPF_TOTI, ENDPAR).toFloat();
+                kreis kbo;
+                kbo.set_farbe(FARBE_SCHWARZ);
+                if(boti<=0 || boti > get_werkstueckdicke())
+                {
+                    kbo.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    kbo.set_farbe_fuellung(FARBE_HELLBLAU);
+                }
+                kbo.set_stil(STIL_DURCHGEHEND);
+                kreis kto;
+                kto.set_farbe(FARBE_SCHWARZ);
+                if(toti<=0 || toti > get_werkstueckdicke())
+                {
+                    kto.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    kto.set_farbe_fuellung(FARBE_HELLBLAU);
+                }
+                kto.set_stil(STIL_DURCHGEHEND);
+                if(kette == true)
+                {
+                    a2 = a1 + text_mitte(zeile, TOPF_A2, ENDPAR).toDouble();
+                    a3 = a2 + text_mitte(zeile, TOPF_A3, ENDPAR).toDouble();
+                    a4 = a3 + text_mitte(zeile, TOPF_A4, ENDPAR).toDouble();
+                    a5 = a4 + text_mitte(zeile, TOPF_A5, ENDPAR).toDouble();
+                }else
+                {
+                    a2 = text_mitte(zeile, TOPF_A2, ENDPAR).toDouble();
+                    a3 = text_mitte(zeile, TOPF_A3, ENDPAR).toDouble();
+                    a4 = text_mitte(zeile, TOPF_A4, ENDPAR).toDouble();
+                    a5 = text_mitte(zeile, TOPF_A5, ENDPAR).toDouble();
+                }
+
+                if(seite == 1)//unten
+                {
+
+                }else if(seite == 2)//rechts
+                {
+
+                }else if(seite == 3)//oben
+                {
+
+                }else if(seite == 4)//links
+                {
+
+                }
+
+                /*
+                punkt3d mipu;
+                mipu.set_x(text_mitte(zeile, TOPF_X, ENDPAR));
+                mipu.set_y(text_mitte(zeile, TOPF_Y, ENDPAR));
+
+
+
+
+                k.set_mittelpunkt(mipu);
+                k.set_radius(text_mitte(zeile, TOPF_DM, ENDPAR).toDouble()/2);
+
+                k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                k = lageaendern_kreis(k, lageaendern_afb,\
+                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                geo.add_kreis(k);
+
+                */
+
+
+
+                geo.zeilenvorschub();
             }
         }
     }
@@ -1304,6 +1531,12 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_LOREIAE))
         {
             tmp += text_mitte(zeile, LOREIAE_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_LOREIMA))
+        {
+            tmp += text_mitte(zeile, LOREIMA_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_TOPF))
+        {
+            tmp += text_mitte(zeile, TOPF_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

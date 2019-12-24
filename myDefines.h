@@ -44,6 +44,8 @@
 #define DLG_BOY                 "[VBY_40]"
 #define DLG_BOX                 "[VBX_40]"
 #define DLG_LOREIAE             "[VBLAEN40]"
+#define DLG_LOREIMA             "[VBLMIT40]"
+#define DLG_TOPF                "[VBTOPF41]"
 #define DLG_SPIEGELN            "[SWSPIE40]"
 #define DLG_LAGE_AENDERN        "[SWLAGE40]"
 #define LISTENENDE              ">ENDE"
