@@ -117,6 +117,10 @@ QString Dialog_topf::dialogDataToString()
     msg += ui->lineEdit_todm->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
+    msg += TOPF_BOTI;
+    msg += ui->lineEdit_boti->text().toUpper().replace(",",".");
+    msg += ENDPAR;
+
     msg += TOPF_WKZ;
     msg += ui->lineEdit_wkz->text().toUpper().replace(",",".");
     msg += ENDPAR;
