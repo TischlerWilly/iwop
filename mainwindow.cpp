@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_loreiae                 = dlgloreiae.get_default();
     vorlage_loreima                 = dlgloreima.get_default();
     vorlage_topf                    = dlgtopf.get_default();
+    vorlage_hbexp                   = dlghbexp.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -126,6 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgloreiae, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgloreima, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgtopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlghbexp, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -139,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgloreiae, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgloreima, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgtopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlghbexp, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
@@ -152,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgloreiae, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgloreima, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgtopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlghbexp, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
@@ -392,6 +396,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_TOPF))
                 {
                     vorlage_topf = selektiereEintrag(text, DLG_TOPF, ENDE_ZEILE);
+                }else if(text.contains(DLG_HBEXP))
+                {
+                    vorlage_hbexp = selektiereEintrag(text, DLG_HBEXP, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -466,6 +473,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_TOPF;
     inhaltVonKonfiguration +=       vorlage_topf;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HBEXP;
+    inhaltVonKonfiguration +=       vorlage_hbexp;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -554,6 +565,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_TOPF))
         {
             vorlage_topf = selektiereEintrag(text, DLG_TOPF, ENDE_ZEILE);
+        }else if(text.contains(DLG_HBEXP))
+        {
+            vorlage_hbexp = selektiereEintrag(text, DLG_HBEXP, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -633,6 +647,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeLochreihe_Anfang_Ende->setDisabled(true);
     ui->actionMakeLochreihe_Mitte_Anfang->setDisabled(true);
     ui->actionMakeTopfband->setDisabled(true);
+    ui->actionMakeHBE_X_plus->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -671,6 +686,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeLochreihe_Anfang_Ende->setEnabled(true);
     ui->actionMakeLochreihe_Mitte_Anfang->setEnabled(true);
     ui->actionMakeTopfband->setEnabled(true);
+    ui->actionMakeHBE_X_plus->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1841,6 +1857,85 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HBEXP))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HBEXP;
+            prgzeile += vorlage_hbexp;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HBEXP_Y1))
+                {
+                    prgzeile = replaceparam(HBEXP_Y1, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y2))
+                {
+                    prgzeile = replaceparam(HBEXP_Y2, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y3))
+                {
+                    prgzeile = replaceparam(HBEXP_Y3, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y4))
+                {
+                    prgzeile = replaceparam(HBEXP_Y4, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y5))
+                {
+                    prgzeile = replaceparam(HBEXP_Y5, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y6))
+                {
+                    prgzeile = replaceparam(HBEXP_Y6, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_BOTI))
+                {
+                    prgzeile = replaceparam(HBEXP_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Z))
+                {
+                    prgzeile = replaceparam(HBEXP_Z, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_DM))
+                {
+                    prgzeile = replaceparam(HBEXP_DM, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_KETTE))
+                {
+                    prgzeile = replaceparam(HBEXP_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_GRUPPE))
+                {
+                    prgzeile = replaceparam(HBEXP_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_X2))
+                {
+                    prgzeile = replaceparam(HBEXP_X2, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_X1))
+                {
+                    prgzeile = replaceparam(HBEXP_X1, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_ANBOTI))
+                {
+                    prgzeile = replaceparam(HBEXP_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_ANBOVO))
+                {
+                    prgzeile = replaceparam(HBEXP_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_BOVO))
+                {
+                    prgzeile = replaceparam(HBEXP_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_DREHZ))
+                {
+                    prgzeile = replaceparam(HBEXP_DREHZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEXP_BEZ))
+                {
+                    prgzeile = replaceparam(HBEXP_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEXP_AFB))
+                {
+                   prgzeile = replaceparam(HBEXP_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HBEXP_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -2246,6 +2341,36 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(TOPF_BEZ, zeile);
             msg += exportparam(TOPF_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_HBEXP))
+        {
+            msg += DLG_HBEXP;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(HBEXP_Y1, zeile);
+            msg += exportparam(HBEXP_Y2, zeile);
+            msg += exportparam(HBEXP_Y3, zeile);
+            msg += exportparam(HBEXP_Y4, zeile);
+            msg += exportparam(HBEXP_Y5, zeile);
+            msg += exportparam(HBEXP_Y6, zeile);
+            msg += exportparam(HBEXP_BOTI, zeile);
+            msg += exportparam(HBEXP_Z, zeile);
+            msg += exportparam(HBEXP_DM, zeile);
+            msg += exportparam(HBEXP_KETTE, zeile);
+            msg += exportparam(HBEXP_GRUPPE, zeile);
+            msg += exportparam(HBEXP_X2, zeile);
+            msg += exportparam(HBEXP_X1, zeile);
+            msg += exportparam(HBEXP_ANBOTI, zeile);
+            msg += exportparam(HBEXP_ANBOVO, zeile);
+            msg += exportparam(HBEXP_BOVO, zeile);
+            msg += exportparam(HBEXP_DREHZ, zeile);
+            msg += exportparam(HBEXP_BEZ, zeile);
+            msg += exportparam(HBEXP_AFB, zeile);
+            msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             msg += DLG_SPIEGELN;
@@ -2510,6 +2635,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_TOPF))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgtopf, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HBEXP))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbexp, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -3064,6 +3193,22 @@ void MainWindow::on_actionMakeTopfband_triggered()
     }
 }
 
+void MainWindow::on_actionMakeHBE_X_plus_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbexp, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_hbexp;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -3096,6 +3241,8 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 //---------------------------------------------------
+
+
 
 
 

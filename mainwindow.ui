@@ -138,6 +138,7 @@
     <addaction name="actionMakeLochreihe_Anfang_Ende"/>
     <addaction name="actionMakeLochreihe_Mitte_Anfang"/>
     <addaction name="actionMakeTopfband"/>
+    <addaction name="actionMakeHBE_X_plus"/>
    </widget>
    <widget class="QMenu" name="menuManipulation">
     <property name="title">
@@ -355,6 +356,11 @@
   <action name="actionMakeTopfband">
    <property name="text">
     <string>Topfband</string>
+   </property>
+  </action>
+  <action name="actionMakeHBE_X_plus">
+   <property name="text">
+    <string>HBE X plus</string>
    </property>
   </action>
  </widget>

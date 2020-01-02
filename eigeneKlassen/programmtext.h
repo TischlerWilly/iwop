@@ -22,6 +22,7 @@
 #include "eigeneDefines/define_loreiae.h"
 #include "eigeneDefines/define_loreima.h"
 #include "eigeneDefines/define_topf.h"
+#include "eigeneDefines/define_hbexp.h"
 #include "eigeneDefines/define_spiegeln.h"
 #include "eigeneDefines/define_lage_aendern.h"
 

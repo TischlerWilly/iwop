@@ -29,6 +29,7 @@ SOURCES += \
         Dialoge/dialog_bohren_x.cpp \
         Dialoge/dialog_bohren_y.cpp \
         Dialoge/dialog_halt.cpp \
+        Dialoge/dialog_hbexp.cpp \
         Dialoge/dialog_kom.cpp \
         Dialoge/dialog_lage_aendern.cpp \
         Dialoge/dialog_loreiae.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
         Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
         Dialoge/dialog_halt.h \
+        Dialoge/dialog_hbexp.h \
         Dialoge/dialog_kom.h \
         Dialoge/dialog_lage_aendern.h \
         Dialoge/dialog_loreiae.h \
@@ -85,6 +87,7 @@ HEADERS += \
         eigeneDefines/define_bo.h \
         eigeneDefines/define_boX.h \
         eigeneDefines/define_boY.h \
+        eigeneDefines/define_hbexp.h \
         eigeneDefines/define_lage_aendern.h \
         eigeneDefines/define_loreiae.h \
         eigeneDefines/define_loreima.h \
@@ -133,6 +136,7 @@ FORMS += \
         Dialoge/dialog_bohren_x.ui \
         Dialoge/dialog_bohren_y.ui \
         Dialoge/dialog_halt.ui \
+        Dialoge/dialog_hbexp.ui \
         Dialoge/dialog_kom.ui \
         Dialoge/dialog_lage_aendern.ui \
         Dialoge/dialog_loreiae.ui \

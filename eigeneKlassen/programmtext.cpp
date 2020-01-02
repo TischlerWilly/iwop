@@ -700,6 +700,42 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_HBEXP))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, HBEXP_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_HBEXP;
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Y1, VAR_HBEXP_Y1, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Y2, VAR_HBEXP_Y2, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Y3, VAR_HBEXP_Y3, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Y4, VAR_HBEXP_Y4, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Y5, VAR_HBEXP_Y5, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Y6, VAR_HBEXP_Y6, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_BOTI, VAR_HBEXP_BOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_Z, VAR_HBEXP_Z, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_DM, VAR_HBEXP_DM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_KETTE, VAR_HBEXP_KETTE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_GRUPPE, VAR_HBEXP_GRUPPE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_X2, VAR_HBEXP_X2, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_X1, VAR_HBEXP_X1, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_ANBOTI, VAR_HBEXP_ANBOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_ANBOVO, VAR_HBEXP_ANBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_BOVO, VAR_HBEXP_BOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEXP_DREHZ, VAR_HBEXP_DREHZ, variablen, true);
+                //HBEXP_BEZ
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -780,6 +816,7 @@ void programmtext::aktualisiere_geo()
                                          //beim Fräser-Abfahren verfügbar ist
         //float fdm=0;                     //Fräser-Durchmesser
         bool kantenansicht = false;
+        float kantenabst = 20;
 
         for(uint i=1 ; i<=klartext.zeilenanzahl() ; i++)
         {
@@ -806,24 +843,37 @@ void programmtext::aktualisiere_geo()
                 QString fuenfseiten = text_mitte(zeile, PKOPF_FUENFSEI, ENDPAR);
                 if(fuenfseiten == "1")
                 {
+                    nullpunkt.set_linienbreite(10);
                     kantenansicht = true;
-                    float abst = 20;
+                    float abst = kantenabst;
                     //Kante unten:
+                    nullpunkt.set_x(versatz_x);
+                    nullpunkt.set_y(versatz_y-abst);
+                    geo.add_punkt(nullpunkt);
                     rec.set_einfuegepunkt(versatz_x,versatz_y-abst-get_werkstueckdicke(),0);
                     rec.set_breite(get_werkstueckdicke());
                     geo.add_rechteck(rec);
 
                     //Kante oben:
+                    nullpunkt.set_x(versatz_x);
+                    nullpunkt.set_y(versatz_y+abst+get_werkstueckbreite());
+                    geo.add_punkt(nullpunkt);
                     rec.set_einfuegepunkt(versatz_x,versatz_y+abst+get_werkstueckbreite(),0);
                     geo.add_rechteck(rec);
 
                     //Kante_links:
+                    nullpunkt.set_x(versatz_x-abst);
+                    nullpunkt.set_y(versatz_y);
+                    geo.add_punkt(nullpunkt);
                     rec.set_einfuegepunkt(versatz_x-abst-get_werkstueckdicke(),versatz_y,0);
                     rec.set_laenge(get_werkstueckdicke());
                     rec.set_breite(get_werkstueckbreite());
                     geo.add_rechteck(rec);
 
                     //Kante_rechts:
+                    nullpunkt.set_x(versatz_x+abst+get_werkstuecklaenge());
+                    nullpunkt.set_y(versatz_y);
+                    geo.add_punkt(nullpunkt);
                     rec.set_einfuegepunkt(versatz_x+abst+get_werkstuecklaenge(),versatz_y,0);
                     geo.add_rechteck(rec);
                 }
@@ -1674,6 +1724,111 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_HBEXP))
+            {
+                double y1 = text_mitte(zeile, HBEXP_Y1, ENDPAR).toDouble();
+                double y2 = 0;
+                double y3 = 0;
+                double y4 = 0;
+                double y5 = 0;
+                double y6 = 0;
+                double x2 = text_mitte(zeile, HBEXP_X2, ENDPAR).toDouble();
+                double x1 = text_mitte(zeile, HBEXP_X1, ENDPAR).toDouble();
+                double dm = text_mitte(zeile, HBEXP_DM, ENDPAR).toDouble();
+                double ti = text_mitte(zeile, HBEXP_BOTI, ENDPAR).toDouble();
+                double z = text_mitte(zeile, HBEXP_Z, ENDPAR).toDouble();
+                bool kette = false;
+                if(text_mitte(zeile, HBEXP_KETTE, ENDPAR).toDouble() > 0)
+                {
+                    kette = true;
+                }
+                if(kette == true)
+                {
+                    y2 = y1 + text_mitte(zeile, HBEXP_Y2, ENDPAR).toDouble();
+                    y3 = y2 + text_mitte(zeile, HBEXP_Y3, ENDPAR).toDouble();
+                    y4 = y3 + text_mitte(zeile, HBEXP_Y4, ENDPAR).toDouble();
+                    y5 = y4 + text_mitte(zeile, HBEXP_Y5, ENDPAR).toDouble();
+                    y6 = y5 + text_mitte(zeile, HBEXP_Y6, ENDPAR).toDouble();
+                }else
+                {
+                    y2 = text_mitte(zeile, HBEXP_Y2, ENDPAR).toDouble();
+                    y3 = text_mitte(zeile, HBEXP_Y3, ENDPAR).toDouble();
+                    y4 = text_mitte(zeile, HBEXP_Y4, ENDPAR).toDouble();
+                    y5 = text_mitte(zeile, HBEXP_Y5, ENDPAR).toDouble();
+                    y6 = text_mitte(zeile, HBEXP_Y6, ENDPAR).toDouble();
+                }
+                rechteck3d r;
+                r.set_stil(STIL_DURCHGEHEND);
+                r.set_farbe(FARBE_SCHWARZ);
+                r.set_farbe_fuellung(FARBE_BRAUN);
+                r.set_bezugspunkt(LINKS);
+                r.set_laenge(ti);
+                r.set_breite(dm);
+                kreis k;
+                k.set_stil(STIL_DURCHGEHEND);
+                k.set_farbe(FARBE_SCHWARZ);
+                k.set_farbe_fuellung(FARBE_BRAUN);
+                k.set_radius(dm/2);
+                for(uint i=1;i<=5;i++)
+                {
+                    double abst = 0;
+                    switch(i)
+                    {
+                        case 1:
+                            abst = y1;
+                            break;
+                        case 2:
+                            abst = y2;
+                            break;
+                        case 3:
+                            abst = y3;
+                            break;
+                        case 4:
+                            abst = y4;
+                            break;
+                        case 5:
+                            abst = y5;
+                            break;
+                        case 6:
+                            abst = y6;
+                            break;
+                    }
+                    if(abst == 0)
+                    {
+                        break;//for-Schleife
+                    }
+                    punkt3d p;
+                    p.set_x(x1);
+                    p.set_y(abst);
+                    r.set_einfuegepunkt(p);
+                    geo.add_rechteck(r);
+                    if(kantenansicht == true)
+                    {
+                        punkt3d mipu;
+                        mipu.set_x(versatz_x - kantenabst - z);
+                        mipu.set_y(abst);
+                        k.set_mittelpunkt(mipu);
+                        geo.add_kreis(k);
+                    }
+                    if(x2 > 0)
+                    {
+                        rechteck3d r2 = r;
+                        r2.set_bezugspunkt(RECHTS);
+                        punkt3d p2 = p;
+                        p2.set_x(x2);
+                        r2.set_einfuegepunkt(p2);
+                        geo.add_rechteck(r2);
+                        if(kantenansicht == true)
+                        {
+                            punkt3d mipu;
+                            mipu.set_x(versatz_x + get_werkstuecklaenge() + kantenabst + z);
+                            mipu.set_y(abst);
+                            k.set_mittelpunkt(mipu);
+                            geo.add_kreis(k);
+                        }
+                    }
+                }
+                geo.zeilenvorschub();
             }
         }
     }
@@ -1740,6 +1895,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_TOPF))
         {
             tmp += text_mitte(zeile, TOPF_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_HBEXP))
+        {
+            tmp += text_mitte(zeile, HBEXP_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
