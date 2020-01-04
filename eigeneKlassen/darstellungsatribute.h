@@ -64,6 +64,7 @@ private:
 #define FARBE_GRUEN     "gruen"
 #define FARBE_GELB      "gelb"
 #define FARBE_GRAU      "grau"
+#define FARBE_BRAUN     "braun"
 
 #define STIL_TRANSPARENT    "transparent"
 #define STIL_DURCHGEHEND    "durchgehend"

@@ -133,7 +133,15 @@
      <string>Bohren</string>
     </property>
     <addaction name="actionMakeBohren_Durchmesser"/>
+    <addaction name="actionMakeBohren_in_X"/>
     <addaction name="actionMakeBohren_in_Y"/>
+    <addaction name="actionMakeLochreihe_Anfang_Ende"/>
+    <addaction name="actionMakeLochreihe_Mitte_Anfang"/>
+    <addaction name="actionMakeTopfband"/>
+    <addaction name="actionMakeHBE_X_plus"/>
+    <addaction name="actionMakeHBE_X_minus"/>
+    <addaction name="actionMakeHBE_Y_plus"/>
+    <addaction name="actionMakeHBE_Y_minus"/>
    </widget>
    <widget class="QMenu" name="menuManipulation">
     <property name="title">
@@ -331,6 +339,46 @@
   <action name="actionMakeBohren_in_Y">
    <property name="text">
     <string>Bohren in Y</string>
+   </property>
+  </action>
+  <action name="actionMakeBohren_in_X">
+   <property name="text">
+    <string>Bohren in X</string>
+   </property>
+  </action>
+  <action name="actionMakeLochreihe_Anfang_Ende">
+   <property name="text">
+    <string>Lochreihe Anfang-Ende</string>
+   </property>
+  </action>
+  <action name="actionMakeLochreihe_Mitte_Anfang">
+   <property name="text">
+    <string>Lochreihe Mitte-Anfang</string>
+   </property>
+  </action>
+  <action name="actionMakeTopfband">
+   <property name="text">
+    <string>Topfband</string>
+   </property>
+  </action>
+  <action name="actionMakeHBE_X_plus">
+   <property name="text">
+    <string>HBE X plus</string>
+   </property>
+  </action>
+  <action name="actionMakeHBE_X_minus">
+   <property name="text">
+    <string>HBE X minus</string>
+   </property>
+  </action>
+  <action name="actionMakeHBE_Y_plus">
+   <property name="text">
+    <string>HBE Y plus</string>
+   </property>
+  </action>
+  <action name="actionMakeHBE_Y_minus">
+   <property name="text">
+    <string>HBE Y minus</string>
    </property>
   </action>
  </widget>

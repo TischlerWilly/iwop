@@ -26,14 +26,22 @@ CONFIG += c++11
 
 SOURCES += \
         Dialoge/dialog_bohren.cpp \
+        Dialoge/dialog_bohren_x.cpp \
         Dialoge/dialog_bohren_y.cpp \
         Dialoge/dialog_halt.cpp \
+        Dialoge/dialog_hbexm.cpp \
+        Dialoge/dialog_hbexp.cpp \
+        Dialoge/dialog_hbeym.cpp \
+        Dialoge/dialog_hbeyp.cpp \
         Dialoge/dialog_kom.cpp \
         Dialoge/dialog_lage_aendern.cpp \
+        Dialoge/dialog_loreiae.cpp \
+        Dialoge/dialog_loreima.cpp \
         Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
         Dialoge/dialog_spiegeln.cpp \
+        Dialoge/dialog_topf.cpp \
         eigeneFunktionen/geometrie.cpp \
         eigeneFunktionen/myfunktion.cpp \
         eigeneFunktionen/runden.cpp \
@@ -66,20 +74,36 @@ SOURCES += \
 
 HEADERS += \
         Dialoge/dialog_bohren.h \
+        Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
         Dialoge/dialog_halt.h \
+        Dialoge/dialog_hbexm.h \
+        Dialoge/dialog_hbexp.h \
+        Dialoge/dialog_hbeym.h \
+        Dialoge/dialog_hbeyp.h \
         Dialoge/dialog_kom.h \
         Dialoge/dialog_lage_aendern.h \
+        Dialoge/dialog_loreiae.h \
+        Dialoge/dialog_loreima.h \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
         Dialoge/dialog_spiegeln.h \
+        Dialoge/dialog_topf.h \
         eigeneDefines/define_bo.h \
+        eigeneDefines/define_boX.h \
         eigeneDefines/define_boY.h \
+        eigeneDefines/define_hbexm.h \
+        eigeneDefines/define_hbexp.h \
+        eigeneDefines/define_hbeym.h \
+        eigeneDefines/define_hbeyp.h \
         eigeneDefines/define_lage_aendern.h \
+        eigeneDefines/define_loreiae.h \
+        eigeneDefines/define_loreima.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
         eigeneDefines/define_spiegeln.h \
+        eigeneDefines/define_topf.h \
         eigeneDefines/defines_geometrie.h \
         eigeneDefines/defines_halt.h \
         eigeneDefines/defines_kom.h \
@@ -118,14 +142,22 @@ HEADERS += \
 
 FORMS += \
         Dialoge/dialog_bohren.ui \
+        Dialoge/dialog_bohren_x.ui \
         Dialoge/dialog_bohren_y.ui \
         Dialoge/dialog_halt.ui \
+        Dialoge/dialog_hbexm.ui \
+        Dialoge/dialog_hbexp.ui \
+        Dialoge/dialog_hbeym.ui \
+        Dialoge/dialog_hbeyp.ui \
         Dialoge/dialog_kom.ui \
         Dialoge/dialog_lage_aendern.ui \
+        Dialoge/dialog_loreiae.ui \
+        Dialoge/dialog_loreima.ui \
         Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
         Dialoge/dialog_spiegeln.ui \
+        Dialoge/dialog_topf.ui \
         mainwindow.ui
 
 # Default rules for deployment.

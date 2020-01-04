@@ -18,6 +18,14 @@
 #include "eigeneDefines/defines_halt.h"
 #include "eigeneDefines/define_bo.h"
 #include "eigeneDefines/define_boY.h"
+#include "eigeneDefines/define_boX.h"
+#include "eigeneDefines/define_loreiae.h"
+#include "eigeneDefines/define_loreima.h"
+#include "eigeneDefines/define_topf.h"
+#include "eigeneDefines/define_hbexp.h"
+#include "eigeneDefines/define_hbexm.h"
+#include "eigeneDefines/define_hbeyp.h"
+#include "eigeneDefines/define_hbeym.h"
 #include "eigeneDefines/define_spiegeln.h"
 #include "eigeneDefines/define_lage_aendern.h"
 
@@ -90,19 +98,19 @@ public:
         return fraeserdarst;
     }
 
-    inline  float   get_werkstuecklaenge()
+    inline  double   get_werkstuecklaenge()
     {
         return werkstuecklaenge;
     }
-    inline  float   get_werkstueckbreite()
+    inline  double   get_werkstueckbreite()
     {
         return werkstueckbreite;
     }
-    inline  float   get_werkstueckdicke()
+    inline  double   get_werkstueckdicke()
     {
         return werkstueckdicke;
     }
-    inline  float   get_sicherheitsabstand()
+    inline  double   get_sicherheitsabstand()
     {
         return sicherheitsabstand;
     }
@@ -123,15 +131,15 @@ public:
         return max_y;
     }
 
-    inline  float   get_ax()
+    inline  double   get_ax()
     {
         return versatz_x;
     }
-    inline  float   get_ay()
+    inline  double   get_ay()
     {
         return versatz_y;
     }
-    inline  float   get_az()
+    inline  double   get_az()
     {
         return versatz_z;
     }
@@ -210,13 +218,13 @@ private:
     geometrietext       maschinengeo;   //Maschinengeometrie
     geometrietext       fraeserdarst;   //Darstellung des Fräsers
 
-    float   werkstuecklaenge;
-    float   werkstueckbreite;
-    float   werkstueckdicke;
-    float   sicherheitsabstand;
-    float   versatz_x;
-    float   versatz_y;
-    float   versatz_z;
+    double  werkstuecklaenge;
+    double  werkstueckbreite;
+    double  werkstueckdicke;
+    double  sicherheitsabstand;
+    double  versatz_x;
+    double  versatz_y;
+    double  versatz_z;
     bool    hat_programmkopf;
     bool    hat_programmende;
     float   min_x, min_y, max_x, max_y;
@@ -228,27 +236,27 @@ private:
     bool    readonly;
 
             void    clear_ausser_text();
-    inline  void    set_werkstuecklaenge(float neue_laenge)
+    inline  void    set_werkstuecklaenge(double neue_laenge)
     {
         werkstuecklaenge = neue_laenge;
     }
-    inline  void    set_werkstueckbreite(float neue_breite)
+    inline  void    set_werkstueckbreite(double neue_breite)
     {
         werkstueckbreite = neue_breite;
     }
-    inline  void    set_werkstueckdicke(float neue_dicke)
+    inline  void    set_werkstueckdicke(double neue_dicke)
     {
         werkstueckdicke = neue_dicke;
     }
-    inline  void    set_versatz_x(float versatz)
+    inline  void    set_versatz_x(double versatz)
     {
         versatz_x = versatz;
     }
-    inline  void    set_versatz_y(float versatz)
+    inline  void    set_versatz_y(double versatz)
     {
         versatz_y = versatz;
     }
-    inline  void    set_versatz_z(float versatz)
+    inline  void    set_versatz_z(double versatz)
     {
         versatz_z = versatz;
     }

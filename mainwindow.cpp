@@ -16,6 +16,14 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_halt                    = halt.get_default();
     vorlage_bo                      = dlgbo.get_default();
     vorlage_boy                     = dlgboy.get_default();
+    vorlage_box                     = dlgbox.get_default();
+    vorlage_loreiae                 = dlgloreiae.get_default();
+    vorlage_loreima                 = dlgloreima.get_default();
+    vorlage_topf                    = dlgtopf.get_default();
+    vorlage_hbexp                   = dlghbexp.get_default();
+    vorlage_hbexm                   = dlghbexm.get_default();
+    vorlage_hbeyp                   = dlghbeyp.get_default();
+    vorlage_hbeym                   = dlghbeym.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -118,6 +126,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgbo, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgboy, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgbox, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgloreiae, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgloreima, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgtopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlghbexp, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlghbexm, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlghbeyp, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlghbeym, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -127,6 +143,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgbo, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgboy, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgbox, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgloreiae, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgloreima, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgtopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlghbexp, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlghbexm, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlghbeyp, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlghbeym, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
@@ -136,6 +160,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&halt, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgbo, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgboy, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgbox, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgloreiae, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgloreima, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgtopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlghbexp, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlghbexm, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlghbeyp, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlghbeym, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
@@ -363,7 +395,31 @@ QString MainWindow::loadConfig()
                     vorlage_bo = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
                 }else if(text.contains(DLG_BOY))
                 {
-                    vorlage_boy = selektiereEintrag(text, DLG_BO, ENDE_ZEILE);
+                    vorlage_boy = selektiereEintrag(text, DLG_BOY, ENDE_ZEILE);
+                }else if(text.contains(DLG_BOX))
+                {
+                    vorlage_box = selektiereEintrag(text, DLG_BOX, ENDE_ZEILE);
+                }else if(text.contains(DLG_LOREIAE))
+                {
+                    vorlage_loreiae = selektiereEintrag(text, DLG_LOREIAE, ENDE_ZEILE);
+                }else if(text.contains(DLG_LOREIMA))
+                {
+                    vorlage_loreima = selektiereEintrag(text, DLG_LOREIMA, ENDE_ZEILE);
+                }else if(text.contains(DLG_TOPF))
+                {
+                    vorlage_topf = selektiereEintrag(text, DLG_TOPF, ENDE_ZEILE);
+                }else if(text.contains(DLG_HBEXP))
+                {
+                    vorlage_hbexp = selektiereEintrag(text, DLG_HBEXP, ENDE_ZEILE);
+                }else if(text.contains(DLG_HBEXM))
+                {
+                    vorlage_hbexm = selektiereEintrag(text, DLG_HBEXM, ENDE_ZEILE);
+                }else if(text.contains(DLG_HBEYP))
+                {
+                    vorlage_hbeyp = selektiereEintrag(text, DLG_HBEYP, ENDE_ZEILE);
+                }else if(text.contains(DLG_HBEYM))
+                {
+                    vorlage_hbeym = selektiereEintrag(text, DLG_HBEYM, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -422,6 +478,38 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_BOY;
     inhaltVonKonfiguration +=       vorlage_boy;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_BOX;
+    inhaltVonKonfiguration +=       vorlage_box;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_LOREIAE;
+    inhaltVonKonfiguration +=       vorlage_loreiae;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_LOREIMA;
+    inhaltVonKonfiguration +=       vorlage_loreima;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_TOPF;
+    inhaltVonKonfiguration +=       vorlage_topf;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HBEXP;
+    inhaltVonKonfiguration +=       vorlage_hbexp;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HBEXM;
+    inhaltVonKonfiguration +=       vorlage_hbexm;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HBEYP;
+    inhaltVonKonfiguration +=       vorlage_hbeyp;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HBEYM;
+    inhaltVonKonfiguration +=       vorlage_hbeym;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -498,6 +586,30 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_BOY))
         {
             vorlage_boy = selektiereEintrag(text, DLG_BOY, ENDE_ZEILE);
+        }else if(text.contains(DLG_BOX))
+        {
+            vorlage_box = selektiereEintrag(text, DLG_BOX, ENDE_ZEILE);
+        }else if(text.contains(DLG_LOREIAE))
+        {
+            vorlage_loreiae = selektiereEintrag(text, DLG_LOREIAE, ENDE_ZEILE);
+        }else if(text.contains(DLG_LOREIMA))
+        {
+            vorlage_loreima = selektiereEintrag(text, DLG_LOREIMA, ENDE_ZEILE);
+        }else if(text.contains(DLG_TOPF))
+        {
+            vorlage_topf = selektiereEintrag(text, DLG_TOPF, ENDE_ZEILE);
+        }else if(text.contains(DLG_HBEXP))
+        {
+            vorlage_hbexp = selektiereEintrag(text, DLG_HBEXP, ENDE_ZEILE);
+        }else if(text.contains(DLG_HBEXM))
+        {
+            vorlage_hbexm = selektiereEintrag(text, DLG_HBEXM, ENDE_ZEILE);
+        }else if(text.contains(DLG_HBEYP))
+        {
+            vorlage_hbeyp = selektiereEintrag(text, DLG_HBEYP, ENDE_ZEILE);
+        }else if(text.contains(DLG_HBEYM))
+        {
+            vorlage_hbeym = selektiereEintrag(text, DLG_HBEYM, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -573,6 +685,14 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeHalt->setDisabled(true);
     ui->actionMakeBohren_Durchmesser->setDisabled(true);
     ui->actionMakeBohren_in_Y->setDisabled(true);
+    ui->actionMakeBohren_in_X->setDisabled(true);
+    ui->actionMakeLochreihe_Anfang_Ende->setDisabled(true);
+    ui->actionMakeLochreihe_Mitte_Anfang->setDisabled(true);
+    ui->actionMakeTopfband->setDisabled(true);
+    ui->actionMakeHBE_X_plus->setDisabled(true);
+    ui->actionMakeHBE_X_minus->setDisabled(true);
+    ui->actionMakeHBE_Y_plus->setDisabled(true);
+    ui->actionMakeHBE_Y_minus->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -607,6 +727,14 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeHalt->setEnabled(true);
     ui->actionMakeBohren_Durchmesser->setEnabled(true);
     ui->actionMakeBohren_in_Y->setEnabled(true);
+    ui->actionMakeBohren_in_X->setEnabled(true);
+    ui->actionMakeLochreihe_Anfang_Ende->setEnabled(true);
+    ui->actionMakeLochreihe_Mitte_Anfang->setEnabled(true);
+    ui->actionMakeTopfband->setEnabled(true);
+    ui->actionMakeHBE_X_plus->setEnabled(true);
+    ui->actionMakeHBE_X_minus->setEnabled(true);
+    ui->actionMakeHBE_Y_plus->setEnabled(true);
+    ui->actionMakeHBE_Y_minus->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1416,6 +1544,683 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_BOX))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_BOX;
+            prgzeile += vorlage_box;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(BOX_Y))
+                {
+                    prgzeile = replaceparam(BOX_Y, prgzeile, zeile);
+                }else if(zeile.contains(BOX_Y2))
+                {
+                    prgzeile = replaceparam(BOX_Y2, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X1))
+                {
+                    prgzeile = replaceparam(BOX_X1, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X2))
+                {
+                    prgzeile = replaceparam(BOX_X2, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X3))
+                {
+                    prgzeile = replaceparam(BOX_X3, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X4))
+                {
+                    prgzeile = replaceparam(BOX_X4, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X5))
+                {
+                    prgzeile = replaceparam(BOX_X5, prgzeile, zeile);
+                }else if(zeile.contains(BOX_X6))
+                {
+                    prgzeile = replaceparam(BOX_X6, prgzeile, zeile);
+                }else if(zeile.contains(BOX_BOTI))
+                {
+                    prgzeile = replaceparam(BOX_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(BOX_DM))
+                {
+                    prgzeile = replaceparam(BOX_DM, prgzeile, zeile);
+                }else if(zeile.contains(BOX_KETTE))
+                {
+                    prgzeile = replaceparam(BOX_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(BOX_GRUPPE))
+                {
+                    prgzeile = replaceparam(BOX_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(BOX_ANBOTI))
+                {
+                    prgzeile = replaceparam(BOX_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(BOX_ANBOVO))
+                {
+                    prgzeile = replaceparam(BOX_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(BOX_REBOMA))
+                {
+                    prgzeile = replaceparam(BOX_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(BOX_BOVO))
+                {
+                    prgzeile = replaceparam(BOX_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(BOX_ZSM))
+                {
+                    prgzeile = replaceparam(BOX_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(BOX_DREHZ))
+                {
+                    prgzeile = replaceparam(BOX_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(BOX_MESSEI))
+                {
+                    prgzeile = replaceparam(BOX_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(BOX_TASATZ))
+                {
+                    prgzeile = replaceparam(BOX_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(BOX_PLM))
+                {
+                    prgzeile = replaceparam(BOX_PLM, prgzeile, zeile);
+                }else if (zeile.contains(BOX_BEZ))
+                {
+                    prgzeile = replaceparam(BOX_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(BOX_AFB))
+                {
+                   prgzeile = replaceparam(BOX_AFB, prgzeile, zeile);
+                }else if (zeile.contains(BOX_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_LOREIAE))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_LOREIAE;
+            prgzeile += vorlage_loreiae;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(LOREIAE_XS))
+                {
+                    prgzeile = replaceparam(LOREIAE_XS, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_XE))
+                {
+                    prgzeile = replaceparam(LOREIAE_XE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_Y1))
+                {
+                    prgzeile = replaceparam(LOREIAE_Y1, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_Y2))
+                {
+                    prgzeile = replaceparam(LOREIAE_Y2, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_YE))
+                {
+                    prgzeile = replaceparam(LOREIAE_YE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_RASTER))
+                {
+                    prgzeile = replaceparam(LOREIAE_RASTER, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_BOTI))
+                {
+                    prgzeile = replaceparam(LOREIAE_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_DM))
+                {
+                    prgzeile = replaceparam(LOREIAE_DM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_GRUPPE))
+                {
+                    prgzeile = replaceparam(LOREIAE_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_VERMIT))
+                {
+                    prgzeile = replaceparam(LOREIAE_VERMIT, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_ANBOTI))
+                {
+                    prgzeile = replaceparam(LOREIAE_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_ANBOVO))
+                {
+                    prgzeile = replaceparam(LOREIAE_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_REBOMA))
+                {
+                    prgzeile = replaceparam(LOREIAE_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_BOVO))
+                {
+                    prgzeile = replaceparam(LOREIAE_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_ZSM))
+                {
+                    prgzeile = replaceparam(LOREIAE_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_DREHZ))
+                {
+                    prgzeile = replaceparam(LOREIAE_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_MESSEI))
+                {
+                    prgzeile = replaceparam(LOREIAE_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_TASATZ))
+                {
+                    prgzeile = replaceparam(LOREIAE_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIAE_PLM))
+                {
+                    prgzeile = replaceparam(LOREIAE_PLM, prgzeile, zeile);
+                }else if (zeile.contains(LOREIAE_BEZ))
+                {
+                    prgzeile = replaceparam(LOREIAE_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(LOREIAE_AFB))
+                {
+                   prgzeile = replaceparam(LOREIAE_AFB, prgzeile, zeile);
+                }else if (zeile.contains(LOREIAE_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_LOREIMA))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_LOREIMA;
+            prgzeile += vorlage_loreima;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(LOREIMA_XS))
+                {
+                    prgzeile = replaceparam(LOREIMA_XS, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_XM))
+                {
+                    prgzeile = replaceparam(LOREIMA_XM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_Y1))
+                {
+                    prgzeile = replaceparam(LOREIMA_Y1, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_Y2))
+                {
+                    prgzeile = replaceparam(LOREIMA_Y2, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_RASTER))
+                {
+                    prgzeile = replaceparam(LOREIMA_RASTER, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_BOTI))
+                {
+                    prgzeile = replaceparam(LOREIMA_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_DM))
+                {
+                    prgzeile = replaceparam(LOREIMA_DM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_GRUPPE))
+                {
+                    prgzeile = replaceparam(LOREIMA_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_ANBOTI))
+                {
+                    prgzeile = replaceparam(LOREIMA_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_ANBOVO))
+                {
+                    prgzeile = replaceparam(LOREIMA_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_REBOMA))
+                {
+                    prgzeile = replaceparam(LOREIMA_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_BOVO))
+                {
+                    prgzeile = replaceparam(LOREIMA_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_ZSM))
+                {
+                    prgzeile = replaceparam(LOREIMA_ZSM, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_DREHZ))
+                {
+                    prgzeile = replaceparam(LOREIMA_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_MESSEI))
+                {
+                    prgzeile = replaceparam(LOREIMA_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_TASATZ))
+                {
+                    prgzeile = replaceparam(LOREIMA_TASATZ, prgzeile, zeile);
+                }else if(zeile.contains(LOREIMA_PLM))
+                {
+                    prgzeile = replaceparam(LOREIMA_PLM, prgzeile, zeile);
+                }else if (zeile.contains(LOREIMA_BEZ))
+                {
+                    prgzeile = replaceparam(LOREIMA_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(LOREIMA_AFB))
+                {
+                   prgzeile = replaceparam(LOREIMA_AFB, prgzeile, zeile);
+                }else if (zeile.contains(LOREIMA_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_TOPF))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_TOPF;
+            prgzeile += vorlage_topf;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(TOPF_TA))
+                {
+                    prgzeile = replaceparam(TOPF_TA, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A1))
+                {
+                    prgzeile = replaceparam(TOPF_A1, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A2))
+                {
+                    prgzeile = replaceparam(TOPF_A2, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A3))
+                {
+                    prgzeile = replaceparam(TOPF_A3, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A4))
+                {
+                    prgzeile = replaceparam(TOPF_A4, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_A5))
+                {
+                    prgzeile = replaceparam(TOPF_A5, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_MA))
+                {
+                    prgzeile = replaceparam(TOPF_MA, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_MB))
+                {
+                    prgzeile = replaceparam(TOPF_MB, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_KETTE))
+                {
+                    prgzeile = replaceparam(TOPF_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_GRUPPE))
+                {
+                    prgzeile = replaceparam(TOPF_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_SEITE))
+                {
+                    prgzeile = replaceparam(TOPF_SEITE, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_MESSEI))
+                {
+                    prgzeile = replaceparam(TOPF_MESSEI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BODM))
+                {
+                    prgzeile = replaceparam(TOPF_BODM, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TODM))
+                {
+                    prgzeile = replaceparam(TOPF_TODM, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOTI))
+                {
+                    prgzeile = replaceparam(TOPF_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_WKZ))
+                {
+                    prgzeile = replaceparam(TOPF_WKZ, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TOTI))
+                {
+                    prgzeile = replaceparam(TOPF_TOTI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_ANBOTI))
+                {
+                    prgzeile = replaceparam(TOPF_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOANBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_BOANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TOANBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_TOANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_REBOMA))
+                {
+                    prgzeile = replaceparam(TOPF_REBOMA, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_BOBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_TOBOVO))
+                {
+                    prgzeile = replaceparam(TOPF_TOBOVO, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_BOZSM))
+                {
+                    prgzeile = replaceparam(TOPF_BOZSM, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_DREHZ))
+                {
+                    prgzeile = replaceparam(TOPF_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(TOPF_PLM))
+                {
+                    prgzeile = replaceparam(TOPF_PLM, prgzeile, zeile);
+                }else if (zeile.contains(TOPF_BEZ))
+                {
+                    prgzeile = replaceparam(TOPF_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(TOPF_AFB))
+                {
+                   prgzeile = replaceparam(TOPF_AFB, prgzeile, zeile);
+                }else if (zeile.contains(TOPF_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HBEXP))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HBEXP;
+            prgzeile += vorlage_hbexp;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HBEXP_Y1))
+                {
+                    prgzeile = replaceparam(HBEXP_Y1, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y2))
+                {
+                    prgzeile = replaceparam(HBEXP_Y2, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y3))
+                {
+                    prgzeile = replaceparam(HBEXP_Y3, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y4))
+                {
+                    prgzeile = replaceparam(HBEXP_Y4, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y5))
+                {
+                    prgzeile = replaceparam(HBEXP_Y5, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Y6))
+                {
+                    prgzeile = replaceparam(HBEXP_Y6, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_BOTI))
+                {
+                    prgzeile = replaceparam(HBEXP_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_Z))
+                {
+                    prgzeile = replaceparam(HBEXP_Z, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_DM))
+                {
+                    prgzeile = replaceparam(HBEXP_DM, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_KETTE))
+                {
+                    prgzeile = replaceparam(HBEXP_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_GRUPPE))
+                {
+                    prgzeile = replaceparam(HBEXP_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_X2))
+                {
+                    prgzeile = replaceparam(HBEXP_X2, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_X1))
+                {
+                    prgzeile = replaceparam(HBEXP_X1, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_ANBOTI))
+                {
+                    prgzeile = replaceparam(HBEXP_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_ANBOVO))
+                {
+                    prgzeile = replaceparam(HBEXP_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_BOVO))
+                {
+                    prgzeile = replaceparam(HBEXP_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEXP_DREHZ))
+                {
+                    prgzeile = replaceparam(HBEXP_DREHZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEXP_BEZ))
+                {
+                    prgzeile = replaceparam(HBEXP_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEXP_AFB))
+                {
+                   prgzeile = replaceparam(HBEXP_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HBEXP_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HBEXM))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HBEXM;
+            prgzeile += vorlage_hbexm;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HBEXM_Y1))
+                {
+                    prgzeile = replaceparam(HBEXM_Y1, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_Y2))
+                {
+                    prgzeile = replaceparam(HBEXM_Y2, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_Y3))
+                {
+                    prgzeile = replaceparam(HBEXM_Y3, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_Y4))
+                {
+                    prgzeile = replaceparam(HBEXM_Y4, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_Y5))
+                {
+                    prgzeile = replaceparam(HBEXM_Y5, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_Y6))
+                {
+                    prgzeile = replaceparam(HBEXM_Y6, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_BOTI))
+                {
+                    prgzeile = replaceparam(HBEXM_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_Z))
+                {
+                    prgzeile = replaceparam(HBEXM_Z, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_DM))
+                {
+                    prgzeile = replaceparam(HBEXM_DM, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_KETTE))
+                {
+                    prgzeile = replaceparam(HBEXM_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_GRUPPE))
+                {
+                    prgzeile = replaceparam(HBEXM_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_X2))
+                {
+                    prgzeile = replaceparam(HBEXM_X2, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_X1))
+                {
+                    prgzeile = replaceparam(HBEXM_X1, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_ANBOTI))
+                {
+                    prgzeile = replaceparam(HBEXM_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_ANBOVO))
+                {
+                    prgzeile = replaceparam(HBEXM_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_BOVO))
+                {
+                    prgzeile = replaceparam(HBEXM_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEXM_DREHZ))
+                {
+                    prgzeile = replaceparam(HBEXM_DREHZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEXM_BEZ))
+                {
+                    prgzeile = replaceparam(HBEXM_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEXM_AFB))
+                {
+                   prgzeile = replaceparam(HBEXM_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HBEXM_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HBEYP))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HBEYP;
+            prgzeile += vorlage_hbeyp;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HBEYP_X1))
+                {
+                    prgzeile = replaceparam(HBEYP_X1, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_X2))
+                {
+                    prgzeile = replaceparam(HBEYP_X2, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_X3))
+                {
+                    prgzeile = replaceparam(HBEYP_X3, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_X4))
+                {
+                    prgzeile = replaceparam(HBEYP_X4, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_X5))
+                {
+                    prgzeile = replaceparam(HBEYP_X5, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_X6))
+                {
+                    prgzeile = replaceparam(HBEYP_X6, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_BOTI))
+                {
+                    prgzeile = replaceparam(HBEYP_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_Z))
+                {
+                    prgzeile = replaceparam(HBEYP_Z, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_DM))
+                {
+                    prgzeile = replaceparam(HBEYP_DM, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_KETTE))
+                {
+                    prgzeile = replaceparam(HBEYP_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_GRUPPE))
+                {
+                    prgzeile = replaceparam(HBEYP_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_Y2))
+                {
+                    prgzeile = replaceparam(HBEYP_Y2, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_Y1))
+                {
+                    prgzeile = replaceparam(HBEYP_Y1, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_ANBOTI))
+                {
+                    prgzeile = replaceparam(HBEYP_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_ANBOVO))
+                {
+                    prgzeile = replaceparam(HBEYP_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_BOVO))
+                {
+                    prgzeile = replaceparam(HBEYP_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEYP_DREHZ))
+                {
+                    prgzeile = replaceparam(HBEYP_DREHZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEYP_BEZ))
+                {
+                    prgzeile = replaceparam(HBEYP_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEYP_AFB))
+                {
+                   prgzeile = replaceparam(HBEYP_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HBEYP_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HBEYM))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HBEYM;
+            prgzeile += vorlage_hbeym;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HBEYM_X1))
+                {
+                    prgzeile = replaceparam(HBEYM_X1, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_X2))
+                {
+                    prgzeile = replaceparam(HBEYM_X2, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_X3))
+                {
+                    prgzeile = replaceparam(HBEYM_X3, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_X4))
+                {
+                    prgzeile = replaceparam(HBEYM_X4, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_X5))
+                {
+                    prgzeile = replaceparam(HBEYM_X5, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_X6))
+                {
+                    prgzeile = replaceparam(HBEYM_X6, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_BOTI))
+                {
+                    prgzeile = replaceparam(HBEYM_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_Z))
+                {
+                    prgzeile = replaceparam(HBEYM_Z, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_DM))
+                {
+                    prgzeile = replaceparam(HBEYM_DM, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_KETTE))
+                {
+                    prgzeile = replaceparam(HBEYM_KETTE, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_GRUPPE))
+                {
+                    prgzeile = replaceparam(HBEYM_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_Y2))
+                {
+                    prgzeile = replaceparam(HBEYM_Y2, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_Y1))
+                {
+                    prgzeile = replaceparam(HBEYM_Y1, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_ANBOTI))
+                {
+                    prgzeile = replaceparam(HBEYM_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_ANBOVO))
+                {
+                    prgzeile = replaceparam(HBEYM_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_BOVO))
+                {
+                    prgzeile = replaceparam(HBEYM_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEYM_DREHZ))
+                {
+                    prgzeile = replaceparam(HBEYM_DREHZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEYM_BEZ))
+                {
+                    prgzeile = replaceparam(HBEYM_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEYM_AFB))
+                {
+                   prgzeile = replaceparam(HBEYM_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HBEYM_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -1663,6 +2468,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             }
 
             msg += exportparam(BOY_X, zeile);
+            msg += exportparam(BOY_X2, zeile);
             msg += exportparam(BOY_Y1, zeile);
             msg += exportparam(BOY_Y2, zeile);
             msg += exportparam(BOY_Y3, zeile);
@@ -1684,6 +2490,261 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(BOY_PLM, zeile);
             msg += exportparam(BOY_BEZ, zeile);
             msg += exportparam(BOY_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_BOX))
+        {
+            msg += DLG_BOX;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(BOX_Y, zeile);
+            msg += exportparam(BOX_Y2, zeile);
+            msg += exportparam(BOX_X1, zeile);
+            msg += exportparam(BOX_X2, zeile);
+            msg += exportparam(BOX_X3, zeile);
+            msg += exportparam(BOX_X4, zeile);
+            msg += exportparam(BOX_X5, zeile);
+            msg += exportparam(BOX_X6, zeile);
+            msg += exportparam(BOX_BOTI, zeile);
+            msg += exportparam(BOX_DM, zeile);
+            msg += exportparam(BOX_KETTE, zeile);
+            msg += exportparam(BOX_GRUPPE, zeile);
+            msg += exportparam(BOX_ANBOTI, zeile);
+            msg += exportparam(BOX_ANBOVO, zeile);
+            msg += exportparam(BOX_REBOMA, zeile);
+            msg += exportparam(BOX_BOVO, zeile);
+            msg += exportparam(BOX_ZSM, zeile);
+            msg += exportparam(BOX_DREHZ, zeile);
+            msg += exportparam(BOX_MESSEI, zeile);
+            msg += exportparam(BOX_TASATZ, zeile);
+            msg += exportparam(BOX_PLM, zeile);
+            msg += exportparam(BOX_BEZ, zeile);
+            msg += exportparam(BOX_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_LOREIAE))
+        {
+            msg += DLG_LOREIAE;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(LOREIAE_XS, zeile);
+            msg += exportparam(LOREIAE_XE, zeile);
+            msg += exportparam(LOREIAE_Y1, zeile);
+            msg += exportparam(LOREIAE_Y2, zeile);
+            msg += exportparam(LOREIAE_YE, zeile);
+            msg += exportparam(LOREIAE_RASTER, zeile);
+            msg += exportparam(LOREIAE_BOTI, zeile);
+            msg += exportparam(LOREIAE_DM, zeile);
+            msg += exportparam(LOREIAE_GRUPPE, zeile);
+            msg += exportparam(LOREIAE_VERMIT, zeile);
+            msg += exportparam(LOREIAE_ANBOTI, zeile);
+            msg += exportparam(LOREIAE_ANBOVO, zeile);
+            msg += exportparam(LOREIAE_REBOMA, zeile);
+            msg += exportparam(LOREIAE_BOVO, zeile);
+            msg += exportparam(LOREIAE_ZSM, zeile);
+            msg += exportparam(LOREIAE_DREHZ, zeile);
+            msg += exportparam(LOREIAE_MESSEI, zeile);
+            msg += exportparam(LOREIAE_TASATZ, zeile);
+            msg += exportparam(LOREIAE_PLM, zeile);
+            msg += exportparam(LOREIAE_BEZ, zeile);
+            msg += exportparam(LOREIAE_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_LOREIMA))
+        {
+            msg += DLG_LOREIMA;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(LOREIMA_XS, zeile);
+            msg += exportparam(LOREIMA_XM, zeile);
+            msg += exportparam(LOREIMA_Y1, zeile);
+            msg += exportparam(LOREIMA_Y2, zeile);
+            msg += exportparam(LOREIMA_RASTER, zeile);
+            msg += exportparam(LOREIMA_BOTI, zeile);
+            msg += exportparam(LOREIMA_DM, zeile);
+            msg += exportparam(LOREIMA_GRUPPE, zeile);
+            msg += exportparam(LOREIMA_ANBOTI, zeile);
+            msg += exportparam(LOREIMA_ANBOVO, zeile);
+            msg += exportparam(LOREIMA_REBOMA, zeile);
+            msg += exportparam(LOREIMA_BOVO, zeile);
+            msg += exportparam(LOREIMA_ZSM, zeile);
+            msg += exportparam(LOREIMA_DREHZ, zeile);
+            msg += exportparam(LOREIMA_MESSEI, zeile);
+            msg += exportparam(LOREIMA_TASATZ, zeile);
+            msg += exportparam(LOREIMA_PLM, zeile);
+            msg += exportparam(LOREIMA_BEZ, zeile);
+            msg += exportparam(LOREIMA_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_TOPF))
+        {
+            msg += DLG_TOPF;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(TOPF_TA, zeile);
+            msg += exportparam(TOPF_A1, zeile);
+            msg += exportparam(TOPF_A2, zeile);
+            msg += exportparam(TOPF_A3, zeile);
+            msg += exportparam(TOPF_A4, zeile);
+            msg += exportparam(TOPF_A5, zeile);
+            msg += exportparam(TOPF_MA, zeile);
+            msg += exportparam(TOPF_MB, zeile);
+            msg += exportparam(TOPF_KETTE, zeile);
+            msg += exportparam(TOPF_GRUPPE, zeile);
+            msg += exportparam(TOPF_SEITE, zeile);
+            msg += exportparam(TOPF_MESSEI, zeile);
+            msg += exportparam(TOPF_BODM, zeile);
+            msg += exportparam(TOPF_TODM, zeile);
+            msg += exportparam(TOPF_BOTI, zeile);
+            msg += exportparam(TOPF_WKZ, zeile);
+            msg += exportparam(TOPF_TOTI, zeile);
+            msg += exportparam(TOPF_ANBOTI, zeile);
+            msg += exportparam(TOPF_BOANBOVO, zeile);
+            msg += exportparam(TOPF_TOANBOVO, zeile);
+            msg += exportparam(TOPF_REBOMA, zeile);
+            msg += exportparam(TOPF_BOBOVO, zeile);
+            msg += exportparam(TOPF_TOBOVO, zeile);
+            msg += exportparam(TOPF_BOZSM, zeile);
+            msg += exportparam(TOPF_DREHZ, zeile);
+            msg += exportparam(TOPF_PLM, zeile);
+            msg += exportparam(TOPF_BEZ, zeile);
+            msg += exportparam(TOPF_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_HBEXP))
+        {
+            msg += DLG_HBEXP;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(HBEXP_Y1, zeile);
+            msg += exportparam(HBEXP_Y2, zeile);
+            msg += exportparam(HBEXP_Y3, zeile);
+            msg += exportparam(HBEXP_Y4, zeile);
+            msg += exportparam(HBEXP_Y5, zeile);
+            msg += exportparam(HBEXP_Y6, zeile);
+            msg += exportparam(HBEXP_BOTI, zeile);
+            msg += exportparam(HBEXP_Z, zeile);
+            msg += exportparam(HBEXP_DM, zeile);
+            msg += exportparam(HBEXP_KETTE, zeile);
+            msg += exportparam(HBEXP_GRUPPE, zeile);
+            msg += exportparam(HBEXP_X2, zeile);
+            msg += exportparam(HBEXP_X1, zeile);
+            msg += exportparam(HBEXP_ANBOTI, zeile);
+            msg += exportparam(HBEXP_ANBOVO, zeile);
+            msg += exportparam(HBEXP_BOVO, zeile);
+            msg += exportparam(HBEXP_DREHZ, zeile);
+            msg += exportparam(HBEXP_BEZ, zeile);
+            msg += exportparam(HBEXP_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_HBEXM))
+        {
+            msg += DLG_HBEXM;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(HBEXM_Y1, zeile);
+            msg += exportparam(HBEXM_Y2, zeile);
+            msg += exportparam(HBEXM_Y3, zeile);
+            msg += exportparam(HBEXM_Y4, zeile);
+            msg += exportparam(HBEXM_Y5, zeile);
+            msg += exportparam(HBEXM_Y6, zeile);
+            msg += exportparam(HBEXM_BOTI, zeile);
+            msg += exportparam(HBEXM_Z, zeile);
+            msg += exportparam(HBEXM_DM, zeile);
+            msg += exportparam(HBEXM_KETTE, zeile);
+            msg += exportparam(HBEXM_GRUPPE, zeile);
+            msg += exportparam(HBEXM_X2, zeile);
+            msg += exportparam(HBEXM_X1, zeile);
+            msg += exportparam(HBEXM_ANBOTI, zeile);
+            msg += exportparam(HBEXM_ANBOVO, zeile);
+            msg += exportparam(HBEXM_BOVO, zeile);
+            msg += exportparam(HBEXM_DREHZ, zeile);
+            msg += exportparam(HBEXM_BEZ, zeile);
+            msg += exportparam(HBEXM_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_HBEYP))
+        {
+            msg += DLG_HBEYP;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(HBEYP_X1, zeile);
+            msg += exportparam(HBEYP_X2, zeile);
+            msg += exportparam(HBEYP_X3, zeile);
+            msg += exportparam(HBEYP_X4, zeile);
+            msg += exportparam(HBEYP_X5, zeile);
+            msg += exportparam(HBEYP_X6, zeile);
+            msg += exportparam(HBEYP_BOTI, zeile);
+            msg += exportparam(HBEYP_Z, zeile);
+            msg += exportparam(HBEYP_DM, zeile);
+            msg += exportparam(HBEYP_KETTE, zeile);
+            msg += exportparam(HBEYP_GRUPPE, zeile);
+            msg += exportparam(HBEYP_Y2, zeile);
+            msg += exportparam(HBEYP_Y1, zeile);
+            msg += exportparam(HBEYP_ANBOTI, zeile);
+            msg += exportparam(HBEYP_ANBOVO, zeile);
+            msg += exportparam(HBEYP_BOVO, zeile);
+            msg += exportparam(HBEYP_DREHZ, zeile);
+            msg += exportparam(HBEYP_BEZ, zeile);
+            msg += exportparam(HBEYP_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_HBEYM))
+        {
+            msg += DLG_HBEYM;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(HBEYM_X1, zeile);
+            msg += exportparam(HBEYM_X2, zeile);
+            msg += exportparam(HBEYM_X3, zeile);
+            msg += exportparam(HBEYM_X4, zeile);
+            msg += exportparam(HBEYM_X5, zeile);
+            msg += exportparam(HBEYM_X6, zeile);
+            msg += exportparam(HBEYM_BOTI, zeile);
+            msg += exportparam(HBEYM_Z, zeile);
+            msg += exportparam(HBEYM_DM, zeile);
+            msg += exportparam(HBEYM_KETTE, zeile);
+            msg += exportparam(HBEYM_GRUPPE, zeile);
+            msg += exportparam(HBEYM_Y2, zeile);
+            msg += exportparam(HBEYM_Y1, zeile);
+            msg += exportparam(HBEYM_ANBOTI, zeile);
+            msg += exportparam(HBEYM_ANBOVO, zeile);
+            msg += exportparam(HBEYM_BOVO, zeile);
+            msg += exportparam(HBEYM_DREHZ, zeile);
+            msg += exportparam(HBEYM_BEZ, zeile);
+            msg += exportparam(HBEYM_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
@@ -1933,6 +2994,38 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_BOY))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgboy, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_BOX))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbox, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_LOREIAE))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreiae, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_LOREIMA))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreima, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_TOPF))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgtopf, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HBEXP))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbexp, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HBEXM))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbexm, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HBEYP))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeyp, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HBEYM))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeym, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -2423,6 +3516,134 @@ void MainWindow::on_actionMakeBohren_in_Y_triggered()
     }
 }
 
+void MainWindow::on_actionMakeBohren_in_X_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgbox, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_box;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeLochreihe_Anfang_Ende_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreiae, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_loreiae;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeLochreihe_Mitte_Anfang_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgloreima, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_loreima;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeTopfband_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgtopf, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_topf;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeHBE_X_plus_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbexp, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_hbexp;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeHBE_X_minus_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbexm, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_hbexm;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeHBE_Y_plus_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeyp, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_hbeyp;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeHBE_Y_minus_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeym, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_hbeym;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -2455,6 +3676,22 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 //---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
