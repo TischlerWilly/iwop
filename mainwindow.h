@@ -30,6 +30,9 @@
 #include "Dialoge/dialog_loreima.h"
 #include "Dialoge/dialog_topf.h"
 #include "Dialoge/dialog_hbexp.h"
+#include "Dialoge/dialog_hbexm.h"
+#include "Dialoge/dialog_hbeyp.h"
+#include "Dialoge/dialog_hbeym.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
 
@@ -82,6 +85,9 @@ private:
     Dialog_loreima   dlgloreima;
     Dialog_topf      dlgtopf;
     Dialog_hbexp     dlghbexp;
+    Dialog_hbexm     dlghbexm;
+    Dialog_hbeyp     dlghbeyp;
+    Dialog_hbeym     dlghbeym;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
 
@@ -101,6 +107,9 @@ private:
     QString         vorlage_loreima;
     QString         vorlage_topf;
     QString         vorlage_hbexp;
+    QString         vorlage_hbexm;
+    QString         vorlage_hbeyp;
+    QString         vorlage_hbeym;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -175,6 +184,9 @@ private slots:
     void on_actionMakeLochreihe_Mitte_Anfang_triggered();
     void on_actionMakeTopfband_triggered();
     void on_actionMakeHBE_X_plus_triggered();
+    void on_actionMakeHBE_X_minus_triggered();
+    void on_actionMakeHBE_Y_plus_triggered();
+    void on_actionMakeHBE_Y_minus_triggered();
 };
 
 #endif // MAINWINDOW_H
