@@ -52,10 +52,36 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>40</y>
         <width>251</width>
-        <height>391</height>
+        <height>361</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_MakeFraeser">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>neuer Fräser</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_MakeSaege">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>10</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>neue Säge</string>
       </property>
      </widget>
     </widget>

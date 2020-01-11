@@ -23,13 +23,13 @@ public:
             void    set_start(punkt3d startpunkt);
             void    set_ende(punkt3d endpunkt);
             void    richtung_unkehren();
-            void    drenen_um_startpunkt_2d(float drehwinkel, \
+            void    drenen_um_startpunkt_2d(double drehwinkel, \
                                              bool drehrichtung_im_uhrzeigersinn);
-            void    drenen_um_endpunkt_2d(float drehwinkel, \
+            void    drenen_um_endpunkt_2d(double drehwinkel, \
                                              bool drehrichtung_im_uhrzeigersinn);
-            void    drenen_um_mittelpunkt_2d(float drehwinkel, \
+            void    drenen_um_mittelpunkt_2d(double drehwinkel, \
                                              bool drehrichtung_im_uhrzeigersinn);
-            void    set_laenge_2d(float neue_laenge, \
+            void    set_laenge_2d(double neue_laenge, \
                        strecke_bezugspunkt bezugspunkt = strecke_bezugspunkt_mitte);
             void    verschieben_um(double xversatz, double yversatz);
 
@@ -52,11 +52,11 @@ public:
     }
     inline QString laenge3dim_QString()
     {
-        return float_to_qstring(laenge3d);
+        return double_to_qstring(laenge3d);
     }
     inline QString laenge2dim_QString()
     {
-        return float_to_qstring(laenge2d);
+        return double_to_qstring(laenge2d);
     }
 
     punkt3d get_mittelpunkt3d();

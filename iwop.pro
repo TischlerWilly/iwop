@@ -67,6 +67,7 @@ SOURCES += \
         eigeneKlassen/undo_redo.cpp \
         eigeneKlassen/vorschau.cpp \
         eigeneKlassen/wenndannsonst.cpp \
+        eigeneKlassen/wkz_fraeser.cpp \
         eigeneKlassen/wuerfel.cpp \
         eigeneKlassen/zylinder.cpp \
         main.cpp \
@@ -104,6 +105,8 @@ HEADERS += \
         eigeneDefines/define_prgkopf.h \
         eigeneDefines/define_spiegeln.h \
         eigeneDefines/define_topf.h \
+        eigeneDefines/define_wkz.h \
+        eigeneDefines/define_wkz_fraeser.h \
         eigeneDefines/defines_geometrie.h \
         eigeneDefines/defines_halt.h \
         eigeneDefines/defines_kom.h \
@@ -132,6 +135,7 @@ HEADERS += \
         eigeneKlassen/undo_redo.h \
         eigeneKlassen/vorschau.h \
         eigeneKlassen/wenndannsonst.h \
+        eigeneKlassen/wkz_fraeser.h \
         eigeneKlassen/wuerfel.h \
         eigeneKlassen/zylinder.h \
         eigeneMakros/makro_geometrie.h \

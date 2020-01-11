@@ -175,7 +175,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
-
 }
 
 MainWindow::~MainWindow()
@@ -185,6 +184,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
+    //-------------------------------------------Tab-Widget:
     QRect rect_main =  this->geometry();
     int hoehe = rect_main.height();
     int breite = rect_main.width();
@@ -199,21 +199,27 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         breite_widget = 1;
     }
     ui->tabWidget->setFixedSize(breite_widget, hoehe_widget);
-    QRect rect_tabWidget =  ui->tabWidget->geometry();
-    hoehe = rect_tabWidget.height();
-    breite = rect_tabWidget.width();
-    hoehe_widget = hoehe-55;
-    if (hoehe_widget <1)
-    {
-        hoehe_widget = 1;
-    }
-    breite_widget = breite-20;
-    if (breite_widget <1)
-    {
-        breite_widget = 1;
-    }
-    ui->listWidget_Werkzeug->setFixedSize(breite_widget, hoehe_widget);
 
+    //-------------------------------------------Reiter Werkzeug:
+    ui->pushButton_MakeFraeser->move(5,15);
+    ui->pushButton_MakeSaege->move(5+ui->pushButton_MakeFraeser->width()+5, 15);
+
+    ui->listWidget_Werkzeug->move(5, 15+ui->pushButton_MakeFraeser->height()+15);
+    int tmp;
+    tmp = ui->tab_Werkzeug->width() - 10 ;
+    if(tmp < 1)
+    {
+        tmp = 1;
+    }
+    ui->listWidget_Werkzeug->setFixedWidth(tmp);
+    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - 50;
+    if(tmp < 1)
+    {
+        tmp = 1;
+    }
+    ui->listWidget_Werkzeug->setFixedHeight(tmp);
+
+    //-------------------------------------------Reiter Programmliste:
     double breitePrgListe =ui->tab_Programmliste->width()/3;
     if(breitePrgListe > 250)
     {
@@ -222,11 +228,18 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     vorschaufenster.move(breitePrgListe+5,10);
     vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-breitePrgListe-10);
-    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-70);
+    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-60);
     ui->listWidget_Programmliste->setFixedWidth(breitePrgListe-10);
-    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-30);
+    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-60);
 
+    //-------------------------------------------
     QMainWindow::resizeEvent(event);
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    this->resize(this->width()-1 , this->height()-1);
+    this->resize(this->width()+1 , this->height()+1);
 }
 
 void MainWindow::closeEvent(QCloseEvent *ce)
@@ -3676,6 +3689,8 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 //---------------------------------------------------
+
+
 
 
 

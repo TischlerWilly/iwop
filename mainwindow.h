@@ -187,6 +187,7 @@ private slots:
     void on_actionMakeHBE_X_minus_triggered();
     void on_actionMakeHBE_Y_plus_triggered();
     void on_actionMakeHBE_Y_minus_triggered();
+    void on_tabWidget_currentChanged(int index);
 };
 
 #endif // MAINWINDOW_H
