@@ -1,15 +1,8 @@
 #ifndef MYDEFINES_H
 #define MYDEFINES_H
-                            //home/oliver +
-#define PFAD_ZUM_PROGRAMMORDNER     "/.iwop"
-#define INI_FILE                    "/.iwop/konfiguration.ini"
-#define PFAD_LETZTE_DATEIEN         "/.iwop/letzte_dateien.ini"
-#define CAD_Maschine                "/.iwop/maschine_cad.ini"
 
-#define PFAD_DLGBILDER              "C:\\Program Files\\iwop\\dlgbilder"
-//#define WKZ_FILE                    "/.iwop/werkzeug.ini"
-//#define WKZ_BILDER_PFAD             "/.iwop/werkzeugbilder/"
-
+//Für die Programmpfade zuständig ist diese Klasse:
+//#include "eigeneKlassen/prgpfade.h"
 
 #define DATEIENDUNG_EIGENE          ".fmc"
 #define DATEIENDUNG_BACKUP          ".bak_"

@@ -17,6 +17,7 @@
 #include "eigeneKlassen/vorschau.h"
 #include "eigeneKlassen/programmtexte.h"
 #include "todo.h"
+#include "eigeneKlassen/prgpfade.h"
 #include "Dialoge/dialog_programmlisten.h"
 #include "Dialoge/dialog_prgkopf.h"
 #include "Dialoge/dialog_prgende.h"
@@ -35,6 +36,7 @@
 #include "Dialoge/dialog_hbeym.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
+#include "Dialoge/dialog_fraeser.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -90,6 +92,7 @@ private:
     Dialog_hbeym     dlghbeym;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
+    Dialog_fraeser   dlgfraeser;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -188,6 +191,8 @@ private slots:
     void on_actionMakeHBE_Y_plus_triggered();
     void on_actionMakeHBE_Y_minus_triggered();
     void on_tabWidget_currentChanged(int index);
+    void on_pushButton_MakeFraeser_clicked();
+    void on_pushButton_MakeSaege_clicked();
 };
 
 #endif // MAINWINDOW_H

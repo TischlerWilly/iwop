@@ -57,18 +57,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     vorschaufenster.setParent(ui->tab_Programmliste);
 
-    QDir dir(QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER);
+    prgpfade pf;
+    QDir dir(pf.get_path_prg());
     if(!dir.exists())
     {
         QString nachricht;
         nachricht = "Programmpfad nicht gefunden. Pfad \"";
-        nachricht += QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER;
+        nachricht += pf.get_path_prg();
         nachricht += "\" wird angelegt";
         QMessageBox mb;
         mb.setText(nachricht);
-        mb.exec();
-        dir.mkdir(QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER);
-        //dir.mkdir(QDir::homePath() + PFAD_ZU_DEN_WERKZEUGBILDERN);
+        mb.exec();        
+        dir.mkdir(pf.get_path_prg());
+        dir.mkdir(pf.get_path_wkzbilder());
 /*
         QFile file(QDir::homePath() + WKZ_FILE);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
@@ -365,8 +366,8 @@ int MainWindow::aktualisiere_anzeigetext(bool undo_redo_on)
 QString MainWindow::loadConfig()
 {
     QString returnString = "OK";
-
-    QFile file(QDir::homePath() + INI_FILE);
+    prgpfade pf;
+    QFile file(pf.get_path_inifile());
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         konfiguration_ini_ist_vorhanden = false;
@@ -539,7 +540,8 @@ QString MainWindow::saveConfig()
     //---------------------------------------------------------------------------------------------------------
 
     //Daten Speichern:
-    QFile file(QDir::homePath() + INI_FILE);
+    prgpfade pf;
+    QFile file(pf.get_path_inifile());
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
         QMessageBox mb;
@@ -648,7 +650,9 @@ void MainWindow::slotSaveConfig(QString text)
 
 void MainWindow::loadConfig_letzte_Dateien()
 {
-    QFile file(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    //QFile file(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    prgpfade pf;
+    QFile file(pf.get_path_iniLetzteDateien());
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QString tmp;
@@ -1133,7 +1137,8 @@ void MainWindow::aktuelisiere_letzte_dateien_inifile()
         letzte_geoefnete_dateien.datei_merken(tt.get_prgname());
     }
     //Daten Speichern:
-    QFile inifile(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    prgpfade pf;
+    QFile inifile(pf.get_path_iniLetzteDateien());
     if (!inifile.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
         QMessageBox mb;
@@ -3310,7 +3315,7 @@ void MainWindow::slot_maus_pos(QPoint p)
     ui->statusBar->showMessage("X:" + x_ + " / Y:" + y_);
 }
 
-//---------------------------------------------------Dialoge:
+//---------------------------------------------------Dialoge WOP:
 
 void MainWindow::getDialogData(QString text)
 {
@@ -3688,7 +3693,24 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
         emit sendDialogData(msg, false);
     }
 }
+//---------------------------------------------------Dialoge wkz
+void MainWindow::on_pushButton_MakeFraeser_clicked()
+{
+    disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+    connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfraeser, SLOT(getDialogData(QString,bool)));
+    emit sendDialogData("clear", false);
+}
+
+void MainWindow::on_pushButton_MakeSaege_clicked()
+{
+
+}
+
+
+
+
 //---------------------------------------------------
+
 
 
 

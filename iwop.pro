@@ -28,6 +28,7 @@ SOURCES += \
         Dialoge/dialog_bohren.cpp \
         Dialoge/dialog_bohren_x.cpp \
         Dialoge/dialog_bohren_y.cpp \
+        Dialoge/dialog_fraeser.cpp \
         Dialoge/dialog_halt.cpp \
         Dialoge/dialog_hbexm.cpp \
         Dialoge/dialog_hbexp.cpp \
@@ -54,6 +55,7 @@ SOURCES += \
         eigeneKlassen/indexhisory.cpp \
         eigeneKlassen/kreis.cpp \
         eigeneKlassen/letzte_dateien.cpp \
+        eigeneKlassen/prgpfade.cpp \
         eigeneKlassen/programmtext.cpp \
         eigeneKlassen/programmtexte.cpp \
         eigeneKlassen/punkt2d.cpp \
@@ -77,6 +79,7 @@ HEADERS += \
         Dialoge/dialog_bohren.h \
         Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
+        Dialoge/dialog_fraeser.h \
         Dialoge/dialog_halt.h \
         Dialoge/dialog_hbexm.h \
         Dialoge/dialog_hbexp.h \
@@ -122,6 +125,7 @@ HEADERS += \
         eigeneKlassen/indexhisory.h \
         eigeneKlassen/kreis.h \
         eigeneKlassen/letzte_dateien.h \
+        eigeneKlassen/prgpfade.h \
         eigeneKlassen/programmtext.h \
         eigeneKlassen/programmtexte.h \
         eigeneKlassen/punkt2d.h \
@@ -148,6 +152,7 @@ FORMS += \
         Dialoge/dialog_bohren.ui \
         Dialoge/dialog_bohren_x.ui \
         Dialoge/dialog_bohren_y.ui \
+        Dialoge/dialog_fraeser.ui \
         Dialoge/dialog_halt.ui \
         Dialoge/dialog_hbexm.ui \
         Dialoge/dialog_hbexp.ui \

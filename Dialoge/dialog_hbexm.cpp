@@ -9,17 +9,14 @@ Dialog_hbexm::Dialog_hbexm(QWidget *parent) :
     openToModifyData = false;
     ui->pushButton_ok->setDefault(true);
 
-    QString bild1;
-    bild1  = PFAD_DLGBILDER;
-    bild1 += QDir::separator();
+    prgpfade pf;
+    QString bild1 = pf.get_path_dlgbilder_();
     bild1 += "hbexm_1.bmp";
     QPixmap pix1(bild1);
     ui->label_bild->setPixmap(pix1);
     ui->label_bild->setScaledContents(true);//Bild skallieren
 
-    QString bild2;
-    bild2  = PFAD_DLGBILDER;
-    bild2 += QDir::separator();
+    QString bild2 = pf.get_path_dlgbilder_();
     bild2 += "hbexm_2.bmp";
     QPixmap pix2(bild2);
     ui->label_bild_2->setPixmap(pix2);

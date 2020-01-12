@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.01.11"
+#define PROGRAMMVERSION     "1.2020.01.12"
 
 /*
 Zusatzwünsche:
@@ -15,6 +15,8 @@ Zusatzwünsche:
 -->Klasse: "wkz_fraeser"
     ->ist vorbereitet
 -->Dialog: "Fräser"
+    ->ist vorbereitet
+    ->dlg noch in Mainwindow einarbeiten, siehe nächster Punkt
 -->Klasse: "wkz" ähnlich der Klasse "programmtext"
 
 
@@ -58,7 +60,7 @@ Zusatzwünsche:
 ---------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------
-ToDo für neuen Dialoge anlegen:
+ToDo für neue Dialoge anlegen:
 - myDefines.h ->DLG_...
 - define_xyz.h anlegen
 - Qt-Designer-Formularklasse anlegen
@@ -95,7 +97,37 @@ ToDo für neuen Dialoge anlegen:
     ->aktualisiere_geo()
     ->aktualisiere_anzeigetext()
 ---------------------------------------------------------------------------
-
+---------------------------------------------------------------------------
+ToDo für neue wkz-Dialoge anlegen:
+- define_wkz ergänzen
+- define_xyz.h anlegen
+- Klasse wkz_xy schreiben
+- Qt-Designer-Formularklasse anlegen
+- dialog_xyz.ui
+    ->ui entwerfen
+        -->WindowTitel
+        -->modal true
+        -->TAB-Reihenfolge
+            ->slots anlegen
+- dialog_xyz.h
+- dialog_xyz.cpp
+- mainwindow.h
+    ->include
+    ->DLG-Objekt anlegen (private:)
+- mainwindow.ui ->Button auf der Registerkarte wkz erstellen
+- Slot anlegen
+- mainwindow.cpp
+    ->Construktor ergänzen
+        -->Connect:
+    ->loadConfig()
+    ->saveConfig()
+    ->slotSaveConfig(QString text)
+    ->hideElemets_noFileIsOpen()
+    ->showElements_aFileIsOpen()
+    ->import_fmc(text_zeilenweise tz)
+    ->export_fmc(text_zeilenweise tz)
+    ->on_action_aendern_triggered()
+---------------------------------------------------------------------------
 
 
 
