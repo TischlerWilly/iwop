@@ -16,8 +16,14 @@ Zusatzwünsche:
     ->ist vorbereitet
 -->Dialog: "Fräser"
     ->ist vorbereitet
-    ->dlg noch in Mainwindow einarbeiten, siehe nächster Punkt
 -->Klasse: "wkz" ähnlich der Klasse "programmtext"
+    ->ist angefangen
+    ->undo/redo
+-->mainwindor.cpp (listwidget_wkz)
+    ->rückgängig
+    ->wiederholen
+    ->Werkzeug speichern
+    ->Werkzeug laden
 
 
 

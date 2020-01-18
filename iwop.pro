@@ -69,6 +69,7 @@ SOURCES += \
         eigeneKlassen/undo_redo.cpp \
         eigeneKlassen/vorschau.cpp \
         eigeneKlassen/wenndannsonst.cpp \
+        eigeneKlassen/werkzeug.cpp \
         eigeneKlassen/wkz_fraeser.cpp \
         eigeneKlassen/wuerfel.cpp \
         eigeneKlassen/zylinder.cpp \
@@ -139,6 +140,7 @@ HEADERS += \
         eigeneKlassen/undo_redo.h \
         eigeneKlassen/vorschau.h \
         eigeneKlassen/wenndannsonst.h \
+        eigeneKlassen/werkzeug.h \
         eigeneKlassen/wkz_fraeser.h \
         eigeneKlassen/wuerfel.h \
         eigeneKlassen/zylinder.h \

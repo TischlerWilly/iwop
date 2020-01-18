@@ -36,6 +36,7 @@
 #include "Dialoge/dialog_hbeym.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
+#include "eigeneKlassen/werkzeug.h"
 #include "Dialoge/dialog_fraeser.h"
 
 #define INDEX_PROGRAMMLISTE 0
@@ -72,6 +73,7 @@ private:
     //Objekte:
     vorschau vorschaufenster;
     programmtexte   tt;
+    werkzeug        wkz;
     letzte_dateien  letzte_geoefnete_dateien;
     QAction         *oefneLetzteDateien[ANZAHL_LETZTER_DATEIEN];
     QAction         *OffeneDateieFokus[ANZAHL_OFFENER_DATEIEN];
@@ -117,6 +119,7 @@ private:
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
     QString         kopierterEintrag_t;
+    QString         kopierterEintrag_w;
     bool            speichern_unter_flag;
 
     //Funktionen:
@@ -126,6 +129,7 @@ private:
     void update_gui();
     void update_windowtitle();
     int aktualisiere_anzeigetext(bool undo_redo_on = true);
+    int aktualisiere_anzeigetext_wkz(bool undo_redo_on = true);
     void vorschauAktualisieren();
     void openFile(QString pfad);
     text_zeilenweise import_fmc(QString quelle, bool &readonly);
@@ -193,6 +197,7 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void on_pushButton_MakeFraeser_clicked();
     void on_pushButton_MakeSaege_clicked();
+    void on_listWidget_Werkzeug_itemDoubleClicked(QListWidgetItem *item);
 };
 
 #endif // MAINWINDOW_H

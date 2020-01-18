@@ -57,6 +57,9 @@
         <height>361</height>
        </rect>
       </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
      </widget>
      <widget class="QPushButton" name="pushButton_MakeFraeser">
       <property name="geometry">
