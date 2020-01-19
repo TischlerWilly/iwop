@@ -67,6 +67,7 @@ SOURCES += \
         eigeneKlassen/tabelle_tz3.cpp \
         eigeneKlassen/text_zeilenweise.cpp \
         eigeneKlassen/undo_redo.cpp \
+        eigeneKlassen/undo_redo_tz.cpp \
         eigeneKlassen/vorschau.cpp \
         eigeneKlassen/wenndannsonst.cpp \
         eigeneKlassen/werkzeug.cpp \
@@ -138,6 +139,7 @@ HEADERS += \
         eigeneKlassen/tabelle_tz3.h \
         eigeneKlassen/text_zeilenweise.h \
         eigeneKlassen/undo_redo.h \
+        eigeneKlassen/undo_redo_tz.h \
         eigeneKlassen/vorschau.h \
         eigeneKlassen/wenndannsonst.h \
         eigeneKlassen/werkzeug.h \

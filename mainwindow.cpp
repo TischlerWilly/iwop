@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Defaultwerte:
     kopierterEintrag_t              = NICHT_DEFINIERT;
     kopierterEintrag_w              = NICHT_DEFINIERT;
+    wkz.set_undo_redo_anz(settings_anz_undo_t.toUInt());
     vorlage_pkopf                   = prgkopf.get_default();
     vorlage_pende                   = prgende.get_default();
     vorlage_kom                     = kom.get_default();
@@ -70,23 +71,6 @@ MainWindow::MainWindow(QWidget *parent) :
         mb.exec();        
         dir.mkdir(pf.get_path_prg());
         dir.mkdir(pf.get_path_wkzbilder());
-/*
-        QFile file(QDir::homePath() + WKZ_FILE);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
-        {
-            QMessageBox mb;
-            mb.setText("Fehler beim Datei-Zugriff");
-            mb.exec();
-        }else
-        {
-
-            file.write(werkzeug_dialog.getDefault().toUtf8());
-            QMessageBox mb;
-            mb.setText("Neue, Werkzeugdatei wurde erzeugt.");
-            mb.exec();
-        }
-        file.close();
-*/
     }
     QString msg = this->loadConfig();
     if(msg != "OK")
@@ -115,9 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
             mb2.exec();
         }
     }
-
-    //on_pushButton_WKZ_Laden_clicked();
-    //ladeWerkzeugnamen();
+    loadWKZ();
     loadConfig_letzte_Dateien();
 
     //connect:
@@ -204,9 +186,10 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     ui->tabWidget->setFixedSize(breite_widget, hoehe_widget);
 
     //-------------------------------------------Reiter Werkzeug:
+    //---Buttons oben;
     ui->pushButton_MakeFraeser->move(5,15);
     ui->pushButton_MakeSaege->move(5+ui->pushButton_MakeFraeser->width()+5, 15);
-
+    //---Liste:
     ui->listWidget_Werkzeug->move(5, 15+ui->pushButton_MakeFraeser->height()+15);
     int tmp;
     tmp = ui->tab_Werkzeug->width() - 10 ;
@@ -215,13 +198,14 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         tmp = 1;
     }
     ui->listWidget_Werkzeug->setFixedWidth(tmp);
-    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - 50;
+    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -50;
     if(tmp < 1)
     {
         tmp = 1;
     }
     ui->listWidget_Werkzeug->setFixedHeight(tmp);
-
+    //---Button unten:
+    ui->pushButton_wkz_speichern->move(5, ui->listWidget_Werkzeug->pos().y() + ui->listWidget_Werkzeug->height() + 15 );
     //-------------------------------------------Reiter Programmliste:
     double breitePrgListe =ui->tab_Programmliste->width()/3;
     if(breitePrgListe > 250)
@@ -403,8 +387,7 @@ int MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on)
 
     if(undo_redo_on == true)
     {
-        //noch ummünzen für wkz:
-        //tt.get_prg_undo_redo()->neu(*tt.get_prgtext());
+        wkz.undo_redo_neu();
     }
     return row;
 }
@@ -592,8 +575,12 @@ QString MainWindow::saveConfig()
     QFile file(pf.get_path_inifile());
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
+        QString msg;
+        msg = "Fehler beim Zugriff auf die Datei \"";
+        msg += pf.get_path_inifile();
+        msg += "\"";
         QMessageBox mb;
-        mb.setText("Fehler beim Zugriff auf die Datei \"konfiguration.ini\"");
+        mb.setText(msg);
         mb.exec();
     } else
     {
@@ -721,6 +708,68 @@ void MainWindow::loadConfig_letzte_Dateien()
         liste = liste.left(liste.length() - 1);//letzets Zeichen löschen = "\n"
         letzte_geoefnete_dateien.set_text(liste);
     }
+}
+
+void MainWindow::on_pushButton_wkz_speichern_clicked()
+{
+    //Sicherheitsabfrage:
+    QMessageBox mb;
+    mb.setWindowTitle("Werkzeug speichern");
+    mb.setText("Sind Sie sicher, dass das Werkzeugmagazin gespeichert werden soll?");
+    mb.setStandardButtons(QMessageBox::Yes);
+    mb.addButton(QMessageBox::No);
+    mb.setDefaultButton(QMessageBox::No);
+    if(mb.exec() == QMessageBox::Yes)
+    {
+        saveWKZ();
+    }else
+    {
+        QMessageBox mb2;
+        mb2.setText("Werkzeugmagazin wurde nicht geaendert.");
+        mb2.exec();
+    }
+}
+
+void MainWindow::saveWKZ()
+{
+    //Daten Speichern:
+    prgpfade pf;
+    QFile file(pf.get_path_inifile_wkz());
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
+    {
+        QString msg;
+        msg = "Fehler beim Zugriff auf die Datei \"";
+        msg += pf.get_path_inifile_wkz();
+        msg += "\"";
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+    } else
+    {
+        file.remove(); //lösche alte Datei wenn vorhanden
+        file.close(); //beende Zugriff
+        file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
+        file.write(wkz.get_text().toUtf8()); //fülle Datei mit Inhalt
+        file.close(); //beende Zugriff
+        QMessageBox mb;
+        mb.setText("Werkzeugmagazin wurde erfolgreich gespeichert.");
+        mb.exec();
+    }
+}
+
+void MainWindow::loadWKZ()
+{
+    prgpfade pf;
+    QFile file(pf.get_path_inifile_wkz());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        //Keine Werkzeugdatei vorhanden
+    } else
+    {
+        wkz.set_text(file.readAll());
+        file.close();
+    }
+    aktualisiere_anzeigetext_wkz(true);
 }
 
 //---------------------------------------------------Sichtbarkeiten
@@ -1272,12 +1321,13 @@ void MainWindow::on_actionOffnen_triggered()
         return;
     }else
     {
-        //Dialog öffnen zum Wählen der Datei:
-        QString pfad = QFileDialog::getOpenFileName(this, tr("Waehle WOP-Datei"), \
+        QStringList pfade = QFileDialog::getOpenFileNames(this, tr("Waehle WOP-Datei"), \
                                                     pfad_oefne_fmc, tr("fmc Dateien (*.fmc)"));
-        if(!pfad.isEmpty())
+        text_zeilenweise tz;
+        tz.set_text(pfade);
+        for(uint i=1; i<=tz.zeilenanzahl();i++)
         {
-            openFile(pfad);
+            openFile(tz.zeile(i));
         }
     }
 }
@@ -3311,8 +3361,8 @@ void MainWindow::on_actionRueckgaengig_triggered()
         vorschauAktualisieren();
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        //w = ur_wkz.undo();
-        //aktualisiere_anzeigetext_wkz(false);
+        wkz.undo();
+        aktualisiere_anzeigetext_wkz(false);
     }
 }
 
@@ -3326,8 +3376,8 @@ void MainWindow::on_actionWiederholen_triggered()
         vorschauAktualisieren();
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        //w = ur_wkz.redo();
-        //aktualisiere_anzeigetext_wkz(false);
+        wkz.redo();
+        aktualisiere_anzeigetext_wkz(false);
     }
 }
 
@@ -3759,18 +3809,16 @@ void MainWindow::getDialogDataModify(QString text)
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        QString text_alt = tt.get_prgtext()->zeile(ui->listWidget_Werkzeug->currentRow()+1);
+        QString text_alt = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
         if(text != text_alt)
         {
             if(elementIstEingeblendet())
             {
-                //tt.get_prgtext()->zeile_ersaetzen(ui->listWidget_Programmliste->currentRow()+1, text);
-
+                wkz.zeile_ersaetzen(ui->listWidget_Werkzeug->currentRow()+1, text);
                 aktualisiere_anzeigetext_wkz();
-                //pruefe_benutzereingaben(ui->listWidget_Programmliste->currentRow()+1);
             }else
             {
-                //tt.get_prgtext()->zeile_ersaetzen(ui->listWidget_Programmliste->currentRow()+1, "//"+text);
+                wkz.zeile_ersaetzen(ui->listWidget_Werkzeug->currentRow()+1, "//"+text);
                 aktualisiere_anzeigetext_wkz();
             }
         }
@@ -4119,6 +4167,8 @@ void MainWindow::on_pushButton_MakeSaege_clicked()
 
 
 //---------------------------------------------------
+
+
 
 
 

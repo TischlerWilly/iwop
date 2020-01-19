@@ -5,6 +5,7 @@ prgpfade::prgpfade()
     dir_dlgbilder       = "dlgbilder";
     dir_wkzbilder       = "wkzbilder";
     inifile             = "konfiguration.ini";
+    inifile_wkz         = "wkz.ini";
     ini_letzteDateien   = "letzte_dateien.ini";
     ini_cadMaschine     = "maschine_cad.ini";
 }
@@ -62,6 +63,14 @@ QString prgpfade::get_path_inifile()
     tmp = get_path_user();
     tmp += QDir::separator();
     tmp += inifile;
+    return tmp;
+}
+QString prgpfade::get_path_inifile_wkz()
+{
+    QString tmp;
+    tmp = get_path_user();
+    tmp += QDir::separator();
+    tmp += inifile_wkz;
     return tmp;
 }
 QString prgpfade::get_path_iniLetzteDateien()

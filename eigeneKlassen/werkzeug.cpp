@@ -79,6 +79,10 @@ int werkzeug::zeilen_einfuegen(uint zeilennummer_vor_neuer_zeile, QString zeilen
 }
 
 //------------get_xy:
+QString werkzeug::get_text()
+{
+    return wkzlist.get_text();
+}
 QString werkzeug::zeile(uint zeilennummer)
 {
     if(zeilennummer > wkzlist.zeilenanzahl())
@@ -171,14 +175,79 @@ int werkzeug::zeilen_loeschen(uint zeilennummer_beginn, uint zeilenmenge)
 text_zeilenweise werkzeug::get_anzeigetext()
 {
     text_zeilenweise tz;
-
-    //Dies später noch ändern:
-    tz = wkzlist;
-
+    for(uint i=1; i<=wkzlist.zeilenanzahl() ;i++)
+    {
+        QString zeile = wkzlist.zeile(i);
+        if(zeile.contains(WKZ_FRAESER))
+        {
+            QString msg;
+            if(zeile.at(0)=="/" && zeile.at(1) == "/")
+            {
+                msg = "//";
+            }
+            msg += "F : ";
+            msg += text_mitte(zeile, FRAESER_NAME, ENDPAR);
+            tz.zeile_anhaengen(msg);
+        }else if(zeile.contains(WKZ_SAEGE))
+        {
+            QString msg;
+            if(zeile.at(0)=="/" && zeile.at(1) == "/")
+            {
+                msg = "//";
+            }
+            msg += "S : ";
+            msg += zeile; //Dies später noch ändern!!!
+            tz.zeile_anhaengen(msg);
+        }else
+        {
+            tz.zeile_anhaengen(zeile);
+        }
+    }
+    return  tz;
+}
+text_zeilenweise werkzeug::get_wkzlist(QString wkztyp, QString paramfilter = "")
+{
+    text_zeilenweise tz;
+    for(uint i=1; i<=wkzlist.zeilenanzahl() ;i++)
+    {
+        QString zeile = wkzlist.zeile(i);
+        if(zeile.contains(wkztyp))
+        {
+            if(paramfilter.isEmpty())
+            {
+                tz.zeile_anhaengen(zeile);
+            }else
+            {
+                if(zeile.contains(paramfilter) && zeile.contains(ENDPAR))
+                {
+                    tz.zeile_anhaengen(text_mitte(zeile, paramfilter, ENDPAR));
+                }else
+                {
+                    tz.zeile_anhaengen(zeile);
+                }
+            }
+        }
+    }
     return  tz;
 }
 
-
+//------------
+void werkzeug::undo_redo_neu()
+{
+    vur.neu(wkzlist);
+}
+void werkzeug::undo()
+{
+    wkzlist = vur.undo();
+}
+void werkzeug::redo()
+{
+    wkzlist = vur.redo();
+}
+void werkzeug::set_undo_redo_anz(uint anz)
+{
+    vur.set_groesse_max(anz);
+}
 
 
 

@@ -125,6 +125,8 @@ private:
     //Funktionen:
     QString loadConfig();
     QString saveConfig();
+    void saveWKZ();
+    void loadWKZ();
     void loadConfig_letzte_Dateien();
     void update_gui();
     void update_windowtitle();
@@ -198,6 +200,7 @@ private slots:
     void on_pushButton_MakeFraeser_clicked();
     void on_pushButton_MakeSaege_clicked();
     void on_listWidget_Werkzeug_itemDoubleClicked(QListWidgetItem *item);
+    void on_pushButton_wkz_speichern_clicked();
 };
 
 #endif // MAINWINDOW_H

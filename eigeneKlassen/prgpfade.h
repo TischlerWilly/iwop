@@ -15,6 +15,7 @@ public:
     QString get_path_wkzbilder();
     QString get_path_wkzbilder_();
     QString get_path_inifile();
+    QString get_path_inifile_wkz();
     QString get_path_iniLetzteDateien();
     QString get_path_iniCadMaschine();
 
@@ -25,6 +26,7 @@ private:
 
     //ini-Dateien:
     QString inifile;
+    QString inifile_wkz;
     QString ini_letzteDateien;
     QString ini_cadMaschine;
 };

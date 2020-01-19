@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.01.12"
+#define PROGRAMMVERSION     "1.2020.01.19"
 
 /*
 Zusatzwünsche:
@@ -10,20 +10,8 @@ Zusatzwünsche:
 - HBE X umwandeln in HBE Y etc
 
 ---------------------------------------------------------------------------In Arbeit:
+- Dialog für WKZ_Säge
 
-->Werkzeugmagazin
--->Klasse: "wkz_fraeser"
-    ->ist vorbereitet
--->Dialog: "Fräser"
-    ->ist vorbereitet
--->Klasse: "wkz" ähnlich der Klasse "programmtext"
-    ->ist angefangen
-    ->undo/redo
--->mainwindor.cpp (listwidget_wkz)
-    ->rückgängig
-    ->wiederholen
-    ->Werkzeug speichern
-    ->Werkzeug laden
 
 
 

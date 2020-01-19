@@ -36,7 +36,7 @@
         <x>10</x>
         <y>10</y>
         <width>231</width>
-        <height>501</height>
+        <height>461</height>
        </rect>
       </property>
       <property name="selectionMode">
@@ -85,6 +85,19 @@
       </property>
       <property name="text">
        <string>neue Säge</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_wkz_speichern">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>490</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Speichern</string>
       </property>
      </widget>
     </widget>
