@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Defaultwerte:
     kopierterEintrag_t              = NICHT_DEFINIERT;
-    //kopiertesWerkzeug               = NICHT_DEFINIERT;
+    kopierterEintrag_w              = NICHT_DEFINIERT;
+    wkz.set_undo_redo_anz(settings_anz_undo_t.toUInt());
     vorlage_pkopf                   = prgkopf.get_default();
     vorlage_pende                   = prgende.get_default();
     vorlage_kom                     = kom.get_default();
@@ -57,35 +58,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     vorschaufenster.setParent(ui->tab_Programmliste);
 
-    QDir dir(QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER);
+    prgpfade pf;
+    QDir dir(pf.get_path_prg());
     if(!dir.exists())
     {
         QString nachricht;
         nachricht = "Programmpfad nicht gefunden. Pfad \"";
-        nachricht += QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER;
+        nachricht += pf.get_path_prg();
         nachricht += "\" wird angelegt";
         QMessageBox mb;
         mb.setText(nachricht);
-        mb.exec();
-        dir.mkdir(QDir::homePath() + PFAD_ZUM_PROGRAMMORDNER);
-        //dir.mkdir(QDir::homePath() + PFAD_ZU_DEN_WERKZEUGBILDERN);
-/*
-        QFile file(QDir::homePath() + WKZ_FILE);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
-        {
-            QMessageBox mb;
-            mb.setText("Fehler beim Datei-Zugriff");
-            mb.exec();
-        }else
-        {
-
-            file.write(werkzeug_dialog.getDefault().toUtf8());
-            QMessageBox mb;
-            mb.setText("Neue, Werkzeugdatei wurde erzeugt.");
-            mb.exec();
-        }
-        file.close();
-*/
+        mb.exec();        
+        dir.mkdir(pf.get_path_prg());
+        dir.mkdir(pf.get_path_wkzbilder());
     }
     QString msg = this->loadConfig();
     if(msg != "OK")
@@ -114,9 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
             mb2.exec();
         }
     }
-
-    //on_pushButton_WKZ_Laden_clicked();
-    //ladeWerkzeugnamen();
+    loadWKZ();
     loadConfig_letzte_Dateien();
 
     //connect:
@@ -153,6 +136,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeym, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgsaege, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -170,12 +155,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeym, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgsaege, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
-
 }
 
 MainWindow::~MainWindow()
@@ -185,6 +171,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
+    //-------------------------------------------Tab-Widget:
     QRect rect_main =  this->geometry();
     int hoehe = rect_main.height();
     int breite = rect_main.width();
@@ -199,21 +186,29 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         breite_widget = 1;
     }
     ui->tabWidget->setFixedSize(breite_widget, hoehe_widget);
-    QRect rect_tabWidget =  ui->tabWidget->geometry();
-    hoehe = rect_tabWidget.height();
-    breite = rect_tabWidget.width();
-    hoehe_widget = hoehe-55;
-    if (hoehe_widget <1)
-    {
-        hoehe_widget = 1;
-    }
-    breite_widget = breite-20;
-    if (breite_widget <1)
-    {
-        breite_widget = 1;
-    }
-    ui->listWidget_Werkzeug->setFixedSize(breite_widget, hoehe_widget);
 
+    //-------------------------------------------Reiter Werkzeug:
+    //---Buttons oben;
+    ui->pushButton_MakeFraeser->move(5,15);
+    ui->pushButton_MakeSaege->move(5+ui->pushButton_MakeFraeser->width()+5, 15);
+    //---Liste:
+    ui->listWidget_Werkzeug->move(5, 15+ui->pushButton_MakeFraeser->height()+15);
+    int tmp;
+    tmp = ui->tab_Werkzeug->width() - 10 ;
+    if(tmp < 1)
+    {
+        tmp = 1;
+    }
+    ui->listWidget_Werkzeug->setFixedWidth(tmp);
+    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -50;
+    if(tmp < 1)
+    {
+        tmp = 1;
+    }
+    ui->listWidget_Werkzeug->setFixedHeight(tmp);
+    //---Button unten:
+    ui->pushButton_wkz_speichern->move(5, ui->listWidget_Werkzeug->pos().y() + ui->listWidget_Werkzeug->height() + 15 );
+    //-------------------------------------------Reiter Programmliste:
     double breitePrgListe =ui->tab_Programmliste->width()/3;
     if(breitePrgListe > 250)
     {
@@ -222,11 +217,18 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     vorschaufenster.move(breitePrgListe+5,10);
     vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-breitePrgListe-10);
-    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-70);
+    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-60);
     ui->listWidget_Programmliste->setFixedWidth(breitePrgListe-10);
-    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-30);
+    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-60);
 
+    //-------------------------------------------
     QMainWindow::resizeEvent(event);
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    this->resize(this->width()-1 , this->height()-1);
+    this->resize(this->width()+1 , this->height()+1);
 }
 
 void MainWindow::closeEvent(QCloseEvent *ce)
@@ -347,13 +349,58 @@ int MainWindow::aktualisiere_anzeigetext(bool undo_redo_on)
     return row;
 }
 
+int MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on)
+{
+    int row;
+    if(ui->listWidget_Werkzeug->currentIndex().isValid())
+    {
+        row = ui->listWidget_Werkzeug->currentRow();
+    }else
+    {
+        row = 0;
+    }
+    ui->listWidget_Werkzeug->clear();
+    text_zeilenweise tmp;
+    tmp =wkz.get_anzeigetext();
+    if(tmp.zeilenanzahl() == 0)
+    {
+        return -1;
+    }
+    for(uint i=1 ; i<=tmp.zeilenanzahl() ; i++)
+    {
+        ui->listWidget_Werkzeug->addItem(tmp.zeile(i));
+    }
+    for(int row = 0; row < ui->listWidget_Werkzeug->count(); row++)
+    {
+        QListWidgetItem *item = ui->listWidget_Werkzeug->item(row);
+        if(elementIstEingeblendet(item))
+        {
+            elementEinblendenSichtbarMachen(item);
+        }else
+        {
+            elementAusblendenSichtbarMachen(item);
+        }
+    }
+    if(row >= (int)tmp.zeilenanzahl())
+    {
+        row = row-1;
+    }
+    ui->listWidget_Werkzeug->setCurrentRow(row);
+
+    if(undo_redo_on == true)
+    {
+        wkz.undo_redo_neu();
+    }
+    return row;
+}
+
 //---------------------------------------------------Konfiguration
 
 QString MainWindow::loadConfig()
 {
     QString returnString = "OK";
-
-    QFile file(QDir::homePath() + INI_FILE);
+    prgpfade pf;
+    QFile file(pf.get_path_inifile());
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         konfiguration_ini_ist_vorhanden = false;
@@ -526,11 +573,16 @@ QString MainWindow::saveConfig()
     //---------------------------------------------------------------------------------------------------------
 
     //Daten Speichern:
-    QFile file(QDir::homePath() + INI_FILE);
+    prgpfade pf;
+    QFile file(pf.get_path_inifile());
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
+        QString msg;
+        msg = "Fehler beim Zugriff auf die Datei \"";
+        msg += pf.get_path_inifile();
+        msg += "\"";
         QMessageBox mb;
-        mb.setText("Fehler beim Zugriff auf die Datei \"konfiguration.ini\"");
+        mb.setText(msg);
         mb.exec();
     } else
     {
@@ -635,7 +687,9 @@ void MainWindow::slotSaveConfig(QString text)
 
 void MainWindow::loadConfig_letzte_Dateien()
 {
-    QFile file(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    //QFile file(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    prgpfade pf;
+    QFile file(pf.get_path_iniLetzteDateien());
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QString tmp;
@@ -658,6 +712,68 @@ void MainWindow::loadConfig_letzte_Dateien()
     }
 }
 
+void MainWindow::on_pushButton_wkz_speichern_clicked()
+{
+    //Sicherheitsabfrage:
+    QMessageBox mb;
+    mb.setWindowTitle("Werkzeug speichern");
+    mb.setText("Sind Sie sicher, dass das Werkzeugmagazin gespeichert werden soll?");
+    mb.setStandardButtons(QMessageBox::Yes);
+    mb.addButton(QMessageBox::No);
+    mb.setDefaultButton(QMessageBox::No);
+    if(mb.exec() == QMessageBox::Yes)
+    {
+        saveWKZ();
+    }else
+    {
+        QMessageBox mb2;
+        mb2.setText("Werkzeugmagazin wurde nicht geaendert.");
+        mb2.exec();
+    }
+}
+
+void MainWindow::saveWKZ()
+{
+    //Daten Speichern:
+    prgpfade pf;
+    QFile file(pf.get_path_inifile_wkz());
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
+    {
+        QString msg;
+        msg = "Fehler beim Zugriff auf die Datei \"";
+        msg += pf.get_path_inifile_wkz();
+        msg += "\"";
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+    } else
+    {
+        file.remove(); //lösche alte Datei wenn vorhanden
+        file.close(); //beende Zugriff
+        file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
+        file.write(wkz.get_text().toUtf8()); //fülle Datei mit Inhalt
+        file.close(); //beende Zugriff
+        QMessageBox mb;
+        mb.setText("Werkzeugmagazin wurde erfolgreich gespeichert.");
+        mb.exec();
+    }
+}
+
+void MainWindow::loadWKZ()
+{
+    prgpfade pf;
+    QFile file(pf.get_path_inifile_wkz());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        //Keine Werkzeugdatei vorhanden
+    } else
+    {
+        wkz.set_text(file.readAll());
+        file.close();
+    }
+    aktualisiere_anzeigetext_wkz(true);
+}
+
 //---------------------------------------------------Sichtbarkeiten
 void MainWindow::hideElemets_noFileIsOpen()
 {
@@ -669,15 +785,15 @@ void MainWindow::hideElemets_noFileIsOpen()
     //Menü Bearbeiten:
     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
-        ui->action_aendern->setDisabled(true);
+        //ui->action_aendern->setDisabled(true);
         //ui->actionEinfuegen->setDisabled(true);
         //ui->actionKopieren->setDisabled(true);
         //ui->actionAusschneiden->setDisabled(true);
         //ui->actionEntfernen->setDisabled(true);
     }
-    ui->actionEin_Ausblenden->setDisabled(true);
-    ui->actionAuswahl_Einblenden->setDisabled(true);
-    ui->actionAuswahl_Ausblenden->setDisabled(true);
+    //ui->actionEin_Ausblenden->setDisabled(true);
+    //ui->actionAuswahl_Einblenden->setDisabled(true);
+    //ui->actionAuswahl_Ausblenden->setDisabled(true);
     //Menü CAM:
     ui->actionMakeProgrammkopf->setDisabled(true);
     ui->actionMakeProgrammende->setDisabled(true);
@@ -711,15 +827,15 @@ void MainWindow::showElements_aFileIsOpen()
     //Menü Bearbeiten:
     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
-        ui->action_aendern->setEnabled(true);
+        //ui->action_aendern->setEnabled(true);
         //ui->actionEinfuegen->setEnabled(true);
         //ui->actionKopieren->setEnabled(true);
         //ui->actionAusschneiden->setEnabled(true);
         //ui->actionEntfernen->setEnabled(true);
     }
-    ui->actionEin_Ausblenden->setEnabled(true);
-    ui->actionAuswahl_Einblenden->setEnabled(true);
-    ui->actionAuswahl_Ausblenden->setEnabled(true);
+    //ui->actionEin_Ausblenden->setEnabled(true);
+    //ui->actionAuswahl_Einblenden->setEnabled(true);
+    //ui->actionAuswahl_Ausblenden->setEnabled(true);
     //Menü CAM:
     ui->actionMakeProgrammkopf->setEnabled(true);
     ui->actionMakeProgrammende->setEnabled(true);
@@ -745,7 +861,14 @@ void MainWindow::showElements_aFileIsOpen()
 
 bool MainWindow::elementIstEingeblendet()
 {
-    QString tmp = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+    QString tmp;
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        tmp = tt.get_prgtext()->zeile(ui->listWidget_Programmliste->currentRow()+1);
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        tmp = tt.get_prgtext()->zeile(ui->listWidget_Werkzeug->currentRow()+1);
+    }
     if(tmp.left(2) == "//")
     {
         return false;
@@ -780,39 +903,71 @@ bool MainWindow::elementIstEingeblendet(QListWidgetItem *item)
 
 void MainWindow::elementEinblenden()
 {
-    uint i = ui->listWidget_Programmliste->currentRow()+1;
-    QString tmp_t = tt.get_prgtext()->zeile(i);
-    int length_t = tmp_t.length();
-    tmp_t = tmp_t.right(length_t-2);
-    tt.get_prgtext()->zeile_ersaetzen(i, tmp_t);
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        uint i = ui->listWidget_Programmliste->currentRow()+1;
+        QString tmp_t = tt.get_prgtext()->zeile(i);
+        int length_t = tmp_t.length();
+        tmp_t = tmp_t.right(length_t-2);
+        tt.get_prgtext()->zeile_ersaetzen(i, tmp_t);
 
-    QString tmp = ui->listWidget_Programmliste->currentItem()->text();
-    int length = tmp.length();
-    tmp = tmp.right(length-2);
-    ui->listWidget_Programmliste->currentItem()->setText(tmp);
-
+        QString tmp = ui->listWidget_Programmliste->currentItem()->text();
+        int length = tmp.length();
+        tmp = tmp.right(length-2);
+        ui->listWidget_Programmliste->currentItem()->setText(tmp);
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        uint i = ui->listWidget_Werkzeug->currentRow()+1;
+        QString tmp_t = wkz.zeile(i);
+        int length_t = tmp_t.length();
+        tmp_t = tmp_t.right(length_t-2);
+        wkz.zeile_ersaetzen(i, tmp_t);
+        QString tmp = ui->listWidget_Werkzeug->currentItem()->text();
+        int length = tmp.length();
+        tmp = tmp.right(length-2);
+        ui->listWidget_Werkzeug->currentItem()->setText(tmp);
+    }
     vorschauAktualisieren();
 }
 
 void MainWindow::elementAusblenden()
 {
-    uint i = ui->listWidget_Programmliste->currentRow()+1;
-    QString tmp_t = tt.get_prgtext()->zeile(i);
-    tmp_t = "//" + tmp_t;
-    tt.get_prgtext()->zeile_ersaetzen(i, tmp_t);
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        uint i = ui->listWidget_Programmliste->currentRow()+1;
+        QString tmp_t = tt.get_prgtext()->zeile(i);
+        tmp_t = "//" + tmp_t;
+        tt.get_prgtext()->zeile_ersaetzen(i, tmp_t);
 
-    QString tmp = ui->listWidget_Programmliste->currentItem()->text();
-    QString newText = "//";
-    newText += tmp;
-    ui->listWidget_Programmliste->currentItem()->setText(newText);
+        QString tmp = ui->listWidget_Programmliste->currentItem()->text();
+        QString newText = "//";
+        newText += tmp;
+        ui->listWidget_Programmliste->currentItem()->setText(newText);
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        uint i = ui->listWidget_Werkzeug->currentRow()+1;
+        QString tmp_t = wkz.zeile(i);
+        tmp_t = "//" + tmp_t;
+        wkz.zeile_ersaetzen(i, tmp_t);
 
+        QString tmp = ui->listWidget_Werkzeug->currentItem()->text();
+        QString newText = "//";
+        newText += tmp;
+        ui->listWidget_Werkzeug->currentItem()->setText(newText);
+    }
     vorschauAktualisieren();
 }
 
 void MainWindow::elementEinblendenSichtbarMachen()
 {
     QColor farbe(0,0,0);//schwarz
-    ui->listWidget_Programmliste->currentItem()->setForeground(QBrush(farbe));
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        ui->listWidget_Programmliste->currentItem()->setForeground(QBrush(farbe));
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        ui->listWidget_Werkzeug->currentItem()->setForeground(QBrush(farbe));
+    }
 }
 
 void MainWindow::elementEinblendenSichtbarMachen(QListWidgetItem *item)
@@ -824,7 +979,13 @@ void MainWindow::elementEinblendenSichtbarMachen(QListWidgetItem *item)
 void MainWindow::elementAusblendenSichtbarMachen()
 {
     QColor farbe(180,205,205);//grau
-    ui->listWidget_Programmliste->currentItem()->setForeground(QBrush(farbe));
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        ui->listWidget_Programmliste->currentItem()->setForeground(QBrush(farbe));
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        ui->listWidget_Werkzeug->currentItem()->setForeground(QBrush(farbe));
+    }
 }
 
 void MainWindow::elementAusblendenSichtbarMachen(QListWidgetItem *item)
@@ -881,11 +1042,50 @@ void MainWindow::on_actionEin_Ausblenden_triggered()
             mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
             mb.exec();
         }
-    }else
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        QMessageBox mb;
-        mb.setText("Dieser Befehl kann nur im TAB Programmliste verwendet werden!");
-        mb.exec();
+        if((ui->listWidget_Werkzeug->currentIndex().isValid())  &&  \
+                (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+            {
+                if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+            int row_letztes = row_erstes + items_menge-1;
+
+            int menge_ausgeblendet = 0;
+            int menge_eingeblendet = 0;
+            for(int i=row_erstes ; i<=row_letztes ; i++)
+            {
+                QString zeilentext =  wkz.zeile(i+1);
+                if(elementIstEingeblendet(zeilentext))
+                {
+                    menge_eingeblendet++;
+                }else
+                {
+                    menge_ausgeblendet++;
+                }
+            }
+            if(menge_eingeblendet == items_menge)
+            {
+                on_actionAuswahl_Ausblenden_triggered();
+            }else if(menge_ausgeblendet == items_menge)
+            {
+                on_actionAuswahl_Einblenden_triggered();
+            }
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
+            mb.exec();
+        }
     }
     tt.get_prgtext()->warnungen_einschalten(true);
     QApplication::restoreOverrideCursor();
@@ -939,11 +1139,48 @@ void MainWindow::on_actionAuswahl_Einblenden_triggered()
              mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
              mb.exec();
          }
-     }else
+     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
      {
-         QMessageBox mb;
-         mb.setText("Dieser Befehl kann nur im TAB Programmliste verwendet werden!");
-         mb.exec();
+         if((ui->listWidget_Werkzeug->currentIndex().isValid())  &&  \
+                 (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+         {
+             QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+             int items_menge = items.count();
+             int row_erstes = 0;//Nummer des ersten Elementes
+             for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+             {
+                 if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                 {
+                     row_erstes = i;
+                     break;
+                 }
+             }
+             int row_letztes = row_erstes + items_menge-1;
+
+             for(int i=row_erstes ; i<=row_letztes ; i++)
+             {
+                 QString zeilentext =wkz.zeile(i+1);
+                 if(!elementIstEingeblendet(zeilentext))
+                 {
+                     int laenge = zeilentext.length();
+                     zeilentext = zeilentext.right(laenge-2);
+                     wkz.zeile_ersaetzen(i+1, zeilentext);
+                     QColor farbe(180,205,205);//grau
+                     ui->listWidget_Werkzeug->item(i)->setForeground(QBrush(farbe));
+                 }
+             }
+             aktualisiere_anzeigetext_wkz();
+             vorschauAktualisieren();
+             for(int i=row_erstes ; i<=row_letztes ; i++)
+             {
+                 ui->listWidget_Werkzeug->item(i)->setSelected(true);
+             }
+         } else
+         {
+             QMessageBox mb;
+             mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
+             mb.exec();
+         }
      }
     tt.get_prgtext()->warnungen_einschalten(true);
      QApplication::restoreOverrideCursor();
@@ -995,11 +1232,46 @@ void MainWindow::on_actionAuswahl_Ausblenden_triggered()
             mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
             mb.exec();
         }
-    }else
+    }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        QMessageBox mb;
-        mb.setText("Dieser Befehl kann nur im TAB Programmliste verwendet werden!");
-        mb.exec();
+        if((ui->listWidget_Werkzeug->currentIndex().isValid())  &&  \
+                (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+            {
+                if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+            int row_letztes = row_erstes + items_menge-1;
+
+            for(int i=row_erstes ; i<=row_letztes ; i++)
+            {
+                QString zeilentext =wkz.zeile(i+1);
+                if(elementIstEingeblendet(zeilentext))
+                {
+                    wkz.zeile_ersaetzen(i+1,"//"+zeilentext);
+                    QColor farbe(180,205,205);//grau
+                    ui->listWidget_Werkzeug->item(i)->setForeground(QBrush(farbe));
+                }
+            }
+            aktualisiere_anzeigetext_wkz();
+            vorschauAktualisieren();
+            for(int i=row_erstes ; i<=row_letztes ; i++)
+            {
+                ui->listWidget_Werkzeug->item(i)->setSelected(true);
+            }
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was ausgeblendet werden kann!");
+            mb.exec();
+        }
     }
     tt.get_prgtext()->warnungen_einschalten(true);
     QApplication::restoreOverrideCursor();
@@ -1051,12 +1323,13 @@ void MainWindow::on_actionOffnen_triggered()
         return;
     }else
     {
-        //Dialog öffnen zum Wählen der Datei:
-        QString pfad = QFileDialog::getOpenFileName(this, tr("Waehle WOP-Datei"), \
+        QStringList pfade = QFileDialog::getOpenFileNames(this, tr("Waehle WOP-Datei"), \
                                                     pfad_oefne_fmc, tr("fmc Dateien (*.fmc)"));
-        if(!pfad.isEmpty())
+        text_zeilenweise tz;
+        tz.set_text(pfade);
+        for(uint i=1; i<=tz.zeilenanzahl();i++)
         {
-            openFile(pfad);
+            openFile(tz.zeile(i));
         }
     }
 }
@@ -1120,7 +1393,8 @@ void MainWindow::aktuelisiere_letzte_dateien_inifile()
         letzte_geoefnete_dateien.datei_merken(tt.get_prgname());
     }
     //Daten Speichern:
-    QFile inifile(QDir::homePath() + PFAD_LETZTE_DATEIEN);
+    prgpfade pf;
+    QFile inifile(pf.get_path_iniLetzteDateien());
     if (!inifile.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
         QMessageBox mb;
@@ -3039,11 +3313,43 @@ void MainWindow::on_action_aendern_triggered()
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
+        QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+        int items_menge = items.count();
 
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            QString programmzeile;
+            if(ui->listWidget_Werkzeug->currentIndex().isValid()  &&  (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+            {
+                programmzeile = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
+            } else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+            //ermitteln an welches Unterfenster der string gehen soll und die Zeile Übergeben:
+            if(programmzeile.contains(WKZ_FRAESER))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfraeser, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(WKZ_SAEGE))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgsaege, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }
+        }
     }
 }
 
 void MainWindow::on_listWidget_Programmliste_itemDoubleClicked(QListWidgetItem *item)
+{
+    emit on_action_aendern_triggered();
+}
+
+void MainWindow::on_listWidget_Werkzeug_itemDoubleClicked(QListWidgetItem *item)
 {
     emit on_action_aendern_triggered();
 }
@@ -3058,8 +3364,8 @@ void MainWindow::on_actionRueckgaengig_triggered()
         vorschauAktualisieren();
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        //w = ur_wkz.undo();
-        //aktualisiere_anzeigetext_wkz(false);
+        wkz.undo();
+        aktualisiere_anzeigetext_wkz(false);
     }
 }
 
@@ -3073,8 +3379,8 @@ void MainWindow::on_actionWiederholen_triggered()
         vorschauAktualisieren();
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        //w = ur_wkz.redo();
-        //aktualisiere_anzeigetext_wkz(false);
+        wkz.redo();
+        aktualisiere_anzeigetext_wkz(false);
     }
 }
 
@@ -3120,7 +3426,41 @@ void MainWindow::on_actionEinfuegen_triggered()
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
+        if(kopierterEintrag_w != NICHT_DEFINIERT)
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+            {
+                if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
 
+            //Einfügen über ausgewähltem Eintrag:
+            text_zeilenweise tmp_tz;
+            tmp_tz.set_text(kopierterEintrag_w);
+            if(tmp_tz.zeilenanzahl()==1)
+            {
+                wkz.zeile_einfuegen(ui->listWidget_Werkzeug->currentRow()-items_menge+1 \
+                                                 , kopierterEintrag_w);
+                int row = aktualisiere_anzeigetext_wkz()-items_menge+2 ;
+                ui->listWidget_Werkzeug->setCurrentRow(row);
+            }else
+            {
+                wkz.zeilen_einfuegen(row_erstes, kopierterEintrag_w);
+                int row = aktualisiere_anzeigetext_wkz()-items_menge+2+tmp_tz.zeilenanzahl()-1 ;
+                ui->listWidget_Werkzeug->setCurrentRow(row);
+            }
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts kopiert!");
+            mb.exec();
+        }
     }
     vorschauAktualisieren();
     update_windowtitle();
@@ -3166,7 +3506,39 @@ void MainWindow::on_actionKopieren_triggered()
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
+        if((ui->listWidget_Werkzeug->currentIndex().isValid())  &&  (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+            {
+                if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
 
+            if(items_menge==1)
+            {
+                QString tmp = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
+                if(tmp == LISTENENDE)
+                {
+                    return;
+                }
+                kopierterEintrag_w = tmp;
+            }else
+            {
+                QString tmp = wkz.zeilen(row_erstes+1, items_menge);
+                kopierterEintrag_w = tmp;
+            }
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was kopiert werden kann!");
+            mb.exec();
+        }
     }
 }
 
@@ -3220,7 +3592,50 @@ void MainWindow::on_actionAusschneiden_triggered()
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
+        if((ui->listWidget_Werkzeug->currentIndex().isValid())  &&  (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+            {
+                if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
 
+            if(items_menge==1)
+            {
+                QString tmp = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
+                if(tmp == LISTENENDE)
+                {
+                    return;
+                }
+                kopierterEintrag_w = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
+                wkz.zeile_loeschen(ui->listWidget_Werkzeug->currentRow()+1);
+                aktualisiere_anzeigetext_wkz();
+            }else
+            {
+                //Zeilen kopieren:
+                QString tmp = wkz.zeilen(row_erstes+1, items_menge);
+                kopierterEintrag_w = tmp;
+                //Zeilen löschen:
+                wkz.zeilen_loeschen(row_erstes+1, items_menge);
+                aktualisiere_anzeigetext_wkz();
+                ui->listWidget_Werkzeug->setCurrentRow(row_erstes);
+            }
+            QApplication::setOverrideCursor(Qt::WaitCursor);
+            vorschauAktualisieren();
+            update_windowtitle();
+            QApplication::restoreOverrideCursor();
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was ausgeschnitten werden kann!");
+            mb.exec();
+        }
     }
 }
 
@@ -3270,7 +3685,46 @@ void MainWindow::on_actionEntfernen_triggered()
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
+        if((ui->listWidget_Werkzeug->currentIndex().isValid())  &&  \
+                (ui->listWidget_Werkzeug->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Werkzeug->count() ;i++)
+            {
+                if(ui->listWidget_Werkzeug->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
 
+            if(items_menge == 1)
+            {
+                QString tmp = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
+                if(tmp == LISTENENDE)
+                {
+                    return;
+                }
+                wkz.zeile_loeschen(ui->listWidget_Werkzeug->currentRow()+1);
+                aktualisiere_anzeigetext_wkz();
+            }else
+            {
+                wkz.zeilen_loeschen(row_erstes+1, items_menge);
+                aktualisiere_anzeigetext_wkz();
+                ui->listWidget_Werkzeug->setCurrentRow(row_erstes);
+            }
+            QApplication::setOverrideCursor(Qt::WaitCursor);
+            vorschauAktualisieren();
+            update_windowtitle();
+            QApplication::restoreOverrideCursor();
+        } else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt was geloescht werden kann!");
+            mb.exec();
+        }
     }
 }
 
@@ -3297,7 +3751,7 @@ void MainWindow::slot_maus_pos(QPoint p)
     ui->statusBar->showMessage("X:" + x_ + " / Y:" + y_);
 }
 
-//---------------------------------------------------Dialoge:
+//---------------------------------------------------Dialoge WOP:
 
 void MainWindow::getDialogData(QString text)
 {
@@ -3320,7 +3774,19 @@ void MainWindow::getDialogData(QString text)
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-
+        text_zeilenweise at = wkz.get_anzeigetext();
+        if(at.zeilenanzahl() == 0)
+        {
+            wkz.zeile_anhaengen(text);
+            aktualisiere_anzeigetext_wkz();
+        }else
+        {
+            //Zeile über aktiver Zeile einfügen:
+            wkz.zeile_einfuegen(ui->listWidget_Werkzeug->currentRow(), text);
+            //aktualisieren und Element darunter aktivieren:
+            int row = aktualisiere_anzeigetext_wkz() + 1;
+            ui->listWidget_Werkzeug->setCurrentRow(row);
+        }
     }
     vorschauAktualisieren();
     update_windowtitle();
@@ -3346,7 +3812,19 @@ void MainWindow::getDialogDataModify(QString text)
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-
+        QString text_alt = wkz.zeile(ui->listWidget_Werkzeug->currentRow()+1);
+        if(text != text_alt)
+        {
+            if(elementIstEingeblendet())
+            {
+                wkz.zeile_ersaetzen(ui->listWidget_Werkzeug->currentRow()+1, text);
+                aktualisiere_anzeigetext_wkz();
+            }else
+            {
+                wkz.zeile_ersaetzen(ui->listWidget_Werkzeug->currentRow()+1, "//"+text);
+                aktualisiere_anzeigetext_wkz();
+            }
+        }
     }
     vorschauAktualisieren();
     update_windowtitle();
@@ -3675,7 +4153,32 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
         emit sendDialogData(msg, false);
     }
 }
+//---------------------------------------------------Dialoge wkz
+void MainWindow::on_pushButton_MakeFraeser_clicked()
+{
+    disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+    connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfraeser, SLOT(getDialogData(QString,bool)));
+    emit sendDialogData("clear", false);
+}
+
+void MainWindow::on_pushButton_MakeSaege_clicked()
+{
+    disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+    connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgsaege, SLOT(getDialogData(QString,bool)));
+    emit sendDialogData("clear", false);
+}
+
+
+
+
 //---------------------------------------------------
+
+
+
+
+
+
+
 
 
 

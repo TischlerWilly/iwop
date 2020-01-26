@@ -1547,12 +1547,98 @@ void programmtext::aktualisiere_geo()
                 geo.zeilenvorschub();
             }else if(zeile.contains(DLG_LOREIAE))
             {
-                //...
-                //...
-                //...
-                //...
-                //...
-                //...
+                double xs = text_mitte(zeile, LOREIAE_XS, ENDPAR).toDouble();
+                double xe = text_mitte(zeile, LOREIAE_XE, ENDPAR).toDouble();
+                double y1 = text_mitte(zeile, LOREIAE_Y1, ENDPAR).toDouble();
+                double y2 = text_mitte(zeile, LOREIAE_Y2, ENDPAR).toDouble();
+                double ye = text_mitte(zeile, LOREIAE_YE, ENDPAR).toDouble();
+                double raster = text_mitte(zeile, LOREIAE_RASTER, ENDPAR).toDouble();
+                double boti = text_mitte(zeile, LOREIAE_BOTI, ENDPAR).toDouble();
+                double vermit = text_mitte(zeile, LOREIAE_VERMIT, ENDPAR).toDouble();
+                kreis k;
+                k.set_radius(text_mitte(zeile, LOREIAE_DM, ENDPAR).toDouble()/2);
+                k.set_farbe(FARBE_SCHWARZ);
+                if(boti<=0 || boti > get_werkstueckdicke())
+                {
+                    k.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    k.set_farbe_fuellung(FARBE_GELB);
+                }
+                k.set_stil(STIL_DURCHGEHEND);
+                double abst = xe-xs;
+                int anz = (abst/raster);//Nachkommastellen werden abgeschnitten durch double zu int
+                strecke s;
+                punkt3d p;
+                p.set_x(xs);
+                p.set_y(y1);
+                s.set_start(p);
+                strecke_bezugspunkt sbezp;
+                if(vermit > 0)//Option 1 oder 2(bewirkt das selbe scheinbar)
+                {
+                    sbezp = strecke_bezugspunkt_mitte;
+                }else
+                {
+                    sbezp = strecke_bezugspunkt_start;
+                }
+                p.set_x(xe);
+                p.set_y(ye);
+                s.set_ende(p);
+                s.set_laenge_2d(anz*raster ,sbezp);
+
+                for(int i=0; i<=anz;i++)
+                {
+                    punkt3d mipu;
+                    if(i==0)
+                    {
+                        mipu.set_x(s.startp().x());
+                        mipu.set_y(s.startp().y());
+                    }else
+                    {
+                        strecke stmp = s;
+                        stmp.set_laenge_2d(i*raster, strecke_bezugspunkt_start);
+                        mipu.set_x(stmp.endp().x());
+                        mipu.set_y(stmp.endp().y());
+                    }
+                    k.set_mittelpunkt(mipu);
+                    k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    k = lageaendern_kreis(k, lageaendern_afb,\
+                                          lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                          lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                          lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                          lageaendern_wi_alt, lageaendern_geswi_alt);
+                    k.set_mittelpunkt(nullpunkt_wst.x() + k.mitte3d().x(), nullpunkt_wst.y() + k.mitte3d().y(),0);
+                    geo.add_kreis(k);
+
+                    if(y2 > 0)
+                    {
+                        strecke slorei2 = s;
+                        slorei2.verschieben_um(0, y2-y1);
+                        if(i==0)
+                        {
+                            mipu.set_x(slorei2.startp().x());
+                            mipu.set_y(slorei2.startp().y());
+                        }else
+                        {
+                            strecke stmp = slorei2;
+                            stmp.set_laenge_2d(i*raster, strecke_bezugspunkt_start);
+                            mipu.set_x(stmp.endp().x());
+                            mipu.set_y(stmp.endp().y());
+                        }
+
+                        k.set_mittelpunkt(mipu);
+                        k.set_radius(text_mitte(zeile, LOREIMA_DM, ENDPAR).toDouble()/2);
+
+                        k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        k = lageaendern_kreis(k, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
+                        k.set_mittelpunkt(nullpunkt_wst.x() + k.mitte3d().x(), nullpunkt_wst.y() + k.mitte3d().y(),0);
+                        geo.add_kreis(k);
+                    }
+                }
                 geo.zeilenvorschub();
             }else if(zeile.contains(DLG_LOREIMA))
             {
@@ -1563,6 +1649,7 @@ void programmtext::aktualisiere_geo()
                 double raster = text_mitte(zeile, LOREIMA_RASTER, ENDPAR).toDouble();
                 float boti = text_mitte(zeile, LOREIMA_BOTI, ENDPAR).toFloat();
                 kreis k;
+                k.set_radius(text_mitte(zeile, LOREIMA_DM, ENDPAR).toDouble()/2);
                 k.set_farbe(FARBE_SCHWARZ);
                 if(boti<=0 || boti > get_werkstueckdicke())
                 {
@@ -1581,8 +1668,6 @@ void programmtext::aktualisiere_geo()
                     mipu.set_x(xm-((abst/raster)*raster)+(i*raster));
                     mipu.set_y(y1);
                     k.set_mittelpunkt(mipu);
-                    k.set_radius(text_mitte(zeile, LOREIMA_DM, ENDPAR).toDouble()/2);
-
                     k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                     k = lageaendern_kreis(k, lageaendern_afb,\
                                           lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\

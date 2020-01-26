@@ -1,5 +1,5 @@
-#ifndef DIALOG_BOHREN_Y_H
-#define DIALOG_BOHREN_Y_H
+#ifndef DIALOG_NUT_H
+#define DIALOG_NUT_H
 
 #include <QDialog>
 #include <QDir>
@@ -7,13 +7,13 @@
 #include "myDefines.h"
 #include "eigeneFunktionen/text.h"
 #include "eigeneFunktionen/umwandeln.h"
-#include "eigeneDefines/define_boY.h"
+#include "eigeneDefines/define_nut.h"
 
 namespace Ui {
-class Dialog_bohren_y;
+class Dialog_nut;
 }
 
-class Dialog_bohren_y : public QDialog
+class Dialog_nut : public QDialog
 {
     Q_OBJECT
 
@@ -23,8 +23,8 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_bohren_y(QWidget *parent = nullptr);
-    ~Dialog_bohren_y();
+    explicit Dialog_nut(QWidget *parent = nullptr);
+    ~Dialog_nut();
     QString get_default();
 
 public slots:
@@ -36,9 +36,9 @@ private slots:
     void on_pushButton_save_clicked();
 
 private:
-    Ui::Dialog_bohren_y *ui;
+    Ui::Dialog_nut *ui;
     bool openToModifyData;
     QString dialogDataToString();
 };
 
-#endif // DIALOG_BOHREN_Y_H
+#endif // DIALOG_NUT_H

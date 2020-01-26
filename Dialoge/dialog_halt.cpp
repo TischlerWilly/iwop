@@ -9,9 +9,8 @@ Dialog_halt::Dialog_halt(QWidget *parent) :
     openToModifyData = false;
     ui->pushButton_ok->setDefault(true);
 
-    QString bild1;
-    bild1  = PFAD_DLGBILDER;
-    bild1 += QDir::separator();
+    prgpfade pf;
+    QString bild1 = pf.get_path_dlgbilder_();
     bild1 += "halt_1.bmp";
     QPixmap pix1(bild1);
     ui->label_bild->setPixmap(pix1);

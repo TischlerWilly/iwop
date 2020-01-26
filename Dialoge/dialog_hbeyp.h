@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDir>
+#include "eigeneKlassen/prgpfade.h"
 #include "myDefines.h"
 #include "eigeneFunktionen/text.h"
 #include "eigeneFunktionen/umwandeln.h"

@@ -74,7 +74,7 @@ punkt2d strecke::get_mittelpunkt2d()
     return sta + ((end-sta)/2);
 }
 
-void strecke::drenen_um_mittelpunkt_2d(float drehwinkel, \
+void strecke::drenen_um_mittelpunkt_2d(double drehwinkel, \
                                     bool drehrichtung_im_uhrzeigersinn)
 {
     punkt2d sp(start);
@@ -93,7 +93,7 @@ void strecke::drenen_um_mittelpunkt_2d(float drehwinkel, \
     set_ende(tmp);
 }
 
-void strecke::drenen_um_startpunkt_2d(float drehwinkel, bool drehrichtung_im_uhrzeigersinn)
+void strecke::drenen_um_startpunkt_2d(double drehwinkel, bool drehrichtung_im_uhrzeigersinn)
 {
     punkt2d sp(start);
     punkt2d ep(ende);
@@ -105,7 +105,7 @@ void strecke::drenen_um_startpunkt_2d(float drehwinkel, bool drehrichtung_im_uhr
     set_ende(tmp);
 }
 
-void strecke::drenen_um_endpunkt_2d(float drehwinkel, bool drehrichtung_im_uhrzeigersinn)
+void strecke::drenen_um_endpunkt_2d(double drehwinkel, bool drehrichtung_im_uhrzeigersinn)
 {
     punkt2d sp(start);
     punkt2d ep(ende);
@@ -117,9 +117,9 @@ void strecke::drenen_um_endpunkt_2d(float drehwinkel, bool drehrichtung_im_uhrze
     set_start(tmp);
 }
 
-void strecke::set_laenge_2d(float neue_laenge, strecke_bezugspunkt bezugspunkt)
+void strecke::set_laenge_2d(double neue_laenge, strecke_bezugspunkt bezugspunkt)
 {
-    float skalfakt = neue_laenge/laenge2d;
+    double skalfakt = neue_laenge/laenge2d;
 
     switch(bezugspunkt)
     {
