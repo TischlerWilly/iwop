@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.01.19"
+#define PROGRAMMVERSION     "1.2020.01.26"
 
 /*
 Zusatzwünsche:
@@ -10,23 +10,11 @@ Zusatzwünsche:
 - HBE X umwandeln in HBE Y etc
 
 ---------------------------------------------------------------------------In Arbeit:
-- Dialog für WKZ_Säge
-
-
-
-
 ---------------------------------------------------------------------------Nut
-- myDefines.h ->DLG_...
-- define_xyz.h anlegen
-- Qt-Designer-Formularklasse anlegen
-- dialog_xyz.ui
-    ->ui entwerfen
-        -->WindowTitel
-        -->modal true
-        -->TAB-Reihenfolge
-            ->slots anlegen
-- dialog_xyz.h
 - dialog_xyz.cpp
+  ->getDialogData()
+    -->Werkzeugnamen
+
 - mainwindow.h
     ->include
     ->DLG-Objekt anlegen (private:)
@@ -52,6 +40,12 @@ Zusatzwünsche:
     ->aktualisiere_geo()
     ->aktualisiere_anzeigetext()
 ---------------------------------------------------------------------------
+
+
+
+
+
+
 
 ---------------------------------------------------------------------------
 ToDo für neue Dialoge anlegen:
@@ -113,14 +107,11 @@ ToDo für neue wkz-Dialoge anlegen:
 - mainwindow.cpp
     ->Construktor ergänzen
         -->Connect:
-    ->loadConfig()
-    ->saveConfig()
-    ->slotSaveConfig(QString text)
-    ->hideElemets_noFileIsOpen()
-    ->showElements_aFileIsOpen()
-    ->import_fmc(text_zeilenweise tz)
-    ->export_fmc(text_zeilenweise tz)
     ->on_action_aendern_triggered()
+- werkzeug.cpp
+    ->include ergänzen
+- werkzeug.cpp
+    ->werkzeug::get_anzeigetext()
 ---------------------------------------------------------------------------
 
 

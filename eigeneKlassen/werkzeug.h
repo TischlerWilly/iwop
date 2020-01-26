@@ -3,6 +3,7 @@
 
 #include "eigeneDefines/define_wkz.h"
 #include "eigeneDefines/define_wkz_fraeser.h"
+#include "eigeneDefines/define_wkz_saege.h"
 #include "eigeneKlassen/text_zeilenweise.h"
 #include "eigeneKlassen/undo_redo_tz.h"
 #include "eigeneFunktionen/text.h"

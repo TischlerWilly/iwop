@@ -38,9 +38,11 @@ SOURCES += \
         Dialoge/dialog_lage_aendern.cpp \
         Dialoge/dialog_loreiae.cpp \
         Dialoge/dialog_loreima.cpp \
+        Dialoge/dialog_nut.cpp \
         Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
+        Dialoge/dialog_saege.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
         eigeneFunktionen/geometrie.cpp \
@@ -72,6 +74,7 @@ SOURCES += \
         eigeneKlassen/wenndannsonst.cpp \
         eigeneKlassen/werkzeug.cpp \
         eigeneKlassen/wkz_fraeser.cpp \
+        eigeneKlassen/wkz_saege.cpp \
         eigeneKlassen/wuerfel.cpp \
         eigeneKlassen/zylinder.cpp \
         main.cpp \
@@ -91,9 +94,11 @@ HEADERS += \
         Dialoge/dialog_lage_aendern.h \
         Dialoge/dialog_loreiae.h \
         Dialoge/dialog_loreima.h \
+        Dialoge/dialog_nut.h \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        Dialoge/dialog_saege.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
         eigeneDefines/define_bo.h \
@@ -106,12 +111,14 @@ HEADERS += \
         eigeneDefines/define_lage_aendern.h \
         eigeneDefines/define_loreiae.h \
         eigeneDefines/define_loreima.h \
+        eigeneDefines/define_nut.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
         eigeneDefines/define_spiegeln.h \
         eigeneDefines/define_topf.h \
         eigeneDefines/define_wkz.h \
         eigeneDefines/define_wkz_fraeser.h \
+        eigeneDefines/define_wkz_saege.h \
         eigeneDefines/defines_geometrie.h \
         eigeneDefines/defines_halt.h \
         eigeneDefines/defines_kom.h \
@@ -144,6 +151,7 @@ HEADERS += \
         eigeneKlassen/wenndannsonst.h \
         eigeneKlassen/werkzeug.h \
         eigeneKlassen/wkz_fraeser.h \
+        eigeneKlassen/wkz_saege.h \
         eigeneKlassen/wuerfel.h \
         eigeneKlassen/zylinder.h \
         eigeneMakros/makro_geometrie.h \
@@ -166,9 +174,11 @@ FORMS += \
         Dialoge/dialog_lage_aendern.ui \
         Dialoge/dialog_loreiae.ui \
         Dialoge/dialog_loreima.ui \
+        Dialoge/dialog_nut.ui \
         Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
+        Dialoge/dialog_saege.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
         mainwindow.ui

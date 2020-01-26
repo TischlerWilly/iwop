@@ -196,8 +196,11 @@ text_zeilenweise werkzeug::get_anzeigetext()
                 msg = "//";
             }
             msg += "S : ";
-            msg += zeile; //Dies später noch ändern!!!
+            msg += text_mitte(zeile, SAEGE_NAME, ENDPAR);
             tz.zeile_anhaengen(msg);
+        }else if(zeile.contains(LISTENENDE_WKZ))
+        {
+            tz.zeile_anhaengen("...");
         }else
         {
             tz.zeile_anhaengen(zeile);

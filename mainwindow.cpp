@@ -137,6 +137,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgsaege, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -155,6 +156,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgsaege, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -3335,7 +3337,8 @@ void MainWindow::on_action_aendern_triggered()
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(WKZ_SAEGE))
             {
-                //...
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgsaege, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
             }
         }
     }
@@ -4160,7 +4163,9 @@ void MainWindow::on_pushButton_MakeFraeser_clicked()
 
 void MainWindow::on_pushButton_MakeSaege_clicked()
 {
-
+    disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+    connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgsaege, SLOT(getDialogData(QString,bool)));
+    emit sendDialogData("clear", false);
 }
 
 

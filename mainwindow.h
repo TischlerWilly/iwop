@@ -38,6 +38,7 @@
 #include "Dialoge/dialog_lage_aendern.h"
 #include "eigeneKlassen/werkzeug.h"
 #include "Dialoge/dialog_fraeser.h"
+#include "Dialoge/dialog_saege.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -95,6 +96,7 @@ private:
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
     Dialog_fraeser   dlgfraeser;
+    Dialog_saege     dlgsaege;
 
     //Variablen:
     QStringList     konfiguration_ini;

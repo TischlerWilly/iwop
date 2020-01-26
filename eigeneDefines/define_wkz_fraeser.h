@@ -3,13 +3,13 @@
 
 //#define WKZ_FRAESER     "[Fraeser]"
 
-#define FRAESER_NAME     "FraeserName="
-#define FRAESER_NR       "FraeserNummer="
-#define FRAESER_VERTIKAL "FraeserVertikal="
-#define FRAESER_DM       "FraeserDurchmesser="
-#define FRAESER_NUTZL    "FraeserNutzlaenge="
-#define FRAESER_ZUSTMAS  "FraeserZustellmas="
-#define FRAESER_UZS      "DrehrichtungUZS="
+#define FRAESER_NAME     "Name="
+#define FRAESER_NR       "Nr="
+#define FRAESER_VERTIKAL "Vert="
+#define FRAESER_DM       "DM="
+#define FRAESER_NUTZL    "Nutzl="
+#define FRAESER_ZUSTMAS  "Zust="
+#define FRAESER_UZS      "UZS="
 
 #endif // DEFINE_WKZ_FRAESER_H
 
