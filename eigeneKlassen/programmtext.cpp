@@ -847,6 +847,43 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_NUT))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, NUT_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_NUT;
+                zeile_klartext += param_to_klartext(zeile, NUT_WKZ, "void", variablen, false);
+                zeile_klartext += param_to_klartext(zeile, NUT_SX, VAR_NUT_SX, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_SY, VAR_NUT_SY, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_EX, VAR_NUT_EX, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_EY, VAR_NUT_EY, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_TI, VAR_NUT_TI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_B, VAR_NUT_B, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_AUSLAUF, VAR_NUT_AUSLAUF, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_KOR, VAR_NUT_KOR, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_GEGENLAUF, VAR_NUT_GEGENLAUF, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_NWI, VAR_NUT_NWI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_NTYP, VAR_NUT_NTYP, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_NABST, VAR_NUT_NABST, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_Z, VAR_NUT_Z, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_EINVO, VAR_NUT_EINVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_VO, VAR_NUT_VO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_DREHZ, VAR_NUT_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, NUT_PLM, VAR_NUT_PLM, variablen, true);
+                //NUT_BEZ
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -2422,6 +2459,73 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_NUT))
+            {
+                punkt3d sp;
+                punkt3d ep;
+                double b;
+                double t;
+                QString kor;
+                rechteck3d r;
+                r.set_bezugspunkt(MITTE);
+                sp.set_x(text_mitte(zeile, NUT_SX, ENDPAR));
+                sp.set_y(text_mitte(zeile, NUT_SY, ENDPAR));
+                ep.set_x(text_mitte(zeile, NUT_EX, ENDPAR));
+                ep.set_y(text_mitte(zeile, NUT_EY, ENDPAR));
+                b = text_mitte(zeile, NUT_B, ENDPAR).toDouble();
+                t = text_mitte(zeile, NUT_TI, ENDPAR).toDouble();
+                kor = text_mitte(zeile, NUT_KOR, ENDPAR);
+                strecke s;
+                s.set_start(sp);
+                s.set_ende(ep);
+                r.set_laenge(s.laenge2dim());
+                r.set_breite(b);
+                if(kor == "0")//mitte
+                {
+                    r.set_einfuegepunkt(s.get_mittelpunkt3d());
+                }else if(kor == "1")//links
+                {
+                    strecke s2 = s;
+                    s2.set_laenge_2d(b);
+                    s2.drenen_um_mittelpunkt_2d(90, true);
+                    r.set_einfuegepunkt(s2.startp());
+                }else if(kor == "2")//rechts
+                {
+                    strecke s2 = s;
+                    s2.set_laenge_2d(b);
+                    s2.drenen_um_mittelpunkt_2d(90, false);
+                    r.set_einfuegepunkt(s2.startp());
+                }
+
+                r.set_drewi(s.get_winkel());
+
+                r.set_farbe_fuellung(FARBE_BLAU);
+                sp.set_linienbreite(13);
+                ep.set_linienbreite(8);
+
+                sp = spiegeln_punkt3d(sp, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                ep = spiegeln_punkt3d(ep, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                sp = lageaendern_punkt3d(sp, lageaendern_afb,\
+                                         lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                         lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                         lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                         lageaendern_wi_alt, lageaendern_geswi_alt);
+                ep = lageaendern_punkt3d(ep, lageaendern_afb,\
+                                         lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                         lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                         lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                         lageaendern_wi_alt, lageaendern_geswi_alt);
+                r = spiegeln_rechteck3d(r, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                r = lageaendern_rechteck3d(r, lageaendern_afb,\
+                                           lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                           lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                           lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                           lageaendern_wi_alt, lageaendern_geswi_alt);
+
+                geo.add_rechteck(r);
+                geo.add_punkt(sp);
+                geo.add_punkt(ep);
+                geo.zeilenvorschub();
             }else
             {
                 geo.zeilenvorschub();
@@ -2503,6 +2607,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_HBEYM))
         {
             tmp += text_mitte(zeile, HBEYM_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_NUT))
+        {
+            tmp += text_mitte(zeile, NUT_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
@@ -2870,6 +2977,31 @@ kreis programmtext::spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, d
     return  k;
 }
 
+punkt3d programmtext::spiegeln_punkt3d(punkt3d p, bool xbed, bool ybed, double xpos, double ypos)
+{
+    if(xbed == true)
+    {
+        double x = p.x();
+        double abstspiegelachse = xpos - x;
+        x = x + (2*abstspiegelachse);
+        p.set_x(x);
+    }
+    if(ybed == true)
+    {
+        double y = p.y();
+        double abstspiegelachse = ypos - y;
+        y = y + (2*abstspiegelachse);
+        p.set_y(y);
+    }
+    return  p;
+}
+
+rechteck3d programmtext::spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed, double xpos, double ypos)
+{
+    //....
+    return r;
+}
+
 kreis programmtext::lageaendern_kreis(kreis k, bool afb, \
                                       double xalt, double yalt, double xneu, double yneu, \
                                       double wi, double geswi, bool kettenmas, \
@@ -2917,8 +3049,59 @@ kreis programmtext::lageaendern_kreis(kreis k, bool afb, \
     return  k;
 }
 
+punkt3d programmtext::lageaendern_punkt3d(punkt3d p, bool afb, \
+                                          double xalt, double yalt, double xneu, double yneu, \
+                                          double wi, double geswi, bool kettenmas, \
+                                          double xalt2, double yalt2, double xneu2, double yneu2, \
+                                          double wi2, double geswi2)
+{
+    if(afb == true)
+    {
+        double x = p.x();
+        double y = p.y();
+        double ax = xneu - xalt;
+        double ay = yneu - yalt;
+        double w = wi + geswi;
+        if(kettenmas == true)
+        {
+            double ax2 = xneu2 - xalt2;
+            double ay2 = yneu2 - yalt2;
+            double w2 = wi2 + geswi2;
+            ax = ax + ax2;
+            ay = ay + ay2;
+            w = w + w2;
+        }
+        if(w != 0)
+        {
+            punkt3d sp, ep;
+            sp.set_x(xalt);
+            sp.set_y(yalt);
+            ep.set_x(p.x());
+            ep.set_y(p.y());
+            strecke s;
+            s.set_start(sp);
+            s.set_ende(ep);
+            s.drenen_um_startpunkt_2d(w, false);
+            x = s.endp().x();
+            y = s.endp().y();
+        }
+        x = x + ax;
+        y = y + ay;
+        p.set_x(x);
+        p.set_y(y);
+    }
+    return  p;
+}
 
-
+rechteck3d programmtext::lageaendern_rechteck3d(rechteck3d r, bool afb, \
+                                                double xalt, double yalt, double xneu, \
+                                                double yneu, double wi, double geswi, bool kettenmas, \
+                                                double xalt2, double yalt2, double xneu2, double yneu2, \
+                                                double wi2, double geswi2)
+{
+    //....
+    return  r;
+}
 
 
 

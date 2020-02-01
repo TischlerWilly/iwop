@@ -59,7 +59,7 @@ QString Dialog_nut::dialogDataToString()
     QString msg = DLG_NUT ;
 
     msg += NUT_WKZ;
-    msg += ui->comboBox_wkz->currentText();
+    msg += ui->comboBox_wkz->currentText().replace("?", "");
     msg += ENDPAR;
 
     msg += NUT_SX;
@@ -142,13 +142,51 @@ QString Dialog_nut::dialogDataToString()
     return msg;
 }
 
+void Dialog_nut::update_wkzlist()
+{
+    emit signalNeedWKZ(DLG_NUT);
+}
+
+void Dialog_nut::getWKZlist(text_zeilenweise list)
+{
+    wkzlist = list;
+    update_comboboxWKZ();
+}
+
+void Dialog_nut::update_comboboxWKZ()
+{
+    ui->comboBox_wkz->clear();
+    for(uint i=1; i<= wkzlist.zeilenanzahl();i++)
+    {
+        ui->comboBox_wkz->addItem(wkzlist.zeile(i));
+    }
+}
+
 void Dialog_nut::getDialogData(QString text, bool openToChangeData)
 {
     openToModifyData = openToChangeData;
+    update_wkzlist();
     QString parname = NUT_WKZ;
     QString tmp;
     tmp = selektiereEintrag(text, parname, ENDPAR);
-    //Werkzeug einsetzen
+    //Werkzeug einsetzen:
+    uint wkzindex = 0;
+    for(uint i=1; i<= wkzlist.zeilenanzahl();i++)
+    {
+        if(tmp == wkzlist.zeile(i))
+        {
+            wkzindex = i;
+        }
+    }
+    if(wkzindex > 0)
+    {
+        ui->comboBox_wkz->setCurrentIndex(wkzindex-1);
+    }else
+    {
+        update_comboboxWKZ();
+        ui->comboBox_wkz->addItem(tmp + "???");
+        ui->comboBox_wkz->setCurrentIndex(wkzlist.zeilenanzahl());
+    }
 
     parname = ENDPAR;
     parname += NUT_SX;

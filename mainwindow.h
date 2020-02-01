@@ -39,6 +39,7 @@
 #include "eigeneKlassen/werkzeug.h"
 #include "Dialoge/dialog_fraeser.h"
 #include "Dialoge/dialog_saege.h"
+#include "Dialoge/dialog_nut.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -60,6 +61,7 @@ public slots:
     void getDialogDataModify(QString text);
     void slotSaveConfig(QString text);
     void slot_maus_pos(QPoint p);
+    void slotNeedWKZ(QString dlgtyp);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
@@ -67,6 +69,7 @@ signals:
                         QString variabel, QString geotext, QString fkon);
     void sendDialogData(QString text, bool openToChangeData);
     void sendAktiveProgrammzeile(int zeilennummer);
+    void sendWKZlist(text_zeilenweise list);
 
 private:
     Ui::MainWindow *ui;
@@ -93,6 +96,7 @@ private:
     Dialog_hbexm     dlghbexm;
     Dialog_hbeyp     dlghbeyp;
     Dialog_hbeym     dlghbeym;
+    Dialog_nut       dlgnut;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
     Dialog_fraeser   dlgfraeser;
@@ -117,6 +121,7 @@ private:
     QString         vorlage_hbexm;
     QString         vorlage_hbeyp;
     QString         vorlage_hbeym;
+    QString         vorlage_nut;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -203,6 +208,7 @@ private slots:
     void on_pushButton_MakeSaege_clicked();
     void on_listWidget_Werkzeug_itemDoubleClicked(QListWidgetItem *item);
     void on_pushButton_wkz_speichern_clicked();
+    void on_actionMakeNut_triggered();
 };
 
 #endif // MAINWINDOW_H

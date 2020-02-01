@@ -27,7 +27,7 @@ public:
     int zeile_loeschen(uint zeilennummer);
     int zeilen_loeschen(uint zeilennummer_beginn, uint zeilenmenge);
     text_zeilenweise get_anzeigetext();
-    text_zeilenweise get_wkzlist(QString wkztyp, QString paramfilter);
+    text_zeilenweise get_wkzlist(QString wkztyp, QString paramfilter = "");
 
     //------------
     //MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on = true);

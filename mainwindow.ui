@@ -192,10 +192,17 @@
     <addaction name="actionMakeSpiegeln"/>
     <addaction name="actionMakeLage_aendern"/>
    </widget>
+   <widget class="QMenu" name="menuS_gen">
+    <property name="title">
+     <string>Sägen</string>
+    </property>
+    <addaction name="actionMakeNut"/>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
    <addaction name="menuProduzieren"/>
    <addaction name="menuBohren"/>
+   <addaction name="menuS_gen"/>
    <addaction name="menuManipulation"/>
    <addaction name="menuExtras"/>
   </widget>
@@ -421,6 +428,11 @@
   <action name="actionMakeHBE_Y_minus">
    <property name="text">
     <string>HBE Y minus</string>
+   </property>
+  </action>
+  <action name="actionMakeNut">
+   <property name="text">
+    <string>Nut</string>
    </property>
   </action>
  </widget>
