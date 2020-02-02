@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     //Defaultwerte:
     kopierterEintrag_t              = NICHT_DEFINIERT;
     kopierterEintrag_w              = NICHT_DEFINIERT;
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_hbeyp                   = dlghbeyp.get_default();
     vorlage_hbeym                   = dlghbeym.get_default();
     vorlage_nut                     = dlgnut.get_default();
+    vorlage_kta                     = dlgkta.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -119,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeyp, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlghbeym, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgnut, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgkta, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -137,6 +140,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeyp, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlghbeym, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgnut, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgkta, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -157,12 +161,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeyp, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlghbeym, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgnut, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgkta, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgsaege, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&dlgnut, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
+    connect(&dlgkta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -476,6 +482,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_NUT))
                 {
                     vorlage_nut = selektiereEintrag(text, DLG_NUT, ENDE_ZEILE);
+                }else if(text.contains(DLG_KTA))
+                {
+                    vorlage_kta = selektiereEintrag(text, DLG_KTA, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -570,6 +579,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_NUT;
     inhaltVonKonfiguration +=       vorlage_nut;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_KTA;
+    inhaltVonKonfiguration +=       vorlage_kta;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -678,6 +691,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_NUT))
         {
             vorlage_nut = selektiereEintrag(text, DLG_NUT, ENDE_ZEILE);
+        }else if(text.contains(DLG_KTA))
+        {
+            vorlage_kta = selektiereEintrag(text, DLG_KTA, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -826,6 +842,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeHBE_Y_plus->setDisabled(true);
     ui->actionMakeHBE_Y_minus->setDisabled(true);
     ui->actionMakeNut->setDisabled(true);
+    ui->actionMakeKreistasche->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -869,6 +886,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeHBE_Y_plus->setEnabled(true);
     ui->actionMakeHBE_Y_minus->setEnabled(true);
     ui->actionMakeNut->setEnabled(true);
+    ui->actionMakeKreistasche->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1314,11 +1332,12 @@ void MainWindow::on_actionNeu_triggered()
     }
     programmtext t;
     t.set_text("");
-    QString name = "Unbekannt ";
+    QString name = "Unbekannt ";    
     anz_neue_dateien++;
     name += int_to_qstring(anz_neue_dateien);
     undo_redo tmpur;
     tmpur.set_groesse_max(settings_anz_undo_t.toInt());
+    t.set_wkz(wkz);
     tt.add(t, name, tmpur);
     update_gui();
     ui->listWidget_Programmliste->item(0)->setSelected(true);
@@ -1376,6 +1395,7 @@ void MainWindow::openFile(QString pfad)
             t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
             undo_redo tmpur;
             tmpur.set_groesse_max(settings_anz_undo_t.toInt());
+            t.set_wkz(wkz);
             tt.add(t, pfad, tmpur);
             file.close();
 
@@ -2598,6 +2618,73 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_KTA))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_KTA;
+            prgzeile += vorlage_kta;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(KTA_WKZ))
+                {
+                    prgzeile = replaceparam(KTA_WKZ, prgzeile, zeile);
+                }else if(zeile.contains(KTA_X))
+                {
+                    prgzeile = replaceparam(KTA_X, prgzeile, zeile);
+                }else if(zeile.contains(KTA_Y))
+                {
+                    prgzeile = replaceparam(KTA_Y, prgzeile, zeile);
+                }else if(zeile.contains(KTA_DM))
+                {
+                    prgzeile = replaceparam(KTA_DM, prgzeile, zeile);
+                }else if(zeile.contains(KTA_TI))
+                {
+                    prgzeile = replaceparam(KTA_TI, prgzeile, zeile);
+                }else if(zeile.contains(KTA_ZUST))
+                {
+                    prgzeile = replaceparam(KTA_ZUST, prgzeile, zeile);
+                }else if(zeile.contains(KTA_GEGENL))
+                {
+                    prgzeile = replaceparam(KTA_GEGENL, prgzeile, zeile);
+                }else if(zeile.contains(KTA_AUSR))
+                {
+                    prgzeile = replaceparam(KTA_AUSR, prgzeile, zeile);
+                }else if(zeile.contains(KTA_EINVO))
+                {
+                    prgzeile = replaceparam(KTA_EINVO, prgzeile, zeile);
+                }else if(zeile.contains(KTA_VO))
+                {
+                    prgzeile = replaceparam(KTA_VO, prgzeile, zeile);
+                }else if(zeile.contains(KTA_DREHZ))
+                {
+                    prgzeile = replaceparam(KTA_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(KTA_PLM))
+                {
+                    prgzeile = replaceparam(KTA_PLM, prgzeile, zeile);
+                }else if(zeile.contains(KTA_WKZAKT))
+                {
+                    prgzeile = replaceparam(KTA_WKZAKT, prgzeile, zeile);
+                }else if(zeile.contains(KTA_BEZ))
+                {
+                    prgzeile = replaceparam(KTA_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(KTA_AFB))
+                {
+                    prgzeile = replaceparam(KTA_AFB, prgzeile, zeile);
+                }else if (zeile.contains(KTA_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -3155,6 +3242,32 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(NUT_BEZ, zeile);
             msg += exportparam(NUT_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_KTA))
+        {
+            msg += DLG_KTA;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(KTA_WKZ, zeile);
+            msg += exportparam(KTA_X, zeile);
+            msg += exportparam(KTA_Y, zeile);
+            msg += exportparam(KTA_DM, zeile);
+            msg += exportparam(KTA_TI, zeile);
+            msg += exportparam(KTA_ZUST, zeile);
+            msg += exportparam(KTA_GEGENL, zeile);
+            msg += exportparam(KTA_AUSR, zeile);
+            msg += exportparam(KTA_EINVO, zeile);
+            msg += exportparam(KTA_VO, zeile);
+            msg += exportparam(KTA_DREHZ, zeile);
+            msg += exportparam(KTA_PLM, zeile);
+            msg += exportparam(KTA_WKZAKT, zeile);
+            msg += exportparam(KTA_BEZ, zeile);
+            msg += exportparam(KTA_AFB, zeile);
+            msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             msg += DLG_SPIEGELN;
@@ -3439,6 +3552,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_NUT))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgnut, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_KTA))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgkta, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -4277,6 +4394,22 @@ void MainWindow::on_actionMakeNut_triggered()
     }
 }
 
+void MainWindow::on_actionMakeKreistasche_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgkta, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_kta;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -4331,11 +4464,17 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgnut, SLOT(getWKZlist(text_zeilenweise)));
         emit sendWKZlist(wkz.get_wkzlist(WKZ_SAEGE, SAEGE_NAME));
+    }else if(dlgtyp == DLG_KTA)
+    {
+        connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgkta, SLOT(getWKZlist(text_zeilenweise)));
+        emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
     }
 }
 
 
 //---------------------------------------------------
+
+
 
 
 

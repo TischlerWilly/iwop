@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.01.26"
+#define PROGRAMMVERSION     "1.2020.02.02"
 
 /*
 Zusatzwünsche:
@@ -10,9 +10,8 @@ Zusatzwünsche:
 - HBE X umwandeln in HBE Y etc
 
 ---------------------------------------------------------------------------In Arbeit:
-rechteck3d programmtext::spiegeln_rechteck3d(...)
-rechteck3d programmtext::lageaendern_rechteck3d(...)
-
+->msg beim Speichern des Werkzeugmagazins das das Programm nach Möglichkeit neu gestartert werden sollte
+->Das Bestätigen der Werkzeugdialoge (Fräser+Säge) sollte nur möglich sein wenn eine Werkzeugnummer eingegeben wurde!
 
 
 

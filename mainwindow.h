@@ -40,6 +40,7 @@
 #include "Dialoge/dialog_fraeser.h"
 #include "Dialoge/dialog_saege.h"
 #include "Dialoge/dialog_nut.h"
+#include "Dialoge/dialog_kta.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -101,6 +102,7 @@ private:
     Dialog_lage_aendern   dlglageaendern;
     Dialog_fraeser   dlgfraeser;
     Dialog_saege     dlgsaege;
+    Dialog_kta       dlgkta;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -122,6 +124,7 @@ private:
     QString         vorlage_hbeyp;
     QString         vorlage_hbeym;
     QString         vorlage_nut;
+    QString         vorlage_kta;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -209,6 +212,7 @@ private slots:
     void on_listWidget_Werkzeug_itemDoubleClicked(QListWidgetItem *item);
     void on_pushButton_wkz_speichern_clicked();
     void on_actionMakeNut_triggered();
+    void on_actionMakeKreistasche_triggered();
 };
 
 #endif // MAINWINDOW_H

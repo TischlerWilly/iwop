@@ -138,7 +138,7 @@ QString Dialog_spiegeln::get_default()
     msg += "0";
     msg += ENDPAR;
 
-    msg += SPIEGELN_XBED;
+    msg += SPIEGELN_YBED;
     msg += "1";
     msg += ENDPAR;
 

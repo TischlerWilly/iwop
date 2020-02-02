@@ -35,6 +35,7 @@ SOURCES += \
         Dialoge/dialog_hbeym.cpp \
         Dialoge/dialog_hbeyp.cpp \
         Dialoge/dialog_kom.cpp \
+        Dialoge/dialog_kta.cpp \
         Dialoge/dialog_lage_aendern.cpp \
         Dialoge/dialog_loreiae.cpp \
         Dialoge/dialog_loreima.cpp \
@@ -91,6 +92,7 @@ HEADERS += \
         Dialoge/dialog_hbeym.h \
         Dialoge/dialog_hbeyp.h \
         Dialoge/dialog_kom.h \
+        Dialoge/dialog_kta.h \
         Dialoge/dialog_lage_aendern.h \
         Dialoge/dialog_loreiae.h \
         Dialoge/dialog_loreima.h \
@@ -108,6 +110,7 @@ HEADERS += \
         eigeneDefines/define_hbexp.h \
         eigeneDefines/define_hbeym.h \
         eigeneDefines/define_hbeyp.h \
+        eigeneDefines/define_kta.h \
         eigeneDefines/define_lage_aendern.h \
         eigeneDefines/define_loreiae.h \
         eigeneDefines/define_loreima.h \
@@ -171,6 +174,7 @@ FORMS += \
         Dialoge/dialog_hbeym.ui \
         Dialoge/dialog_hbeyp.ui \
         Dialoge/dialog_kom.ui \
+        Dialoge/dialog_kta.ui \
         Dialoge/dialog_lage_aendern.ui \
         Dialoge/dialog_loreiae.ui \
         Dialoge/dialog_loreima.ui \

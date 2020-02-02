@@ -46,6 +46,7 @@
 #define DLG_SPIEGELN            "[SWSPIE40]"
 #define DLG_LAGE_AENDERN        "[SWLAGE40]"
 #define DLG_NUT                 "[ZYSNUT40]"
+#define DLG_KTA                 "[ZYKTFR40]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"

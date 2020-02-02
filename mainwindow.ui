@@ -198,10 +198,17 @@
     </property>
     <addaction name="actionMakeNut"/>
    </widget>
+   <widget class="QMenu" name="menuFr_sen">
+    <property name="title">
+     <string>Fräsen</string>
+    </property>
+    <addaction name="actionMakeKreistasche"/>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
    <addaction name="menuProduzieren"/>
    <addaction name="menuBohren"/>
+   <addaction name="menuFr_sen"/>
    <addaction name="menuS_gen"/>
    <addaction name="menuManipulation"/>
    <addaction name="menuExtras"/>
@@ -433,6 +440,11 @@
   <action name="actionMakeNut">
    <property name="text">
     <string>Nut</string>
+   </property>
+  </action>
+  <action name="actionMakeKreistasche">
+   <property name="text">
+    <string>Kreistasche</string>
    </property>
   </action>
  </widget>

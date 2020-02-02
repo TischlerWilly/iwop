@@ -884,6 +884,37 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_KTA))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, KTA_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_KTA;
+                zeile_klartext += param_to_klartext(zeile, KTA_WKZ, "void", variablen, false);
+                zeile_klartext += param_to_klartext(zeile, KTA_X, VAR_KTA_X, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_Y, VAR_KTA_Y, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_DM, VAR_KTA_DM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_TI, VAR_KTA_TI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_ZUST, VAR_KTA_ZUST, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_GEGENL, VAR_KTA_GEGENL, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_AUSR, VAR_KTA_AUSR, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_EINVO, VAR_KTA_EINVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_VO, VAR_KTA_VO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_DREHZ, VAR_KTA_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, KTA_PLM, VAR_KTA_PLM, variablen, true);
+                //NUT_BEZ
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -2526,6 +2557,67 @@ void programmtext::aktualisiere_geo()
                 geo.add_punkt(sp);
                 geo.add_punkt(ep);
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_KTA))
+            {
+                punkt3d mipu;
+                mipu.set_x(text_mitte(zeile, KTA_X, ENDPAR));
+                mipu.set_y(text_mitte(zeile, KTA_Y, ENDPAR));
+                mipu.set_z(0);
+
+                double ti = text_mitte(zeile, KTA_TI, ENDPAR).toDouble();
+
+                kreis k;
+                k.set_farbe(FARBE_SCHWARZ);
+                if(ti<=0 || ti > get_werkstueckdicke())
+                {
+                    k.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    k.set_farbe_fuellung(FARBE_DUNKELGRAU);
+                }
+                k.set_stil(STIL_DURCHGEHEND);
+
+                k.set_mittelpunkt(mipu);
+                k.set_radius(text_mitte(zeile, KTA_DM, ENDPAR).toDouble()/2);
+
+                k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                k = lageaendern_kreis(k, lageaendern_afb,\
+                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                k.set_mittelpunkt(nullpunkt_wst.x() + k.mitte3d().x(), nullpunkt_wst.y() + k.mitte3d().y(),0);
+                geo.add_kreis(k);
+                QString ausr = text_mitte(zeile, KTA_AUSR, ENDPAR);
+                if(ausr == "0")
+                {
+                    double wkzdm = k.radius()/2;
+
+                    QString wkzname = text_mitte(zeile, KTA_WKZ, ENDPAR);
+                    text_zeilenweise wkzlist_nr;
+                    wkzlist_nr = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NR);
+                    text_zeilenweise wkzlist_dm;
+                    wkzlist_dm = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_DM);
+
+                    for(uint i=1; i<=wkzlist_nr.zeilenanzahl() ;i++)
+                    {
+                        if(wkzlist_nr.zeile(i) == wkzname)
+                        {
+                            if(wkzlist_dm.zeile(i).toDouble() > 0)
+                            {
+                                wkzdm = wkzlist_dm.zeile(i).toDouble();
+                            }
+                        }
+                    }
+
+                    if(wkzdm < k.radius())
+                    {
+                        k.set_farbe_fuellung(FARBE_GRAU);
+                        k.set_radius(k.radius()-wkzdm);
+                        geo.add_kreis(k);
+                    }
+                }
+                geo.zeilenvorschub();
             }else
             {
                 geo.zeilenvorschub();
@@ -2610,6 +2702,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_NUT))
         {
             tmp += text_mitte(zeile, NUT_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_KTA))
+        {
+            tmp += text_mitte(zeile, KTA_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
@@ -2998,8 +3093,30 @@ punkt3d programmtext::spiegeln_punkt3d(punkt3d p, bool xbed, bool ybed, double x
 
 rechteck3d programmtext::spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed, double xpos, double ypos)
 {
-    //....
-    return r;
+    int bezpu = r.bezpunkt_num();
+    r.set_bezugspunkt(MITTE);
+    punkt3d mipu;
+    mipu = r.einfpunkt();
+    if(xbed == true)
+    {
+        double x = mipu.x();
+        double abstspiegelachse = xpos - x;
+        x = x + (2*abstspiegelachse);
+        mipu.set_x(x);
+        r.set_einfuegepunkt(mipu);
+        r.set_drewi(360-r.drewi());
+    }
+    if(ybed == true)
+    {
+        double y = mipu.y();
+        double abstspiegelachse = ypos - y;
+        y = y + (2*abstspiegelachse);
+        mipu.set_y(y);
+        r.set_einfuegepunkt(mipu);
+        r.set_drewi(360-r.drewi());
+    }
+    r.set_bezugspunkt(bezpu);
+    return  r;
 }
 
 kreis programmtext::lageaendern_kreis(kreis k, bool afb, \
@@ -3099,7 +3216,48 @@ rechteck3d programmtext::lageaendern_rechteck3d(rechteck3d r, bool afb, \
                                                 double xalt2, double yalt2, double xneu2, double yneu2, \
                                                 double wi2, double geswi2)
 {
-    //....
+    if(afb == true)
+    {
+        int bezpu = r.bezpunkt_num();
+        r.set_bezugspunkt(MITTE);
+        punkt3d mipu;
+        mipu = r.einfpunkt();
+        double x = mipu.x();
+        double y = mipu.y();
+        double ax = xneu - xalt;
+        double ay = yneu - yalt;
+        double w = wi + geswi;
+        if(kettenmas == true)
+        {
+            double ax2 = xneu2 - xalt2;
+            double ay2 = yneu2 - yalt2;
+            double w2 = wi2 + geswi2;
+            ax = ax + ax2;
+            ay = ay + ay2;
+            w = w + w2;
+        }
+        if(w != 0)
+        {
+            punkt3d sp, ep;
+            sp.set_x(xalt);
+            sp.set_y(yalt);
+            ep.set_x(mipu.x());
+            ep.set_y(mipu.y());
+            strecke s;
+            s.set_start(sp);
+            s.set_ende(ep);
+            s.drenen_um_startpunkt_2d(w, false);
+            x = s.endp().x();
+            y = s.endp().y();
+            r.set_drewi(r.drewi()+w);
+        }
+        x = x + ax;
+        y = y + ay;
+        mipu.set_x(x);
+        mipu.set_y(y);
+        r.set_einfuegepunkt(mipu);
+        r.set_bezugspunkt(bezpu);
+    }
     return  r;
 }
 
