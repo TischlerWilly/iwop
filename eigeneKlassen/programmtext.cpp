@@ -894,7 +894,7 @@ void programmtext::aktualisiere_klartext_var()
             {
                 QString zeile_klartext;
                 zeile_klartext += DLG_KTA;
-                zeile_klartext += param_to_klartext(zeile, KTA_WKZ, "void", variablen, false);
+                zeile_klartext += param_to_klartext_orginal(zeile, KTA_WKZ);
                 zeile_klartext += param_to_klartext(zeile, KTA_X, VAR_KTA_X, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, KTA_Y, VAR_KTA_Y, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, KTA_DM, VAR_KTA_DM, variablen, true);
@@ -906,6 +906,40 @@ void programmtext::aktualisiere_klartext_var()
                 zeile_klartext += param_to_klartext(zeile, KTA_VO, VAR_KTA_VO, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, KTA_DREHZ, VAR_KTA_DREHZ, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, KTA_PLM, VAR_KTA_PLM, variablen, true);
+                //NUT_BEZ
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_RTA))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, RTA_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_RTA;
+                zeile_klartext += param_to_klartext_orginal(zeile, RTA_WKZ);
+                zeile_klartext += param_to_klartext(zeile, RTA_X, VAR_RTA_X, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_Y, VAR_RTA_Y, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_L, VAR_RTA_L, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_B, VAR_RTA_B, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_TI, VAR_RTA_TI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_RAD, VAR_RTA_RAD, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_ZUST, VAR_RTA_ZUST, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_GEGENL, VAR_RTA_GEGENL, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_WI, VAR_RTA_WI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_AUSR, VAR_RTA_AUSR, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_EINVO, VAR_RTA_EINVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_VO, VAR_RTA_VO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_DREHZ, VAR_RTA_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, RTA_PLM, VAR_RTA_PLM, variablen, true);
                 //NUT_BEZ
 
                 klartext.zeilen_anhaengen(zeile_klartext);
@@ -956,6 +990,14 @@ QString programmtext::param_to_klartext(QString prgzeile, QString parname, QStri
         }
     }
 
+    return  kt;
+}
+
+QString programmtext::param_to_klartext_orginal(QString prgzeile, QString parname)
+{
+    QString kt = parname;
+    kt += text_mitte(prgzeile, parname, ENDPAR);
+    kt += ENDPAR;
     return  kt;
 }
 
@@ -2586,7 +2628,7 @@ void programmtext::aktualisiere_geo()
                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                k.set_mittelpunkt(nullpunkt_wst.x() + k.mitte3d().x(), nullpunkt_wst.y() + k.mitte3d().y(),0);
+                k.set_mittelpunkt(nullpunkt_wst.x() + k.mitte3d().x(), nullpunkt_wst.y() + k.mitte3d().y(),0);//für ax und ay
                 geo.add_kreis(k);
                 QString ausr = text_mitte(zeile, KTA_AUSR, ENDPAR);
                 if(ausr == "0")
@@ -2594,14 +2636,14 @@ void programmtext::aktualisiere_geo()
                     double wkzdm = k.radius()/2;
 
                     QString wkzname = text_mitte(zeile, KTA_WKZ, ENDPAR);
-                    text_zeilenweise wkzlist_nr;
-                    wkzlist_nr = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NR);
+                    text_zeilenweise wkzlist_name;
+                    wkzlist_name = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME);
                     text_zeilenweise wkzlist_dm;
                     wkzlist_dm = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_DM);
 
-                    for(uint i=1; i<=wkzlist_nr.zeilenanzahl() ;i++)
+                    for(uint i=1; i<=wkzlist_name.zeilenanzahl() ;i++)
                     {
-                        if(wkzlist_nr.zeile(i) == wkzname)
+                        if(wkzlist_name.zeile(i) == wkzname)
                         {
                             if(wkzlist_dm.zeile(i).toDouble() > 0)
                             {
@@ -2615,6 +2657,99 @@ void programmtext::aktualisiere_geo()
                         k.set_farbe_fuellung(FARBE_GRAU);
                         k.set_radius(k.radius()-wkzdm);
                         geo.add_kreis(k);
+                    }
+                }
+                geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_RTA))
+            {
+                punkt3d mipu;
+                mipu.set_x(text_mitte(zeile, RTA_X, ENDPAR));
+                mipu.set_y(text_mitte(zeile, RTA_Y, ENDPAR));
+                mipu.set_z(0);
+
+                double ti = text_mitte(zeile, RTA_TI, ENDPAR).toDouble();
+
+                rechteck3d r;
+                r.set_bezugspunkt(MITTE);
+                r.set_farbe(FARBE_SCHWARZ);
+                if(ti<=0 || ti > get_werkstueckdicke())
+                {
+                    r.set_farbe_fuellung(FARBE_WEISS);
+                }else
+                {
+                    r.set_farbe_fuellung(FARBE_DUNKELGRAU);
+                }
+                r.set_stil(STIL_DURCHGEHEND);
+
+                r.set_einfuegepunkt(mipu);
+                r.set_laenge(text_mitte(zeile, RTA_L, ENDPAR).toDouble());
+                r.set_breite(text_mitte(zeile, RTA_B, ENDPAR).toDouble());
+                r.set_drewi(text_mitte(zeile, RTA_WI, ENDPAR).toDouble());
+                double min = r.l();
+                if(r.b() < min)
+                {
+                    min = r.b();
+                }
+                double wkzdm = min/4;
+                QString wkzname = text_mitte(zeile, RTA_WKZ, ENDPAR);
+                text_zeilenweise wkzlist_name;
+                wkzlist_name = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME);
+                text_zeilenweise wkzlist_dm;
+                wkzlist_dm = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_DM);
+
+                for(uint i=1; i<=wkzlist_name.zeilenanzahl() ;i++)
+                {
+                    if(wkzlist_name.zeile(i) == wkzname)
+                    {
+                        if(wkzlist_dm.zeile(i).toDouble() > 0)
+                        {
+                            wkzdm = wkzlist_dm.zeile(i).toDouble();
+                        }
+                    }
+                }
+                double rad = text_mitte(zeile, RTA_WI, ENDPAR).toDouble();
+                if(rad < wkzdm/2)
+                {
+                    rad = wkzdm/2;
+                }
+                if(rad > min/2)
+                {
+                    rad = min/2;
+                }
+                r.set_rad(rad);
+
+                r = spiegeln_rechteck3d(r, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                r = lageaendern_rechteck3d(r, lageaendern_afb,\
+                                          lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                          lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                          lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                          lageaendern_wi_alt, lageaendern_geswi_alt);
+                r.set_einfuegepunkt(nullpunkt_wst.x() + r.einfpunkt().x(), nullpunkt_wst.y() + r.einfpunkt().y(), 0);
+                if(min < wkzdm)
+                {
+                    r.set_farbe_fuellung(FARBE_ROT);
+                }
+                geo.add_rechteck(r);
+                QString ausr = text_mitte(zeile, RTA_AUSR, ENDPAR);
+                if(ausr == "0")
+                {
+                    if(wkzdm < min)
+                    {
+                        double lneu = r.l()-wkzdm*2;
+                        double bneu = r.b()-wkzdm*2;
+                        if(lneu > 0 && bneu > 0)
+                        {
+                            r.set_farbe_fuellung(FARBE_GRAU);
+                            r.set_laenge(lneu);
+                            r.set_breite(bneu);
+                            double radneu = r.rad()-wkzdm;
+                            if(radneu < 0)
+                            {
+                                radneu = 0;
+                            }
+                            r.set_rad(radneu);
+                            geo.add_rechteck(r);
+                        }
                     }
                 }
                 geo.zeilenvorschub();
@@ -2705,6 +2840,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_KTA))
         {
             tmp += text_mitte(zeile, KTA_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_RTA))
+        {
+            tmp += text_mitte(zeile, RTA_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

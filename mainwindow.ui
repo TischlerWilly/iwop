@@ -203,6 +203,7 @@
      <string>Fräsen</string>
     </property>
     <addaction name="actionMakeKreistasche"/>
+    <addaction name="actionMakeRechtecktasche"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -445,6 +446,11 @@
   <action name="actionMakeKreistasche">
    <property name="text">
     <string>Kreistasche</string>
+   </property>
+  </action>
+  <action name="actionMakeRechtecktasche">
+   <property name="text">
+    <string>Rechtecktasche</string>
    </property>
   </action>
  </widget>

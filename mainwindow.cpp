@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_hbeym                   = dlghbeym.get_default();
     vorlage_nut                     = dlgnut.get_default();
     vorlage_kta                     = dlgkta.get_default();
+    vorlage_rta                     = dlgrta.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
     settings_anz_undo_t             = "10";
@@ -122,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeym, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgnut, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgkta, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgrta, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -141,6 +143,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeym, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgnut, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgkta, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgrta, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -162,6 +165,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbeym, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgnut, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgkta, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgrta, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -169,6 +173,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&dlgnut, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
     connect(&dlgkta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
+    connect(&dlgrta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -179,6 +184,27 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::set_arg(int argc, char **argv)
+{
+    //argc = anzahl der Argumente
+    //argv[0] bis argv[xy] sind die Elemente
+    //erstes Element ist der Programmname
+    //QString programmname = argv[0];
+    //QString msg;
+    //msg = "Anzahl der Argumente: ";
+    //msg += int_to_qstring(argc);
+    //msg += "\n";
+    for(int i=1; i<argc ;i++)
+    {
+        //msg += argv[i];
+        //msg += "\n";
+        openFile(argv[i]);
+    }
+    //QMessageBox mb;
+    //mb.setText(msg);
+    //mb.exec();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -299,6 +325,10 @@ void MainWindow::update_windowtitle()
         {
             QFileInfo info = name;
             name = info.baseName();
+            if(tt.get_prgtext()->get_nurlesend())
+            {
+                name += " [schreibgeschützt]";
+            }
         }
         if(tt.get_prgtext()->get_hat_ungesicherte_inhalte() == true)
         {
@@ -485,6 +515,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_KTA))
                 {
                     vorlage_kta = selektiereEintrag(text, DLG_KTA, ENDE_ZEILE);
+                }else if(text.contains(DLG_RTA))
+                {
+                    vorlage_rta = selektiereEintrag(text, DLG_RTA, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -583,6 +616,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_KTA;
     inhaltVonKonfiguration +=       vorlage_kta;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_RTA;
+    inhaltVonKonfiguration +=       vorlage_rta;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -694,6 +731,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_KTA))
         {
             vorlage_kta = selektiereEintrag(text, DLG_KTA, ENDE_ZEILE);
+        }else if(text.contains(DLG_RTA))
+        {
+            vorlage_rta = selektiereEintrag(text, DLG_RTA, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -843,6 +883,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeHBE_Y_minus->setDisabled(true);
     ui->actionMakeNut->setDisabled(true);
     ui->actionMakeKreistasche->setDisabled(true);
+    ui->actionMakeRechtecktasche->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -887,6 +928,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeHBE_Y_minus->setEnabled(true);
     ui->actionMakeNut->setEnabled(true);
     ui->actionMakeKreistasche->setEnabled(true);
+    ui->actionMakeRechtecktasche->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -1390,7 +1432,7 @@ void MainWindow::openFile(QString pfad)
             QString quelle = QString::fromLatin1(file.readAll());
             programmtext t;
             bool readonly;
-            t.set_text(import_fmc(quelle, readonly).get_text());
+            t.set_text(import_fmc(quelle, readonly, pfad).get_text());
             t.nurlesend(readonly);
             t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
             undo_redo tmpur;
@@ -1518,12 +1560,13 @@ void MainWindow::actionLetzteDateiOefnenTriggered()
 
 }
 
-text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
+text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString prgname)
 {
     readonly = false;
     text_zeilenweise tz;
     tz.set_text(quelle);
     text_zeilenweise retz;
+    bool msg_unbekannte_dlg = false;
     for(uint i=1; i<= tz.zeilenanzahl();i++)
     {
         QString zeile = tz.zeile(i);
@@ -2685,6 +2728,82 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_RTA))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_RTA;
+            prgzeile += vorlage_rta;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(RTA_WKZ))
+                {
+                    prgzeile = replaceparam(RTA_WKZ, prgzeile, zeile);
+                }else if(zeile.contains(RTA_X))
+                {
+                    prgzeile = replaceparam(RTA_X, prgzeile, zeile);
+                }else if(zeile.contains(RTA_Y))
+                {
+                    prgzeile = replaceparam(RTA_Y, prgzeile, zeile);
+                }else if(zeile.contains(RTA_L))
+                {
+                    prgzeile = replaceparam(RTA_L, prgzeile, zeile);
+                }else if(zeile.contains(RTA_B))
+                {
+                    prgzeile = replaceparam(RTA_B, prgzeile, zeile);
+                }else if(zeile.contains(RTA_TI))
+                {
+                    prgzeile = replaceparam(RTA_TI, prgzeile, zeile);
+                }else if(zeile.contains(RTA_RAD))
+                {
+                    prgzeile = replaceparam(RTA_RAD, prgzeile, zeile);
+                }else if(zeile.contains(RTA_ZUST))
+                {
+                    prgzeile = replaceparam(RTA_ZUST, prgzeile, zeile);
+                }else if(zeile.contains(RTA_GEGENL))
+                {
+                    prgzeile = replaceparam(RTA_GEGENL, prgzeile, zeile);
+                }else if(zeile.contains(RTA_WI))
+                {
+                    prgzeile = replaceparam(RTA_WI, prgzeile, zeile);
+                }else if(zeile.contains(RTA_AUSR))
+                {
+                    prgzeile = replaceparam(RTA_AUSR, prgzeile, zeile);
+                }else if(zeile.contains(RTA_EINVO))
+                {
+                    prgzeile = replaceparam(RTA_EINVO, prgzeile, zeile);
+                }else if(zeile.contains(RTA_VO))
+                {
+                    prgzeile = replaceparam(RTA_VO, prgzeile, zeile);
+                }else if(zeile.contains(RTA_DREHZ))
+                {
+                    prgzeile = replaceparam(RTA_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(RTA_PLM))
+                {
+                    prgzeile = replaceparam(RTA_PLM, prgzeile, zeile);
+                }else if(zeile.contains(RTA_WKZAKT))
+                {
+                    prgzeile = replaceparam(RTA_WKZAKT, prgzeile, zeile);
+                }else if(zeile.contains(RTA_BEZ))
+                {
+                    prgzeile = replaceparam(RTA_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(RTA_AFB))
+                {
+                    prgzeile = replaceparam(RTA_AFB, prgzeile, zeile);
+                }else if (zeile.contains(RTA_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -2779,12 +2898,20 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly)
             continue;
         }else if(  zeile.contains("[") && zeile.contains("]")  )
         {
-            //QApplication::setOverrideCursor(Qt::ArrowCursor);
-            QMessageBox mb;
-            mb.setText("Datei enthällt nicht programmierte Dialoge.\nOriginaldatei kann nur lesend geöffnet werden!\n\"Speichern unter\" kann verwendet werden.");
-            mb.exec();
-            //QApplication::setOverrideCursor(Qt::WaitCursor);
-            readonly = true;
+            if(msg_unbekannte_dlg == false)
+            {
+                QString msg;
+                msg = "Die Datei\n";
+                msg += prgname;
+                msg += "\nenthällt nicht programmierte Dialoge.\n";
+                msg += "Die Originaldatei kann nur lesend geöffnet werden!\n";
+                msg += "Bitte verwenden Sie \"Speichern unter\" wenn sie die Datei speichern möchten.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+                readonly = true;
+                msg_unbekannte_dlg = true;
+            }
         }
 
     }
@@ -3268,6 +3395,35 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(KTA_BEZ, zeile);
             msg += exportparam(KTA_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_RTA))
+        {
+            msg += DLG_RTA;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(RTA_WKZ, zeile);
+            msg += exportparam(RTA_X, zeile);
+            msg += exportparam(RTA_Y, zeile);
+            msg += exportparam(RTA_L, zeile);
+            msg += exportparam(RTA_B, zeile);
+            msg += exportparam(RTA_TI, zeile);
+            msg += exportparam(RTA_RAD, zeile);
+            msg += exportparam(RTA_ZUST, zeile);
+            msg += exportparam(RTA_GEGENL, zeile);
+            msg += exportparam(RTA_WI, zeile);
+            msg += exportparam(RTA_AUSR, zeile);
+            msg += exportparam(RTA_EINVO, zeile);
+            msg += exportparam(RTA_VO, zeile);
+            msg += exportparam(RTA_DREHZ, zeile);
+            msg += exportparam(RTA_PLM, zeile);
+            msg += exportparam(RTA_WKZAKT, zeile);
+            msg += exportparam(RTA_BEZ, zeile);
+            msg += exportparam(RTA_AFB, zeile);
+            msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             msg += DLG_SPIEGELN;
@@ -3556,6 +3712,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_KTA))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgkta, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_RTA))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgrta, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -4410,6 +4570,22 @@ void MainWindow::on_actionMakeKreistasche_triggered()
     }
 }
 
+void MainWindow::on_actionMakeRechtecktasche_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgrta, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_rta;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -4468,11 +4644,17 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgkta, SLOT(getWKZlist(text_zeilenweise)));
         emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
+    }else if(dlgtyp == DLG_RTA)
+    {
+        connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgrta, SLOT(getWKZlist(text_zeilenweise)));
+        emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
     }
 }
 
 
 //---------------------------------------------------
+
+
 
 
 

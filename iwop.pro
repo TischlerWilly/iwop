@@ -43,6 +43,7 @@ SOURCES += \
         Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
+        Dialoge/dialog_rta.cpp \
         Dialoge/dialog_saege.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        Dialoge/dialog_rta.h \
         Dialoge/dialog_saege.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
@@ -117,6 +119,7 @@ HEADERS += \
         eigeneDefines/define_nut.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
+        eigeneDefines/define_rta.h \
         eigeneDefines/define_spiegeln.h \
         eigeneDefines/define_topf.h \
         eigeneDefines/define_wkz.h \
@@ -182,6 +185,7 @@ FORMS += \
         Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
+        Dialoge/dialog_rta.ui \
         Dialoge/dialog_saege.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
@@ -194,4 +198,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     eigeneMakros/makro_geometrie.h~ \
-    eigeneStruncts/punkt.h~
+    eigeneStruncts/punkt.h~ \
+    iwop.ico
+
+RC_ICONS = iwop.ico

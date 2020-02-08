@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDir>
+#include <QMessageBox>
 #include "eigeneFunktionen/text.h"
 #include "eigeneFunktionen/umwandeln.h"
 #include "eigeneKlassen/prgpfade.h"
