@@ -1,5 +1,5 @@
-#ifndef DIALOG_NUT_H
-#define DIALOG_NUT_H
+#ifndef DIALOG_KTA_H
+#define DIALOG_KTA_H
 
 #include <QDialog>
 #include <QDir>
@@ -8,13 +8,13 @@
 #include "eigeneFunktionen/text.h"
 #include "eigeneFunktionen/umwandeln.h"
 #include "eigeneKlassen/text_zeilenweise.h"
-#include "eigeneDefines/define_nut.h"
+#include "eigeneDefines/define_kta.h"
 
 namespace Ui {
-class Dialog_nut;
+class Dialog_kta;
 }
 
-class Dialog_nut : public QDialog
+class Dialog_kta : public QDialog
 {
     Q_OBJECT
 
@@ -25,8 +25,8 @@ signals:
     void signalNeedWKZ(QString dlgtyp);
 
 public:
-    explicit Dialog_nut(QWidget *parent = nullptr);
-    ~Dialog_nut();
+    explicit Dialog_kta(QWidget *parent = nullptr);
+    ~Dialog_kta();
     QString get_default();
 
 public slots:
@@ -39,7 +39,7 @@ private slots:
     void on_pushButton_save_clicked();
 
 private:
-    Ui::Dialog_nut *ui;
+    Ui::Dialog_kta *ui;
     bool openToModifyData;
     text_zeilenweise wkzlist;
     QString dialogDataToString();
@@ -47,4 +47,4 @@ private:
     void update_comboboxWKZ();
 };
 
-#endif // DIALOG_NUT_H
+#endif // DIALOG_KTA_H

@@ -5,7 +5,7 @@
 
 //--------------------------------Parameternahmen in der fmc-Datei
 #define LOREIMA_XS        "SPX="
-#define LOREIMA_XM        "MPX"
+#define LOREIMA_XM        "MPX="
 #define LOREIMA_Y1        "Y1="
 #define LOREIMA_Y2        "Y2="
 #define LOREIMA_RASTER    "RASTER="

@@ -953,6 +953,9 @@ QColor vorschau::set_farbe(QString farbe)
     }else if(farbe == FARBE_GRAU)
     {
         qfarbe = Qt::gray;
+    }else if(farbe == FARBE_DUNKELGRAU)
+    {
+        qfarbe = Qt::darkGray;
     }else if(farbe == FARBE_BRAUN)
     {
         qfarbe.setRgb(185,122,87);

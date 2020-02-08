@@ -217,3 +217,36 @@ QString strecke::get_text()
 
     return msg;
 }
+
+double strecke::get_winkel()
+{
+    double w = 0;
+    if(startp() == endp())
+    {
+        w = 0;
+    }else if(startp().y() == endp().y())
+    {
+        if(startp().x() < endp().x())
+        {
+            w = 0;
+        }else
+        {
+            w = 180;
+        }
+    }else if(startp().x() == endp().x())
+    {
+        if(startp().y() < endp().y())
+        {
+            w = 90;
+        }else
+        {
+            w = 270;
+        }
+    }else
+    {
+        w = winkel(endp().x(), endp().y(),\
+                   startp().x(), startp().y());
+    }
+
+    return w;
+}

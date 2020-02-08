@@ -8,7 +8,7 @@
 #define DATEIENDUNG_BACKUP          ".bak_"
 #define PROGRAMMNAME                "IWOP"
 #define ANZAHL_LETZTER_DATEIEN      15
-#define ANZAHL_OFFENER_DATEIEN      20
+#define ANZAHL_OFFENER_DATEIEN      99
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------Einstellungen:
@@ -46,6 +46,8 @@
 #define DLG_SPIEGELN            "[SWSPIE40]"
 #define DLG_LAGE_AENDERN        "[SWLAGE40]"
 #define DLG_NUT                 "[ZYSNUT40]"
+#define DLG_KTA                 "[ZYKTFR40]"
+#define DLG_RTA                 "[ZYRTFR40]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"

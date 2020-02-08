@@ -5,10 +5,10 @@
 
 //--------------------------------Parameternahmen in der fmc-Datei
 #define LOREIAE_XS        "SPX="
-#define LOREIAE_XE        "EPX"
+#define LOREIAE_XE        "EPX="
 #define LOREIAE_Y1        "Y1="
 #define LOREIAE_Y2        "Y2="
-#define LOREIAE_YE        "EPY"
+#define LOREIAE_YE        "EPY="
 #define LOREIAE_RASTER    "RASTER="
 #define LOREIAE_BOTI      "TI="
 #define LOREIAE_DM        "DM="

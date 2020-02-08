@@ -30,6 +30,13 @@ void Dialog_saege::clear()
 
 void Dialog_saege::on_pushButton_ok_clicked()
 {
+    if(ui->lineEdit_nr->text().isEmpty())
+    {
+        QMessageBox mb;
+        mb.setText("Bitte zuerst eine Werkzeugnummer eingeben!");
+        mb.exec();
+        return;
+    }
     QString msg = dialogDataToString();
     this->hide();
     if(openToModifyData)

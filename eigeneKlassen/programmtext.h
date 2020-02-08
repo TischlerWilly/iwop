@@ -26,8 +26,12 @@
 #include "eigeneDefines/define_hbexm.h"
 #include "eigeneDefines/define_hbeyp.h"
 #include "eigeneDefines/define_hbeym.h"
+#include "eigeneDefines/define_nut.h"
+#include "eigeneDefines/define_kta.h"
+#include "eigeneDefines/define_rta.h"
 #include "eigeneDefines/define_spiegeln.h"
 #include "eigeneDefines/define_lage_aendern.h"
+#include "werkzeug.h"
 
 
 class programmtext
@@ -37,6 +41,10 @@ public:
             void                set_text(QString neuer_Text);
 //            void                set_wkz(werkzeug wkz);
             void                set_maschinengeometrie(text_zeilenweise tz);
+    inline  void    set_wkz(werkzeug w)
+    {
+        wkz = w;
+    }
             void                clear();
     inline  void                warnungen_einschalten(bool einschalten)
     {
@@ -234,6 +242,7 @@ private:
     bool    aktualisieren_eingeschaltet;
     bool    aktualisieren_fkon_eingeschaltet;
     bool    readonly;
+    werkzeug wkz;
 
             void    clear_ausser_text();
     inline  void    set_werkstuecklaenge(double neue_laenge)
@@ -263,8 +272,10 @@ private:
             void    set_sicherheitsabstand(float neuer_Abstand);
 
 
+
             void    aktualisiere_klartext_var();
             QString param_to_klartext(QString prgzeile, QString parname, QString varname, QString &varlist, bool varmerken);
+            QString param_to_klartext_orginal(QString prgzeile, QString parname);
             void    aktualisiere_geo();
             void    aktualisiere_anzeigetext();
             void    aktualisiere_wkz();
@@ -276,11 +287,23 @@ private:
             text_zeilenweise fkon_use_values(text_zeilenweise cam);
 
             kreis   spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, double ypos);
+            punkt3d spiegeln_punkt3d(punkt3d p, bool xbed, bool ybed, double xpos, double ypos);
+            rechteck3d spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed, double xpos, double ypos);
             kreis   lageaendern_kreis(kreis k, bool afb,\
                                       double xalt, double yalt, double xneu, double yneu, \
                                       double wi, double geswi, bool kettenmas,\
                                       double xalt2, double yalt2, double xneu2, double yneu2, \
                                       double wi2, double geswi2);
+            punkt3d lageaendern_punkt3d(punkt3d p, bool afb,\
+                                        double xalt, double yalt, double xneu, double yneu, \
+                                        double wi, double geswi, bool kettenmas,\
+                                        double xalt2, double yalt2, double xneu2, double yneu2, \
+                                        double wi2, double geswi2);
+            rechteck3d lageaendern_rechteck3d(rechteck3d r, bool afb,\
+                                              double xalt, double yalt, double xneu, double yneu, \
+                                              double wi, double geswi, bool kettenmas,\
+                                              double xalt2, double yalt2, double xneu2, double yneu2, \
+                                              double wi2, double geswi2);
 
 
 

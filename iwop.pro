@@ -35,6 +35,7 @@ SOURCES += \
         Dialoge/dialog_hbeym.cpp \
         Dialoge/dialog_hbeyp.cpp \
         Dialoge/dialog_kom.cpp \
+        Dialoge/dialog_kta.cpp \
         Dialoge/dialog_lage_aendern.cpp \
         Dialoge/dialog_loreiae.cpp \
         Dialoge/dialog_loreima.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
         Dialoge/dialog_prgende.cpp \
         Dialoge/dialog_prgkopf.cpp \
         Dialoge/dialog_programmlisten.cpp \
+        Dialoge/dialog_rta.cpp \
         Dialoge/dialog_saege.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
@@ -91,6 +93,7 @@ HEADERS += \
         Dialoge/dialog_hbeym.h \
         Dialoge/dialog_hbeyp.h \
         Dialoge/dialog_kom.h \
+        Dialoge/dialog_kta.h \
         Dialoge/dialog_lage_aendern.h \
         Dialoge/dialog_loreiae.h \
         Dialoge/dialog_loreima.h \
@@ -98,6 +101,7 @@ HEADERS += \
         Dialoge/dialog_prgende.h \
         Dialoge/dialog_prgkopf.h \
         Dialoge/dialog_programmlisten.h \
+        Dialoge/dialog_rta.h \
         Dialoge/dialog_saege.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
@@ -108,12 +112,14 @@ HEADERS += \
         eigeneDefines/define_hbexp.h \
         eigeneDefines/define_hbeym.h \
         eigeneDefines/define_hbeyp.h \
+        eigeneDefines/define_kta.h \
         eigeneDefines/define_lage_aendern.h \
         eigeneDefines/define_loreiae.h \
         eigeneDefines/define_loreima.h \
         eigeneDefines/define_nut.h \
         eigeneDefines/define_prgende.h \
         eigeneDefines/define_prgkopf.h \
+        eigeneDefines/define_rta.h \
         eigeneDefines/define_spiegeln.h \
         eigeneDefines/define_topf.h \
         eigeneDefines/define_wkz.h \
@@ -171,6 +177,7 @@ FORMS += \
         Dialoge/dialog_hbeym.ui \
         Dialoge/dialog_hbeyp.ui \
         Dialoge/dialog_kom.ui \
+        Dialoge/dialog_kta.ui \
         Dialoge/dialog_lage_aendern.ui \
         Dialoge/dialog_loreiae.ui \
         Dialoge/dialog_loreima.ui \
@@ -178,6 +185,7 @@ FORMS += \
         Dialoge/dialog_prgende.ui \
         Dialoge/dialog_prgkopf.ui \
         Dialoge/dialog_programmlisten.ui \
+        Dialoge/dialog_rta.ui \
         Dialoge/dialog_saege.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
@@ -190,4 +198,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     eigeneMakros/makro_geometrie.h~ \
-    eigeneStruncts/punkt.h~
+    eigeneStruncts/punkt.h~ \
+    iwop.ico
+
+RC_ICONS = iwop.ico

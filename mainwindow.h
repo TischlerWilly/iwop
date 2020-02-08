@@ -39,6 +39,9 @@
 #include "eigeneKlassen/werkzeug.h"
 #include "Dialoge/dialog_fraeser.h"
 #include "Dialoge/dialog_saege.h"
+#include "Dialoge/dialog_nut.h"
+#include "Dialoge/dialog_kta.h"
+#include "Dialoge/dialog_rta.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -54,12 +57,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void set_arg(int argc, char *argv[]);
 
 public slots:
     void getDialogData(QString text);
     void getDialogDataModify(QString text);
     void slotSaveConfig(QString text);
     void slot_maus_pos(QPoint p);
+    void slotNeedWKZ(QString dlgtyp);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
@@ -67,6 +72,7 @@ signals:
                         QString variabel, QString geotext, QString fkon);
     void sendDialogData(QString text, bool openToChangeData);
     void sendAktiveProgrammzeile(int zeilennummer);
+    void sendWKZlist(text_zeilenweise list);
 
 private:
     Ui::MainWindow *ui;
@@ -93,10 +99,13 @@ private:
     Dialog_hbexm     dlghbexm;
     Dialog_hbeyp     dlghbeyp;
     Dialog_hbeym     dlghbeym;
+    Dialog_nut       dlgnut;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
     Dialog_fraeser   dlgfraeser;
     Dialog_saege     dlgsaege;
+    Dialog_kta       dlgkta;
+    Dialog_rta       dlgrta;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -117,6 +126,9 @@ private:
     QString         vorlage_hbexm;
     QString         vorlage_hbeyp;
     QString         vorlage_hbeym;
+    QString         vorlage_nut;
+    QString         vorlage_kta;
+    QString         vorlage_rta;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -136,7 +148,7 @@ private:
     int aktualisiere_anzeigetext_wkz(bool undo_redo_on = true);
     void vorschauAktualisieren();
     void openFile(QString pfad);
-    text_zeilenweise import_fmc(QString quelle, bool &readonly);
+    text_zeilenweise import_fmc(QString quelle, bool &readonly, QString prgname);
     QString replaceparam(QString param, QString ziel, QString quelle);
     QString exportparam(QString param, QString paramzeile);
     QString          export_fmc(text_zeilenweise tz);
@@ -203,6 +215,9 @@ private slots:
     void on_pushButton_MakeSaege_clicked();
     void on_listWidget_Werkzeug_itemDoubleClicked(QListWidgetItem *item);
     void on_pushButton_wkz_speichern_clicked();
+    void on_actionMakeNut_triggered();
+    void on_actionMakeKreistasche_triggered();
+    void on_actionMakeRechtecktasche_triggered();
 };
 
 #endif // MAINWINDOW_H

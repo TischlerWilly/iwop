@@ -62,6 +62,8 @@ public:
     punkt3d get_mittelpunkt3d();
     punkt2d get_mittelpunkt2d();
 
+    double get_winkel();
+
     QString get_text();
 
 private:

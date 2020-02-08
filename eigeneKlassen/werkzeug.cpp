@@ -208,7 +208,7 @@ text_zeilenweise werkzeug::get_anzeigetext()
     }
     return  tz;
 }
-text_zeilenweise werkzeug::get_wkzlist(QString wkztyp, QString paramfilter = "")
+text_zeilenweise werkzeug::get_wkzlist(QString wkztyp, QString paramfilter)
 {
     text_zeilenweise tz;
     for(uint i=1; i<=wkzlist.zeilenanzahl() ;i++)
