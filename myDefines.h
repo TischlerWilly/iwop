@@ -48,6 +48,8 @@
 #define DLG_NUT                 "[ZYSNUT40]"
 #define DLG_KTA                 "[ZYKTFR40]"
 #define DLG_RTA                 "[ZYRTFR40]"
+#define DLG_VAR                 "[SWVD1_40]"
+#define DLG_VAR10               "[SWVARD40]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"

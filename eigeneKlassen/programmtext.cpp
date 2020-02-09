@@ -949,6 +949,53 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_VAR))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, VAR_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_VAR;
+                zeile_klartext += var_to_klartext(zeile, VAR_NAME, VAR_WERT, variablen);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_VAR10))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, VAR10_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_VAR10;
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME1, VAR10_WERT1, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME2, VAR10_WERT2, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME3, VAR10_WERT3, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME4, VAR10_WERT4, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME5, VAR10_WERT5, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME6, VAR10_WERT6, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME7, VAR10_WERT7, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME8, VAR10_WERT8, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME9, VAR10_WERT9, variablen);
+                zeile_klartext += var_to_klartext(zeile, VAR10_NAME10, VAR10_WERT10, variablen);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -998,6 +1045,42 @@ QString programmtext::param_to_klartext_orginal(QString prgzeile, QString parnam
     QString kt = parname;
     kt += text_mitte(prgzeile, parname, ENDPAR);
     kt += ENDPAR;
+    return  kt;
+}
+
+QString programmtext::var_to_klartext(QString prgzeile, QString name, QString wert, QString &varlist)
+{
+    QString name_bez, name_wert, name_wert_var;
+    QString wert_bez, wert_wert;
+    name_bez = name;
+    name_wert = text_mitte(prgzeile, name, ENDPAR);
+    name_wert_var = "[";
+    name_wert_var += name_wert;
+    name_wert_var += "]";
+    wert_bez = wert;
+    wert_wert = text_mitte(prgzeile, wert, ENDPAR);
+    wert_wert = variablen_durch_werte_ersetzten(varlist, wert_wert);
+    wert_wert = ausdruck_auswerten(wert_wert);
+
+    QString kt;
+    kt += name_bez;
+    kt += name_wert;
+    kt += ENDPAR;
+    kt += wert_bez;
+    kt += wert_wert;
+    kt += ENDPAR;
+
+    if(!varlist.contains(name_wert_var))
+    {
+        varlist += name_wert_var;
+        varlist += wert_wert;
+        varlist += ENDPAR;
+    }else
+    {
+        QString alterWert = text_mitte(varlist, name_wert_var, ENDPAR);
+        varlist.replace(name_wert_var+alterWert, name_wert_var+wert_wert);
+    }
+
     return  kt;
 }
 
@@ -2753,6 +2836,12 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_VAR))
+            {
+                geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_VAR10))
+            {
+                geo.zeilenvorschub();
             }else
             {
                 geo.zeilenvorschub();
@@ -2782,6 +2871,7 @@ void programmtext::aktualisiere_anzeigetext()
     for(uint i=1 ; i<=text.zeilenanzahl() ; i++)
     {
         QString zeile = text.zeile(i);
+        QString zeilekt = klartext.zeile(i);
         QString tmp;
         tmp = QString::fromStdString(int_to_string(i));
         tmp += ": ";
@@ -2843,6 +2933,17 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_RTA))
         {
             tmp += text_mitte(zeile, RTA_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_VAR))
+        {
+            tmp += text_mitte(zeile, VAR_BEZ, ENDPAR);
+            tmp += " [";
+            tmp += text_mitte(zeile, VAR_NAME, ENDPAR);
+            tmp += " = ";
+            tmp += text_mitte(zeilekt, VAR_WERT, ENDPAR);
+            tmp += "]";
+        }else if(zeile.contains(DLG_VAR10))
+        {
+            tmp += text_mitte(zeile, VAR10_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

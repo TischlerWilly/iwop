@@ -47,6 +47,8 @@ SOURCES += \
         Dialoge/dialog_saege.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
+        Dialoge/dialog_var.cpp \
+        Dialoge/dialog_var10.cpp \
         eigeneFunktionen/geometrie.cpp \
         eigeneFunktionen/myfunktion.cpp \
         eigeneFunktionen/runden.cpp \
@@ -105,6 +107,8 @@ HEADERS += \
         Dialoge/dialog_saege.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
+        Dialoge/dialog_var.h \
+        Dialoge/dialog_var10.h \
         eigeneDefines/define_bo.h \
         eigeneDefines/define_boX.h \
         eigeneDefines/define_boY.h \
@@ -122,6 +126,8 @@ HEADERS += \
         eigeneDefines/define_rta.h \
         eigeneDefines/define_spiegeln.h \
         eigeneDefines/define_topf.h \
+        eigeneDefines/define_var.h \
+        eigeneDefines/define_var10.h \
         eigeneDefines/define_wkz.h \
         eigeneDefines/define_wkz_fraeser.h \
         eigeneDefines/define_wkz_saege.h \
@@ -189,6 +195,8 @@ FORMS += \
         Dialoge/dialog_saege.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
+        Dialoge/dialog_var.ui \
+        Dialoge/dialog_var10.ui \
         mainwindow.ui
 
 # Default rules for deployment.
