@@ -42,6 +42,8 @@
 #include "Dialoge/dialog_nut.h"
 #include "Dialoge/dialog_kta.h"
 #include "Dialoge/dialog_rta.h"
+#include "Dialoge/dialog_var.h"
+#include "Dialoge/dialog_var10.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -106,6 +108,8 @@ private:
     Dialog_saege     dlgsaege;
     Dialog_kta       dlgkta;
     Dialog_rta       dlgrta;
+    Dialog_var       dlgvar;
+    Dialog_var10     dlgvar10;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -129,6 +133,8 @@ private:
     QString         vorlage_nut;
     QString         vorlage_kta;
     QString         vorlage_rta;
+    QString         vorlage_var;
+    QString         vorlage_var10;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -218,6 +224,8 @@ private slots:
     void on_actionMakeNut_triggered();
     void on_actionMakeKreistasche_triggered();
     void on_actionMakeRechtecktasche_triggered();
+    void on_actionMakeVariable_triggered();
+    void on_actionMakeVariablen10_triggered();
 };
 
 #endif // MAINWINDOW_H

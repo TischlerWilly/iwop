@@ -144,6 +144,8 @@
     <addaction name="separator"/>
     <addaction name="actionMakeKommentar"/>
     <addaction name="actionMakeHalt"/>
+    <addaction name="actionMakeVariable"/>
+    <addaction name="actionMakeVariablen10"/>
    </widget>
    <widget class="QMenu" name="menuProduzieren">
     <property name="title">
@@ -451,6 +453,16 @@
   <action name="actionMakeRechtecktasche">
    <property name="text">
     <string>Rechtecktasche</string>
+   </property>
+  </action>
+  <action name="actionMakeVariable">
+   <property name="text">
+    <string>Variable definieren</string>
+   </property>
+  </action>
+  <action name="actionMakeVariablen10">
+   <property name="text">
+    <string>10 Variablen definieren</string>
    </property>
   </action>
  </widget>

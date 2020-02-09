@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog_var10</class>
+ <widget class="QDialog" name="Dialog_var10">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>544</width>
+    <height>409</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Variablen definieren</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="layoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>371</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton_ok">
+      <property name="text">
+       <string>OK</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_esc">
+      <property name="text">
+       <string>Abbruch</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_save">
+      <property name="text">
+       <string>Speichern</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>521</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Seite 1</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>491</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="lineEdit_name5"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEdit_name2"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert3"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEdit_name3"/>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="lineEdit_name8"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEdit_name4"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="lineEdit_name7"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_name1"/>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="lineEdit_name9"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert1"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert2"/>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLineEdit" name="lineEdit_name10"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Wert</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Variablenname</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="lineEdit_name6"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert4"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert5"/>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert6"/>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert7"/>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert8"/>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert9"/>
+      </item>
+      <item row="10" column="2">
+       <widget class="QLineEdit" name="lineEdit_wert10"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>3</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>4</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>6</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>7</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>8</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>9</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Seite 2</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>100</y>
+       <width>391</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_30">
+        <property name="text">
+         <string>Bezeichnung</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_33">
+        <property name="text">
+         <string>Ausführbedingung</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="lineEdit_bez"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_32">
+        <property name="text">
+         <string>[AFB]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_31">
+        <property name="text">
+         <string>[BEZ]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="lineEdit_afb"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lineEdit_name1</tabstop>
+  <tabstop>lineEdit_name2</tabstop>
+  <tabstop>lineEdit_name3</tabstop>
+  <tabstop>lineEdit_name4</tabstop>
+  <tabstop>lineEdit_name5</tabstop>
+  <tabstop>lineEdit_name6</tabstop>
+  <tabstop>lineEdit_name7</tabstop>
+  <tabstop>lineEdit_name8</tabstop>
+  <tabstop>lineEdit_name9</tabstop>
+  <tabstop>lineEdit_name10</tabstop>
+  <tabstop>lineEdit_wert1</tabstop>
+  <tabstop>lineEdit_wert2</tabstop>
+  <tabstop>lineEdit_wert3</tabstop>
+  <tabstop>lineEdit_wert4</tabstop>
+  <tabstop>lineEdit_wert5</tabstop>
+  <tabstop>lineEdit_wert6</tabstop>
+  <tabstop>lineEdit_wert7</tabstop>
+  <tabstop>lineEdit_wert8</tabstop>
+  <tabstop>lineEdit_wert9</tabstop>
+  <tabstop>lineEdit_wert10</tabstop>
+  <tabstop>pushButton_ok</tabstop>
+  <tabstop>pushButton_esc</tabstop>
+  <tabstop>pushButton_save</tabstop>
+  <tabstop>lineEdit_bez</tabstop>
+  <tabstop>lineEdit_afb</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

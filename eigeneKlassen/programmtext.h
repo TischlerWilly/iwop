@@ -31,6 +31,8 @@
 #include "eigeneDefines/define_rta.h"
 #include "eigeneDefines/define_spiegeln.h"
 #include "eigeneDefines/define_lage_aendern.h"
+#include "eigeneDefines/define_var.h"
+#include "eigeneDefines/define_var10.h"
 #include "werkzeug.h"
 
 
@@ -276,6 +278,7 @@ private:
             void    aktualisiere_klartext_var();
             QString param_to_klartext(QString prgzeile, QString parname, QString varname, QString &varlist, bool varmerken);
             QString param_to_klartext_orginal(QString prgzeile, QString parname);
+            QString var_to_klartext(QString prgzeile, QString name, QString wert, QString &varlist);
             void    aktualisiere_geo();
             void    aktualisiere_anzeigetext();
             void    aktualisiere_wkz();
