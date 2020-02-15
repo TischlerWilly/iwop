@@ -44,6 +44,9 @@
 #include "Dialoge/dialog_rta.h"
 #include "Dialoge/dialog_var.h"
 #include "Dialoge/dialog_var10.h"
+#include "Dialoge/dialog_fauf.h"
+#include "Dialoge/dialog_fabf.h"
+#include "Dialoge/dialog_fgerade.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -110,6 +113,9 @@ private:
     Dialog_rta       dlgrta;
     Dialog_var       dlgvar;
     Dialog_var10     dlgvar10;
+    Dialog_fauf      dlgfauf;
+    Dialog_fabf      dlgfabf;
+    Dialog_fgerade   dlgfgerade;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -135,6 +141,9 @@ private:
     QString         vorlage_rta;
     QString         vorlage_var;
     QString         vorlage_var10;
+    QString         vorlage_fauf;
+    QString         vorlage_fabf;
+    QString         vorlage_fgerade;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -226,6 +235,9 @@ private slots:
     void on_actionMakeRechtecktasche_triggered();
     void on_actionMakeVariable_triggered();
     void on_actionMakeVariablen10_triggered();
+    void on_actionMakeFauf_triggered();
+    void on_actionMakeAbfahren_triggered();
+    void on_actionMakeFgerade_triggered();
 };
 
 #endif // MAINWINDOW_H

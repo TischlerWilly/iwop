@@ -315,6 +315,8 @@ void programmtext::aktualisiere_klartext_var()
 
     clear_ausser_text();
     QString variablen;
+    QString x,y,z; //wird für Zwischenspeicherung werte Fräsbahnen benötigt
+
     for(uint i=1 ; i<=text.zeilenanzahl() ; i++)
     {
         QString zeile;
@@ -996,6 +998,107 @@ void programmtext::aktualisiere_klartext_var()
                 klartext.zeilen_anhaengen(" ");//leere Zeile
                 var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_FAUF))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, FAUF_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_FAUF;
+                zeile_klartext += param_to_klartext_orginal(zeile, FAUF_WKZ);
+                             x = param_to_klartext(zeile, FAUF_X, VAR_FAUF_X, variablen, true);
+                zeile_klartext += x;
+                             x = text_mitte(x, FAUF_X, ENDPAR);
+                             y = param_to_klartext(zeile, FAUF_Y, VAR_FAUF_Y, variablen, true);
+                zeile_klartext += y;
+                             y = text_mitte(y, FAUF_Y, ENDPAR);
+                             z = param_to_klartext(zeile, FAUF_Z, VAR_FAUF_Z, variablen, true);
+                zeile_klartext += z;
+                             z = text_mitte(z, FAUF_Z, ENDPAR);
+                zeile_klartext += param_to_klartext(zeile, FAUF_ERG, VAR_FAUF_ERG, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_KADI, VAR_FAUF_KADI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_KOR, VAR_FAUF_KOR, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_ANTYP, VAR_FAUF_ANTYP, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_ABTYP, VAR_FAUF_ABTYP, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_EINTYP, VAR_FAUF_EINTYP, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_ANWEG, VAR_FAUF_ANWEG, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_ABWEG, VAR_FAUF_ABWEG, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_ANVO, VAR_FAUF_ANVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_VO, VAR_FAUF_VO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_DREHZ, VAR_FAUF_DREHZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FAUF_EVERS, VAR_FAUF_EVERS, variablen, true);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_FABF))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, FABF_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_FABF;
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_XS, x);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_YS, y);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_ZS, z);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_FGERADE))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, FGERADE_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString xs = x;
+                QString ys = y;
+                QString zs = z;
+
+                QString zeile_klartext;
+                zeile_klartext += DLG_FGERADE;
+                             x = param_to_klartext(zeile, FGERADE_X, VAR_FAUF_X, variablen, true);
+                zeile_klartext += x;
+                             x = text_mitte(x, FGERADE_X, ENDPAR);
+                             y = param_to_klartext(zeile, FGERADE_Y, VAR_FAUF_Y, variablen, true);
+                zeile_klartext += y;
+                             y = text_mitte(y, FGERADE_Y, ENDPAR);
+                             z = param_to_klartext(zeile, FGERADE_Z, VAR_FAUF_Z, variablen, true);
+                zeile_klartext += z;
+                             z = text_mitte(z, FGERADE_Z, ENDPAR);
+                zeile_klartext += param_to_klartext(zeile, FGERADE_RAD, VAR_FGERADE_RAD, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FGERADE_VO, VAR_FGERADE_VO, variablen, true);
+
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_XS, xs);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_YS, ys);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_ZS, zs);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_XE, x);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_YE, y);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_ZE, z);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
         }else
         {
             klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -1082,6 +1185,15 @@ QString programmtext::var_to_klartext(QString prgzeile, QString name, QString we
     }
 
     return  kt;
+}
+
+QString programmtext::var_to_klartext(QString name, QString wert)
+{
+    QString kt;
+    kt = name;
+    kt += wert;
+    kt += ENDPAR;
+    return kt;
 }
 
 void programmtext::aktualisiere_geo()
@@ -2842,6 +2954,18 @@ void programmtext::aktualisiere_geo()
             }else if(zeile.contains(DLG_VAR10))
             {
                 geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_FAUF))
+            {
+                //....
+                geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_FABF))
+            {
+                //....
+                geo.zeilenvorschub();
+            }else if(zeile.contains(DLG_FGERADE))
+            {
+                //....
+                geo.zeilenvorschub();
             }else
             {
                 geo.zeilenvorschub();
@@ -2944,6 +3068,15 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_VAR10))
         {
             tmp += text_mitte(zeile, VAR10_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_FAUF))
+        {
+            tmp += text_mitte(zeile, FAUF_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_FABF))
+        {
+            tmp += text_mitte(zeile, FABF_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_FGERADE))
+        {
+            tmp += text_mitte(zeile, FGERADE_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";

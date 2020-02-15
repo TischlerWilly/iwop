@@ -33,6 +33,10 @@
 #include "eigeneDefines/define_lage_aendern.h"
 #include "eigeneDefines/define_var.h"
 #include "eigeneDefines/define_var10.h"
+#include "eigeneDefines/define_allegm_var.h"
+#include "eigeneDefines/define_fauf.h"
+#include "eigeneDefines/define_fabf.h"
+#include "eigeneDefines/define_fgerade.h"
 #include "werkzeug.h"
 
 
@@ -279,6 +283,7 @@ private:
             QString param_to_klartext(QString prgzeile, QString parname, QString varname, QString &varlist, bool varmerken);
             QString param_to_klartext_orginal(QString prgzeile, QString parname);
             QString var_to_klartext(QString prgzeile, QString name, QString wert, QString &varlist);
+            QString var_to_klartext(QString name, QString wert);
             void    aktualisiere_geo();
             void    aktualisiere_anzeigetext();
             void    aktualisiere_wkz();

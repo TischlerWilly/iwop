@@ -50,6 +50,9 @@
 #define DLG_RTA                 "[ZYRTFR40]"
 #define DLG_VAR                 "[SWVD1_40]"
 #define DLG_VAR10               "[SWVARD40]"
+#define DLG_FAUF                "[KAFRAE40]"
+#define DLG_FABF                "[KOABFA40]"
+#define DLG_FGERADE             "[G1]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"
