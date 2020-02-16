@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.02.09"
+#define PROGRAMMVERSION     "1.2020.02.16"
 
 /*
 Zusatzwünsche:
@@ -11,6 +11,7 @@ Zusatzwünsche:
 - Fräsrichtung umkehren
 - Fräsung mittig teilen (aus einer Fräsung 2 machen)
 - Fräsgerade verlängern um / kürzen um
+- Fräsbogenrichtung umkehren uzs/guzs
 
 ---------------------------------------------------------------------------In Arbeit:
 ---------------------------------------------------------------------------Faufr
@@ -19,8 +20,8 @@ Zusatzwünsche:
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------Fgerade
 - programmtext.cpp
-    ->aktualisiere_geo()                                                                           <<<----HIER WEITER MACHEN
-       >fkon: Fräser anzeigen lassen wenn zeile == aktive Zeile ist
+    ->aktualisiere_geo()
+       >noch Ecken Verrunden umsetzen
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------FboUZS
 - define_xyz.h anlegen

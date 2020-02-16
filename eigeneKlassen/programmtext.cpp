@@ -36,6 +36,7 @@ void programmtext::clear_ausser_text()
     anzeigetext.clear();
     geo.clear();
     fkon.clear();
+    fraeserdarst.clear();
     werkstuecklaenge = 0;
     werkstueckbreite = 0;
     hat_programmkopf = false;
@@ -315,7 +316,9 @@ void programmtext::aktualisiere_klartext_var()
 
     clear_ausser_text();
     QString variablen;
-    QString x,y,z; //wird für Zwischenspeicherung werte Fräsbahnen benötigt
+    //wird für Zwischenspeicherung werte Fräsbahnen benötigt:
+    QString x, y, z, wkzdm, wkzkor;
+    wkzdm = 5; //Defaultwet falls Fräser unbekannt
 
     for(uint i=1 ; i<=text.zeilenanzahl() ; i++)
     {
@@ -1010,14 +1013,16 @@ void programmtext::aktualisiere_klartext_var()
                 zeile_klartext += DLG_FAUF;
                 zeile_klartext += param_to_klartext_orginal(zeile, FAUF_WKZ);
                              x = param_to_klartext(zeile, FAUF_X, VAR_FAUF_X, variablen, true);
-                zeile_klartext += x;
+                zeile_klartext += x;                
                              x = text_mitte(x, FAUF_X, ENDPAR);
                              y = param_to_klartext(zeile, FAUF_Y, VAR_FAUF_Y, variablen, true);
-                zeile_klartext += y;
+                zeile_klartext += y;                
                              y = text_mitte(y, FAUF_Y, ENDPAR);
+                zeile_klartext += var_to_klartext(VAR_FGERADE_Y, y);
                              z = param_to_klartext(zeile, FAUF_Z, VAR_FAUF_Z, variablen, true);
                 zeile_klartext += z;
                              z = text_mitte(z, FAUF_Z, ENDPAR);
+                zeile_klartext += var_to_klartext(VAR_FGERADE_Z, z);
                 zeile_klartext += param_to_klartext(zeile, FAUF_ERG, VAR_FAUF_ERG, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, FAUF_KADI, VAR_FAUF_KADI, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, FAUF_KOR, VAR_FAUF_KOR, variablen, true);
@@ -1030,6 +1035,23 @@ void programmtext::aktualisiere_klartext_var()
                 zeile_klartext += param_to_klartext(zeile, FAUF_VO, VAR_FAUF_VO, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, FAUF_DREHZ, VAR_FAUF_DREHZ, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, FAUF_EVERS, VAR_FAUF_EVERS, variablen, true);
+
+                QString wkzname = text_mitte(zeile, FAUF_WKZ, ENDPAR);
+                text_zeilenweise wtz;
+                wtz = wkz.get_wkzlist(WKZ_FRAESER);
+                for(uint i=1; i<=wtz.zeilenanzahl() ;i++)
+                {
+                    QString aktname = text_mitte(wtz.zeile(i), FRAESER_NAME, ENDPAR);
+                    if(aktname == wkzname)
+                    {
+                        wkzdm = text_mitte(wtz.zeile(i), FRAESER_DM, ENDPAR);
+                    }
+                }
+                wkzkor = text_mitte(zeile, FAUF_KOR, ENDPAR);
+
+                var_ergaenzen(variablen, VAR_ALLGEM_X, x);
+                var_ergaenzen(variablen, VAR_ALLGEM_Y, y);
+                var_ergaenzen(variablen, VAR_ALLGEM_Z, z);
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -1091,6 +1113,8 @@ void programmtext::aktualisiere_klartext_var()
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_XE, x);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_YE, y);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_ZE, z);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZDM, wkzdm);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZKOR, wkzkor);
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -1128,19 +1152,24 @@ QString programmtext::param_to_klartext(QString prgzeile, QString parname, QStri
 
     if(varmerken == true)
     {
-        if(!varlist.contains(varname))
-        {
-            varlist += varname;
-            varlist += parwert;
-            varlist += ENDPAR;
-        }else
-        {
-            QString alterWert = text_mitte(varlist, varname, ENDPAR);
-            varlist.replace(varname+alterWert, varname+parwert);
-        }
+        var_ergaenzen(varlist, varname, parwert);
     }
 
     return  kt;
+}
+
+void programmtext::var_ergaenzen(QString &varlist, QString name, QString wert)
+{
+    if(!varlist.contains(name))
+    {
+        varlist += name;
+        varlist += wert;
+        varlist += ENDPAR;
+    }else
+    {
+        QString alterWert = text_mitte(varlist, name, ENDPAR);
+        varlist.replace(name+alterWert, name+wert);
+    }
 }
 
 QString programmtext::param_to_klartext_orginal(QString prgzeile, QString parname)
@@ -1253,6 +1282,7 @@ void programmtext::aktualisiere_geo()
             if(zeile.isEmpty())
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_PKOPF))
             {
                 punkt3d nullpunkt(0,0,0);
@@ -1338,18 +1368,23 @@ void programmtext::aktualisiere_geo()
                 }
 
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_PENDE))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_KOM))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_HALT))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_SPIEGELN))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
                 QString tmp;
                 tmp = text_mitte(zeile, SPIEGELN_XBED, ENDPAR);
                 if(tmp.toDouble() == 0)
@@ -1373,6 +1408,7 @@ void programmtext::aktualisiere_geo()
             }else if(zeile.contains(DLG_LAGE_AENDERN))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
 
                 lageaendern_xalt_alt    = lageaendern_xalt;
                 lageaendern_yalt_alt    = lageaendern_yalt;
@@ -1430,6 +1466,7 @@ void programmtext::aktualisiere_geo()
                 k.set_mittelpunkt(nullpunkt_wst.x() + k.mitte3d().x(), nullpunkt_wst.y() + k.mitte3d().y(),0);
                 geo.add_kreis(k);
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_BOY))
             {
                 kreis k;
@@ -1640,6 +1677,7 @@ void programmtext::aktualisiere_geo()
                 }
 
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_BOX))
             {
                 kreis k;
@@ -1850,6 +1888,7 @@ void programmtext::aktualisiere_geo()
                 }
 
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_LOREIAE))
             {
                 double xs = text_mitte(zeile, LOREIAE_XS, ENDPAR).toDouble();
@@ -1945,6 +1984,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_LOREIMA))
             {
                 double xs = text_mitte(zeile, LOREIMA_XS, ENDPAR).toDouble();
@@ -2000,6 +2040,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_TOPF))
             {
                 double ta = text_mitte(zeile, TOPF_TA, ENDPAR).toDouble();//Topfabstand von WST-Kante
@@ -2307,6 +2348,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_HBEXP))
             {
                 double y1 = text_mitte(zeile, HBEXP_Y1, ENDPAR).toDouble();
@@ -2412,6 +2454,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_HBEXM))
             {
                 double y1 = text_mitte(zeile, HBEXM_Y1, ENDPAR).toDouble();
@@ -2517,6 +2560,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_HBEYP))
             {
                 double x1 = text_mitte(zeile, HBEYP_X1, ENDPAR).toDouble();
@@ -2622,6 +2666,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_HBEYM))
             {
                 double x1 = text_mitte(zeile, HBEYM_X1, ENDPAR).toDouble();
@@ -2727,6 +2772,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_NUT))
             {
                 punkt3d sp;
@@ -2794,6 +2840,7 @@ void programmtext::aktualisiere_geo()
                 geo.add_punkt(sp);
                 geo.add_punkt(ep);
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_KTA))
             {
                 punkt3d mipu;
@@ -2855,6 +2902,7 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_RTA))
             {
                 punkt3d mipu;
@@ -2948,27 +2996,86 @@ void programmtext::aktualisiere_geo()
                     }
                 }
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_VAR))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_VAR10))
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FAUF))
             {
                 //....
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FABF))
             {
                 //....
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FGERADE))
             {
-                //....
+                punkt3d sp, ep;
+                sp.set_x(text_mitte(zeile, VAR_ALLGEM_XS, ENDPAR));
+                sp.set_y(text_mitte(zeile, VAR_ALLGEM_YS, ENDPAR));
+                ep.set_x(text_mitte(zeile, VAR_ALLGEM_XE, ENDPAR));
+                ep.set_y(text_mitte(zeile, VAR_ALLGEM_YE, ENDPAR));
+                strecke s;
+                s.set_start(sp);
+                s.set_ende(ep);
+                s.set_farbe(FARBE_BLAU);
+                s = spiegeln_strecke(s, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                s = lageaendern_strecke(s, lageaendern_afb,\
+                                        lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                        lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                        lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                        lageaendern_wi_alt, lageaendern_geswi_alt);
+                geo.add_strecke(s);
+
+                kreis k1, k2, k3;
+                k1.set_farbe(FARBE_BLAU);
+                k1.set_farbe_fuellung(FARBE_SCHWARZ);
+                k1.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
+                k2 = k1;
+                k3 = k1;
+
+                QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
+                if(kor == "0")//mitte == keine
+                {
+                    k1.set_mittelpunkt(s.startp());
+                    k2.set_mittelpunkt(s.get_mittelpunkt3d());
+                    k3.set_mittelpunkt(s.endp());
+                }else if(kor == "1")//links
+                {
+                    strecke stmp = s;
+                    stmp.set_laenge_2d(k1.radius(), strecke_bezugspunkt_start);
+                    stmp.drenen_um_startpunkt_2d(90, false);
+                    s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
+                    k1.set_mittelpunkt(s.startp());
+                    k2.set_mittelpunkt(s.get_mittelpunkt3d());
+                    k3.set_mittelpunkt(s.endp());
+                }else if(kor == "2")//rechts
+                {
+                    strecke stmp = s;
+                    stmp.set_laenge_2d(k1.radius(), strecke_bezugspunkt_start);
+                    stmp.drenen_um_startpunkt_2d(90, true);
+                    s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
+                    k1.set_mittelpunkt(s.startp());
+                    k2.set_mittelpunkt(s.get_mittelpunkt3d());
+                    k3.set_mittelpunkt(s.endp());
+                }
+                fraeserdarst.add_kreis(k1);
+                fraeserdarst.add_kreis(k2);
+                fraeserdarst.add_kreis(k3);
+
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else
             {
                 geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }
         }
     }
@@ -3491,6 +3598,13 @@ rechteck3d programmtext::spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed,
     return  r;
 }
 
+strecke programmtext::spiegeln_strecke(strecke s, bool xbed, bool ybed, double xpos, double ypos)
+{
+    s.set_start(spiegeln_punkt3d(s.startp(), xbed, ybed, xpos, ypos));
+    s.set_ende(spiegeln_punkt3d(s.endp(), xbed, ybed, xpos, ypos));
+    return  s;
+}
+
 kreis programmtext::lageaendern_kreis(kreis k, bool afb, \
                                       double xalt, double yalt, double xneu, double yneu, \
                                       double wi, double geswi, bool kettenmas, \
@@ -3633,5 +3747,15 @@ rechteck3d programmtext::lageaendern_rechteck3d(rechteck3d r, bool afb, \
     return  r;
 }
 
+strecke programmtext::lageaendern_strecke(strecke s, bool afb, \
+                                          double xalt, double yalt, double xneu, \
+                                          double yneu, double wi, double geswi, bool kettenmas, \
+                                          double xalt2, double yalt2, double xneu2, double yneu2, \
+                                          double wi2, double geswi2)
+{
+    s.set_start(lageaendern_punkt3d(s.startp(), afb, xalt, yalt, xneu, yneu, wi, geswi, kettenmas, xalt2, yalt2, xneu2, yneu2, wi2, geswi2));
+    s.set_ende(lageaendern_punkt3d(s.endp(), afb, xalt, yalt, xneu, yneu, wi, geswi, kettenmas, xalt2, yalt2, xneu2, yneu2, wi2, geswi2));
+    return s;
+}
 
 

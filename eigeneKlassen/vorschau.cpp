@@ -69,8 +69,21 @@ void vorschau::paintEvent(QPaintEvent *)
         }
     }
 
-    //Fräser darstellen:
+    //Fräser darstellen, aber nur in aktueller Zeile:
     text_zeilenweise fraeserdarsttext = t.get_fraeserdarst().get_text_zeilenweise();
+    if(aktuelle_zeilennummer <= fraeserdarsttext.zeilenanzahl() && \
+            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+    {
+        text_zeilenweise spalten;
+        spalten.set_trennzeichen(TRZ_EL_);
+        spalten.set_text(fraeserdarsttext.zeile(aktuelle_zeilennummer));
+
+        for(uint ii=1;ii<=spalten.zeilenanzahl();ii++)
+        {
+            zeichneGeotext(spalten.zeile(ii), aktuelle_zeilennummer);
+        }
+    }
+    /*
     for(uint i=1;i<=fraeserdarsttext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -82,6 +95,7 @@ void vorschau::paintEvent(QPaintEvent *)
             zeichneGeotext(spalten.zeile(ii), i);
         }
     }
+    */
 
     //Aktuelle Zeile noch einmal rot überzeichen, da bereits wieder überdeckt
     //durch deckungsgleiche Elemente in späteren Zeilen:

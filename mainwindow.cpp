@@ -4800,7 +4800,8 @@ void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 
     QString tmp_fkon;
     tmp_fkon = "";
-    text_zeilenweise fk =tt.get_prgtext()->get_fkon().get_text_zeilenweise();
+    //text_zeilenweise fk =tt.get_prgtext()->get_fkon().get_text_zeilenweise();
+    text_zeilenweise fk =tt.get_prgtext()->get_fraeserdarst().get_text_zeilenweise();
     for(uint i=1 ; i<=fk.zeilenanzahl() ; i++)
     {
         tmp_fkon += QString::fromStdString(int_to_string(i));
