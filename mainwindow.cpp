@@ -3315,6 +3315,18 @@ QString MainWindow::exportparam(QString param, QString paramzeile)
     return  msg;
 }
 
+QString MainWindow::exportparam_direktwert(QString param, QString wert)
+{
+    QString msg = param;
+    if(wert.isEmpty())
+    {
+        wert = FMCNULL;
+    }
+    msg += wert;
+    msg += "\n";
+    return  msg;
+}
+
 QString MainWindow::export_fmc(text_zeilenweise tz)
 {
     QString msg;
@@ -3736,7 +3748,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(NUT_VO, zeile);
             msg += exportparam(NUT_DREHZ, zeile);
             msg += exportparam(NUT_PLM, zeile);
-            msg += exportparam(NUT_WKZAKT, zeile);
+            msg += exportparam_direktwert(NUT_WKZAKT, "1");
             msg += exportparam(NUT_BEZ, zeile);
             msg += exportparam(NUT_AFB, zeile);
             msg += "\n";
@@ -3762,7 +3774,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(KTA_VO, zeile);
             msg += exportparam(KTA_DREHZ, zeile);
             msg += exportparam(KTA_PLM, zeile);
-            msg += exportparam(KTA_WKZAKT, zeile);
+            msg += exportparam_direktwert(KTA_WKZAKT, "1");
             msg += exportparam(KTA_BEZ, zeile);
             msg += exportparam(KTA_AFB, zeile);
             msg += "\n";
@@ -3791,7 +3803,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(RTA_VO, zeile);
             msg += exportparam(RTA_DREHZ, zeile);
             msg += exportparam(RTA_PLM, zeile);
-            msg += exportparam(RTA_WKZAKT, zeile);
+            msg += exportparam_direktwert(RTA_WKZAKT, "1");
             msg += exportparam(RTA_BEZ, zeile);
             msg += exportparam(RTA_AFB, zeile);
             msg += "\n";
@@ -3869,7 +3881,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(FAUF_VO, zeile);
             msg += exportparam(FAUF_DREHZ, zeile);
             msg += exportparam(FAUF_EVERS, zeile);
-            msg += exportparam(FAUF_WKZAKT, zeile);
+            msg += exportparam_direktwert(FAUF_WKZAKT, "1");
             msg += exportparam(FAUF_BEZ, zeile);
             msg += exportparam(FAUF_AFB, zeile);
             msg += "\n";

@@ -166,6 +166,7 @@ private:
     text_zeilenweise import_fmc(QString quelle, bool &readonly, QString prgname);
     QString replaceparam(QString param, QString ziel, QString quelle);
     QString exportparam(QString param, QString paramzeile);
+    QString exportparam_direktwert(QString param, QString wert);
     QString          export_fmc(text_zeilenweise tz);
     void aktuelisiere_letzte_dateien_inifile();
     void aktualisiere_letzte_dateien_menu();

@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.02.16"
+#define PROGRAMMVERSION     "1.2020.02.20"
 
 /*
 Zusatzwünsche:

@@ -2950,7 +2950,7 @@ void programmtext::aktualisiere_geo()
                         }
                     }
                 }
-                double rad = text_mitte(zeile, RTA_WI, ENDPAR).toDouble();
+                double rad = text_mitte(zeile, RTA_RAD, ENDPAR).toDouble();
                 if(rad < wkzdm/2)
                 {
                     rad = wkzdm/2;
