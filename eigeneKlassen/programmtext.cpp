@@ -1095,17 +1095,62 @@ void programmtext::aktualisiere_klartext_var()
 
                 QString zeile_klartext;
                 zeile_klartext += DLG_FGERADE;
-                             x = param_to_klartext(zeile, FGERADE_X, VAR_FAUF_X, variablen, true);
+                             x = param_to_klartext(zeile, FGERADE_X, VAR_FGERADE_X, variablen, true);
                 zeile_klartext += x;
                              x = text_mitte(x, FGERADE_X, ENDPAR);
-                             y = param_to_klartext(zeile, FGERADE_Y, VAR_FAUF_Y, variablen, true);
+                             y = param_to_klartext(zeile, FGERADE_Y, VAR_FGERADE_Y, variablen, true);
                 zeile_klartext += y;
                              y = text_mitte(y, FGERADE_Y, ENDPAR);
-                             z = param_to_klartext(zeile, FGERADE_Z, VAR_FAUF_Z, variablen, true);
+                             z = param_to_klartext(zeile, FGERADE_Z, VAR_FGERADE_Z, variablen, true);
                 zeile_klartext += z;
                              z = text_mitte(z, FGERADE_Z, ENDPAR);
                 zeile_klartext += param_to_klartext(zeile, FGERADE_RAD, VAR_FGERADE_RAD, variablen, true);
                 zeile_klartext += param_to_klartext(zeile, FGERADE_VO, VAR_FGERADE_VO, variablen, true);
+
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_XS, xs);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_YS, ys);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_ZS, zs);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_XE, x);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_YE, y);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_ZE, z);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZDM, wkzdm);
+                zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZKOR, wkzkor);
+
+                klartext.zeilen_anhaengen(zeile_klartext);
+                var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                klartext.zeilen_anhaengen(" ");//leere Zeile
+                var.zeile_anhaengen(variablen);
+            }
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, FBOUZS_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString xs = x;
+                QString ys = y;
+                QString zs = z;
+
+                QString zeile_klartext;
+                zeile_klartext += DLG_FBOUZS;
+                             x = param_to_klartext(zeile, FBOUZS_XE, VAR_FBOUZS_XE, variablen, true);
+                zeile_klartext += x;
+                             x = text_mitte(x, FBOUZS_XE, ENDPAR);
+                             y = param_to_klartext(zeile, FBOUZS_YE, VAR_FBOUZS_YE, variablen, true);
+                zeile_klartext += y;
+                             y = text_mitte(y, FBOUZS_YE, ENDPAR);
+                             z = param_to_klartext(zeile, FBOUZS_ZE, VAR_FBOUZS_ZE, variablen, true);
+                zeile_klartext += z;
+                             z = text_mitte(z, FBOUZS_ZE, ENDPAR);
+                zeile_klartext += param_to_klartext(zeile, FBOUZS_XMI, VAR_FBOUZS_XMI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FBOUZS_YMI, VAR_FBOUZS_YMI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FBOUZS_RADBO, VAR_FBOUZS_RADBO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FBOUZS_RADECKE, VAR_FBOUZS_RADECKE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, FBOUZS_VO, VAR_FBOUZS_VO, variablen, true);
 
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_XS, xs);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_YS, ys);
@@ -3072,6 +3117,75 @@ void programmtext::aktualisiere_geo()
 
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
+            }else if(zeile.contains(DLG_FBOUZS))
+            {
+                punkt3d sp, ep;
+                sp.set_x(text_mitte(zeile, VAR_ALLGEM_XS, ENDPAR));
+                sp.set_y(text_mitte(zeile, VAR_ALLGEM_YS, ENDPAR));
+                ep.set_x(text_mitte(zeile, VAR_ALLGEM_XE, ENDPAR));
+                ep.set_y(text_mitte(zeile, VAR_ALLGEM_YE, ENDPAR));
+                bogen bo;
+                bo.set_startpunkt(sp);
+                bo.set_endpunkt(ep);
+                bo.set_radius(text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble(), true);
+                bo.set_farbe(FARBE_BLAU);
+
+                //bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                /*
+                s = lageaendern_strecke(s, lageaendern_afb,\
+                                        lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                        lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                        lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                        lageaendern_wi_alt, lageaendern_geswi_alt);
+                */
+                geo.add_bogen(bo);
+
+                kreis k1, k2, k3;
+                k1.set_farbe(FARBE_BLAU);
+                k1.set_farbe_fuellung(FARBE_SCHWARZ);
+                k1.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
+                k2 = k1;
+                k3 = k1;
+
+                strecke s1, s2, s3;
+                punkt3d mipu;
+                mipu.set_x(bo.mitte().x());
+                mipu.set_y(bo.mitte().y());
+                s1.set_start(mipu);
+                s3.set_start(mipu);
+                s1.set_ende(bo.start());
+                s3.set_ende(bo.ende());
+                s2.set_start(bo.start());
+                s2.set_ende(bo.ende());
+                s2.drenen_um_mittelpunkt_2d(90, false);
+                s2.set_start(mipu);
+
+                double laenge = 0;
+                QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
+                if(kor == "0")//mitte == keine
+                {
+                   laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                }else if(kor == "1")//links
+                {
+                   laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                   laenge = laenge + k1.radius();
+                }else if(kor == "2")//rechts
+                {
+                    laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                    laenge = laenge - k1.radius();
+                }
+                s1.set_laenge_2d(laenge, strecke_bezugspunkt_start);
+                s2.set_laenge_2d(laenge, strecke_bezugspunkt_start);
+                s3.set_laenge_2d(laenge, strecke_bezugspunkt_start);
+                k1.set_mittelpunkt(s1.endp());
+                k2.set_mittelpunkt(s2.endp());
+                k3.set_mittelpunkt(s3.endp());
+                fraeserdarst.add_kreis(k1);
+                fraeserdarst.add_kreis(k2);
+                fraeserdarst.add_kreis(k3);
+
+                geo.zeilenvorschub();
+                fraeserdarst.zeilenvorschub();
             }else
             {
                 geo.zeilenvorschub();
@@ -3184,6 +3298,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_FGERADE))
         {
             tmp += text_mitte(zeile, FGERADE_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            tmp += text_mitte(zeile, FBOUZS_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
@@ -3603,6 +3720,26 @@ strecke programmtext::spiegeln_strecke(strecke s, bool xbed, bool ybed, double x
     s.set_start(spiegeln_punkt3d(s.startp(), xbed, ybed, xpos, ypos));
     s.set_ende(spiegeln_punkt3d(s.endp(), xbed, ybed, xpos, ypos));
     return  s;
+}
+
+bogen programmtext::spiegeln_bogen(bogen bo, bool xbed, bool ybed, double xpos, double ypos)
+{
+    //Diese Funktion macht noch nicht was sie soll!!!
+    if(xbed == false && ybed == false)
+    {
+        return  bo;
+    }
+    double rad = bo.rad();
+    punkt3d sp = spiegeln_punkt3d(bo.start(), xbed, ybed, xpos, ypos);
+    punkt3d ep = spiegeln_punkt3d(bo.ende(), xbed, ybed, xpos, ypos);
+    bo.set_startpunkt(ep);
+    bo.set_endpunkt(ep);
+
+    if(xbed == true && ybed == false)
+    {
+        bo.set_radius(rad, !bo.im_uzs());
+    }
+    return  bo;
 }
 
 kreis programmtext::lageaendern_kreis(kreis k, bool afb, \

@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_fauf                    = dlgfauf.get_default();
     vorlage_fabf                    = dlgfabf.get_default();
     vorlage_fgerade                 = dlgfgerade.get_default();
+    vorlage_fbouzs                  = dlgfbouzs.get_default();
     vorlage_var10                   = dlgvar10.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
@@ -134,6 +135,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgfauf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgfabf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgfgerade, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfbouzs, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -159,6 +161,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgfauf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfabf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfgerade, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfbouzs, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -186,6 +189,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgfauf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfabf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfgerade, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfbouzs, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -554,6 +558,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_FGERADE))
                 {
                     vorlage_fgerade = selektiereEintrag(text, DLG_FGERADE, ENDE_ZEILE);
+                }else if(text.contains(DLG_FBOUZS))
+                {
+                    vorlage_fbouzs = selektiereEintrag(text, DLG_FBOUZS, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -676,6 +683,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_FGERADE;
     inhaltVonKonfiguration +=       vorlage_fgerade;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FBOUZS;
+    inhaltVonKonfiguration +=       vorlage_fbouzs;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -805,6 +816,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_FGERADE))
         {
             vorlage_fgerade = selektiereEintrag(text, DLG_FGERADE, ENDE_ZEILE);
+        }else if(text.contains(DLG_FBOUZS))
+        {
+            vorlage_fbouzs = selektiereEintrag(text, DLG_FBOUZS, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -960,6 +974,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeFauf->setDisabled(true);
     ui->actionMakeAbfahren->setDisabled(true);
     ui->actionMakeFgerade->setDisabled(true);
+    ui->actionMakeFbouzs->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -1010,6 +1025,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeFauf->setEnabled(true);
     ui->actionMakeAbfahren->setEnabled(true);
     ui->actionMakeFgerade->setEnabled(true);
+    ui->actionMakeFbouzs->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -3175,6 +3191,67 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FBOUZS;
+            prgzeile += vorlage_fbouzs;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FBOUZS_XE) && zeile.indexOf(FBOUZS_XE)==0 )
+                {
+                    prgzeile = replaceparam(FBOUZS_XE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_YE) && zeile.indexOf(FBOUZS_YE)==0 )
+                {
+                    prgzeile = replaceparam(FBOUZS_YE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_ZE))
+                {
+                    prgzeile = replaceparam(FBOUZS_ZE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_XMI))
+                {
+                    prgzeile = replaceparam(FBOUZS_XMI, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_YMI))
+                {
+                    prgzeile = replaceparam(FBOUZS_YMI, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_RADBO))
+                {
+                    prgzeile = replaceparam(FBOUZS_RADBO, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_RADECKE))
+                {
+                    prgzeile = replaceparam(FBOUZS_RADECKE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_VO))
+                {
+                    prgzeile = replaceparam(FBOUZS_VO, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_DREHBAR))
+                {
+                    prgzeile = replaceparam(FBOUZS_DREHBAR, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_OFFSET))
+                {
+                    prgzeile = replaceparam(FBOUZS_OFFSET, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_FESTWI))
+                {
+                    prgzeile = replaceparam(FBOUZS_FESTWI, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_BEZ))
+                {
+                    prgzeile = replaceparam(FBOUZS_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_AFB))
+                {
+                    prgzeile = replaceparam(FBOUZS_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FBOUZS_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -3922,6 +3999,30 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(FGERADE_BEZ, zeile);
             msg += exportparam(FGERADE_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            msg += DLG_FBOUZS;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FBOUZS_XE, zeile);
+            msg += exportparam(FBOUZS_YE, zeile);
+            msg += exportparam(FBOUZS_ZE, zeile);
+            msg += exportparam(FBOUZS_XMI, zeile);
+            msg += exportparam(FBOUZS_YMI, zeile);
+            msg += exportparam(FBOUZS_RADBO, zeile);
+            msg += exportparam(FBOUZS_RADECKE, zeile);
+            msg += exportparam(FBOUZS_VO, zeile);
+            msg += exportparam(FBOUZS_DREHBAR, zeile);
+            msg += exportparam(FBOUZS_OFFSET, zeile);
+            msg += exportparam(FBOUZS_FESTWI, zeile);
+            msg += exportparam(FBOUZS_BEZ, zeile);
+            msg += exportparam(FBOUZS_AFB, zeile);
+            msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             msg += DLG_SPIEGELN;
@@ -4234,6 +4335,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_FGERADE))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfgerade, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FBOUZS))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfbouzs, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -5185,6 +5290,22 @@ void MainWindow::on_actionMakeFgerade_triggered()
     }
 }
 
+void MainWindow::on_actionMakeFbouzs_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfbouzs, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fbouzs;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -5256,6 +5377,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

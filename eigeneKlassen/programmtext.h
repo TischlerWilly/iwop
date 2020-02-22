@@ -37,6 +37,7 @@
 #include "eigeneDefines/define_fauf.h"
 #include "eigeneDefines/define_fabf.h"
 #include "eigeneDefines/define_fgerade.h"
+#include "eigeneDefines/define_fbouzs.h"
 #include "werkzeug.h"
 
 
@@ -299,6 +300,7 @@ private:
             punkt3d spiegeln_punkt3d(punkt3d p, bool xbed, bool ybed, double xpos, double ypos);
             rechteck3d spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed, double xpos, double ypos);
             strecke spiegeln_strecke(strecke s, bool xbed, bool ybed, double xpos, double ypos);
+            bogen spiegeln_bogen(bogen bo, bool xbed, bool ybed, double xpos, double ypos);
 
             kreis   lageaendern_kreis(kreis k, bool afb,\
                                       double xalt, double yalt, double xneu, double yneu, \

@@ -47,6 +47,7 @@
 #include "Dialoge/dialog_fauf.h"
 #include "Dialoge/dialog_fabf.h"
 #include "Dialoge/dialog_fgerade.h"
+#include "Dialoge/dialog_fbouzs.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -116,6 +117,7 @@ private:
     Dialog_fauf      dlgfauf;
     Dialog_fabf      dlgfabf;
     Dialog_fgerade   dlgfgerade;
+    Dialog_fbouzs    dlgfbouzs;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -144,6 +146,7 @@ private:
     QString         vorlage_fauf;
     QString         vorlage_fabf;
     QString         vorlage_fgerade;
+    QString         vorlage_fbouzs;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -239,6 +242,7 @@ private slots:
     void on_actionMakeFauf_triggered();
     void on_actionMakeAbfahren_triggered();
     void on_actionMakeFgerade_triggered();
+    void on_actionMakeFbouzs_triggered();
 };
 
 #endif // MAINWINDOW_H

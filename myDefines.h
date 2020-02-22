@@ -53,6 +53,7 @@
 #define DLG_FAUF                "[KAFRAE40]"
 #define DLG_FABF                "[KOABFA40]"
 #define DLG_FGERADE             "[G1]"
+#define DLG_FBOUZS              "[G2]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"
