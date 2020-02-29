@@ -44,6 +44,12 @@
 #include "Dialoge/dialog_rta.h"
 #include "Dialoge/dialog_var.h"
 #include "Dialoge/dialog_var10.h"
+#include "Dialoge/dialog_fauf.h"
+#include "Dialoge/dialog_fabf.h"
+#include "Dialoge/dialog_fgerade.h"
+#include "Dialoge/dialog_fgerawi.h"
+#include "Dialoge/dialog_fbouzs.h"
+#include "Dialoge/dialog_fboguzs.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -110,6 +116,12 @@ private:
     Dialog_rta       dlgrta;
     Dialog_var       dlgvar;
     Dialog_var10     dlgvar10;
+    Dialog_fauf      dlgfauf;
+    Dialog_fabf      dlgfabf;
+    Dialog_fgerade   dlgfgerade;
+    Dialog_fgerawi   dlgfgerawi;
+    Dialog_fbouzs    dlgfbouzs;
+    Dialog_fboguzs   dlgfboguzs;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -135,6 +147,12 @@ private:
     QString         vorlage_rta;
     QString         vorlage_var;
     QString         vorlage_var10;
+    QString         vorlage_fauf;
+    QString         vorlage_fabf;
+    QString         vorlage_fgerade;
+    QString         vorlage_fgerawi;
+    QString         vorlage_fbouzs;
+    QString         vorlage_fboguzs;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
     QString         pfad_oefne_fmc;
@@ -157,6 +175,7 @@ private:
     text_zeilenweise import_fmc(QString quelle, bool &readonly, QString prgname);
     QString replaceparam(QString param, QString ziel, QString quelle);
     QString exportparam(QString param, QString paramzeile);
+    QString exportparam_direktwert(QString param, QString wert);
     QString          export_fmc(text_zeilenweise tz);
     void aktuelisiere_letzte_dateien_inifile();
     void aktualisiere_letzte_dateien_menu();
@@ -226,6 +245,12 @@ private slots:
     void on_actionMakeRechtecktasche_triggered();
     void on_actionMakeVariable_triggered();
     void on_actionMakeVariablen10_triggered();
+    void on_actionMakeFauf_triggered();
+    void on_actionMakeAbfahren_triggered();
+    void on_actionMakeFgerade_triggered();
+    void on_actionMakeFbouzs_triggered();
+    void on_actionMakeFboguzs_triggered();
+    void on_actionMakeFgerawi_triggered();
 };
 
 #endif // MAINWINDOW_H

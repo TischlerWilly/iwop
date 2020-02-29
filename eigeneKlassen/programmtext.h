@@ -33,6 +33,13 @@
 #include "eigeneDefines/define_lage_aendern.h"
 #include "eigeneDefines/define_var.h"
 #include "eigeneDefines/define_var10.h"
+#include "eigeneDefines/define_allegm_var.h"
+#include "eigeneDefines/define_fauf.h"
+#include "eigeneDefines/define_fabf.h"
+#include "eigeneDefines/define_fgerade.h"
+#include "eigeneDefines/define_fgerawi.h"
+#include "eigeneDefines/define_fbouzs.h"
+#include "eigeneDefines/define_fboguzs.h"
 #include "werkzeug.h"
 
 
@@ -279,6 +286,8 @@ private:
             QString param_to_klartext(QString prgzeile, QString parname, QString varname, QString &varlist, bool varmerken);
             QString param_to_klartext_orginal(QString prgzeile, QString parname);
             QString var_to_klartext(QString prgzeile, QString name, QString wert, QString &varlist);
+            QString var_to_klartext(QString name, QString wert);
+            void var_ergaenzen(QString &varlist, QString name, QString wert);
             void    aktualisiere_geo();
             void    aktualisiere_anzeigetext();
             void    aktualisiere_wkz();
@@ -292,6 +301,9 @@ private:
             kreis   spiegeln_kreis(kreis k, bool xbed, bool ybed, double xpos, double ypos);
             punkt3d spiegeln_punkt3d(punkt3d p, bool xbed, bool ybed, double xpos, double ypos);
             rechteck3d spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed, double xpos, double ypos);
+            strecke spiegeln_strecke(strecke s, bool xbed, bool ybed, double xpos, double ypos);
+            bogen spiegeln_bogen(bogen bo, bool xbed, bool ybed, double xpos, double ypos);
+
             kreis   lageaendern_kreis(kreis k, bool afb,\
                                       double xalt, double yalt, double xneu, double yneu, \
                                       double wi, double geswi, bool kettenmas,\
@@ -307,6 +319,16 @@ private:
                                               double wi, double geswi, bool kettenmas,\
                                               double xalt2, double yalt2, double xneu2, double yneu2, \
                                               double wi2, double geswi2);
+            strecke lageaendern_strecke(strecke s, bool afb,\
+                                        double xalt, double yalt, double xneu, double yneu, \
+                                        double wi, double geswi, bool kettenmas,\
+                                        double xalt2, double yalt2, double xneu2, double yneu2, \
+                                        double wi2, double geswi2);
+            bogen lageaendern_bogen(bogen bo, bool afb,\
+                                    double xalt, double yalt, double xneu, double yneu, \
+                                    double wi, double geswi, bool kettenmas,\
+                                    double xalt2, double yalt2, double xneu2, double yneu2, \
+                                    double wi2, double geswi2);
 
 
 

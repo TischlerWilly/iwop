@@ -30,6 +30,12 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_kta                     = dlgkta.get_default();
     vorlage_rta                     = dlgrta.get_default();
     vorlage_var                     = dlgvar.get_default();
+    vorlage_fauf                    = dlgfauf.get_default();
+    vorlage_fabf                    = dlgfabf.get_default();
+    vorlage_fgerade                 = dlgfgerade.get_default();
+    vorlage_fgerawi                 = dlgfgerawi.get_default();
+    vorlage_fbouzs                  = dlgfbouzs.get_default();
+    vorlage_fboguzs                 = dlgfboguzs.get_default();
     vorlage_var10                   = dlgvar10.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
@@ -128,6 +134,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgrta, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgvar, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgvar10, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfauf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfabf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfgerade, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfgerawi, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfbouzs, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgfboguzs, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
@@ -150,6 +162,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgrta, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgvar, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgvar10, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfauf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfabf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfgerade, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfgerawi, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfbouzs, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgfboguzs, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -174,6 +192,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgrta, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgvar, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgvar10, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfauf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfabf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfgerade, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfgerawi, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfbouzs, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgfboguzs, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgspiegeln, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -182,6 +206,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgnut, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
     connect(&dlgkta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
     connect(&dlgrta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
+    connect(&dlgfauf, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
 
@@ -532,6 +557,24 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_VAR10))
                 {
                     vorlage_var10 = selektiereEintrag(text, DLG_VAR10, ENDE_ZEILE);
+                }else if(text.contains(DLG_FAUF))
+                {
+                    vorlage_fauf = selektiereEintrag(text, DLG_FAUF, ENDE_ZEILE);
+                }else if(text.contains(DLG_FABF))
+                {
+                    vorlage_fabf = selektiereEintrag(text, DLG_FABF, ENDE_ZEILE);
+                }else if(text.contains(DLG_FGERADE))
+                {
+                    vorlage_fgerade = selektiereEintrag(text, DLG_FGERADE, ENDE_ZEILE);
+                }else if(text.contains(DLG_FGERAWI))
+                {
+                    vorlage_fgerawi = selektiereEintrag(text, DLG_FGERAWI, ENDE_ZEILE);
+                }else if(text.contains(DLG_FBOUZS))
+                {
+                    vorlage_fbouzs = selektiereEintrag(text, DLG_FBOUZS, ENDE_ZEILE);
+                }else if(text.contains(DLG_FBOGUZS))
+                {
+                    vorlage_fboguzs = selektiereEintrag(text, DLG_FBOGUZS, ENDE_ZEILE);
                 }else if(text.contains(DLG_SPIEGELN))
                 {
                     vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -642,6 +685,30 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_VAR10;
     inhaltVonKonfiguration +=       vorlage_var10;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FAUF;
+    inhaltVonKonfiguration +=       vorlage_fauf;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FABF;
+    inhaltVonKonfiguration +=       vorlage_fabf;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FGERADE;
+    inhaltVonKonfiguration +=       vorlage_fgerade;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FGERAWI;
+    inhaltVonKonfiguration +=       vorlage_fgerawi;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FBOUZS;
+    inhaltVonKonfiguration +=       vorlage_fbouzs;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_FBOGUZS;
+    inhaltVonKonfiguration +=       vorlage_fboguzs;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_SPIEGELN;
@@ -762,6 +829,24 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_VAR10))
         {
             vorlage_var10 = selektiereEintrag(text, DLG_VAR10, ENDE_ZEILE);
+        }else if(text.contains(DLG_FAUF))
+        {
+            vorlage_fauf = selektiereEintrag(text, DLG_FAUF, ENDE_ZEILE);
+        }else if(text.contains(DLG_FABF))
+        {
+            vorlage_fabf = selektiereEintrag(text, DLG_FABF, ENDE_ZEILE);
+        }else if(text.contains(DLG_FGERADE))
+        {
+            vorlage_fgerade = selektiereEintrag(text, DLG_FGERADE, ENDE_ZEILE);
+        }else if(text.contains(DLG_FGERAWI))
+        {
+            vorlage_fgerawi = selektiereEintrag(text, DLG_FGERAWI, ENDE_ZEILE);
+        }else if(text.contains(DLG_FBOUZS))
+        {
+            vorlage_fbouzs = selektiereEintrag(text, DLG_FBOUZS, ENDE_ZEILE);
+        }else if(text.contains(DLG_FBOGUZS))
+        {
+            vorlage_fboguzs = selektiereEintrag(text, DLG_FBOGUZS, ENDE_ZEILE);
         }else if(text.contains(DLG_SPIEGELN))
         {
             vorlage_spiegeln = selektiereEintrag(text, DLG_SPIEGELN, ENDE_ZEILE);
@@ -914,6 +999,12 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeRechtecktasche->setDisabled(true);
     ui->actionMakeVariable->setDisabled(true);
     ui->actionMakeVariablen10->setDisabled(true);
+    ui->actionMakeFauf->setDisabled(true);
+    ui->actionMakeAbfahren->setDisabled(true);
+    ui->actionMakeFgerade->setDisabled(true);
+    ui->actionMakeFgerawi->setDisabled(true);
+    ui->actionMakeFbouzs->setDisabled(true);
+    ui->actionMakeFboguzs->setDisabled(true);
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     //Menü Extras:
@@ -961,6 +1052,12 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeRechtecktasche->setEnabled(true);
     ui->actionMakeVariable->setEnabled(true);
     ui->actionMakeVariablen10->setEnabled(true);
+    ui->actionMakeFauf->setEnabled(true);
+    ui->actionMakeAbfahren->setEnabled(true);
+    ui->actionMakeFgerade->setEnabled(true);
+    ui->actionMakeFgerawi->setEnabled(true);
+    ui->actionMakeFbouzs->setEnabled(true);
+    ui->actionMakeFboguzs->setEnabled(true);
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     //Menü Extras:
@@ -2958,6 +3055,348 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FAUF))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FAUF;
+            prgzeile += vorlage_fauf;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FAUF_WKZ))
+                {
+                    prgzeile = replaceparam(FAUF_WKZ, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_X))
+                {
+                    prgzeile = replaceparam(FAUF_X, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_Y))
+                {
+                    prgzeile = replaceparam(FAUF_Y, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_Z))
+                {
+                    prgzeile = replaceparam(FAUF_Z, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_ERG))
+                {
+                    prgzeile = replaceparam(FAUF_ERG, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_KADI))
+                {
+                    prgzeile = replaceparam(FAUF_KADI, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_KOR))
+                {
+                    prgzeile = replaceparam(FAUF_KOR, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_ANTYP))
+                {
+                    prgzeile = replaceparam(FAUF_ANTYP, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_ABTYP))
+                {
+                    prgzeile = replaceparam(FAUF_ABTYP, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_EINTYP))
+                {
+                    prgzeile = replaceparam(FAUF_EINTYP, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_ANWEG))
+                {
+                    prgzeile = replaceparam(FAUF_ANWEG, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_ABWEG))
+                {
+                    prgzeile = replaceparam(FAUF_ABWEG, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_ANVO))
+                {
+                    prgzeile = replaceparam(FAUF_ANVO, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_VO))
+                {
+                    prgzeile = replaceparam(FAUF_VO, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_DREHZ))
+                {
+                    prgzeile = replaceparam(FAUF_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_EVERS))
+                {
+                    prgzeile = replaceparam(FAUF_EVERS, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_WKZAKT))
+                {
+                    prgzeile = replaceparam(FAUF_WKZAKT, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_BEZ))
+                {
+                    prgzeile = replaceparam(FAUF_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FAUF_AFB))
+                {
+                    prgzeile = replaceparam(FAUF_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FAUF_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FABF))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FABF;
+            prgzeile += vorlage_fabf;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FABF_DREHBAR))
+                {
+                    prgzeile = replaceparam(FABF_DREHBAR, prgzeile, zeile);
+                }else if(zeile.contains(FABF_OFFSET))
+                {
+                    prgzeile = replaceparam(FABF_OFFSET, prgzeile, zeile);
+                }else if(zeile.contains(FABF_FESTWI))
+                {
+                    prgzeile = replaceparam(FABF_FESTWI, prgzeile, zeile);
+                }else if(zeile.contains(FABF_BEZ))
+                {
+                    prgzeile = replaceparam(FABF_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FABF_AFB))
+                {
+                    prgzeile = replaceparam(FABF_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FABF_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FGERADE))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FGERADE;
+            prgzeile += vorlage_fgerade;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FGERADE_X))
+                {
+                    prgzeile = replaceparam(FGERADE_X, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_Y))
+                {
+                    prgzeile = replaceparam(FGERADE_Y, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_Z))
+                {
+                    prgzeile = replaceparam(FGERADE_Z, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_RAD))
+                {
+                    prgzeile = replaceparam(FGERADE_RAD, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_VO))
+                {
+                    prgzeile = replaceparam(FGERADE_VO, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_DREHBAR))
+                {
+                    prgzeile = replaceparam(FGERADE_DREHBAR, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_OFFSET))
+                {
+                    prgzeile = replaceparam(FGERADE_OFFSET, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_FESTWI))
+                {
+                    prgzeile = replaceparam(FGERADE_FESTWI, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_BEZ))
+                {
+                    prgzeile = replaceparam(FGERADE_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FGERADE_AFB))
+                {
+                    prgzeile = replaceparam(FGERADE_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FGERADE_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FGERAWI))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FGERAWI;
+            prgzeile += vorlage_fgerawi;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FGERAWI_WI))
+                {
+                    prgzeile = replaceparam(FGERAWI_WI, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_L))
+                {
+                    prgzeile = replaceparam(FGERAWI_L, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_Z))
+                {
+                    prgzeile = replaceparam(FGERAWI_Z, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_RAD))
+                {
+                    prgzeile = replaceparam(FGERAWI_RAD, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_VO))
+                {
+                    prgzeile = replaceparam(FGERAWI_VO, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_DREHBAR))
+                {
+                    prgzeile = replaceparam(FGERAWI_DREHBAR, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_OFFSET))
+                {
+                    prgzeile = replaceparam(FGERAWI_OFFSET, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_FESTWI))
+                {
+                    prgzeile = replaceparam(FGERAWI_FESTWI, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_BEZ))
+                {
+                    prgzeile = replaceparam(FGERAWI_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FGERAWI_AFB))
+                {
+                    prgzeile = replaceparam(FGERAWI_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FGERAWI_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FBOUZS;
+            prgzeile += vorlage_fbouzs;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FBOUZS_XE) && zeile.indexOf(FBOUZS_XE)==0 )
+                {
+                    prgzeile = replaceparam(FBOUZS_XE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_YE) && zeile.indexOf(FBOUZS_YE)==0 )
+                {
+                    prgzeile = replaceparam(FBOUZS_YE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_ZE))
+                {
+                    prgzeile = replaceparam(FBOUZS_ZE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_XMI))
+                {
+                    prgzeile = replaceparam(FBOUZS_XMI, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_YMI))
+                {
+                    prgzeile = replaceparam(FBOUZS_YMI, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_RADBO))
+                {
+                    prgzeile = replaceparam(FBOUZS_RADBO, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_RADECKE))
+                {
+                    prgzeile = replaceparam(FBOUZS_RADECKE, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_VO))
+                {
+                    prgzeile = replaceparam(FBOUZS_VO, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_DREHBAR))
+                {
+                    prgzeile = replaceparam(FBOUZS_DREHBAR, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_OFFSET))
+                {
+                    prgzeile = replaceparam(FBOUZS_OFFSET, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_FESTWI))
+                {
+                    prgzeile = replaceparam(FBOUZS_FESTWI, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_BEZ))
+                {
+                    prgzeile = replaceparam(FBOUZS_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FBOUZS_AFB))
+                {
+                    prgzeile = replaceparam(FBOUZS_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FBOUZS_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_FBOGUZS))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_FBOGUZS;
+            prgzeile += vorlage_fboguzs;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(FBOGUZS_XE) && zeile.indexOf(FBOGUZS_XE)==0 )
+                {
+                    prgzeile = replaceparam(FBOGUZS_XE, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_YE) && zeile.indexOf(FBOGUZS_YE)==0 )
+                {
+                    prgzeile = replaceparam(FBOGUZS_YE, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_ZE))
+                {
+                    prgzeile = replaceparam(FBOGUZS_ZE, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_XMI))
+                {
+                    prgzeile = replaceparam(FBOGUZS_XMI, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_YMI))
+                {
+                    prgzeile = replaceparam(FBOGUZS_YMI, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_RADBO))
+                {
+                    prgzeile = replaceparam(FBOGUZS_RADBO, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_RADECKE))
+                {
+                    prgzeile = replaceparam(FBOGUZS_RADECKE, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_VO))
+                {
+                    prgzeile = replaceparam(FBOGUZS_VO, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_DREHBAR))
+                {
+                    prgzeile = replaceparam(FBOGUZS_DREHBAR, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_OFFSET))
+                {
+                    prgzeile = replaceparam(FBOGUZS_OFFSET, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_FESTWI))
+                {
+                    prgzeile = replaceparam(FBOGUZS_FESTWI, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_BEZ))
+                {
+                    prgzeile = replaceparam(FBOGUZS_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(FBOGUZS_AFB))
+                {
+                    prgzeile = replaceparam(FBOGUZS_AFB, prgzeile, zeile);
+                }else if (zeile.contains(FBOGUZS_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_SPIEGELN))
         {
             QString prgzeile;
@@ -3089,6 +3528,18 @@ QString MainWindow::exportparam(QString param, QString paramzeile)
     QString msg = param;
     QString wert;
     wert = selektiereEintrag(paramzeile, param, ENDPAR);
+    if(wert.isEmpty())
+    {
+        wert = FMCNULL;
+    }
+    msg += wert;
+    msg += "\n";
+    return  msg;
+}
+
+QString MainWindow::exportparam_direktwert(QString param, QString wert)
+{
+    QString msg = param;
     if(wert.isEmpty())
     {
         wert = FMCNULL;
@@ -3519,7 +3970,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(NUT_VO, zeile);
             msg += exportparam(NUT_DREHZ, zeile);
             msg += exportparam(NUT_PLM, zeile);
-            msg += exportparam(NUT_WKZAKT, zeile);
+            msg += exportparam_direktwert(NUT_WKZAKT, "1");
             msg += exportparam(NUT_BEZ, zeile);
             msg += exportparam(NUT_AFB, zeile);
             msg += "\n";
@@ -3545,7 +3996,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(KTA_VO, zeile);
             msg += exportparam(KTA_DREHZ, zeile);
             msg += exportparam(KTA_PLM, zeile);
-            msg += exportparam(KTA_WKZAKT, zeile);
+            msg += exportparam_direktwert(KTA_WKZAKT, "1");
             msg += exportparam(KTA_BEZ, zeile);
             msg += exportparam(KTA_AFB, zeile);
             msg += "\n";
@@ -3574,7 +4025,7 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(RTA_VO, zeile);
             msg += exportparam(RTA_DREHZ, zeile);
             msg += exportparam(RTA_PLM, zeile);
-            msg += exportparam(RTA_WKZAKT, zeile);
+            msg += exportparam_direktwert(RTA_WKZAKT, "1");
             msg += exportparam(RTA_BEZ, zeile);
             msg += exportparam(RTA_AFB, zeile);
             msg += "\n";
@@ -3625,6 +4076,142 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(VAR10_WERT10, zeile);
             msg += exportparam(VAR10_BEZ, zeile);
             msg += exportparam(VAR10_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_FAUF))
+        {
+            msg += DLG_FAUF;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FAUF_WKZ, zeile);
+            msg += exportparam(FAUF_X, zeile);
+            msg += exportparam(FAUF_Y, zeile);
+            msg += exportparam(FAUF_Z, zeile);
+            msg += exportparam(FAUF_ERG, zeile);
+            msg += exportparam(FAUF_KADI, zeile);
+            msg += exportparam(FAUF_KOR, zeile);
+            msg += exportparam(FAUF_ANTYP, zeile);
+            msg += exportparam(FAUF_ABTYP, zeile);
+            msg += exportparam(FAUF_EINTYP, zeile);
+            msg += exportparam(FAUF_ANWEG, zeile);
+            msg += exportparam(FAUF_ABWEG, zeile);
+            msg += exportparam(FAUF_ANVO, zeile);
+            msg += exportparam(FAUF_VO, zeile);
+            msg += exportparam(FAUF_DREHZ, zeile);
+            msg += exportparam(FAUF_EVERS, zeile);
+            msg += exportparam_direktwert(FAUF_WKZAKT, "1");
+            msg += exportparam(FAUF_BEZ, zeile);
+            msg += exportparam(FAUF_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_FABF))
+        {
+            msg += DLG_FABF;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FABF_DREHBAR, zeile);
+            msg += exportparam(FABF_OFFSET, zeile);
+            msg += exportparam(FABF_FESTWI, zeile);
+            msg += exportparam(FABF_BEZ, zeile);
+            msg += exportparam(FABF_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_FGERADE))
+        {
+            msg += DLG_FGERADE;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FGERADE_X, zeile);
+            msg += exportparam(FGERADE_Y, zeile);
+            msg += exportparam(FGERADE_Z, zeile);
+            msg += exportparam(FGERADE_RAD, zeile);
+            msg += exportparam(FGERADE_VO, zeile);
+            msg += exportparam(FGERADE_DREHBAR, zeile);
+            msg += exportparam(FGERADE_OFFSET, zeile);
+            msg += exportparam(FGERADE_FESTWI, zeile);
+            msg += exportparam(FGERADE_BEZ, zeile);
+            msg += exportparam(FGERADE_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_FGERAWI))
+        {
+            msg += DLG_FGERAWI;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FGERAWI_WI, zeile);
+            msg += exportparam(FGERAWI_L, zeile);
+            msg += exportparam(FGERAWI_Z, zeile);
+            msg += exportparam(FGERAWI_RAD, zeile);
+            msg += exportparam(FGERAWI_VO, zeile);
+            msg += exportparam(FGERAWI_DREHBAR, zeile);
+            msg += exportparam(FGERAWI_OFFSET, zeile);
+            msg += exportparam(FGERAWI_FESTWI, zeile);
+            msg += exportparam(FGERAWI_BEZ, zeile);
+            msg += exportparam(FGERAWI_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            msg += DLG_FBOUZS;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FBOUZS_XE, zeile);
+            msg += exportparam(FBOUZS_YE, zeile);
+            msg += exportparam(FBOUZS_ZE, zeile);
+            msg += exportparam(FBOUZS_XMI, zeile);
+            msg += exportparam(FBOUZS_YMI, zeile);
+            msg += exportparam(FBOUZS_RADBO, zeile);
+            msg += exportparam(FBOUZS_RADECKE, zeile);
+            msg += exportparam(FBOUZS_VO, zeile);
+            msg += exportparam(FBOUZS_DREHBAR, zeile);
+            msg += exportparam(FBOUZS_OFFSET, zeile);
+            msg += exportparam(FBOUZS_FESTWI, zeile);
+            msg += exportparam(FBOUZS_BEZ, zeile);
+            msg += exportparam(FBOUZS_AFB, zeile);
+            msg += "\n";
+        }else if(zeile.contains(DLG_FBOGUZS))
+        {
+            msg += DLG_FBOGUZS;
+            msg += "\n";
+            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(FBOGUZS_XE, zeile);
+            msg += exportparam(FBOGUZS_YE, zeile);
+            msg += exportparam(FBOGUZS_ZE, zeile);
+            msg += exportparam(FBOGUZS_XMI, zeile);
+            msg += exportparam(FBOGUZS_YMI, zeile);
+            msg += exportparam(FBOGUZS_RADBO, zeile);
+            msg += exportparam(FBOGUZS_RADECKE, zeile);
+            msg += exportparam(FBOGUZS_VO, zeile);
+            msg += exportparam(FBOGUZS_DREHBAR, zeile);
+            msg += exportparam(FBOGUZS_OFFSET, zeile);
+            msg += exportparam(FBOGUZS_FESTWI, zeile);
+            msg += exportparam(FBOGUZS_BEZ, zeile);
+            msg += exportparam(FBOGUZS_AFB, zeile);
             msg += "\n";
         }else if(zeile.contains(DLG_SPIEGELN))
         {
@@ -3926,6 +4513,30 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_VAR10))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgvar10, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FAUF))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfauf, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FABF))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfabf, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FGERADE))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfgerade, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FGERAWI))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfgerawi, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FBOUZS))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfbouzs, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_FBOGUZS))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfboguzs, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_SPIEGELN))
             {
@@ -4504,7 +5115,8 @@ void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 
     QString tmp_fkon;
     tmp_fkon = "";
-    text_zeilenweise fk =tt.get_prgtext()->get_fkon().get_text_zeilenweise();
+    //text_zeilenweise fk =tt.get_prgtext()->get_fkon().get_text_zeilenweise();
+    text_zeilenweise fk =tt.get_prgtext()->get_fraeserdarst().get_text_zeilenweise();
     for(uint i=1 ; i<=fk.zeilenanzahl() ; i++)
     {
         tmp_fkon += QString::fromStdString(int_to_string(i));
@@ -4828,6 +5440,102 @@ void MainWindow::on_actionMakeVariablen10_triggered()
     }
 }
 
+void MainWindow::on_actionMakeFauf_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfauf, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fauf;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeAbfahren_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfabf, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fabf;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeFgerade_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfgerade, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fgerade;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeFgerawi_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfgerawi, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fgerawi;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeFbouzs_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfbouzs, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fbouzs;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeFboguzs_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgfboguzs, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_fboguzs;
+        emit sendDialogData(msg, false);
+    }
+}
+
 void MainWindow::on_actionMakeSpiegeln_triggered()
 {
     if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
@@ -4890,11 +5598,27 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgrta, SLOT(getWKZlist(text_zeilenweise)));
         emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
+    }else if(dlgtyp == DLG_FAUF)
+    {
+        connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgfauf, SLOT(getWKZlist(text_zeilenweise)));
+        emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
     }
 }
 
 
 //---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

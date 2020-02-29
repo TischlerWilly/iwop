@@ -206,6 +206,13 @@
     </property>
     <addaction name="actionMakeKreistasche"/>
     <addaction name="actionMakeRechtecktasche"/>
+    <addaction name="separator"/>
+    <addaction name="actionMakeFauf"/>
+    <addaction name="actionMakeAbfahren"/>
+    <addaction name="actionMakeFgerade"/>
+    <addaction name="actionMakeFgerawi"/>
+    <addaction name="actionMakeFbouzs"/>
+    <addaction name="actionMakeFboguzs"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -463,6 +470,36 @@
   <action name="actionMakeVariablen10">
    <property name="text">
     <string>10 Variablen definieren</string>
+   </property>
+  </action>
+  <action name="actionMakeFauf">
+   <property name="text">
+    <string>Aufruf Fräser</string>
+   </property>
+  </action>
+  <action name="actionMakeAbfahren">
+   <property name="text">
+    <string>Abfahren</string>
+   </property>
+  </action>
+  <action name="actionMakeFgerade">
+   <property name="text">
+    <string>Gerade</string>
+   </property>
+  </action>
+  <action name="actionMakeFbouzs">
+   <property name="text">
+    <string>Kreis IUZ</string>
+   </property>
+  </action>
+  <action name="actionMakeFboguzs">
+   <property name="text">
+    <string>Kreis GUZ</string>
+   </property>
+  </action>
+  <action name="actionMakeFgerawi">
+   <property name="text">
+    <string>Gerade mit Winkel</string>
    </property>
   </action>
  </widget>

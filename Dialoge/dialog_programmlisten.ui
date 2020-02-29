@@ -120,7 +120,7 @@
    </widget>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
-     <string>Fraeskonturen</string>
+     <string>Fräserdarstellung</string>
     </attribute>
     <widget class="QPlainTextEdit" name="plainTextEdit_fkon">
      <property name="geometry">
