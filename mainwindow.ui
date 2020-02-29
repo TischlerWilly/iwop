@@ -210,7 +210,9 @@
     <addaction name="actionMakeFauf"/>
     <addaction name="actionMakeAbfahren"/>
     <addaction name="actionMakeFgerade"/>
+    <addaction name="actionMakeFgerawi"/>
     <addaction name="actionMakeFbouzs"/>
+    <addaction name="actionMakeFboguzs"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -488,6 +490,16 @@
   <action name="actionMakeFbouzs">
    <property name="text">
     <string>Kreis IUZ</string>
+   </property>
+  </action>
+  <action name="actionMakeFboguzs">
+   <property name="text">
+    <string>Kreis GUZ</string>
+   </property>
+  </action>
+  <action name="actionMakeFgerawi">
+   <property name="text">
+    <string>Gerade mit Winkel</string>
    </property>
   </action>
  </widget>

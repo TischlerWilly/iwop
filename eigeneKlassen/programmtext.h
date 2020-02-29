@@ -37,7 +37,9 @@
 #include "eigeneDefines/define_fauf.h"
 #include "eigeneDefines/define_fabf.h"
 #include "eigeneDefines/define_fgerade.h"
+#include "eigeneDefines/define_fgerawi.h"
 #include "eigeneDefines/define_fbouzs.h"
+#include "eigeneDefines/define_fboguzs.h"
 #include "werkzeug.h"
 
 
@@ -322,6 +324,11 @@ private:
                                         double wi, double geswi, bool kettenmas,\
                                         double xalt2, double yalt2, double xneu2, double yneu2, \
                                         double wi2, double geswi2);
+            bogen lageaendern_bogen(bogen bo, bool afb,\
+                                    double xalt, double yalt, double xneu, double yneu, \
+                                    double wi, double geswi, bool kettenmas,\
+                                    double xalt2, double yalt2, double xneu2, double yneu2, \
+                                    double wi2, double geswi2);
 
 
 

@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.02.20"
+#define PROGRAMMVERSION     "1.2020.02.29"
 
 /*
 Zusatzwünsche:
@@ -16,55 +16,27 @@ Zusatzwünsche:
 ---------------------------------------------------------------------------In Arbeit:
 ---------------------------------------------------------------------------Faufr
 - programmtext.cpp
-    ->aktualisiere_geo()
+    ->aktualisiere_geo()        <<<<<-----HIER WEITER MACHEN
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------Fgerade
 - programmtext.cpp
     ->aktualisiere_geo()
        >noch Ecken Verrunden umsetzen
 ---------------------------------------------------------------------------
+---------------------------------------------------------------------------Fgerawi
+- programmtext.cpp
+    ->aktualisiere_geo()
+        >noch Ecken Verrunden umsetzen
+---------------------------------------------------------------------------
 ---------------------------------------------------------------------------FboUZS
 - programmtext.cpp
     ->aktualisiere_geo()
-       >bogen programmtext::spiegeln_bogen(bogen bo, bool xbed, bool ybed, double xpos, double ypos)
        >noch Ecken Verrunden umsetzen
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------FboGUZS
-- define_xyz.h anlegen
-- Qt-Designer-Formularklasse anlegen
-- dialog_xyz.ui
-    ->ui entwerfen
-        -->WindowTitel
-        -->modal true
-        -->TAB-Reihenfolge
-            ->slots anlegen
-- dialog_xyz.h
-- dialog_xyz.cpp
-- mainwindow.h
-    ->include
-    ->DLG-Objekt anlegen (private:)
-    ->vorlage_... anlegen(private: Variablen:)
-- mainwindow.ui ->Menüeintrag erstellen
-- Slot anlegen
-- mainwindow.cpp
-    ->Construktor ergänzen
-        -->vorlage_xyz = xyz.get_defaut()
-        -->Connect:
-    ->loadConfig()
-    ->saveConfig()
-    ->slotSaveConfig(QString text)
-    ->hideElemets_noFileIsOpen()
-    ->showElements_aFileIsOpen()
-    ->import_fmc(text_zeilenweise tz)
-    ->export_fmc(text_zeilenweise tz)
-    ->on_action_aendern_triggered()
-    ->slotNeedWKZ(QString)
-- programmtext.h
-    ->include ergänzen
 - programmtext.cpp
-    ->aktualisiere_klartext_var()
     ->aktualisiere_geo()
-    ->aktualisiere_anzeigetext()
+       >noch Ecken Verrunden umsetzen
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------Fabfa
 - programmtext.cpp

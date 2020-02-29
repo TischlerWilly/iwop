@@ -1,9 +1,9 @@
-#include "dialog_fgerade.h"
-#include "ui_dialog_fgerade.h"
+#include "dialog_fgerawi.h"
+#include "ui_dialog_fgerawi.h"
 
-Dialog_fgerade::Dialog_fgerade(QWidget *parent) :
+Dialog_fgerawi::Dialog_fgerawi(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Dialog_fgerade)
+    ui(new Ui::Dialog_fgerawi)
 {
     ui->setupUi(this);
     openToModifyData = false;
@@ -11,18 +11,18 @@ Dialog_fgerade::Dialog_fgerade(QWidget *parent) :
 
     prgpfade pf;
     QString bild1 = pf.get_path_dlgbilder_();
-    bild1 += "fgerade_1.bmp";
+    bild1 += "fgerawi_1.bmp";
     QPixmap pix1(bild1);
     ui->label_bild->setPixmap(pix1);
     ui->label_bild->setScaledContents(true);//Bild skallieren
 }
 
-Dialog_fgerade::~Dialog_fgerade()
+Dialog_fgerawi::~Dialog_fgerawi()
 {
     delete ui;
 }
 
-void Dialog_fgerade::on_pushButton_ok_clicked()
+void Dialog_fgerawi::on_pushButton_ok_clicked()
 {
     QString msg = dialogDataToString();
     this->hide();
@@ -36,59 +36,59 @@ void Dialog_fgerade::on_pushButton_ok_clicked()
     }
 }
 
-void Dialog_fgerade::on_pushButton_esc_clicked()
+void Dialog_fgerawi::on_pushButton_esc_clicked()
 {
     this->close();
 }
 
-void Dialog_fgerade::on_pushButton_save_clicked()
+void Dialog_fgerawi::on_pushButton_save_clicked()
 {
     QString msg = dialogDataToString();
     this->hide();
     emit signalSaveConfig(msg);
 }
 
-QString Dialog_fgerade::dialogDataToString()
+QString Dialog_fgerawi::dialogDataToString()
 {
-    QString msg = DLG_FGERADE ;
+    QString msg = DLG_FGERAWI ;
 
-    msg += FGERADE_X;
-    msg += ui->lineEdit_x->text().toUpper().replace(",",".");
+    msg += FGERAWI_WI;
+    msg += ui->lineEdit_wi->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_Y;
-    msg += ui->lineEdit_y->text().toUpper().replace(",",".");
+    msg += FGERAWI_L;
+    msg += ui->lineEdit_l->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_Z;
+    msg += FGERAWI_Z;
     msg += ui->lineEdit_z->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_RAD;
+    msg += FGERAWI_RAD;
     msg += ui->lineEdit_rad->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_VO;
+    msg += FGERAWI_VO;
     msg += ui->lineEdit_vo->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_DREHBAR;
+    msg += FGERAWI_DREHBAR;
     msg += ui->lineEdit_drehbar->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_OFFSET;
+    msg += FGERAWI_OFFSET;
     msg += ui->lineEdit_offset->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_FESTWI;
+    msg += FGERAWI_FESTWI;
     msg += ui->lineEdit_festwi->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
-    msg += FGERADE_BEZ;
+    msg += FGERAWI_BEZ;
     msg += ui->lineEdit_bez->text();
     msg += ENDPAR;
 
-    msg += FGERADE_AFB;
+    msg += FGERAWI_AFB;
     msg += ui->lineEdit_afb->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
@@ -96,82 +96,82 @@ QString Dialog_fgerade::dialogDataToString()
     return msg;
 }
 
-void Dialog_fgerade::getDialogData(QString text, bool openToChangeData)
+void Dialog_fgerawi::getDialogData(QString text, bool openToChangeData)
 {
     openToModifyData = openToChangeData;
-    QString parname = FGERADE_X;
-    ui->lineEdit_x->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    QString parname = FGERAWI_WI;
+    ui->lineEdit_wi->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_Y;
-    ui->lineEdit_y->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
+    parname += FGERAWI_L;
+    ui->lineEdit_l->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_Z;
+    parname += FGERAWI_Z;
     ui->lineEdit_z->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_RAD;
+    parname += FGERAWI_RAD;
     ui->lineEdit_rad->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_VO;
+    parname += FGERAWI_VO;
     ui->lineEdit_vo->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_DREHBAR;
+    parname += FGERAWI_DREHBAR;
     ui->lineEdit_drehbar->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_OFFSET;
+    parname += FGERAWI_OFFSET;
     ui->lineEdit_offset->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_FESTWI;
+    parname += FGERAWI_FESTWI;
     ui->lineEdit_festwi->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
-    parname += FGERADE_BEZ;
+    parname += FGERAWI_BEZ;
     ui->lineEdit_bez->setText(selektiereEintrag(text, parname, ENDPAR));
     parname = ENDPAR;
-    parname += FGERADE_AFB;
+    parname += FGERAWI_AFB;
     ui->lineEdit_afb->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     this->show();
 }
 
-QString Dialog_fgerade::get_default()
+QString Dialog_fgerawi::get_default()
 {
     QString msg;
 
-    msg += FGERADE_X;
+    msg += FGERAWI_WI;
     msg += "";
     msg += ENDPAR;
 
-    msg += FGERADE_Y;
+    msg += FGERAWI_L;
     msg += "";
     msg += ENDPAR;
 
-    msg += FGERADE_Z;
+    msg += FGERAWI_Z;
     msg += "Z";
     msg += ENDPAR;
 
-    msg += FGERADE_RAD;
+    msg += FGERAWI_RAD;
     msg += "EBG";
     msg += ENDPAR;
 
-    msg += FGERADE_VO;
+    msg += FGERAWI_VO;
     msg += "V";
     msg += ENDPAR;
 
-    msg += FGERADE_DREHBAR;
+    msg += FGERAWI_DREHBAR;
     msg += "AGGDREHBAR";
     msg += ENDPAR;
 
-    msg += FGERADE_OFFSET;
+    msg += FGERAWI_OFFSET;
     msg += "AGGOFFSET";
     msg += ENDPAR;
 
-    msg += FGERADE_FESTWI;
+    msg += FGERAWI_FESTWI;
     msg += "AGGFWKL";
     msg += ENDPAR;
 
-    msg += FGERADE_BEZ;
-    msg += "Gerade";
+    msg += FGERAWI_BEZ;
+    msg += "Gerade mit Winkel";
     msg += ENDPAR;
 
-    msg += FGERADE_AFB;
+    msg += FGERAWI_AFB;
     msg += "1";
     msg += ENDPAR;
 

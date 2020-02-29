@@ -30,8 +30,10 @@ SOURCES += \
         Dialoge/dialog_bohren_y.cpp \
         Dialoge/dialog_fabf.cpp \
         Dialoge/dialog_fauf.cpp \
+        Dialoge/dialog_fboguzs.cpp \
         Dialoge/dialog_fbouzs.cpp \
         Dialoge/dialog_fgerade.cpp \
+        Dialoge/dialog_fgerawi.cpp \
         Dialoge/dialog_fraeser.cpp \
         Dialoge/dialog_halt.cpp \
         Dialoge/dialog_hbexm.cpp \
@@ -94,8 +96,10 @@ HEADERS += \
         Dialoge/dialog_bohren_y.h \
         Dialoge/dialog_fabf.h \
         Dialoge/dialog_fauf.h \
+        Dialoge/dialog_fboguzs.h \
         Dialoge/dialog_fbouzs.h \
         Dialoge/dialog_fgerade.h \
+        Dialoge/dialog_fgerawi.h \
         Dialoge/dialog_fraeser.h \
         Dialoge/dialog_halt.h \
         Dialoge/dialog_hbexm.h \
@@ -123,8 +127,10 @@ HEADERS += \
         eigeneDefines/define_boY.h \
         eigeneDefines/define_fabf.h \
         eigeneDefines/define_fauf.h \
+        eigeneDefines/define_fboguzs.h \
         eigeneDefines/define_fbouzs.h \
         eigeneDefines/define_fgerade.h \
+        eigeneDefines/define_fgerawi.h \
         eigeneDefines/define_hbexm.h \
         eigeneDefines/define_hbexp.h \
         eigeneDefines/define_hbeym.h \
@@ -191,8 +197,10 @@ FORMS += \
         Dialoge/dialog_bohren_y.ui \
         Dialoge/dialog_fabf.ui \
         Dialoge/dialog_fauf.ui \
+        Dialoge/dialog_fboguzs.ui \
         Dialoge/dialog_fbouzs.ui \
         Dialoge/dialog_fgerade.ui \
+        Dialoge/dialog_fgerawi.ui \
         Dialoge/dialog_fraeser.ui \
         Dialoge/dialog_halt.ui \
         Dialoge/dialog_hbexm.ui \
