@@ -1419,6 +1419,8 @@ void programmtext::aktualisiere_geo()
     //Variabelen für Abfahren Fräser:
     QString abtyp;
     QString abwert;
+    double wkzrad;
+    QString radiuskor;
 
     if(!aktualisieren_eingeschaltet)
     {
@@ -3173,85 +3175,361 @@ void programmtext::aktualisiere_geo()
                 abtyp = text_mitte(zeile, FAUF_ABTYP, ENDPAR);
                 anwert = text_mitte(zeile, FAUF_ANWEG, ENDPAR);
                 abwert = text_mitte(zeile, FAUF_ABWEG, ENDPAR);
+                strecke s;
+                punkt3d sp, ep;
+                bool wird_dargestellt = false;
                 for(uint ii=i+1; ii<klartext.zeilenanzahl();ii++)
                 {
                     QString tmp = klartext.zeile(ii);
                     if(tmp.contains(DLG_FABF) || tmp.contains(DLG_FAUF))
                     {
+                        //wird_dargestellt = false;
                         break; //Anfahrweg und Abfahrweg kann nicht dargestellt werden da keine Fräskontur gefunden wurde
                     }else if(  tmp.contains(DLG_FGERADE)  ||  tmp.contains(DLG_FGERAWI)  )
                     {
-                        if(antyp == "0")//Gerade
-                        {
-                            strecke s;
-                            punkt3d sp, ep;
-                            sp.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
-                            sp.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
-                            ep.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
-                            ep.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
-                            s.set_start(sp);
-                            s.set_ende(ep);
-                            s.set_laenge_2d(anwert.toDouble(), strecke_bezugspunkt_start);
-                            s.drenen_um_startpunkt_2d(180, true);
-                            s.richtung_unkehren();
-
-                            s.set_farbe(FARBE_BLAU);
-                            s = spiegeln_strecke(s, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                            s = lageaendern_strecke(s, lageaendern_afb,\
-                                                    lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                                    lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                                    lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                                    lageaendern_wi_alt, lageaendern_geswi_alt);
-                            geo.add_strecke(s);
-                            kreis k1;
-                            k1.set_farbe(FARBE_BLAU);
-                            k1.set_farbe_fuellung(FARBE_SCHWARZ);
-                            k1.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
-
-                            QString kor = text_mitte(zeile, FAUF_KOR, ENDPAR);
-                            if(kor == "0")//mitte == keine
-                            {
-                                k1.set_mittelpunkt(s.startp());
-                            }else if(kor == "1")//links
-                            {
-                                strecke stmp = s;
-                                stmp.set_laenge_2d(k1.radius(), strecke_bezugspunkt_start);
-                                stmp.drenen_um_startpunkt_2d(90, false);
-                                s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                                k1.set_mittelpunkt(s.startp());
-                            }else if(kor == "2")//rechts
-                            {
-                                strecke stmp = s;
-                                stmp.set_laenge_2d(k1.radius(), strecke_bezugspunkt_start);
-                                stmp.drenen_um_startpunkt_2d(90, true);
-                                s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                                k1.set_mittelpunkt(s.startp());
-                            }
-                            fraeserdarst.add_kreis(k1);
-                        }else//Bogen
-                        {
-                            //...
-                        }
-
-                        //...
+                        sp.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
+                        sp.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
+                        ep.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
+                        ep.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
+                        wird_dargestellt = true;
                         break;
                     }else if(tmp.contains(DLG_FBOUZS))
                     {
-                        //...
+                        sp.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
+                        sp.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
+                        punkt3d epbo;
+                        epbo.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
+                        epbo.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
+                        double rad = text_mitte(tmp, FBOUZS_RADBO, ENDPAR).toDouble();
+                        bogen bo;
+                        bo.set_startpunkt(sp);
+                        bo.set_endpunkt(epbo);
+                        bo.set_radius(rad, true);
+                        punkt3d mipu;
+                        mipu.set_x(bo.mitte().x());
+                        mipu.set_y(bo.mitte().y());
+                        strecke stmp;
+                        stmp.set_start(sp);
+                        stmp.set_ende(mipu);
+                        stmp.drenen_um_startpunkt_2d(90, false);
+                        ep = stmp.endp();
+                        wird_dargestellt = true;
                         break;
                     }else if(tmp.contains(DLG_FBOGUZS))
                     {
-                        //...
+                        sp.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
+                        sp.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
+                        punkt3d epbo;
+                        epbo.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
+                        epbo.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
+                        double rad = text_mitte(tmp, FBOUZS_RADBO, ENDPAR).toDouble();
+                        bogen bo;
+                        bo.set_startpunkt(sp);
+                        bo.set_endpunkt(epbo);
+                        bo.set_radius(rad, false);
+                        punkt3d mipu;
+                        mipu.set_x(bo.mitte().x());
+                        mipu.set_y(bo.mitte().y());
+                        strecke stmp;
+                        stmp.set_start(sp);
+                        stmp.set_ende(mipu);
+                        stmp.drenen_um_startpunkt_2d(90, true);
+                        ep = stmp.endp();
+                        wird_dargestellt = true;
                         break;
                     }
                 }
+                if(wird_dargestellt == true)
+                {
+                    s.set_start(sp);
+                    s.set_ende(ep);
+                    s.set_laenge_2d(anwert.toDouble(), strecke_bezugspunkt_start);
+                    s.drenen_um_startpunkt_2d(180, true);
+                    QString kor = text_mitte(zeile, FAUF_KOR, ENDPAR);
+                    radiuskor = kor;
+                    wkzrad = text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2;
+                    kreis k;
+                    k.set_farbe(FARBE_BLAU);
+                    k.set_farbe_fuellung(FARBE_SCHWARZ);
+                    k.set_radius(wkzrad);
+                    if(  (antyp == "0")  ||  (antyp == "1" && kor == "0")  )//Anfahrtyp Gerade
+                    {
+                        s.richtung_unkehren();
+                        s.set_farbe(FARBE_BLAU);
+                        s = spiegeln_strecke(s, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        s = lageaendern_strecke(s, lageaendern_afb,\
+                                                lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_strecke(s);
 
-                //....
+                        if(kor == "0")//mitte == keine
+                        {
+                            k.set_mittelpunkt(s.get_mittelpunkt3d());
+                        }else if(kor == "1")//links
+                        {
+                            strecke stmp;
+                            stmp.set_start(s.get_mittelpunkt3d());
+                            stmp.set_ende(s.endp());
+                            stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
+                            stmp.drenen_um_startpunkt_2d(90, false);
+                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
+                            k.set_mittelpunkt(s.startp());
+                        }else if(kor == "2")//rechts
+                        {
+                            strecke stmp;
+                            stmp.set_start(s.get_mittelpunkt3d());
+                            stmp.set_ende(s.endp());
+                            stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
+                            stmp.drenen_um_startpunkt_2d(90, true);
+                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
+                            k.set_mittelpunkt(s.startp());
+                        }
+                        fraeserdarst.add_kreis(k);
+                    }else//Anfahrtyp Bogen
+                    {
+                        if(kor == "1")//links --> Bogen von links
+                        {
+                            s.drenen_um_endpunkt_2d(90, false);
+                            bogen bo;
+                            bo.set_startpunkt(s.startp());
+                            bo.set_endpunkt(sp);
+                            bo.set_radius(anwert.toDouble(), false);
+                            bo.set_farbe(FARBE_BLAU);
+                            bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            bo = lageaendern_bogen(bo, lageaendern_afb,\
+                                                   lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            geo.add_bogen(bo);
+                            s.drenen_um_startpunkt_2d(90, false);
+                            s.drenen_um_endpunkt_2d(45, false);
+                            //-------------------------------------------------------------------
+                            double laenge = anwert.toDouble();
+                            laenge = laenge - k.radius();
+                            s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
+                            k.set_mittelpunkt(s.startp());
+                            //-------------------------------------------------------------------
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                            fraeserdarst.add_kreis(k);
+                        }else if(kor == "2")//rechts --> Bogen von rechts
+                        {
+                            s.drenen_um_endpunkt_2d(90, true);
+                            bogen bo;
+                            bo.set_startpunkt(s.startp());
+                            bo.set_endpunkt(sp);
+                            bo.set_radius(anwert.toDouble(), true);
+                            bo.set_farbe(FARBE_BLAU);
+                            bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            bo = lageaendern_bogen(bo, lageaendern_afb,\
+                                                   lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            geo.add_bogen(bo);
+                            s.drenen_um_startpunkt_2d(90, true);
+                            s.drenen_um_endpunkt_2d(45, true);
+                            //-------------------------------------------------------------------
+                            double laenge = anwert.toDouble();
+                            laenge = laenge - k.radius();
+                            s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
+                            k.set_mittelpunkt(s.startp());
+                            //-------------------------------------------------------------------
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                            fraeserdarst.add_kreis(k);
+                        }
+                    }
+                }
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FABF))
             {
-                //....
+                strecke s;
+                punkt3d sp, ep;
+                bool wird_dargestellt = false;
+                for(uint ii=i-1; ii>0 ;ii--)
+                {
+                    QString tmp = klartext.zeile(ii);
+                    if(tmp.contains(DLG_FABF) || tmp.contains(DLG_FAUF))
+                    {
+                        //wird_dargestellt = false;
+                        break; //Anfahrweg und Abfahrweg kann nicht dargestellt werden da keine Fräskontur gefunden wurde
+                    }else if(  tmp.contains(DLG_FGERADE)  ||  tmp.contains(DLG_FGERAWI)  )
+                    {
+                        sp.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
+                        sp.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
+                        ep.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
+                        ep.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
+                        wird_dargestellt = true;
+                        break;
+                    }else if(tmp.contains(DLG_FBOUZS))
+                    {
+                        ep.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
+                        ep.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
+                        punkt3d spbo;
+                        spbo.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
+                        spbo.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
+                        double rad = text_mitte(tmp, FBOUZS_RADBO, ENDPAR).toDouble();
+                        bogen bo;
+                        bo.set_startpunkt(spbo);
+                        bo.set_endpunkt(ep);
+                        bo.set_radius(rad, true);
+                        punkt3d mipu;
+                        mipu.set_x(bo.mitte().x());
+                        mipu.set_y(bo.mitte().y());
+                        strecke stmp;
+                        stmp.set_start(mipu);
+                        stmp.set_ende(ep);
+                        stmp.drenen_um_endpunkt_2d(90, true);
+                        sp = stmp.startp();
+                        wird_dargestellt = true;
+                        break;
+                    }else if(tmp.contains(DLG_FBOGUZS))
+                    {
+                        ep.set_x(text_mitte(tmp, VAR_ALLGEM_XE, ENDPAR));
+                        ep.set_y(text_mitte(tmp, VAR_ALLGEM_YE, ENDPAR));
+                        punkt3d spbo;
+                        spbo.set_x(text_mitte(tmp, VAR_ALLGEM_XS, ENDPAR));
+                        spbo.set_y(text_mitte(tmp, VAR_ALLGEM_YS, ENDPAR));
+                        double rad = text_mitte(tmp, FBOUZS_RADBO, ENDPAR).toDouble();
+                        bogen bo;
+                        bo.set_startpunkt(spbo);
+                        bo.set_endpunkt(ep);
+                        bo.set_radius(rad, false);
+                        punkt3d mipu;
+                        mipu.set_x(bo.mitte().x());
+                        mipu.set_y(bo.mitte().y());
+                        strecke stmp;
+                        stmp.set_start(mipu);
+                        stmp.set_ende(ep);
+                        stmp.drenen_um_endpunkt_2d(90, false);
+                        sp = stmp.startp();
+                        wird_dargestellt = true;
+                        break;
+                    }
+                }
+                if(wird_dargestellt == true)
+                {
+                    s.set_start(ep);
+                    s.set_ende(sp);
+                    s.set_laenge_2d(abwert.toDouble(), strecke_bezugspunkt_start);
+                    s.drenen_um_startpunkt_2d(180, true);
+                    QString kor = radiuskor;
+                    kreis k;
+                    k.set_farbe(FARBE_BLAU);
+                    k.set_farbe_fuellung(FARBE_SCHWARZ);
+                    k.set_radius(wkzrad);
+                    if(  (abtyp == "0")  ||  (abtyp == "1" && kor == "0")  )//Anfahrtyp Gerade
+                    {
+                        s.richtung_unkehren();
+                        s.set_farbe(FARBE_BLAU);
+                        s = spiegeln_strecke(s, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        s = lageaendern_strecke(s, lageaendern_afb,\
+                                                lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_strecke(s);
+                        if(kor == "0")//mitte == keine
+                        {
+                            k.set_mittelpunkt(s.get_mittelpunkt3d());
+                        }else if(kor == "1")//links
+                        {
+                            strecke stmp;
+                            stmp.set_start(s.get_mittelpunkt3d());
+                            stmp.set_ende(s.endp());
+                            stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
+                            stmp.drenen_um_startpunkt_2d(90, true);
+                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
+                            k.set_mittelpunkt(s.startp());
+                        }else if(kor == "2")//rechts
+                        {
+                            strecke stmp;
+                            stmp.set_start(s.get_mittelpunkt3d());
+                            stmp.set_ende(s.endp());
+                            stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
+                            stmp.drenen_um_startpunkt_2d(90, false);
+                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
+                            k.set_mittelpunkt(s.startp());
+                        }
+                        fraeserdarst.add_kreis(k);
+                    }else//Anfahrtyp Bogen
+                    {
+                        if(kor == "1")//links --> Bogen von links
+                        {
+                            bogen bo;
+                            bo.set_startpunkt(s.startp());
+                            s.drenen_um_endpunkt_2d(90, true);
+                            bo.set_endpunkt(s.startp());
+                            bo.set_radius(abwert.toDouble(), false);
+                            bo.set_farbe(FARBE_BLAU);
+                            bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            bo = lageaendern_bogen(bo, lageaendern_afb,\
+                                                   lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            geo.add_bogen(bo);
+                            s.drenen_um_startpunkt_2d(90, true);
+                            s.drenen_um_endpunkt_2d(45, true);
+                            //-------------------------------------------------------------------
+                            double laenge = abwert.toDouble();
+                            laenge = laenge - k.radius();
+                            s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
+                            k.set_mittelpunkt(s.startp());
+                            //-------------------------------------------------------------------
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                            fraeserdarst.add_kreis(k);
+                        }else if(kor == "2")//rechts --> Bogen von rechts
+                        {
+                            bogen bo;
+                            bo.set_startpunkt(s.startp());
+                            s.drenen_um_endpunkt_2d(90, false);
+                            bo.set_endpunkt(s.startp());
+                            bo.set_radius(abwert.toDouble(), true);
+                            bo.set_farbe(FARBE_BLAU);
+                            bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            bo = lageaendern_bogen(bo, lageaendern_afb,\
+                                                   lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            geo.add_bogen(bo);
+                            s.drenen_um_startpunkt_2d(90, false);
+                            s.drenen_um_endpunkt_2d(45, false);
+                            //-------------------------------------------------------------------
+                            double laenge = abwert.toDouble();
+                            laenge = laenge - k.radius();
+                            s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
+                            k.set_mittelpunkt(s.startp());
+                            //-------------------------------------------------------------------
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                            fraeserdarst.add_kreis(k);
+                        }
+                    }
+                }
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FGERADE) ||  zeile.contains(DLG_FGERAWI))
@@ -3273,42 +3551,43 @@ void programmtext::aktualisiere_geo()
                                         lageaendern_wi_alt, lageaendern_geswi_alt);
                 geo.add_strecke(s);
 
-                kreis k1, k2, k3;
-                k1.set_farbe(FARBE_BLAU);
-                k1.set_farbe_fuellung(FARBE_SCHWARZ);
-                k1.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
-                k2 = k1;
-                k3 = k1;
+                kreis k;
+                k.set_farbe(FARBE_BLAU);
+                k.set_farbe_fuellung(FARBE_SCHWARZ);
+                k.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
 
                 QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
                 if(kor == "0")//mitte == keine
                 {
-                    k1.set_mittelpunkt(s.startp());
-                    k2.set_mittelpunkt(s.get_mittelpunkt3d());
-                    k3.set_mittelpunkt(s.endp());
+                    k.set_mittelpunkt(s.get_mittelpunkt3d());
                 }else if(kor == "1")//links
                 {
                     strecke stmp = s;
-                    stmp.set_laenge_2d(k1.radius(), strecke_bezugspunkt_start);
-                    stmp.drenen_um_startpunkt_2d(90, false);
+                    stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
+                    if(  (spiegeln_xbed == true && spiegeln_ybed == true)  ||  (spiegeln_xbed == false && spiegeln_ybed == false)  )
+                    {
+                        stmp.drenen_um_startpunkt_2d(90, false);
+                    }else
+                    {
+                        stmp.drenen_um_startpunkt_2d(90, true);
+                    }
                     s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                    k1.set_mittelpunkt(s.startp());
-                    k2.set_mittelpunkt(s.get_mittelpunkt3d());
-                    k3.set_mittelpunkt(s.endp());
+                    k.set_mittelpunkt(s.get_mittelpunkt3d());
                 }else if(kor == "2")//rechts
                 {
                     strecke stmp = s;
-                    stmp.set_laenge_2d(k1.radius(), strecke_bezugspunkt_start);
-                    stmp.drenen_um_startpunkt_2d(90, true);
+                    stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
+                    if(  (spiegeln_xbed == true && spiegeln_ybed == true)  ||  (spiegeln_xbed == false && spiegeln_ybed == false)  )
+                    {
+                        stmp.drenen_um_startpunkt_2d(90, true);
+                    }else
+                    {
+                        stmp.drenen_um_startpunkt_2d(90, false);
+                    }
                     s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                    k1.set_mittelpunkt(s.startp());
-                    k2.set_mittelpunkt(s.get_mittelpunkt3d());
-                    k3.set_mittelpunkt(s.endp());
+                    k.set_mittelpunkt(s.get_mittelpunkt3d());
                 }
-                fraeserdarst.add_kreis(k1);
-                fraeserdarst.add_kreis(k2);
-                fraeserdarst.add_kreis(k3);
-
+                fraeserdarst.add_kreis(k);
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FBOUZS))
@@ -3323,38 +3602,27 @@ void programmtext::aktualisiere_geo()
                 bo.set_endpunkt(ep);
                 bo.set_radius(text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble(), true);
                 bo.set_farbe(FARBE_BLAU);
-
                 bogen bo_orgi = bo;
-
                 bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                 bo = lageaendern_bogen(bo, lageaendern_afb,\
                                        lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
                                        lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                        lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                        lageaendern_wi_alt, lageaendern_geswi_alt);
-
                 geo.add_bogen(bo);
-
-                kreis k1, k2, k3;
-                k1.set_farbe(FARBE_BLAU);
-                k1.set_farbe_fuellung(FARBE_SCHWARZ);
-                k1.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
-                k2 = k1;
-                k3 = k1;
-
-                strecke s1, s2, s3;
+                kreis k;
+                k.set_farbe(FARBE_BLAU);
+                k.set_farbe_fuellung(FARBE_SCHWARZ);
+                k.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
+                strecke s;
                 punkt3d mipu;
                 mipu.set_x(bo_orgi.mitte().x());
                 mipu.set_y(bo_orgi.mitte().y());
-                s1.set_start(mipu);
-                s3.set_start(mipu);
-                s1.set_ende(bo_orgi.start());
-                s3.set_ende(bo_orgi.ende());
-                s2.set_start(bo_orgi.start());
-                s2.set_ende(bo_orgi.ende());
-                s2.drenen_um_mittelpunkt_2d(90, false);
-                s2.set_start(mipu);
-
+                s.set_start(bo_orgi.start());
+                s.set_ende(bo_orgi.ende());
+                s.drenen_um_mittelpunkt_2d(90, false);
+                s.set_start(mipu);
+                //-------------------------------------------------------------------
                 double laenge = 0;
                 QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
                 if(kor == "0")//mitte == keine
@@ -3363,53 +3631,22 @@ void programmtext::aktualisiere_geo()
                 }else if(kor == "1")//links
                 {
                    laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
-                   if(  (spiegeln_xbed == true && spiegeln_ybed == true)  ||  (spiegeln_xbed == false && spiegeln_ybed == false)  )
-                   {
-                       laenge = laenge + k1.radius();
-                   }else
-                   {
-                       laenge = laenge - k1.radius();
-                   }
-
+                   laenge = laenge + k.radius();
                 }else if(kor == "2")//rechts
                 {
                     laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
-                    if(  (spiegeln_xbed == true && spiegeln_ybed == true)  ||  (spiegeln_xbed == false && spiegeln_ybed == false)  )
-                    {
-                        laenge = laenge - k1.radius();
-                    }else
-                    {
-                        laenge = laenge + k1.radius();
-                    }
+                    laenge = laenge - k.radius();
                 }
-                s1.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                s2.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                s3.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                k1.set_mittelpunkt(s1.endp());
-                k2.set_mittelpunkt(s2.endp());
-                k3.set_mittelpunkt(s3.endp());
-                k1 = spiegeln_kreis(k1, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                k2 = spiegeln_kreis(k2, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                k3 = spiegeln_kreis(k3, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                k1 = lageaendern_kreis(k1, lageaendern_afb,\
-                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                k2 = lageaendern_kreis(k2, lageaendern_afb,\
-                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                k3 = lageaendern_kreis(k3, lageaendern_afb,\
-                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                fraeserdarst.add_kreis(k1);
-                fraeserdarst.add_kreis(k2);
-                fraeserdarst.add_kreis(k3);
-
+                s.set_laenge_2d(laenge, strecke_bezugspunkt_start);
+                k.set_mittelpunkt(s.endp());
+                //-------------------------------------------------------------------
+                k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                k = lageaendern_kreis(k, lageaendern_afb,\
+                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                fraeserdarst.add_kreis(k);
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_FBOGUZS))
@@ -3424,38 +3661,26 @@ void programmtext::aktualisiere_geo()
                 bo.set_endpunkt(ep);
                 bo.set_radius(text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble(), false);
                 bo.set_farbe(FARBE_BLAU);
-
                 bogen bo_orgi = bo;
-
                 bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                 bo = lageaendern_bogen(bo, lageaendern_afb,\
                                        lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
                                        lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                        lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                        lageaendern_wi_alt, lageaendern_geswi_alt);
-
                 geo.add_bogen(bo);
-
-                kreis k1, k2, k3;
-                k1.set_farbe(FARBE_BLAU);
-                k1.set_farbe_fuellung(FARBE_SCHWARZ);
-                k1.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
-                k2 = k1;
-                k3 = k1;
-
-                strecke s1, s2, s3;
+                kreis k;
+                k.set_farbe(FARBE_BLAU);
+                k.set_farbe_fuellung(FARBE_SCHWARZ);
+                k.set_radius(text_mitte(zeile, VAR_ALLGEM_WKZDM, ENDPAR).toDouble()/2);
+                strecke s;
                 punkt3d mipu;
                 mipu.set_x(bo_orgi.mitte().x());
                 mipu.set_y(bo_orgi.mitte().y());
-                s1.set_start(mipu);
-                s3.set_start(mipu);
-                s1.set_ende(bo_orgi.start());
-                s3.set_ende(bo_orgi.ende());
-                s2.set_start(bo_orgi.start());
-                s2.set_ende(bo_orgi.ende());
-                s2.drenen_um_mittelpunkt_2d(90, true);
-                s2.set_start(mipu);
-
+                s.set_start(bo_orgi.start());
+                s.set_ende(bo_orgi.ende());
+                s.drenen_um_mittelpunkt_2d(90, true);
+                s.set_start(mipu);
                 double laenge = 0;
                 QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
                 if(kor == "0")//mitte == keine
@@ -3464,53 +3689,21 @@ void programmtext::aktualisiere_geo()
                 }else if(kor == "1")//links
                 {
                    laenge = text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble();
-                   if(  (spiegeln_xbed == true && spiegeln_ybed == true)  ||  (spiegeln_xbed == false && spiegeln_ybed == false)  )
-                   {
-                       laenge = laenge - k1.radius();
-                   }else
-                   {
-                       laenge = laenge + k1.radius();
-                   }
-
+                   laenge = laenge - k.radius();
                 }else if(kor == "2")//rechts
                 {
                     laenge = text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble();
-                    if(  (spiegeln_xbed == true && spiegeln_ybed == true)  ||  (spiegeln_xbed == false && spiegeln_ybed == false)  )
-                    {
-                        laenge = laenge + k1.radius();
-                    }else
-                    {
-                        laenge = laenge - k1.radius();
-                    }
+                    laenge = laenge + k.radius();
                 }
-                s1.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                s2.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                s3.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                k1.set_mittelpunkt(s1.endp());
-                k2.set_mittelpunkt(s2.endp());
-                k3.set_mittelpunkt(s3.endp());
-                k1 = spiegeln_kreis(k1, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                k2 = spiegeln_kreis(k2, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                k3 = spiegeln_kreis(k3, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
-                k1 = lageaendern_kreis(k1, lageaendern_afb,\
-                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                k2 = lageaendern_kreis(k2, lageaendern_afb,\
-                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                k3 = lageaendern_kreis(k3, lageaendern_afb,\
-                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
-                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
-                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
-                                       lageaendern_wi_alt, lageaendern_geswi_alt);
-                fraeserdarst.add_kreis(k1);
-                fraeserdarst.add_kreis(k2);
-                fraeserdarst.add_kreis(k3);
-
+                s.set_laenge_2d(laenge, strecke_bezugspunkt_start);
+                k.set_mittelpunkt(s.endp());
+                k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                k = lageaendern_kreis(k, lageaendern_afb,\
+                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                fraeserdarst.add_kreis(k);
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
             }else
