@@ -1712,58 +1712,58 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(PKOPF_KOM1))
+                if(zeile.contains(PKOPF_KOM1)  && zeile.indexOf(PKOPF_KOM1)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_KOM1, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_KOM2))
+                }else if (zeile.contains(PKOPF_KOM2)  && zeile.indexOf(PKOPF_KOM2)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_KOM2, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_L))
+                }else if (zeile.contains(PKOPF_L)  && zeile.indexOf(PKOPF_L)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_L, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_B))
+                }else if (zeile.contains(PKOPF_B)  && zeile.indexOf(PKOPF_B)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_B, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_D))
+                }else if (zeile.contains(PKOPF_D)  && zeile.indexOf(PKOPF_D)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_D, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_FUENFSEI))
+                }else if (zeile.contains(PKOPF_FUENFSEI)  && zeile.indexOf(PKOPF_FUENFSEI)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_FUENFSEI, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_SPEIGELN))
+                }else if (zeile.contains(PKOPF_SPEIGELN)  && zeile.indexOf(PKOPF_SPEIGELN)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_SPEIGELN, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_BELEGART))
+                }else if (zeile.contains(PKOPF_BELEGART)  && zeile.indexOf(PKOPF_BELEGART)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_BELEGART, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_XVERS))
+                }else if (zeile.contains(PKOPF_XVERS)  && zeile.indexOf(PKOPF_XVERS)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_XVERS, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_YVERS))
+                }else if (zeile.contains(PKOPF_YVERS)  && zeile.indexOf(PKOPF_YVERS)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_YVERS, prgzeile, zeile);
-                }else if (zeile.contains(PKOFP_RTL))
+                }else if (zeile.contains(PKOFP_RTL)  && zeile.indexOf(PKOFP_RTL)==0  )
                 {
                     prgzeile = replaceparam(PKOFP_RTL, prgzeile, zeile);
-                }else if (zeile.contains(PKOFP_RTB))
+                }else if (zeile.contains(PKOFP_RTB)  && zeile.indexOf(PKOFP_RTB)==0  )
                 {
                     prgzeile = replaceparam(PKOFP_RTB, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_LOESEN))
+                }else if (zeile.contains(PKOPF_LOESEN)  && zeile.indexOf(PKOPF_LOESEN)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_LOESEN, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_SCHABH))
+                }else if (zeile.contains(PKOPF_SCHABH)  && zeile.indexOf(PKOPF_SCHABH)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_SCHABH, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_SIABST))
+                }else if (zeile.contains(PKOPF_SIABST)  && zeile.indexOf(PKOPF_SIABST)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_SIABST, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_PAPO))
+                }else if (zeile.contains(PKOPF_PAPO)  && zeile.indexOf(PKOPF_PAPO)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_PAPO, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_BEZ))
+                }else if (zeile.contains(PKOPF_BEZ)  && zeile.indexOf(PKOPF_BEZ)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(PKOPF_AFB))
+                }else if (zeile.contains(PKOPF_AFB)  && zeile.indexOf(PKOPF_AFB)==0  )
                 {
                     prgzeile = replaceparam(PKOPF_AFB, prgzeile, zeile);
                 }else if (zeile.contains(PKOPF_AUSGEBL))
@@ -1788,13 +1788,13 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(PENDE_PAPO))
+                if(zeile.contains(PENDE_PAPO)  && zeile.indexOf(PENDE_PAPO)==0  )
                 {
                     prgzeile = replaceparam(PENDE_PAPO, prgzeile, zeile);
-                }else if (zeile.contains(PENDE_BEZ))
+                }else if (zeile.contains(PENDE_BEZ)  && zeile.indexOf(PENDE_BEZ)==0  )
                 {
                     prgzeile = replaceparam(PENDE_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(PENDE_AFB))
+                }else if (zeile.contains(PENDE_AFB)  && zeile.indexOf(PENDE_AFB)==0  )
                 {
                    prgzeile = replaceparam(PENDE_AFB, prgzeile, zeile);
                 }else if (zeile.contains(PENDE_AUSGEBL))
@@ -1844,16 +1844,16 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(HALT_X))
+                if(zeile.contains(HALT_X)  && zeile.indexOf(HALT_X)==0  )
                 {
                     prgzeile = replaceparam(HALT_X, prgzeile, zeile);
-                }else if(zeile.contains(HALT_Y))
+                }else if(zeile.contains(HALT_Y)  && zeile.indexOf(HALT_Y)==0  )
                 {
                     prgzeile = replaceparam(HALT_Y, prgzeile, zeile);
-                }else if (zeile.contains(HALT_BEZ))
+                }else if (zeile.contains(HALT_BEZ)  && zeile.indexOf(HALT_BEZ)==0  )
                 {
                     prgzeile = replaceparam(HALT_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(HALT_AFB))
+                }else if (zeile.contains(HALT_AFB)  && zeile.indexOf(HALT_AFB)==0  )
                 {
                    prgzeile = replaceparam(HALT_AFB, prgzeile, zeile);
                 }else if (zeile.contains(HALT_AUSGEBL))
@@ -1878,52 +1878,52 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(BO_X))
+                if(zeile.contains(BO_X)  && zeile.indexOf(BO_X)==0  )
                 {
                     prgzeile = replaceparam(BO_X, prgzeile, zeile);
-                }else if(zeile.contains(BO_Y))
+                }else if(zeile.contains(BO_Y)  && zeile.indexOf(BO_Y)==0  )
                 {
                     prgzeile = replaceparam(BO_Y, prgzeile, zeile);
-                }else if(zeile.contains(BO_BOTI))
+                }else if(zeile.contains(BO_BOTI)  && zeile.indexOf(BO_BOTI)==0  )
                 {
                     prgzeile = replaceparam(BO_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(BO_DM))
+                }else if(zeile.contains(BO_DM)  && zeile.indexOf(BO_DM)==0  )
                 {
                     prgzeile = replaceparam(BO_DM, prgzeile, zeile);
-                }else if(zeile.contains(BO_GRUPPE))
+                }else if(zeile.contains(BO_GRUPPE)  && zeile.indexOf(BO_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(BO_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(BO_ANBOTI))
+                }else if(zeile.contains(BO_ANBOTI)  && zeile.indexOf(BO_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(BO_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(BO_ANBOVO))
+                }else if(zeile.contains(BO_ANBOVO)  && zeile.indexOf(BO_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(BO_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(BO_REBOMA))
+                }else if(zeile.contains(BO_REBOMA)  && zeile.indexOf(BO_REBOMA)==0  )
                 {
                     prgzeile = replaceparam(BO_REBOMA, prgzeile, zeile);
-                }else if(zeile.contains(BO_BOVO))
+                }else if(zeile.contains(BO_BOVO)  && zeile.indexOf(BO_BOVO)==0  )
                 {
                     prgzeile = replaceparam(BO_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(BO_ZSM))
+                }else if(zeile.contains(BO_ZSM)  && zeile.indexOf(BO_ZSM)==0  )
                 {
                     prgzeile = replaceparam(BO_ZSM, prgzeile, zeile);
-                }else if(zeile.contains(BO_DREHZ))
+                }else if(zeile.contains(BO_DREHZ)  && zeile.indexOf(BO_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(BO_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(BO_MESSEI))
+                }else if(zeile.contains(BO_MESSEI)  && zeile.indexOf(BO_MESSEI)==0  )
                 {
                     prgzeile = replaceparam(BO_MESSEI, prgzeile, zeile);
-                }else if(zeile.contains(BO_TASATZ))
+                }else if(zeile.contains(BO_TASATZ)  && zeile.indexOf(BO_TASATZ)==0  )
                 {
                     prgzeile = replaceparam(BO_TASATZ, prgzeile, zeile);
-                }else if(zeile.contains(BO_PLM))
+                }else if(zeile.contains(BO_PLM)  && zeile.indexOf(BO_PLM)==0  )
                 {
                     prgzeile = replaceparam(BO_PLM, prgzeile, zeile);
-                }else if (zeile.contains(BO_BEZ))
+                }else if (zeile.contains(BO_BEZ)  && zeile.indexOf(BO_BEZ)==0  )
                 {
                     prgzeile = replaceparam(BO_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(BO_AFB))
+                }else if (zeile.contains(BO_AFB)  && zeile.indexOf(BO_AFB)==0  )
                 {
                    prgzeile = replaceparam(BO_AFB, prgzeile, zeile);
                 }else if (zeile.contains(BO_AUSGEBL))
@@ -1948,73 +1948,73 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(BOY_X))
+                if(zeile.contains(BOY_X)  && zeile.indexOf(BOY_X)==0  )
                 {
                     prgzeile = replaceparam(BOY_X, prgzeile, zeile);
-                }else if(zeile.contains(BOY_X2))
+                }else if(zeile.contains(BOY_X2)  && zeile.indexOf(BOY_X2)==0  )
                 {
                     prgzeile = replaceparam(BOY_X2, prgzeile, zeile);
-                }else if(zeile.contains(BOY_Y1))
+                }else if(zeile.contains(BOY_Y1)  && zeile.indexOf(BOY_Y1)==0  )
                 {
                     prgzeile = replaceparam(BOY_Y1, prgzeile, zeile);
-                }else if(zeile.contains(BOY_Y2))
+                }else if(zeile.contains(BOY_Y2)  && zeile.indexOf(BOY_Y2)==0  )
                 {
                     prgzeile = replaceparam(BOY_Y2, prgzeile, zeile);
-                }else if(zeile.contains(BOY_Y3))
+                }else if(zeile.contains(BOY_Y3)  && zeile.indexOf(BOY_Y3)==0  )
                 {
                     prgzeile = replaceparam(BOY_Y3, prgzeile, zeile);
-                }else if(zeile.contains(BOY_Y4))
+                }else if(zeile.contains(BOY_Y4)  && zeile.indexOf(BOY_Y4)==0  )
                 {
                     prgzeile = replaceparam(BOY_Y4, prgzeile, zeile);
-                }else if(zeile.contains(BOY_Y5))
+                }else if(zeile.contains(BOY_Y5)  && zeile.indexOf(BOY_Y5)==0  )
                 {
                     prgzeile = replaceparam(BOY_Y5, prgzeile, zeile);
-                }else if(zeile.contains(BOY_Y6))
+                }else if(zeile.contains(BOY_Y6)  && zeile.indexOf(BOY_Y6)==0  )
                 {
                     prgzeile = replaceparam(BOY_Y6, prgzeile, zeile);
-                }else if(zeile.contains(BOY_BOTI))
+                }else if(zeile.contains(BOY_BOTI)  && zeile.indexOf(BOY_BOTI)==0  )
                 {
                     prgzeile = replaceparam(BOY_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(BOY_DM))
+                }else if(zeile.contains(BOY_DM)  && zeile.indexOf(BOY_DM)==0  )
                 {
                     prgzeile = replaceparam(BOY_DM, prgzeile, zeile);
-                }else if(zeile.contains(BOY_KETTE))
+                }else if(zeile.contains(BOY_KETTE)  && zeile.indexOf(BOY_KETTE)==0  )
                 {
                     prgzeile = replaceparam(BOY_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(BOY_GRUPPE))
+                }else if(zeile.contains(BOY_GRUPPE)  && zeile.indexOf(BOY_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(BOY_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(BOY_ANBOTI))
+                }else if(zeile.contains(BOY_ANBOTI)  && zeile.indexOf(BOY_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(BOY_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(BOY_ANBOVO))
+                }else if(zeile.contains(BOY_ANBOVO)  && zeile.indexOf(BOY_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(BOY_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(BOY_REBOMA))
+                }else if(zeile.contains(BOY_REBOMA)  && zeile.indexOf(BOY_REBOMA)==0  )
                 {
                     prgzeile = replaceparam(BOY_REBOMA, prgzeile, zeile);
-                }else if(zeile.contains(BOY_BOVO))
+                }else if(zeile.contains(BOY_BOVO)  && zeile.indexOf(BOY_BOVO)==0  )
                 {
                     prgzeile = replaceparam(BOY_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(BOY_ZSM))
+                }else if(zeile.contains(BOY_ZSM)  && zeile.indexOf(BOY_ZSM)==0  )
                 {
                     prgzeile = replaceparam(BOY_ZSM, prgzeile, zeile);
-                }else if(zeile.contains(BOY_DREHZ))
+                }else if(zeile.contains(BOY_DREHZ)  && zeile.indexOf(BOY_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(BOY_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(BOY_MESSEI))
+                }else if(zeile.contains(BOY_MESSEI)  && zeile.indexOf(BOY_MESSEI)==0  )
                 {
                     prgzeile = replaceparam(BOY_MESSEI, prgzeile, zeile);
-                }else if(zeile.contains(BOY_TASATZ))
+                }else if(zeile.contains(BOY_TASATZ)  && zeile.indexOf(BOY_TASATZ)==0  )
                 {
                     prgzeile = replaceparam(BOY_TASATZ, prgzeile, zeile);
-                }else if(zeile.contains(BOY_PLM))
+                }else if(zeile.contains(BOY_PLM)  && zeile.indexOf(BOY_PLM)==0  )
                 {
                     prgzeile = replaceparam(BOY_PLM, prgzeile, zeile);
-                }else if (zeile.contains(BOY_BEZ))
+                }else if (zeile.contains(BOY_BEZ)  && zeile.indexOf(BOY_BEZ)==0  )
                 {
                     prgzeile = replaceparam(BOY_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(BOY_AFB))
+                }else if (zeile.contains(BOY_AFB)  && zeile.indexOf(BOY_AFB)==0  )
                 {
                    prgzeile = replaceparam(BOY_AFB, prgzeile, zeile);
                 }else if (zeile.contains(BOY_AUSGEBL))
@@ -2039,73 +2039,73 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(BOX_Y))
+                if(zeile.contains(BOX_Y)  && zeile.indexOf(BOX_Y)==0  )
                 {
                     prgzeile = replaceparam(BOX_Y, prgzeile, zeile);
-                }else if(zeile.contains(BOX_Y2))
+                }else if(zeile.contains(BOX_Y2)  && zeile.indexOf(BOX_Y2)==0  )
                 {
                     prgzeile = replaceparam(BOX_Y2, prgzeile, zeile);
-                }else if(zeile.contains(BOX_X1))
+                }else if(zeile.contains(BOX_X1)  && zeile.indexOf(BOX_X1)==0  )
                 {
                     prgzeile = replaceparam(BOX_X1, prgzeile, zeile);
-                }else if(zeile.contains(BOX_X2))
+                }else if(zeile.contains(BOX_X2)  && zeile.indexOf(BOX_X2)==0  )
                 {
                     prgzeile = replaceparam(BOX_X2, prgzeile, zeile);
-                }else if(zeile.contains(BOX_X3))
+                }else if(zeile.contains(BOX_X3)  && zeile.indexOf(BOX_X3)==0  )
                 {
                     prgzeile = replaceparam(BOX_X3, prgzeile, zeile);
-                }else if(zeile.contains(BOX_X4))
+                }else if(zeile.contains(BOX_X4)  && zeile.indexOf(BOX_X4)==0  )
                 {
                     prgzeile = replaceparam(BOX_X4, prgzeile, zeile);
-                }else if(zeile.contains(BOX_X5))
+                }else if(zeile.contains(BOX_X5)  && zeile.indexOf(BOX_X5)==0  )
                 {
                     prgzeile = replaceparam(BOX_X5, prgzeile, zeile);
-                }else if(zeile.contains(BOX_X6))
+                }else if(zeile.contains(BOX_X6)  && zeile.indexOf(BOX_X6)==0  )
                 {
                     prgzeile = replaceparam(BOX_X6, prgzeile, zeile);
-                }else if(zeile.contains(BOX_BOTI))
+                }else if(zeile.contains(BOX_BOTI)  && zeile.indexOf(BOX_BOTI)==0  )
                 {
                     prgzeile = replaceparam(BOX_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(BOX_DM))
+                }else if(zeile.contains(BOX_DM)  && zeile.indexOf(BOX_DM)==0  )
                 {
                     prgzeile = replaceparam(BOX_DM, prgzeile, zeile);
-                }else if(zeile.contains(BOX_KETTE))
+                }else if(zeile.contains(BOX_KETTE)  && zeile.indexOf(BOX_KETTE)==0  )
                 {
                     prgzeile = replaceparam(BOX_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(BOX_GRUPPE))
+                }else if(zeile.contains(BOX_GRUPPE)  && zeile.indexOf(BOX_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(BOX_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(BOX_ANBOTI))
+                }else if(zeile.contains(BOX_ANBOTI)  && zeile.indexOf(BOX_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(BOX_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(BOX_ANBOVO))
+                }else if(zeile.contains(BOX_ANBOVO)  && zeile.indexOf(BOX_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(BOX_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(BOX_REBOMA))
+                }else if(zeile.contains(BOX_REBOMA)  && zeile.indexOf(BOX_REBOMA)==0  )
                 {
                     prgzeile = replaceparam(BOX_REBOMA, prgzeile, zeile);
-                }else if(zeile.contains(BOX_BOVO))
+                }else if(zeile.contains(BOX_BOVO)  && zeile.indexOf(BOX_BOVO)==0  )
                 {
                     prgzeile = replaceparam(BOX_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(BOX_ZSM))
+                }else if(zeile.contains(BOX_ZSM)  && zeile.indexOf(BOX_ZSM)==0  )
                 {
                     prgzeile = replaceparam(BOX_ZSM, prgzeile, zeile);
-                }else if(zeile.contains(BOX_DREHZ))
+                }else if(zeile.contains(BOX_DREHZ)  && zeile.indexOf(BOX_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(BOX_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(BOX_MESSEI))
+                }else if(zeile.contains(BOX_MESSEI)  && zeile.indexOf(BOX_MESSEI)==0  )
                 {
                     prgzeile = replaceparam(BOX_MESSEI, prgzeile, zeile);
-                }else if(zeile.contains(BOX_TASATZ))
+                }else if(zeile.contains(BOX_TASATZ)  && zeile.indexOf(BOX_TASATZ)==0  )
                 {
                     prgzeile = replaceparam(BOX_TASATZ, prgzeile, zeile);
-                }else if(zeile.contains(BOX_PLM))
+                }else if(zeile.contains(BOX_PLM)  && zeile.indexOf(BOX_PLM)==0  )
                 {
                     prgzeile = replaceparam(BOX_PLM, prgzeile, zeile);
-                }else if (zeile.contains(BOX_BEZ))
+                }else if (zeile.contains(BOX_BEZ)  && zeile.indexOf(BOX_BEZ)==0  )
                 {
                     prgzeile = replaceparam(BOX_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(BOX_AFB))
+                }else if (zeile.contains(BOX_AFB)  && zeile.indexOf(BOX_AFB)==0  )
                 {
                    prgzeile = replaceparam(BOX_AFB, prgzeile, zeile);
                 }else if (zeile.contains(BOX_AUSGEBL))
@@ -2130,67 +2130,67 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(LOREIAE_XS))
+                if(zeile.contains(LOREIAE_XS)  && zeile.indexOf(LOREIAE_XS)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_XS, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_XE))
+                }else if(zeile.contains(LOREIAE_XE  && zeile.indexOf(LOREIAE_XE)==0  ))
                 {
                     prgzeile = replaceparam(LOREIAE_XE, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_Y1))
+                }else if(zeile.contains(LOREIAE_Y1)  && zeile.indexOf(LOREIAE_Y1)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_Y1, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_Y2))
+                }else if(zeile.contains(LOREIAE_Y2)  && zeile.indexOf(LOREIAE_Y2)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_Y2, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_YE))
+                }else if(zeile.contains(LOREIAE_YE)  && zeile.indexOf(LOREIAE_YE)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_YE, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_RASTER))
+                }else if(zeile.contains(LOREIAE_RASTER)  && zeile.indexOf(LOREIAE_RASTER)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_RASTER, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_BOTI))
+                }else if(zeile.contains(LOREIAE_BOTI)  && zeile.indexOf(LOREIAE_BOTI)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_DM))
+                }else if(zeile.contains(LOREIAE_DM)  && zeile.indexOf(LOREIAE_DM)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_DM, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_GRUPPE))
+                }else if(zeile.contains(LOREIAE_GRUPPE)  && zeile.indexOf(LOREIAE_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_VERMIT))
+                }else if(zeile.contains(LOREIAE_VERMIT)  && zeile.indexOf(LOREIAE_VERMIT)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_VERMIT, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_ANBOTI))
+                }else if(zeile.contains(LOREIAE_ANBOTI)  && zeile.indexOf(LOREIAE_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_ANBOVO))
+                }else if(zeile.contains(LOREIAE_ANBOVO)  && zeile.indexOf(LOREIAE_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_REBOMA))
+                }else if(zeile.contains(LOREIAE_REBOMA)  && zeile.indexOf(LOREIAE_REBOMA)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_REBOMA, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_BOVO))
+                }else if(zeile.contains(LOREIAE_BOVO)  && zeile.indexOf(LOREIAE_BOVO)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_ZSM))
+                }else if(zeile.contains(LOREIAE_ZSM)  && zeile.indexOf(LOREIAE_ZSM)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_ZSM, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_DREHZ))
+                }else if(zeile.contains(LOREIAE_DREHZ)  && zeile.indexOf(LOREIAE_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_MESSEI))
+                }else if(zeile.contains(LOREIAE_MESSEI)  && zeile.indexOf(LOREIAE_MESSEI)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_MESSEI, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_TASATZ))
+                }else if(zeile.contains(LOREIAE_TASATZ)  && zeile.indexOf(LOREIAE_TASATZ)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_TASATZ, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_PLM))
+                }else if(zeile.contains(LOREIAE_PLM)  && zeile.indexOf(LOREIAE_PLM)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_PLM, prgzeile, zeile);
-                }else if (zeile.contains(LOREIAE_BEZ))
+                }else if (zeile.contains(LOREIAE_BEZ)  && zeile.indexOf(LOREIAE_BEZ)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(LOREIAE_AFB))
+                }else if (zeile.contains(LOREIAE_AFB)  && zeile.indexOf(LOREIAE_AFB)==0  )
                 {
                    prgzeile = replaceparam(LOREIAE_AFB, prgzeile, zeile);
                 }else if (zeile.contains(LOREIAE_AUSGEBL))
@@ -2215,61 +2215,61 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(LOREIMA_XS))
+                if(zeile.contains(LOREIMA_XS)  && zeile.indexOf(LOREIMA_XS)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_XS, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_XM))
+                }else if(zeile.contains(LOREIMA_XM)  && zeile.indexOf(LOREIMA_XM)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_XM, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_Y1))
+                }else if(zeile.contains(LOREIMA_Y1)  && zeile.indexOf(LOREIMA_Y1)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_Y1, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_Y2))
+                }else if(zeile.contains(LOREIMA_Y2)  && zeile.indexOf(LOREIMA_Y2)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_Y2, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_RASTER))
+                }else if(zeile.contains(LOREIMA_RASTER)  && zeile.indexOf(LOREIMA_RASTER)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_RASTER, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_BOTI))
+                }else if(zeile.contains(LOREIMA_BOTI)  && zeile.indexOf(LOREIMA_BOTI)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_DM))
+                }else if(zeile.contains(LOREIMA_DM)  && zeile.indexOf(LOREIMA_DM)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_DM, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_GRUPPE))
+                }else if(zeile.contains(LOREIMA_GRUPPE)  && zeile.indexOf(LOREIMA_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_ANBOTI))
+                }else if(zeile.contains(LOREIMA_ANBOTI)  && zeile.indexOf(LOREIMA_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_ANBOVO))
+                }else if(zeile.contains(LOREIMA_ANBOVO)  && zeile.indexOf(LOREIMA_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_REBOMA))
+                }else if(zeile.contains(LOREIMA_REBOMA)  && zeile.indexOf(LOREIMA_REBOMA)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_REBOMA, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_BOVO))
+                }else if(zeile.contains(LOREIMA_BOVO)  && zeile.indexOf(LOREIMA_BOVO)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_ZSM))
+                }else if(zeile.contains(LOREIMA_ZSM)  && zeile.indexOf(LOREIMA_ZSM)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_ZSM, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_DREHZ))
+                }else if(zeile.contains(LOREIMA_DREHZ)  && zeile.indexOf(LOREIMA_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_MESSEI))
+                }else if(zeile.contains(LOREIMA_MESSEI)  && zeile.indexOf(LOREIMA_MESSEI)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_MESSEI, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_TASATZ))
+                }else if(zeile.contains(LOREIMA_TASATZ)  && zeile.indexOf(LOREIMA_TASATZ)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_TASATZ, prgzeile, zeile);
-                }else if(zeile.contains(LOREIMA_PLM))
+                }else if(zeile.contains(LOREIMA_PLM)  && zeile.indexOf(LOREIMA_PLM)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_PLM, prgzeile, zeile);
-                }else if (zeile.contains(LOREIMA_BEZ))
+                }else if (zeile.contains(LOREIMA_BEZ)  && zeile.indexOf(LOREIMA_BEZ)==0  )
                 {
                     prgzeile = replaceparam(LOREIMA_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(LOREIMA_AFB))
+                }else if (zeile.contains(LOREIMA_AFB)  && zeile.indexOf(LOREIMA_AFB)==0  )
                 {
                    prgzeile = replaceparam(LOREIMA_AFB, prgzeile, zeile);
                 }else if (zeile.contains(LOREIMA_AUSGEBL))
@@ -2294,88 +2294,88 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(TOPF_TA))
+                if(zeile.contains(TOPF_TA)  && zeile.indexOf(TOPF_TA)==0  )
                 {
                     prgzeile = replaceparam(TOPF_TA, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_A1))
+                }else if(zeile.contains(TOPF_A1)  && zeile.indexOf(TOPF_A1)==0  )
                 {
                     prgzeile = replaceparam(TOPF_A1, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_A2))
+                }else if(zeile.contains(TOPF_A2)  && zeile.indexOf(TOPF_A2)==0  )
                 {
                     prgzeile = replaceparam(TOPF_A2, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_A3))
+                }else if(zeile.contains(TOPF_A3)  && zeile.indexOf(TOPF_A3)==0  )
                 {
                     prgzeile = replaceparam(TOPF_A3, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_A4))
+                }else if(zeile.contains(TOPF_A4)  && zeile.indexOf(TOPF_A4)==0  )
                 {
                     prgzeile = replaceparam(TOPF_A4, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_A5))
+                }else if(zeile.contains(TOPF_A5)  && zeile.indexOf(TOPF_A5)==0  )
                 {
                     prgzeile = replaceparam(TOPF_A5, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_MA))
+                }else if(zeile.contains(TOPF_MA)  && zeile.indexOf(TOPF_A5)==0  )
                 {
                     prgzeile = replaceparam(TOPF_MA, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_MB))
+                }else if(zeile.contains(TOPF_MB)  && zeile.indexOf(TOPF_MB)==0  )
                 {
                     prgzeile = replaceparam(TOPF_MB, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_KETTE))
+                }else if(zeile.contains(TOPF_KETTE)  && zeile.indexOf(TOPF_KETTE)==0  )
                 {
                     prgzeile = replaceparam(TOPF_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_GRUPPE))
+                }else if(zeile.contains(TOPF_GRUPPE)  && zeile.indexOf(TOPF_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(TOPF_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_SEITE))
+                }else if(zeile.contains(TOPF_SEITE)  && zeile.indexOf(TOPF_SEITE)==0  )
                 {
                     prgzeile = replaceparam(TOPF_SEITE, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_MESSEI))
+                }else if(zeile.contains(TOPF_MESSEI)  && zeile.indexOf(TOPF_MESSEI)==0  )
                 {
                     prgzeile = replaceparam(TOPF_MESSEI, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_BODM))
+                }else if(zeile.contains(TOPF_BODM)  && zeile.indexOf(TOPF_BODM)==0  )
                 {
                     prgzeile = replaceparam(TOPF_BODM, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_TODM))
+                }else if(zeile.contains(TOPF_TODM)  && zeile.indexOf(TOPF_TODM)==0  )
                 {
                     prgzeile = replaceparam(TOPF_TODM, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_BOTI))
+                }else if(zeile.contains(TOPF_BOTI)  && zeile.indexOf(TOPF_BOTI)==0  )
                 {
                     prgzeile = replaceparam(TOPF_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_WKZ))
+                }else if(zeile.contains(TOPF_WKZ)  && zeile.indexOf(TOPF_WKZ)==0  )
                 {
                     prgzeile = replaceparam(TOPF_WKZ, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_TOTI))
+                }else if(zeile.contains(TOPF_TOTI)  && zeile.indexOf(TOPF_TOTI)==0  )
                 {
                     prgzeile = replaceparam(TOPF_TOTI, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_ANBOTI))
+                }else if(zeile.contains(TOPF_ANBOTI)  && zeile.indexOf(TOPF_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(TOPF_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_BOANBOVO))
+                }else if(zeile.contains(TOPF_BOANBOVO)  && zeile.indexOf(TOPF_BOANBOVO)==0  )
                 {
                     prgzeile = replaceparam(TOPF_BOANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_TOANBOVO))
+                }else if(zeile.contains(TOPF_TOANBOVO)  && zeile.indexOf(TOPF_TOANBOVO)==0  )
                 {
                     prgzeile = replaceparam(TOPF_TOANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_REBOMA))
+                }else if(zeile.contains(TOPF_REBOMA)  && zeile.indexOf(TOPF_REBOMA)==0  )
                 {
                     prgzeile = replaceparam(TOPF_REBOMA, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_BOBOVO))
+                }else if(zeile.contains(TOPF_BOBOVO)  && zeile.indexOf(TOPF_BOBOVO)==0  )
                 {
                     prgzeile = replaceparam(TOPF_BOBOVO, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_TOBOVO))
+                }else if(zeile.contains(TOPF_TOBOVO)  && zeile.indexOf(TOPF_TOBOVO)==0  )
                 {
                     prgzeile = replaceparam(TOPF_TOBOVO, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_BOZSM))
+                }else if(zeile.contains(TOPF_BOZSM)  && zeile.indexOf(TOPF_BOZSM)==0  )
                 {
                     prgzeile = replaceparam(TOPF_BOZSM, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_DREHZ))
+                }else if(zeile.contains(TOPF_DREHZ)  && zeile.indexOf(TOPF_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(TOPF_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_PLM))
+                }else if(zeile.contains(TOPF_PLM)  && zeile.indexOf(TOPF_PLM)==0  )
                 {
                     prgzeile = replaceparam(TOPF_PLM, prgzeile, zeile);
-                }else if (zeile.contains(TOPF_BEZ))
+                }else if (zeile.contains(TOPF_BEZ)  && zeile.indexOf(TOPF_BEZ)==0  )
                 {
                     prgzeile = replaceparam(TOPF_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(TOPF_AFB))
+                }else if (zeile.contains(TOPF_AFB)  && zeile.indexOf(TOPF_AFB)==0  )
                 {
                    prgzeile = replaceparam(TOPF_AFB, prgzeile, zeile);
                 }else if (zeile.contains(TOPF_AUSGEBL))
@@ -2400,61 +2400,61 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(HBEXP_Y1))
+                if(zeile.contains(HBEXP_Y1)  && zeile.indexOf(HBEXP_Y1)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Y1, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_Y2))
+                }else if(zeile.contains(HBEXP_Y2)  && zeile.indexOf(HBEXP_Y2)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Y2, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_Y3))
+                }else if(zeile.contains(HBEXP_Y3)  && zeile.indexOf(HBEXP_Y3)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Y3, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_Y4))
+                }else if(zeile.contains(HBEXP_Y4)  && zeile.indexOf(HBEXP_Y4)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Y4, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_Y5))
+                }else if(zeile.contains(HBEXP_Y5)  && zeile.indexOf(HBEXP_Y5)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Y5, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_Y6))
+                }else if(zeile.contains(HBEXP_Y6)  && zeile.indexOf(HBEXP_Y6)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Y6, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_BOTI))
+                }else if(zeile.contains(HBEXP_BOTI)  && zeile.indexOf(HBEXP_BOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_Z))
+                }else if(zeile.contains(HBEXP_Z)  && zeile.indexOf(HBEXP_Z)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_Z, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_DM))
+                }else if(zeile.contains(HBEXP_DM)  && zeile.indexOf(HBEXP_DM)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_DM, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_KETTE))
+                }else if(zeile.contains(HBEXP_KETTE)  && zeile.indexOf(HBEXP_KETTE)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_GRUPPE))
+                }else if(zeile.contains(HBEXP_GRUPPE)  && zeile.indexOf(HBEXP_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_X2))
+                }else if(zeile.contains(HBEXP_X2)  && zeile.indexOf(HBEXP_X2)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_X2, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_X1))
+                }else if(zeile.contains(HBEXP_X1)  && zeile.indexOf(HBEXP_X1)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_X1, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_ANBOTI))
+                }else if(zeile.contains(HBEXP_ANBOTI)  && zeile.indexOf(HBEXP_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_ANBOVO))
+                }else if(zeile.contains(HBEXP_ANBOVO)  && zeile.indexOf(HBEXP_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_BOVO))
+                }else if(zeile.contains(HBEXP_BOVO)  && zeile.indexOf(HBEXP_BOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEXP_DREHZ))
+                }else if(zeile.contains(HBEXP_DREHZ)  && zeile.indexOf(HBEXP_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_DREHZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEXP_BEZ))
+                }else if (zeile.contains(HBEXP_BEZ)  && zeile.indexOf(HBEXP_BEZ)==0  )
                 {
                     prgzeile = replaceparam(HBEXP_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEXP_AFB))
+                }else if (zeile.contains(HBEXP_AFB)  && zeile.indexOf(HBEXP_AFB)==0  )
                 {
                    prgzeile = replaceparam(HBEXP_AFB, prgzeile, zeile);
                 }else if (zeile.contains(HBEXP_AUSGEBL))
@@ -2479,61 +2479,61 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(HBEXM_Y1))
+                if(zeile.contains(HBEXM_Y1)  && zeile.indexOf(HBEXM_Y1)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Y1, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_Y2))
+                }else if(zeile.contains(HBEXM_Y2)  && zeile.indexOf(HBEXM_Y2)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Y2, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_Y3))
+                }else if(zeile.contains(HBEXM_Y3)  && zeile.indexOf(HBEXM_Y3)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Y3, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_Y4))
+                }else if(zeile.contains(HBEXM_Y4)  && zeile.indexOf(HBEXM_Y4)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Y4, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_Y5))
+                }else if(zeile.contains(HBEXM_Y5)  && zeile.indexOf(HBEXM_Y5)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Y5, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_Y6))
+                }else if(zeile.contains(HBEXM_Y6)  && zeile.indexOf(HBEXM_Y6)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Y6, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_BOTI))
+                }else if(zeile.contains(HBEXM_BOTI)  && zeile.indexOf(HBEXM_BOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_Z))
+                }else if(zeile.contains(HBEXM_Z)  && zeile.indexOf(HBEXM_Z)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_Z, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_DM))
+                }else if(zeile.contains(HBEXM_DM)  && zeile.indexOf(HBEXM_DM)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_DM, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_KETTE))
+                }else if(zeile.contains(HBEXM_KETTE)  && zeile.indexOf(HBEXM_KETTE)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_GRUPPE))
+                }else if(zeile.contains(HBEXM_GRUPPE)  && zeile.indexOf(HBEXM_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_X2))
+                }else if(zeile.contains(HBEXM_X2)  && zeile.indexOf(HBEXM_X2)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_X2, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_X1))
+                }else if(zeile.contains(HBEXM_X1)  && zeile.indexOf(HBEXM_X1)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_X1, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_ANBOTI))
+                }else if(zeile.contains(HBEXM_ANBOTI)  && zeile.indexOf(HBEXM_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_ANBOVO))
+                }else if(zeile.contains(HBEXM_ANBOVO)  && zeile.indexOf(HBEXM_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_BOVO))
+                }else if(zeile.contains(HBEXM_BOVO)  && zeile.indexOf(HBEXM_BOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEXM_DREHZ))
+                }else if(zeile.contains(HBEXM_DREHZ)  && zeile.indexOf(HBEXM_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_DREHZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEXM_BEZ))
+                }else if (zeile.contains(HBEXM_BEZ)  && zeile.indexOf(HBEXM_BEZ)==0  )
                 {
                     prgzeile = replaceparam(HBEXM_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEXM_AFB))
+                }else if (zeile.contains(HBEXM_AFB)  && zeile.indexOf(HBEXM_AFB)==0  )
                 {
                    prgzeile = replaceparam(HBEXM_AFB, prgzeile, zeile);
                 }else if (zeile.contains(HBEXM_AUSGEBL))
@@ -2558,61 +2558,61 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(HBEYP_X1))
+                if(zeile.contains(HBEYP_X1)  && zeile.indexOf(HBEYP_X1)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_X1, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_X2))
+                }else if(zeile.contains(HBEYP_X2)  && zeile.indexOf(HBEYP_X2)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_X2, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_X3))
+                }else if(zeile.contains(HBEYP_X3)  && zeile.indexOf(HBEYP_X3)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_X3, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_X4))
+                }else if(zeile.contains(HBEYP_X4)  && zeile.indexOf(HBEYP_X4)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_X4, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_X5))
+                }else if(zeile.contains(HBEYP_X5)  && zeile.indexOf(HBEYP_X5)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_X5, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_X6))
+                }else if(zeile.contains(HBEYP_X6)  && zeile.indexOf(HBEYP_X6)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_X6, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_BOTI))
+                }else if(zeile.contains(HBEYP_BOTI)  && zeile.indexOf(HBEYP_BOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_Z))
+                }else if(zeile.contains(HBEYP_Z)  && zeile.indexOf(HBEYP_Z)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_Z, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_DM))
+                }else if(zeile.contains(HBEYP_DM)  && zeile.indexOf(HBEYP_DM)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_DM, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_KETTE))
+                }else if(zeile.contains(HBEYP_KETTE)  && zeile.indexOf(HBEYP_KETTE)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_GRUPPE))
+                }else if(zeile.contains(HBEYP_GRUPPE)  && zeile.indexOf(HBEYP_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_Y2))
+                }else if(zeile.contains(HBEYP_Y2)  && zeile.indexOf(HBEYP_Y2)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_Y2, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_Y1))
+                }else if(zeile.contains(HBEYP_Y1)  && zeile.indexOf(HBEYP_Y1)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_Y1, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_ANBOTI))
+                }else if(zeile.contains(HBEYP_ANBOTI)  && zeile.indexOf(HBEYP_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_ANBOVO))
+                }else if(zeile.contains(HBEYP_ANBOVO)  && zeile.indexOf(HBEYP_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_BOVO))
+                }else if(zeile.contains(HBEYP_BOVO)  && zeile.indexOf(HBEYP_BOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEYP_DREHZ))
+                }else if(zeile.contains(HBEYP_DREHZ)  && zeile.indexOf(HBEYP_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_DREHZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEYP_BEZ))
+                }else if (zeile.contains(HBEYP_BEZ)  && zeile.indexOf(HBEYP_BEZ)==0  )
                 {
                     prgzeile = replaceparam(HBEYP_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEYP_AFB))
+                }else if (zeile.contains(HBEYP_AFB)  && zeile.indexOf(HBEYP_AFB)==0  )
                 {
                    prgzeile = replaceparam(HBEYP_AFB, prgzeile, zeile);
                 }else if (zeile.contains(HBEYP_AUSGEBL))
@@ -2637,61 +2637,61 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(HBEYM_X1))
+                if(zeile.contains(HBEYM_X1)  && zeile.indexOf(HBEYM_X1)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_X1, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_X2))
+                }else if(zeile.contains(HBEYM_X2)  && zeile.indexOf(HBEYM_X2)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_X2, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_X3))
+                }else if(zeile.contains(HBEYM_X3)  && zeile.indexOf(HBEYM_X3)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_X3, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_X4))
+                }else if(zeile.contains(HBEYM_X4)  && zeile.indexOf(HBEYM_X4)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_X4, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_X5))
+                }else if(zeile.contains(HBEYM_X5)  && zeile.indexOf(HBEYM_X5)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_X5, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_X6))
+                }else if(zeile.contains(HBEYM_X6)  && zeile.indexOf(HBEYM_X6)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_X6, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_BOTI))
+                }else if(zeile.contains(HBEYM_BOTI)  && zeile.indexOf(HBEYM_BOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_BOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_Z))
+                }else if(zeile.contains(HBEYM_Z)  && zeile.indexOf(HBEYM_Z)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_Z, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_DM))
+                }else if(zeile.contains(HBEYM_DM)  && zeile.indexOf(HBEYM_DM)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_DM, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_KETTE))
+                }else if(zeile.contains(HBEYM_KETTE)  && zeile.indexOf(HBEYM_KETTE)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_KETTE, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_GRUPPE))
+                }else if(zeile.contains(HBEYM_GRUPPE)  && zeile.indexOf(HBEYM_GRUPPE)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_GRUPPE, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_Y2))
+                }else if(zeile.contains(HBEYM_Y2)  && zeile.indexOf(HBEYM_Y2)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_Y2, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_Y1))
+                }else if(zeile.contains(HBEYM_Y1)  && zeile.indexOf(HBEYM_Y1)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_Y1, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_ANBOTI))
+                }else if(zeile.contains(HBEYM_ANBOTI)  && zeile.indexOf(HBEYM_ANBOTI)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_ANBOTI, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_ANBOVO))
+                }else if(zeile.contains(HBEYM_ANBOVO)  && zeile.indexOf(HBEYM_ANBOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_ANBOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_BOVO))
+                }else if(zeile.contains(HBEYM_BOVO)  && zeile.indexOf(HBEYM_BOVO)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_BOVO, prgzeile, zeile);
-                }else if(zeile.contains(HBEYM_DREHZ))
+                }else if(zeile.contains(HBEYM_DREHZ)  && zeile.indexOf(HBEYM_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_DREHZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEYM_BEZ))
+                }else if (zeile.contains(HBEYM_BEZ)  && zeile.indexOf(HBEYM_BEZ)==0  )
                 {
                     prgzeile = replaceparam(HBEYM_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(HBEYM_AFB))
+                }else if (zeile.contains(HBEYM_AFB)  && zeile.indexOf(HBEYM_AFB)==0  )
                 {
                    prgzeile = replaceparam(HBEYM_AFB, prgzeile, zeile);
                 }else if (zeile.contains(HBEYM_AUSGEBL))
@@ -2716,67 +2716,67 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(NUT_WKZ))
+                if(zeile.contains(NUT_WKZ)  && zeile.indexOf(NUT_WKZ)==0  )
                 {
                     prgzeile = replaceparam(NUT_WKZ, prgzeile, zeile);
-                }else if(zeile.contains(NUT_SX))
+                }else if(zeile.contains(NUT_SX)  && zeile.indexOf(NUT_SX)==0  )
                 {
                     prgzeile = replaceparam(NUT_SX, prgzeile, zeile);
-                }else if(zeile.contains(NUT_SY))
+                }else if(zeile.contains(NUT_SY)  && zeile.indexOf(NUT_SY)==0  )
                 {
                     prgzeile = replaceparam(NUT_SY, prgzeile, zeile);
-                }else if(zeile.contains(NUT_EX))
+                }else if(zeile.contains(NUT_EX)  && zeile.indexOf(NUT_EX)==0  )
                 {
                     prgzeile = replaceparam(NUT_EX, prgzeile, zeile);
-                }else if(zeile.contains(NUT_EY))
+                }else if(zeile.contains(NUT_EY)  && zeile.indexOf(NUT_EY)==0  )
                 {
                     prgzeile = replaceparam(NUT_EY, prgzeile, zeile);
-                }else if(zeile.contains(NUT_TI))
+                }else if(zeile.contains(NUT_TI)  && zeile.indexOf(NUT_TI)==0  )
                 {
                     prgzeile = replaceparam(NUT_TI, prgzeile, zeile);
-                }else if(zeile.contains(NUT_B))
+                }else if(zeile.contains(NUT_B)  && zeile.indexOf(NUT_B)==0  )
                 {
                     prgzeile = replaceparam(NUT_B, prgzeile, zeile);
-                }else if(zeile.contains(NUT_AUSLAUF))
+                }else if(zeile.contains(NUT_AUSLAUF)  && zeile.indexOf(NUT_AUSLAUF)==0  )
                 {
                     prgzeile = replaceparam(NUT_AUSLAUF, prgzeile, zeile);
-                }else if(zeile.contains(NUT_KOR))
+                }else if(zeile.contains(NUT_KOR)  && zeile.indexOf(NUT_KOR)==0  )
                 {
                     prgzeile = replaceparam(NUT_KOR, prgzeile, zeile);
-                }else if(zeile.contains(NUT_GEGENLAUF))
+                }else if(zeile.contains(NUT_GEGENLAUF)  && zeile.indexOf(NUT_GEGENLAUF)==0  )
                 {
                     prgzeile = replaceparam(NUT_GEGENLAUF, prgzeile, zeile);
-                }else if(zeile.contains(NUT_NWI))
+                }else if(zeile.contains(NUT_NWI)  && zeile.indexOf(NUT_NWI)==0  )
                 {
                     prgzeile = replaceparam(NUT_NWI, prgzeile, zeile);
-                }else if(zeile.contains(NUT_NTYP))
+                }else if(zeile.contains(NUT_NTYP)  && zeile.indexOf(NUT_NTYP)==0  )
                 {
                     prgzeile = replaceparam(NUT_NTYP, prgzeile, zeile);
-                }else if(zeile.contains(NUT_NABST))
+                }else if(zeile.contains(NUT_NABST)  && zeile.indexOf(NUT_NABST)==0  )
                 {
                     prgzeile = replaceparam(NUT_NABST, prgzeile, zeile);
-                }else if(zeile.contains(NUT_Z))
+                }else if(zeile.contains(NUT_Z)  && zeile.indexOf(NUT_Z)==0  )
                 {
                     prgzeile = replaceparam(NUT_Z, prgzeile, zeile);
-                }else if(zeile.contains(NUT_EINVO))
+                }else if(zeile.contains(NUT_EINVO)  && zeile.indexOf(NUT_EINVO)==0  )
                 {
                     prgzeile = replaceparam(NUT_EINVO, prgzeile, zeile);
-                }else if(zeile.contains(NUT_VO))
+                }else if(zeile.contains(NUT_VO)  && zeile.indexOf(NUT_VO)==0  )
                 {
                     prgzeile = replaceparam(NUT_VO, prgzeile, zeile);
-                }else if(zeile.contains(NUT_DREHZ))
+                }else if(zeile.contains(NUT_DREHZ)  && zeile.indexOf(NUT_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(NUT_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(NUT_PLM))
+                }else if(zeile.contains(NUT_PLM)  && zeile.indexOf(NUT_PLM)==0  )
                 {
                     prgzeile = replaceparam(NUT_PLM, prgzeile, zeile);
-                }else if(zeile.contains(NUT_WKZAKT))
+                }else if(zeile.contains(NUT_WKZAKT)  && zeile.indexOf(NUT_WKZAKT)==0  )
                 {
                     prgzeile = replaceparam(NUT_WKZAKT, prgzeile, zeile);
-                }else if(zeile.contains(NUT_BEZ))
+                }else if(zeile.contains(NUT_BEZ)  && zeile.indexOf(NUT_BEZ)==0  )
                 {
                     prgzeile = replaceparam(NUT_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(NUT_AFB))
+                }else if(zeile.contains(NUT_AFB)  && zeile.indexOf(NUT_AFB)==0  )
                 {
                     prgzeile = replaceparam(NUT_AFB, prgzeile, zeile);
                 }else if (zeile.contains(NUT_AUSGEBL))
@@ -2801,49 +2801,49 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(KTA_WKZ))
+                if(zeile.contains(KTA_WKZ)  && zeile.indexOf(KTA_WKZ)==0  )
                 {
                     prgzeile = replaceparam(KTA_WKZ, prgzeile, zeile);
-                }else if(zeile.contains(KTA_X))
+                }else if(zeile.contains(KTA_X)  && zeile.indexOf(KTA_X)==0  )
                 {
                     prgzeile = replaceparam(KTA_X, prgzeile, zeile);
-                }else if(zeile.contains(KTA_Y))
+                }else if(zeile.contains(KTA_Y)  && zeile.indexOf(KTA_Y)==0  )
                 {
                     prgzeile = replaceparam(KTA_Y, prgzeile, zeile);
-                }else if(zeile.contains(KTA_DM))
+                }else if(zeile.contains(KTA_DM)  && zeile.indexOf(KTA_DM)==0  )
                 {
                     prgzeile = replaceparam(KTA_DM, prgzeile, zeile);
-                }else if(zeile.contains(KTA_TI))
+                }else if(zeile.contains(KTA_TI)  && zeile.indexOf(KTA_TI)==0  )
                 {
                     prgzeile = replaceparam(KTA_TI, prgzeile, zeile);
-                }else if(zeile.contains(KTA_ZUST))
+                }else if(zeile.contains(KTA_ZUST)  && zeile.indexOf(KTA_ZUST)==0  )
                 {
                     prgzeile = replaceparam(KTA_ZUST, prgzeile, zeile);
-                }else if(zeile.contains(KTA_GEGENL))
+                }else if(zeile.contains(KTA_GEGENL)  && zeile.indexOf(KTA_GEGENL)==0  )
                 {
                     prgzeile = replaceparam(KTA_GEGENL, prgzeile, zeile);
-                }else if(zeile.contains(KTA_AUSR))
+                }else if(zeile.contains(KTA_AUSR)  && zeile.indexOf(KTA_AUSR)==0  )
                 {
                     prgzeile = replaceparam(KTA_AUSR, prgzeile, zeile);
-                }else if(zeile.contains(KTA_EINVO))
+                }else if(zeile.contains(KTA_EINVO)  && zeile.indexOf(KTA_EINVO)==0  )
                 {
                     prgzeile = replaceparam(KTA_EINVO, prgzeile, zeile);
-                }else if(zeile.contains(KTA_VO))
+                }else if(zeile.contains(KTA_VO)  && zeile.indexOf(KTA_VO)==0  )
                 {
                     prgzeile = replaceparam(KTA_VO, prgzeile, zeile);
-                }else if(zeile.contains(KTA_DREHZ))
+                }else if(zeile.contains(KTA_DREHZ)  && zeile.indexOf(KTA_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(KTA_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(KTA_PLM))
+                }else if(zeile.contains(KTA_PLM)  && zeile.indexOf(KTA_PLM)==0  )
                 {
                     prgzeile = replaceparam(KTA_PLM, prgzeile, zeile);
-                }else if(zeile.contains(KTA_WKZAKT))
+                }else if(zeile.contains(KTA_WKZAKT)  && zeile.indexOf(KTA_WKZAKT)==0  )
                 {
                     prgzeile = replaceparam(KTA_WKZAKT, prgzeile, zeile);
-                }else if(zeile.contains(KTA_BEZ))
+                }else if(zeile.contains(KTA_BEZ)  && zeile.indexOf(KTA_BEZ)==0  )
                 {
                     prgzeile = replaceparam(KTA_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(KTA_AFB))
+                }else if(zeile.contains(KTA_AFB)  && zeile.indexOf(KTA_AFB)==0  )
                 {
                     prgzeile = replaceparam(KTA_AFB, prgzeile, zeile);
                 }else if (zeile.contains(KTA_AUSGEBL))
@@ -2868,58 +2868,58 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(RTA_WKZ))
+                if(zeile.contains(RTA_WKZ)  && zeile.indexOf(RTA_WKZ)==0  )
                 {
                     prgzeile = replaceparam(RTA_WKZ, prgzeile, zeile);
-                }else if(zeile.contains(RTA_X))
+                }else if(zeile.contains(RTA_X)  && zeile.indexOf(RTA_X)==0  )
                 {
                     prgzeile = replaceparam(RTA_X, prgzeile, zeile);
-                }else if(zeile.contains(RTA_Y))
+                }else if(zeile.contains(RTA_Y)  && zeile.indexOf(RTA_Y)==0  )
                 {
                     prgzeile = replaceparam(RTA_Y, prgzeile, zeile);
-                }else if(zeile.contains(RTA_L))
+                }else if(zeile.contains(RTA_L)  && zeile.indexOf(RTA_L)==0  )
                 {
                     prgzeile = replaceparam(RTA_L, prgzeile, zeile);
-                }else if(zeile.contains(RTA_B))
+                }else if(zeile.contains(RTA_B)  && zeile.indexOf(RTA_B)==0  )
                 {
                     prgzeile = replaceparam(RTA_B, prgzeile, zeile);
-                }else if(zeile.contains(RTA_TI))
+                }else if(zeile.contains(RTA_TI)  && zeile.indexOf(RTA_TI)==0  )
                 {
                     prgzeile = replaceparam(RTA_TI, prgzeile, zeile);
-                }else if(zeile.contains(RTA_RAD))
+                }else if(zeile.contains(RTA_RAD)  && zeile.indexOf(RTA_RAD)==0  )
                 {
                     prgzeile = replaceparam(RTA_RAD, prgzeile, zeile);
-                }else if(zeile.contains(RTA_ZUST))
+                }else if(zeile.contains(RTA_ZUST)  && zeile.indexOf(RTA_ZUST)==0  )
                 {
                     prgzeile = replaceparam(RTA_ZUST, prgzeile, zeile);
-                }else if(zeile.contains(RTA_GEGENL))
+                }else if(zeile.contains(RTA_GEGENL)  && zeile.indexOf(RTA_GEGENL)==0  )
                 {
                     prgzeile = replaceparam(RTA_GEGENL, prgzeile, zeile);
-                }else if(zeile.contains(RTA_WI))
+                }else if(zeile.contains(RTA_WI)  && zeile.indexOf(RTA_WI)==0  )
                 {
                     prgzeile = replaceparam(RTA_WI, prgzeile, zeile);
-                }else if(zeile.contains(RTA_AUSR))
+                }else if(zeile.contains(RTA_AUSR)  && zeile.indexOf(RTA_AUSR)==0  )
                 {
                     prgzeile = replaceparam(RTA_AUSR, prgzeile, zeile);
-                }else if(zeile.contains(RTA_EINVO))
+                }else if(zeile.contains(RTA_EINVO)  && zeile.indexOf(RTA_EINVO)==0  )
                 {
                     prgzeile = replaceparam(RTA_EINVO, prgzeile, zeile);
-                }else if(zeile.contains(RTA_VO))
+                }else if(zeile.contains(RTA_VO)  && zeile.indexOf(RTA_VO)==0  )
                 {
                     prgzeile = replaceparam(RTA_VO, prgzeile, zeile);
-                }else if(zeile.contains(RTA_DREHZ))
+                }else if(zeile.contains(RTA_DREHZ)  && zeile.indexOf(RTA_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(RTA_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(RTA_PLM))
+                }else if(zeile.contains(RTA_PLM)  && zeile.indexOf(RTA_PLM)==0  )
                 {
                     prgzeile = replaceparam(RTA_PLM, prgzeile, zeile);
-                }else if(zeile.contains(RTA_WKZAKT))
+                }else if(zeile.contains(RTA_WKZAKT)  && zeile.indexOf(RTA_WKZAKT)==0  )
                 {
                     prgzeile = replaceparam(RTA_WKZAKT, prgzeile, zeile);
-                }else if(zeile.contains(RTA_BEZ))
+                }else if(zeile.contains(RTA_BEZ)  && zeile.indexOf(RTA_BEZ)==0  )
                 {
                     prgzeile = replaceparam(RTA_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(RTA_AFB))
+                }else if(zeile.contains(RTA_AFB)  && zeile.indexOf(RTA_AFB)==0  )
                 {
                     prgzeile = replaceparam(RTA_AFB, prgzeile, zeile);
                 }else if (zeile.contains(RTA_AUSGEBL))
@@ -2944,16 +2944,16 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(VAR_NAME))
+                if(zeile.contains(VAR_NAME)  && zeile.indexOf(VAR_NAME)==0  )
                 {
                     prgzeile = replaceparam(VAR_NAME, prgzeile, zeile);
-                }else if(zeile.contains(VAR_WERT))
+                }else if(zeile.contains(VAR_WERT)  && zeile.indexOf(VAR_WERT)==0  )
                 {
                     prgzeile = replaceparam(VAR_WERT, prgzeile, zeile);
-                }else if(zeile.contains(VAR_BEZ))
+                }else if(zeile.contains(VAR_BEZ)  && zeile.indexOf(VAR_BEZ)==0  )
                 {
                     prgzeile = replaceparam(VAR_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(VAR_AFB))
+                }else if(zeile.contains(VAR_AFB)  && zeile.indexOf(VAR_AFB)==0  )
                 {
                     prgzeile = replaceparam(VAR_AFB, prgzeile, zeile);
                 }else if (zeile.contains(VAR_AUSGEBL))
@@ -2978,70 +2978,70 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(VAR10_NAME1))
+                if(zeile.contains(VAR10_NAME1)  && zeile.indexOf(VAR10_NAME1)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME1, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME2))
+                }else if(zeile.contains(VAR10_NAME2)  && zeile.indexOf(VAR10_NAME2)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME2, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME3))
+                }else if(zeile.contains(VAR10_NAME3)  && zeile.indexOf(VAR10_NAME3)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME3, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME4))
+                }else if(zeile.contains(VAR10_NAME4)  && zeile.indexOf(VAR10_NAME4)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME4, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME5))
+                }else if(zeile.contains(VAR10_NAME5)  && zeile.indexOf(VAR10_NAME5)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME5, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME6))
+                }else if(zeile.contains(VAR10_NAME6)  && zeile.indexOf(VAR10_NAME6)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME6, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME7))
+                }else if(zeile.contains(VAR10_NAME7)  && zeile.indexOf(VAR10_NAME7)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME7, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME8))
+                }else if(zeile.contains(VAR10_NAME8)  && zeile.indexOf(VAR10_NAME8)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME8, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME9))
+                }else if(zeile.contains(VAR10_NAME9)  && zeile.indexOf(VAR10_NAME9)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME9, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_NAME10))
+                }else if(zeile.contains(VAR10_NAME10)  && zeile.indexOf(VAR10_NAME10)==0  )
                 {
                     prgzeile = replaceparam(VAR10_NAME10, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT1))
+                }else if(zeile.contains(VAR10_WERT1)  && zeile.indexOf(VAR10_WERT1)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT1, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT2))
+                }else if(zeile.contains(VAR10_WERT2)  && zeile.indexOf(VAR10_WERT2)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT2, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT3))
+                }else if(zeile.contains(VAR10_WERT3)  && zeile.indexOf(VAR10_WERT3)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT3, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT4))
+                }else if(zeile.contains(VAR10_WERT4)  && zeile.indexOf(VAR10_WERT4)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT4, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT5))
+                }else if(zeile.contains(VAR10_WERT5)  && zeile.indexOf(VAR10_WERT5)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT5, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT6))
+                }else if(zeile.contains(VAR10_WERT6)  && zeile.indexOf(VAR10_WERT6)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT6, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT7))
+                }else if(zeile.contains(VAR10_WERT7)  && zeile.indexOf(VAR10_WERT7)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT7, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT8))
+                }else if(zeile.contains(VAR10_WERT8)  && zeile.indexOf(VAR10_WERT8)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT8, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT9))
+                }else if(zeile.contains(VAR10_WERT9)  && zeile.indexOf(VAR10_WERT9)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT9, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_WERT10))
+                }else if(zeile.contains(VAR10_WERT10)  && zeile.indexOf(VAR10_WERT10)==0  )
                 {
                     prgzeile = replaceparam(VAR10_WERT10, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_BEZ))
+                }else if(zeile.contains(VAR10_BEZ)  && zeile.indexOf(VAR10_BEZ)==0  )
                 {
                     prgzeile = replaceparam(VAR10_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(VAR10_AFB))
+                }else if(zeile.contains(VAR10_AFB)  && zeile.indexOf(VAR10_AFB)==0  )
                 {
                     prgzeile = replaceparam(VAR10_AFB, prgzeile, zeile);
                 }else if (zeile.contains(VAR10_AUSGEBL))
@@ -3066,61 +3066,61 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(FAUF_WKZ))
+                if(zeile.contains(FAUF_WKZ)  && zeile.indexOf(FAUF_WKZ)==0  )
                 {
                     prgzeile = replaceparam(FAUF_WKZ, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_X))
+                }else if(zeile.contains(FAUF_X)  && zeile.indexOf(FAUF_X)==0  )
                 {
                     prgzeile = replaceparam(FAUF_X, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_Y))
+                }else if(zeile.contains(FAUF_Y)  && zeile.indexOf(FAUF_Y)==0  )
                 {
                     prgzeile = replaceparam(FAUF_Y, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_Z))
+                }else if(zeile.contains(FAUF_Z)  && zeile.indexOf(FAUF_Z)==0  )
                 {
                     prgzeile = replaceparam(FAUF_Z, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_ERG))
+                }else if(zeile.contains(FAUF_ERG)  && zeile.indexOf(FAUF_ERG)==0  )
                 {
                     prgzeile = replaceparam(FAUF_ERG, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_KADI))
+                }else if(zeile.contains(FAUF_KADI)  && zeile.indexOf(FAUF_KADI)==0  )
                 {
                     prgzeile = replaceparam(FAUF_KADI, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_KOR))
+                }else if(zeile.contains(FAUF_KOR)  && zeile.indexOf(FAUF_KOR)==0  )
                 {
                     prgzeile = replaceparam(FAUF_KOR, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_ANTYP))
+                }else if(zeile.contains(FAUF_ANTYP)  && zeile.indexOf(FAUF_ANTYP)==0  )
                 {
                     prgzeile = replaceparam(FAUF_ANTYP, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_ABTYP))
+                }else if(zeile.contains(FAUF_ABTYP)  && zeile.indexOf(FAUF_ABTYP)==0  )
                 {
                     prgzeile = replaceparam(FAUF_ABTYP, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_EINTYP))
+                }else if(zeile.contains(FAUF_EINTYP)  && zeile.indexOf(FAUF_EINTYP)==0  )
                 {
                     prgzeile = replaceparam(FAUF_EINTYP, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_ANWEG))
+                }else if(zeile.contains(FAUF_ANWEG)  && zeile.indexOf(FAUF_ANWEG)==0  )
                 {
                     prgzeile = replaceparam(FAUF_ANWEG, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_ABWEG))
+                }else if(zeile.contains(FAUF_ABWEG)  && zeile.indexOf(FAUF_ABWEG)==0  )
                 {
                     prgzeile = replaceparam(FAUF_ABWEG, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_ANVO))
+                }else if(zeile.contains(FAUF_ANVO)  && zeile.indexOf(FAUF_ANVO)==0  )
                 {
                     prgzeile = replaceparam(FAUF_ANVO, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_VO))
+                }else if(zeile.contains(FAUF_VO)  && zeile.indexOf(FAUF_VO)==0  )
                 {
                     prgzeile = replaceparam(FAUF_VO, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_DREHZ))
+                }else if(zeile.contains(FAUF_DREHZ)  && zeile.indexOf(FAUF_DREHZ)==0  )
                 {
                     prgzeile = replaceparam(FAUF_DREHZ, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_EVERS))
+                }else if(zeile.contains(FAUF_EVERS)  && zeile.indexOf(FAUF_EVERS)==0  )
                 {
                     prgzeile = replaceparam(FAUF_EVERS, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_WKZAKT))
+                }else if(zeile.contains(FAUF_WKZAKT)  && zeile.indexOf(FAUF_WKZAKT)==0  )
                 {
                     prgzeile = replaceparam(FAUF_WKZAKT, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_BEZ))
+                }else if(zeile.contains(FAUF_BEZ)  && zeile.indexOf(FAUF_BEZ)==0  )
                 {
                     prgzeile = replaceparam(FAUF_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(FAUF_AFB))
+                }else if(zeile.contains(FAUF_AFB)  && zeile.indexOf(FAUF_AFB)==0  )
                 {
                     prgzeile = replaceparam(FAUF_AFB, prgzeile, zeile);
                 }else if (zeile.contains(FAUF_AUSGEBL))
@@ -3145,19 +3145,19 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(FABF_DREHBAR))
+                if(zeile.contains(FABF_DREHBAR)  && zeile.indexOf(FABF_DREHBAR)==0  )
                 {
                     prgzeile = replaceparam(FABF_DREHBAR, prgzeile, zeile);
-                }else if(zeile.contains(FABF_OFFSET))
+                }else if(zeile.contains(FABF_OFFSET)  && zeile.indexOf(FABF_OFFSET)==0  )
                 {
                     prgzeile = replaceparam(FABF_OFFSET, prgzeile, zeile);
-                }else if(zeile.contains(FABF_FESTWI))
+                }else if(zeile.contains(FABF_FESTWI)  && zeile.indexOf(FABF_FESTWI)==0  )
                 {
                     prgzeile = replaceparam(FABF_FESTWI, prgzeile, zeile);
-                }else if(zeile.contains(FABF_BEZ))
+                }else if(zeile.contains(FABF_BEZ)  && zeile.indexOf(FABF_BEZ)==0  )
                 {
                     prgzeile = replaceparam(FABF_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(FABF_AFB))
+                }else if(zeile.contains(FABF_AFB)  && zeile.indexOf(FABF_AFB)==0  )
                 {
                     prgzeile = replaceparam(FABF_AFB, prgzeile, zeile);
                 }else if (zeile.contains(FABF_AUSGEBL))
@@ -3182,34 +3182,34 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(FGERADE_X))
+                if(zeile.contains(FGERADE_X)  && zeile.indexOf(FGERADE_X)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_X, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_Y))
+                }else if(zeile.contains(FGERADE_Y)  && zeile.indexOf(FGERADE_Y)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_Y, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_Z))
+                }else if(zeile.contains(FGERADE_Z)  && zeile.indexOf(FGERADE_Z)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_Z, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_RAD))
+                }else if(zeile.contains(FGERADE_RAD)  && zeile.indexOf(FGERADE_RAD)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_RAD, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_VO))
+                }else if(zeile.contains(FGERADE_VO)  && zeile.indexOf(FGERADE_VO)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_VO, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_DREHBAR))
+                }else if(zeile.contains(FGERADE_DREHBAR)  && zeile.indexOf(FGERADE_DREHBAR)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_DREHBAR, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_OFFSET))
+                }else if(zeile.contains(FGERADE_OFFSET)  && zeile.indexOf(FGERADE_OFFSET)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_OFFSET, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_FESTWI))
+                }else if(zeile.contains(FGERADE_FESTWI)  && zeile.indexOf(FGERADE_FESTWI)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_FESTWI, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_BEZ))
+                }else if(zeile.contains(FGERADE_BEZ)  && zeile.indexOf(FGERADE_BEZ)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(FGERADE_AFB))
+                }else if(zeile.contains(FGERADE_AFB)  && zeile.indexOf(FGERADE_AFB)==0  )
                 {
                     prgzeile = replaceparam(FGERADE_AFB, prgzeile, zeile);
                 }else if (zeile.contains(FGERADE_AUSGEBL))
@@ -3234,34 +3234,34 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(FGERAWI_WI))
+                if(zeile.contains(FGERAWI_WI)  && zeile.indexOf(FGERAWI_WI)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_WI, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_L))
+                }else if(zeile.contains(FGERAWI_L)  && zeile.indexOf(FGERAWI_L)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_L, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_Z))
+                }else if(zeile.contains(FGERAWI_Z)  && zeile.indexOf(FGERAWI_Z)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_Z, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_RAD))
+                }else if(zeile.contains(FGERAWI_RAD)  && zeile.indexOf(FGERAWI_RAD)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_RAD, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_VO))
+                }else if(zeile.contains(FGERAWI_VO)  && zeile.indexOf(FGERAWI_VO)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_VO, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_DREHBAR))
+                }else if(zeile.contains(FGERAWI_DREHBAR)  && zeile.indexOf(FGERAWI_DREHBAR)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_DREHBAR, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_OFFSET))
+                }else if(zeile.contains(FGERAWI_OFFSET)  && zeile.indexOf(FGERAWI_OFFSET)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_OFFSET, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_FESTWI))
+                }else if(zeile.contains(FGERAWI_FESTWI)  && zeile.indexOf(FGERAWI_FESTWI)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_FESTWI, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_BEZ))
+                }else if(zeile.contains(FGERAWI_BEZ)  && zeile.indexOf(FGERAWI_BEZ)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(FGERAWI_AFB))
+                }else if(zeile.contains(FGERAWI_AFB)  && zeile.indexOf(FGERAWI_AFB)==0  )
                 {
                     prgzeile = replaceparam(FGERAWI_AFB, prgzeile, zeile);
                 }else if (zeile.contains(FGERAWI_AUSGEBL))
@@ -3292,37 +3292,37 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
                 }else if(zeile.contains(FBOUZS_YE) && zeile.indexOf(FBOUZS_YE)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_YE, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_ZE))
+                }else if(zeile.contains(FBOUZS_ZE) && zeile.indexOf(FBOUZS_ZE)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_ZE, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_XMI))
+                }else if(zeile.contains(FBOUZS_XMI) && zeile.indexOf(FBOUZS_XMI)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_XMI, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_YMI))
+                }else if(zeile.contains(FBOUZS_YMI) && zeile.indexOf(FBOUZS_YMI)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_YMI, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_RADBO))
+                }else if(zeile.contains(FBOUZS_RADBO) && zeile.indexOf(FBOUZS_RADBO)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_RADBO, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_RADECKE))
+                }else if(zeile.contains(FBOUZS_RADECKE) && zeile.indexOf(FBOUZS_RADECKE)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_RADECKE, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_VO))
+                }else if(zeile.contains(FBOUZS_VO) && zeile.indexOf(FBOUZS_VO)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_VO, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_DREHBAR))
+                }else if(zeile.contains(FBOUZS_DREHBAR) && zeile.indexOf(FBOUZS_DREHBAR)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_DREHBAR, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_OFFSET))
+                }else if(zeile.contains(FBOUZS_OFFSET) && zeile.indexOf(FBOUZS_OFFSET)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_OFFSET, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_FESTWI))
+                }else if(zeile.contains(FBOUZS_FESTWI) && zeile.indexOf(FBOUZS_FESTWI)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_FESTWI, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_BEZ))
+                }else if(zeile.contains(FBOUZS_BEZ) && zeile.indexOf(FBOUZS_BEZ)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(FBOUZS_AFB))
+                }else if(zeile.contains(FBOUZS_AFB) && zeile.indexOf(FBOUZS_AFB)==0 )
                 {
                     prgzeile = replaceparam(FBOUZS_AFB, prgzeile, zeile);
                 }else if (zeile.contains(FBOUZS_AUSGEBL))
@@ -3353,37 +3353,37 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
                 }else if(zeile.contains(FBOGUZS_YE) && zeile.indexOf(FBOGUZS_YE)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_YE, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_ZE))
+                }else if(zeile.contains(FBOGUZS_ZE) && zeile.indexOf(FBOGUZS_ZE)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_ZE, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_XMI))
+                }else if(zeile.contains(FBOGUZS_XMI) && zeile.indexOf(FBOGUZS_XMI)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_XMI, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_YMI))
+                }else if(zeile.contains(FBOGUZS_YMI) && zeile.indexOf(FBOGUZS_YMI)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_YMI, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_RADBO))
+                }else if(zeile.contains(FBOGUZS_RADBO) && zeile.indexOf(FBOGUZS_RADBO)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_RADBO, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_RADECKE))
+                }else if(zeile.contains(FBOGUZS_RADECKE) && zeile.indexOf(FBOGUZS_RADECKE)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_RADECKE, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_VO))
+                }else if(zeile.contains(FBOGUZS_VO) && zeile.indexOf(FBOGUZS_VO)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_VO, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_DREHBAR))
+                }else if(zeile.contains(FBOGUZS_DREHBAR) && zeile.indexOf(FBOGUZS_DREHBAR)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_DREHBAR, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_OFFSET))
+                }else if(zeile.contains(FBOGUZS_OFFSET) && zeile.indexOf(FBOGUZS_OFFSET)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_OFFSET, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_FESTWI))
+                }else if(zeile.contains(FBOGUZS_FESTWI) && zeile.indexOf(FBOGUZS_FESTWI)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_FESTWI, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_BEZ))
+                }else if(zeile.contains(FBOGUZS_BEZ) && zeile.indexOf(FBOGUZS_BEZ)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_BEZ, prgzeile, zeile);
-                }else if(zeile.contains(FBOGUZS_AFB))
+                }else if(zeile.contains(FBOGUZS_AFB) && zeile.indexOf(FBOGUZS_AFB)==0 )
                 {
                     prgzeile = replaceparam(FBOGUZS_AFB, prgzeile, zeile);
                 }else if (zeile.contains(FBOGUZS_AUSGEBL))
@@ -3408,22 +3408,22 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(SPIEGELN_XPOS))
+                if(zeile.contains(SPIEGELN_XPOS) && zeile.indexOf(SPIEGELN_XPOS)==0 )
                 {
                     prgzeile = replaceparam(SPIEGELN_XPOS, prgzeile, zeile);
-                }else if(zeile.contains(SPIEGELN_YPOS))
+                }else if(zeile.contains(SPIEGELN_YPOS) && zeile.indexOf(SPIEGELN_YPOS)==0 )
                 {
                     prgzeile = replaceparam(SPIEGELN_YPOS, prgzeile, zeile);
-                }else if(zeile.contains(SPIEGELN_XBED))
+                }else if(zeile.contains(SPIEGELN_XBED) && zeile.indexOf(SPIEGELN_XBED)==0 )
                 {
                     prgzeile = replaceparam(SPIEGELN_XBED, prgzeile, zeile);
-                }else if(zeile.contains(SPIEGELN_YBED))
+                }else if(zeile.contains(SPIEGELN_YBED) && zeile.indexOf(SPIEGELN_YBED)==0 )
                 {
                     prgzeile = replaceparam(SPIEGELN_YBED, prgzeile, zeile);
-                }else if (zeile.contains(SPIEGELN_BEZ))
+                }else if (zeile.contains(SPIEGELN_BEZ) && zeile.indexOf(SPIEGELN_BEZ)==0 )
                 {
                     prgzeile = replaceparam(SPIEGELN_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(SPIEGELN_AFB))
+                }else if (zeile.contains(SPIEGELN_AFB) && zeile.indexOf(SPIEGELN_AFB)==0 )
                 {
                    prgzeile = replaceparam(SPIEGELN_AFB, prgzeile, zeile);
                 }else if (zeile.contains(SPIEGELN_AUSGEBL))
@@ -3448,31 +3448,31 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             zeile.replace("'",".");
             while(!zeile.contains("[") && i<=tz.zeilenanzahl())
             {
-                if(zeile.contains(LAGE_AENDERN_XALT))
+                if(zeile.contains(LAGE_AENDERN_XALT) && zeile.indexOf(LAGE_AENDERN_XALT)==0 )
                 {
                     prgzeile = replaceparam(LAGE_AENDERN_XALT, prgzeile, zeile);
-                }else if(zeile.contains(LAGE_AENDERN_YALT))
+                }else if(zeile.contains(LAGE_AENDERN_YALT) && zeile.indexOf(LAGE_AENDERN_YALT)==0 )
                 {
                     prgzeile = replaceparam(LAGE_AENDERN_YALT, prgzeile, zeile);
-                }else if(zeile.contains(LAGE_AENDERN_XNEU))
+                }else if(zeile.contains(LAGE_AENDERN_XNEU) && zeile.indexOf(LAGE_AENDERN_XNEU)==0 )
                 {
                     prgzeile = replaceparam(LAGE_AENDERN_XNEU, prgzeile, zeile);
-                }else if(zeile.contains(LAGE_AENDERN_YNEU))
+                }else if(zeile.contains(LAGE_AENDERN_YNEU) && zeile.indexOf(LAGE_AENDERN_YNEU)==0 )
                 {
                     prgzeile = replaceparam(LAGE_AENDERN_YNEU, prgzeile, zeile);
-                }else if (zeile.contains(LAGE_AENDERN_DREHWI))
+                }else if (zeile.contains(LAGE_AENDERN_DREHWI) && zeile.indexOf(LAGE_AENDERN_DREHWI)==0 )
                 {
                     prgzeile = replaceparam(LAGE_AENDERN_DREHWI, prgzeile, zeile);
-                }else if (zeile.contains(LAGE_AENDERN_KETTENMAS))
+                }else if (zeile.contains(LAGE_AENDERN_KETTENMAS) && zeile.indexOf(LAGE_AENDERN_KETTENMAS)==0 )
                 {
                    prgzeile = replaceparam(LAGE_AENDERN_KETTENMAS, prgzeile, zeile);
-                }else if (zeile.contains(LAGE_AENDERN_GESWI))
+                }else if (zeile.contains(LAGE_AENDERN_GESWI) && zeile.indexOf(LAGE_AENDERN_GESWI)==0 )
                 {
                    prgzeile = replaceparam(LAGE_AENDERN_GESWI, prgzeile, zeile);
-                }else if (zeile.contains(LAGE_AENDERN_BEZ))
+                }else if (zeile.contains(LAGE_AENDERN_BEZ) && zeile.indexOf(LAGE_AENDERN_BEZ)==0 )
                 {
                    prgzeile = replaceparam(LAGE_AENDERN_BEZ, prgzeile, zeile);
-                }else if (zeile.contains(LAGE_AENDERN_AFB))
+                }else if (zeile.contains(LAGE_AENDERN_AFB) && zeile.indexOf(LAGE_AENDERN_AFB)==0 )
                 {
                    prgzeile = replaceparam(LAGE_AENDERN_AFB, prgzeile, zeile);
                 }else if (zeile.contains(LAGE_AENDERN_AUSGEBL))
@@ -3527,7 +3527,14 @@ QString MainWindow::exportparam(QString param, QString paramzeile)
 {
     QString msg = param;
     QString wert;
-    wert = selektiereEintrag(paramzeile, param, ENDPAR);
+    QString trennz = ";";
+    if(paramzeile.contains(trennz+param))
+    {
+        wert = selektiereEintrag(paramzeile, trennz+param, ENDPAR);              //Parameter-Wert selektieren
+    }else
+    {
+        wert = selektiereEintrag(paramzeile, param, ENDPAR);              //Parameter-Wert selektieren
+    }
     if(wert.isEmpty())
     {
         wert = FMCNULL;

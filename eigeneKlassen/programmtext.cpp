@@ -1299,7 +1299,14 @@ QString programmtext::param_to_klartext(QString prgzeile, QString parname, QStri
     //  1 ->sie wird hinzugefügt
 
     QString parwert;
-    parwert = text_mitte(prgzeile, parname, ENDPAR);              //Parameter-Wert selektieren
+    QString trennz = ";";
+    if(prgzeile.contains(trennz+parname))
+    {
+        parwert = text_mitte(prgzeile, trennz+parname, ENDPAR);              //Parameter-Wert selektieren
+    }else
+    {
+        parwert = text_mitte(prgzeile, parname, ENDPAR);              //Parameter-Wert selektieren
+    }
     parwert = variablen_durch_werte_ersetzten(varlist, parwert);  //Variablen durch Werte ersetzen
     parwert = ausdruck_auswerten(parwert);                        //Ergebnis der Berechnung bekommen
 
@@ -1338,11 +1345,28 @@ QString programmtext::param_to_klartext_orginal(QString prgzeile, QString parnam
 }
 
 QString programmtext::var_to_klartext(QString prgzeile, QString name, QString wert, QString &varlist)
-{
+{    
     QString name_bez, name_wert, name_wert_var;
     QString wert_bez, wert_wert;
     name_bez = name;
-    name_wert = text_mitte(prgzeile, name, ENDPAR);
+
+    //name == Name der Variablen aus der FMC-Datei
+    //wert == Name der Variablen aus dem Dialog == der über die Dialoge ansprechbare Name
+
+    //name_bez == der Name von "name"                                  z.B: RTA_X == "MPX="
+    //name_wert == der Wert von "name"                                 z.B: 50
+    //name_wert_var == der Name von "wert" eingefasst in "[" und "]"   z.B: [MX]
+    //wert_bez == der Name von "wert"                                  z.B: MX
+    //wert_wert = der Wert von "wert"                                  z.B: 50
+
+    QString trennz = ";";
+    if(prgzeile.contains(trennz+name))
+    {
+        name_wert = text_mitte(prgzeile, trennz+name, ENDPAR);
+    }else
+    {
+        name_wert = text_mitte(prgzeile, name, ENDPAR);
+    }
     name_wert_var = "[";
     name_wert_var += name_wert;
     name_wert_var += "]";
@@ -1359,15 +1383,18 @@ QString programmtext::var_to_klartext(QString prgzeile, QString name, QString we
     kt += wert_wert;
     kt += ENDPAR;
 
-    if(!varlist.contains(name_wert_var))
+    if(!wert_wert.contains("AUTO"))
     {
-        varlist += name_wert_var;
-        varlist += wert_wert;
-        varlist += ENDPAR;
-    }else
-    {
-        QString alterWert = text_mitte(varlist, name_wert_var, ENDPAR);
-        varlist.replace(name_wert_var+alterWert, name_wert_var+wert_wert);
+        if(!varlist.contains(name_wert_var))
+        {
+            varlist += name_wert_var;
+            varlist += wert_wert;
+            varlist += ENDPAR;
+        }else
+        {
+            QString alterWert = text_mitte(varlist, name_wert_var, ENDPAR);
+            varlist.replace(name_wert_var+alterWert, name_wert_var+wert_wert);
+        }
     }
 
     return  kt;
