@@ -6,10 +6,7 @@
 /*
 
 
-  geometrietext.cpp
-        double winkel(double endpunkt1_x, double endpunkt1_y,\
-                      double mittelpunkt_x, double mittelpunkt_y,\
-                      double endpunkt2_x, double endpunkt2_y)
+  darstellugn prüfen bei ax und ay
 
 
 

@@ -193,19 +193,15 @@ double winkel(double endpunkt1_x, double endpunkt1_y,\
 
     double w2 = winkel(endpunkt2_x, endpunkt2_y,\
                        mittelpunkt_x, mittelpunkt_y);
-
     double wi;
-    //w1=0,   w2=90  -> wi=90
-    //w1=270, w2=90  -> wi=180
-    //w1=310, w2=50  -> wi=100
-    //w1=310, w2=130 -> wi=180
-
-    if(w2 > w1)
+    wi = w1 - w2;
+    if(wi < 0)
     {
-        wi = 360 - (w2 - w1);
-    }else
+        wi = wi * -1;
+    }
+    if(w1 > w2)
     {
-        wi = 360 - (w1 - w2);
+        wi = 360 - wi;
     }
 
     QString msg;
