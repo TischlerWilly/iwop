@@ -37,9 +37,27 @@ void strecke::set_start(punkt3d startpunkt)
     laenge_berechnen();
 }
 
+void strecke::set_start(punkt2d startpunkt)
+{
+    punkt3d p;
+    p.set_x(startpunkt.x());
+    p.set_y(startpunkt.y());
+    start = p;
+    laenge_berechnen();
+}
+
 void strecke::set_ende(punkt3d endpunkt)
 {
     ende = endpunkt;
+    laenge_berechnen();
+}
+
+void strecke::set_ende(punkt2d endpunkt)
+{
+    punkt3d p;
+    p.set_x(endpunkt.x());
+    p.set_y(endpunkt.y());
+    ende = p;
     laenge_berechnen();
 }
 

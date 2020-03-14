@@ -1699,7 +1699,11 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
     for(uint i=1; i<= tz.zeilenanzahl();i++)
     {
         QString zeile = tz.zeile(i);
-        zeile.replace("'",".");
+        if(!zeile.contains("["))
+        {
+            zeile.replace("'",".");
+        }
+
 
         if(zeile.contains(DLG_PKOPF))
         {
@@ -2133,7 +2137,7 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
                 if(zeile.contains(LOREIAE_XS)  && zeile.indexOf(LOREIAE_XS)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_XS, prgzeile, zeile);
-                }else if(zeile.contains(LOREIAE_XE  && zeile.indexOf(LOREIAE_XE)==0  ))
+                }else if(zeile.contains(LOREIAE_XE)  && zeile.indexOf(LOREIAE_XE)==0  )
                 {
                     prgzeile = replaceparam(LOREIAE_XE, prgzeile, zeile);
                 }else if(zeile.contains(LOREIAE_Y1)  && zeile.indexOf(LOREIAE_Y1)==0  )
@@ -3088,7 +3092,7 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
                 {
                     prgzeile = replaceparam(FAUF_KOR, prgzeile, zeile);
                 }else if(zeile.contains(FAUF_ANTYP)  && zeile.indexOf(FAUF_ANTYP)==0  )
-                {
+                {                    
                     prgzeile = replaceparam(FAUF_ANTYP, prgzeile, zeile);
                 }else if(zeile.contains(FAUF_ABTYP)  && zeile.indexOf(FAUF_ABTYP)==0  )
                 {
@@ -3134,7 +3138,7 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
-        }else if(zeile.contains(DLG_FABF))
+        }else if(  (zeile.contains(DLG_FABF))  ||  (zeile.contains(DLG_FABF2))  )
         {
             QString prgzeile;
             prgzeile  = DLG_FABF;
@@ -3499,6 +3503,8 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
                 msg += "\nenthällt nicht programmierte Dialoge.\n";
                 msg += "Die Originaldatei kann nur lesend geöffnet werden!\n";
                 msg += "Bitte verwenden Sie \"Speichern unter\" wenn sie die Datei speichern möchten.";
+                msg += "\n\n";
+                msg += zeile;
                 QMessageBox mb;
                 mb.setText(msg);
                 mb.exec();
@@ -3513,8 +3519,21 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
 
 QString MainWindow::replaceparam(QString param, QString ziel, QString quelle)
 {
-    QString alterWert = text_mitte(ziel, param, ENDPAR);
-    QString neuerWert = text_rechts(quelle, param);
+    //param = z.B: FAUF_ANTYP
+    //ziel = prgzeile (Programmzeile im IWOP
+    //quelle = zeile (Zeile in FMC-Datei)
+    QString trenz = ENDPAR;
+    QString alterWert; //Dieser Wert kommt aus dem default des Programms
+    QString neuerWert; //dieser wert kommt aus der FMC-Datei
+    if(ziel.contains(trenz+param))
+    {
+        alterWert = text_mitte(ziel, trenz+param, ENDPAR);
+    }else
+    {
+        alterWert = text_mitte(ziel, param, ENDPAR);
+    }
+
+    neuerWert = text_rechts(quelle, param);
     if(neuerWert == FMCNULL)
     {
         neuerWert = "";

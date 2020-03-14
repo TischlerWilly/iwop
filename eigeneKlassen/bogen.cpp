@@ -82,44 +82,7 @@ void bogen::set_endpunkt(punkt3d endpunkt)
 void bogen::set_radius(float radiuswert, bool im_uhrzeigersinn)
 {
     radius = radiuswert;
-    bogen_im_uzs = im_uhrzeigersinn;
-    punkt2d pstart(startp); //Z-Werte sollen hier ignoriert werden
-    punkt2d pende(endp);    //Z-Werte sollen hier ignoriert werden
-    strecke stre_spep;
-    stre_spep.set_start(startp);
-    stre_spep.set_ende(endp);
-    float laenge = stre_spep.laenge2dim();
-    if(  pstart==pende  ||  radiuswert<=0  )
-    {
-        fehler = true;
-        fehlertext = "Fehler! Start und Endpunkt sind deckungsgleich";
-    }else if( radiuswert <= laenge/2)
-    {
-        fehler = true;
-        fehlertext = "Fehler! Radius zu klein für Punktabstand Start-Ende";
-    }else
-    {
-        fehler = false;
-
-        double a = stre_spep.laenge2dim()/2; //Hälfte des Abstandes von
-                                             //Start und Endpunkt
-        double r = radiuswert;
-        double x = sqrt(r*r - a*a)*2; //Länge der Mittelsenkrechtenn zu stre_spep
-
-        strecke stre_tmp = stre_spep;
-        stre_tmp.drenen_um_mittelpunkt_2d(90,true);
-        stre_tmp.set_laenge_2d(x, strecke_bezugspunkt_mitte);
-
-        if(im_uhrzeigersinn == false)
-        {
-            mittelp.set_x(stre_tmp.startp().x());
-            mittelp.set_y(stre_tmp.startp().y());
-        }else
-        {
-            mittelp.set_x(stre_tmp.endp().x());
-            mittelp.set_y(stre_tmp.endp().y());
-        }
-    }
+    bogen_im_uzs = im_uhrzeigersinn;    
 }
 
 void bogen::set_radius(float radiuswert, punkt2d bogenrichtung)
@@ -217,7 +180,133 @@ void bogen::verschieben_um(double xversatz, double yversatz)
     }
 }
 
+double bogen::bogenwinkel()
+{
+    return winkel(start(), mitte(), ende());
+}
 
+punkt2d bogen::mitte()
+{
+    punkt2d pstart(startp); //Z-Werte sollen hier ignoriert werden
+    punkt2d pende(endp);    //Z-Werte sollen hier ignoriert werden
+    strecke stre_spep;
+    stre_spep.set_start(startp);
+    stre_spep.set_ende(endp);
+    double laenge = stre_spep.laenge2dim();
+    fehler = false;
+    if(  start() == ende()  )
+    {
+        fehler = true;
+        fehlertext = "Fehler! Start und Endpunkt sind deckungsgleich!";
+    }else if( rad() <= 0)
+    {
+        fehler = true;
+        fehlertext = "Fehler! Radius <= 0!";
+    }else if( rad() < laenge/2)
+    {
+        fehler = true;
+        fehlertext = "Fehler! Radius zu klein für Punktabstand Start-Ende";
+    }else if( rad() == laenge/2)
+    {
+        mittelp = stre_spep.get_mittelpunkt2d();
+    }else
+    {
+        double a = stre_spep.laenge2dim()/2; //Hälfte des Abstandes von
+                                             //Start und Endpunkt
+        double r = rad();
+        double x = sqrt(r*r - a*a)*2; //Länge der Mittelsenkrechtenn zu stre_spep
 
+        strecke stre_tmp = stre_spep;
+        stre_tmp.drenen_um_mittelpunkt_2d(90,true);
+        stre_tmp.set_laenge_2d(x, strecke_bezugspunkt_mitte);
 
+        if(im_uzs() == false)
+        {
+            mittelp.set_x(stre_tmp.startp().x());
+            mittelp.set_y(stre_tmp.startp().y());
+        }else
+        {
+            mittelp.set_x(stre_tmp.endp().x());
+            mittelp.set_y(stre_tmp.endp().y());
+        }
+    }
 
+    if(fehler == false)
+    {
+        return mittelp;
+    }else
+    {
+        punkt2d tmp;
+        tmp.set_x(0);
+        tmp.set_y(0);
+        return tmp;
+    }
+}
+
+void bogen::set_bogenwinkel(double wi, bogen_bezugspunkt bezug)
+{
+    if(fehler == true)
+    {
+        return;
+    }else
+    {
+        if(bezug == bogen_bezugspunkt_start)
+        {
+            strecke s;
+            s.set_start(mitte());
+            s.set_ende(start());
+            s.drenen_um_startpunkt_2d(wi, im_uzs());
+            set_endpunkt(s.endp());
+        }else if(bezug == bogen_bezugspunkt_ende)
+        {
+            strecke s;
+            s.set_start(mitte());
+            s.set_ende(ende());
+            s.drenen_um_startpunkt_2d(wi, !im_uzs());
+            set_startpunkt(s.endp());
+        }else
+        {
+            strecke s;
+            s.set_start(start());
+            s.set_ende(ende());
+            s.set_ende(s.get_mittelpunkt3d());
+            s.set_start(mitte());
+            s.set_laenge_2d(rad(), strecke_bezugspunkt_start);
+            s.drenen_um_startpunkt_2d(wi/2, im_uzs());
+            set_endpunkt(s.endp());
+            s.drenen_um_startpunkt_2d(wi, !im_uzs());
+            set_startpunkt(s.endp());
+        }
+    }
+}
+
+void bogen::get_mb()
+{
+    QString msg;
+    msg = "Bogenwerte:\n\n";
+    msg += "Mittelpunkt:\n";
+    msg += "X= ";
+    msg += mitte().x_QString();
+    msg += "\nY= ";
+    msg += mitte().y_QString();
+    msg += "\n\nStartpunkt:\n";
+    msg += "X= ";
+    msg += start().x_QString();
+    msg += "\nY= ";
+    msg += start().y_QString();
+    msg += "\n\nEntpunkt:\n";
+    msg += "X= ";
+    msg += ende().x_QString();
+    msg += "\nY= ";
+    msg += ende().y_QString();
+    msg += "\n\nRadius:\n";
+    msg += rad_qString();
+    msg += "\n\nBogenwinkel:\n";
+    msg += double_to_qstring(bogenwinkel());
+    msg += "\n\nFehlermeldungen:\n";
+    msg += fehlertext;
+
+    QMessageBox mb;
+    mb.setText(msg);
+    mb.exec();
+}

@@ -28,6 +28,10 @@ double winkel(double endpunkt1_x, double endpunkt1_y,\
               double mittelpunkt_x, double mittelpunkt_y,\
               double endpunkt2_x, double endpunkt2_y);
 
+double winkel(punkt2d ep1, punkt2d mipu, punkt2d ep2);
+double winkel(punkt3d ep1, punkt3d mipu, punkt3d ep2);
+double winkel(punkt3d ep1, punkt2d mipu, punkt3d ep2);
+
 void trimmen(QString *geo1, QString *geo2);
 
 #endif // GEOMETRIE_H

@@ -1,9 +1,19 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.03.04"
+#define PROGRAMMVERSION     "1.2020.03.12"
 
 /*
+
+
+  geometrietext.cpp
+        double winkel(double endpunkt1_x, double endpunkt1_y,\
+                      double mittelpunkt_x, double mittelpunkt_y,\
+                      double endpunkt2_x, double endpunkt2_y)
+
+
+
+
 Zusatzwünsche:
 
 - Schnelländerung Bohrgruppe
