@@ -1122,6 +1122,9 @@ void programmtext::aktualisiere_klartext_var()
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_ZE, z);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZDM, wkzdm);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZKOR, wkzkor);
+                var_ergaenzen(variablen, VAR_ALLGEM_X, x);
+                var_ergaenzen(variablen, VAR_ALLGEM_Y, y);
+                var_ergaenzen(variablen, VAR_ALLGEM_Z, z);
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -1182,6 +1185,9 @@ void programmtext::aktualisiere_klartext_var()
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_ZE, z);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZDM, wkzdm);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_WKZKOR, wkzkor);
+                var_ergaenzen(variablen, VAR_ALLGEM_X, x);
+                var_ergaenzen(variablen, VAR_ALLGEM_Y, y);
+                var_ergaenzen(variablen, VAR_ALLGEM_Z, z);
 
                 klartext.zeilen_anhaengen(zeile_klartext);
                 var.zeile_anhaengen(variablen);
@@ -2615,13 +2621,26 @@ void programmtext::aktualisiere_geo()
                     p.set_x(nullpunkt_wst.x() + x1);
                     p.set_y(nullpunkt_wst.y() + abst);
                     r.set_einfuegepunkt(p);
-                    geo.add_rechteck(r);
+                    rechteck3d rgeo = r;
+                    rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                    geo.add_rechteck(rgeo);
                     if(kantenansicht == true)
                     {
                         punkt3d mipu;
                         mipu.set_x(nullpunkt_li.x() - z);
                         mipu.set_y(nullpunkt_li.y() + abst);
                         k.set_mittelpunkt(mipu);
+                        k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        k = lageaendern_kreis(k, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
                         geo.add_kreis(k);
                     }
                     if(x2 > 0)
@@ -2631,13 +2650,26 @@ void programmtext::aktualisiere_geo()
                         punkt3d p2 = p;
                         p2.set_x(nullpunkt_wst.x() + x2);
                         r2.set_einfuegepunkt(p2);
-                        geo.add_rechteck(r2);
+                        rechteck3d rgeo = r2;
+                        rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_rechteck(rgeo);
                         if(kantenansicht == true)
                         {
                             punkt3d mipu;
                             mipu.set_x(nullpunkt_re.x() + z);
                             mipu.set_y(nullpunkt_li.y() + abst);
                             k.set_mittelpunkt(mipu);
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
                             geo.add_kreis(k);
                         }
                     }
@@ -2721,13 +2753,26 @@ void programmtext::aktualisiere_geo()
                     p.set_x(nullpunkt_wst.x() + x1);
                     p.set_y(nullpunkt_wst.y() + abst);
                     r.set_einfuegepunkt(p);
-                    geo.add_rechteck(r);
+                    rechteck3d rgeo = r;
+                    rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                    geo.add_rechteck(rgeo);
                     if(kantenansicht == true)
                     {
                         punkt3d mipu;
                         mipu.set_x(nullpunkt_re.x() + z);
                         mipu.set_y(nullpunkt_li.y() + abst);
                         k.set_mittelpunkt(mipu);
+                        k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        k = lageaendern_kreis(k, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
                         geo.add_kreis(k);
                     }
                     if(x2 >= 0)
@@ -2737,13 +2782,26 @@ void programmtext::aktualisiere_geo()
                         punkt3d p2 = p;
                         p2.set_x(nullpunkt_wst.x() + x2);
                         r2.set_einfuegepunkt(p2);
-                        geo.add_rechteck(r2);
+                        rechteck3d rgeo = r2;
+                        rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_rechteck(rgeo);
                         if(kantenansicht == true)
                         {
                             punkt3d mipu;
                             mipu.set_x(nullpunkt_li.x() - z);
                             mipu.set_y(nullpunkt_li.y() + abst);
                             k.set_mittelpunkt(mipu);
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
                             geo.add_kreis(k);
                         }
                     }
@@ -2827,13 +2885,26 @@ void programmtext::aktualisiere_geo()
                     p.set_y(nullpunkt_wst.y() + y1);
                     p.set_x(nullpunkt_wst.x() + abst);
                     r.set_einfuegepunkt(p);
-                    geo.add_rechteck(r);
+                    rechteck3d rgeo = r;
+                    rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                    geo.add_rechteck(rgeo);
                     if(kantenansicht == true)
                     {
                         punkt3d mipu;
                         mipu.set_y(nullpunkt_un.y() - z);
                         mipu.set_x(nullpunkt_un.x() + abst);
                         k.set_mittelpunkt(mipu);
+                        k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        k = lageaendern_kreis(k, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
                         geo.add_kreis(k);
                     }
                     if(y2 > 0)
@@ -2843,13 +2914,26 @@ void programmtext::aktualisiere_geo()
                         punkt3d p2 = p;
                         p2.set_y(nullpunkt_wst.y() + y2);
                         r2.set_einfuegepunkt(p2);
-                        geo.add_rechteck(r2);
+                        rechteck3d rgeo = r2;
+                        rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_rechteck(rgeo);
                         if(kantenansicht == true)
                         {
                             punkt3d mipu;
                             mipu.set_y(nullpunkt_ob.y() + z);
                             mipu.set_x(nullpunkt_ob.x() + abst);
                             k.set_mittelpunkt(mipu);
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
                             geo.add_kreis(k);
                         }
                     }
@@ -2933,13 +3017,26 @@ void programmtext::aktualisiere_geo()
                     p.set_y(nullpunkt_wst.y() + y1);
                     p.set_x(nullpunkt_wst.x() + abst);
                     r.set_einfuegepunkt(p);
-                    geo.add_rechteck(r);
+                    rechteck3d rgeo = r;
+                    rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
+                    geo.add_rechteck(rgeo);
                     if(kantenansicht == true)
                     {
                         punkt3d mipu;
                         mipu.set_y(nullpunkt_ob.y() + z);
                         mipu.set_x(nullpunkt_ob.x() + abst);
                         k.set_mittelpunkt(mipu);
+                        k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        k = lageaendern_kreis(k, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
                         geo.add_kreis(k);
                     }
                     if(y2 >= 0)
@@ -2949,13 +3046,26 @@ void programmtext::aktualisiere_geo()
                         punkt3d p2 = p;
                         p2.set_y(nullpunkt_wst.y() + y2);
                         r2.set_einfuegepunkt(p2);
-                        geo.add_rechteck(r2);
+                        rechteck3d rgeo = r2;
+                        rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                        rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                                      lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                      lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                      lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                      lageaendern_wi_alt, lageaendern_geswi_alt);
+                        geo.add_rechteck(rgeo);
                         if(kantenansicht == true)
                         {
                             punkt3d mipu;
                             mipu.set_y(nullpunkt_un.y() - z);
                             mipu.set_x(nullpunkt_un.x() + abst);
                             k.set_mittelpunkt(mipu);
+                            k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                            k = lageaendern_kreis(k, lageaendern_afb,\
+                                                  lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                                  lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                                  lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                                  lageaendern_wi_alt, lageaendern_geswi_alt);
                             geo.add_kreis(k);
                         }
                     }
@@ -2973,8 +3083,10 @@ void programmtext::aktualisiere_geo()
                 r.set_bezugspunkt(MITTE);
                 sp.set_x(text_mitte(zeile, NUT_SX, ENDPAR));
                 sp.set_y(text_mitte(zeile, NUT_SY, ENDPAR));
+                sp.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 ep.set_x(text_mitte(zeile, NUT_EX, ENDPAR));
                 ep.set_y(text_mitte(zeile, NUT_EY, ENDPAR));
+                ep.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 b = text_mitte(zeile, NUT_B, ENDPAR).toDouble();
                 t = text_mitte(zeile, NUT_TI, ENDPAR).toDouble();
                 kor = text_mitte(zeile, NUT_KOR, ENDPAR);
@@ -3279,6 +3391,21 @@ void programmtext::aktualisiere_geo()
                     k.set_farbe(FARBE_BLAU);
                     k.set_farbe_fuellung(FARBE_SCHWARZ);
                     k.set_radius(wkzrad);
+
+                    if(kor != "0")
+                    {
+                        if(spiegeln_xbed != spiegeln_ybed)
+                        {
+                            if(kor == "1")
+                            {
+                                kor = "2";
+                            }else
+                            {
+                                kor = "1";
+                            }
+                        }
+                    }
+
                     if(  (antyp == "0")  ||  (antyp == "1" && kor == "0")  )//Anfahrtyp Gerade
                     {
                         s.richtung_unkehren();
@@ -3289,7 +3416,9 @@ void programmtext::aktualisiere_geo()
                                                 lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                 lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                 lageaendern_wi_alt, lageaendern_geswi_alt);
-                        geo.add_strecke(s);
+                        strecke sgeo = s;
+                        sgeo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
+                        geo.add_strecke(sgeo);
 
                         if(kor == "0")//mitte == keine
                         {
@@ -3313,6 +3442,7 @@ void programmtext::aktualisiere_geo()
                             s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
                             k.set_mittelpunkt(s.startp());
                         }
+                        k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                         fraeserdarst.add_kreis(k);
                     }else//Anfahrtyp Bogen
                     {
@@ -3330,7 +3460,9 @@ void programmtext::aktualisiere_geo()
                                                    lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                    lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                    lageaendern_wi_alt, lageaendern_geswi_alt);
-                            geo.add_bogen(bo);
+                            bogen bogeo = bo;
+                            bogeo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
+                            geo.add_bogen(bogeo);
                             s.drenen_um_startpunkt_2d(90, false);
                             s.drenen_um_endpunkt_2d(45, false);
                             //-------------------------------------------------------------------
@@ -3345,6 +3477,7 @@ void programmtext::aktualisiere_geo()
                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                             fraeserdarst.add_kreis(k);
                         }else if(kor == "2")//rechts --> Bogen von rechts
                         {
@@ -3360,7 +3493,9 @@ void programmtext::aktualisiere_geo()
                                                    lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                    lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                    lageaendern_wi_alt, lageaendern_geswi_alt);
-                            geo.add_bogen(bo);
+                            bogen bogeo = bo;
+                            bogeo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
+                            geo.add_bogen(bogeo);
                             s.drenen_um_startpunkt_2d(90, true);
                             s.drenen_um_endpunkt_2d(45, true);
                             //-------------------------------------------------------------------
@@ -3375,6 +3510,7 @@ void programmtext::aktualisiere_geo()
                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                             fraeserdarst.add_kreis(k);
                         }
                     }
@@ -3458,6 +3594,21 @@ void programmtext::aktualisiere_geo()
                     k.set_farbe(FARBE_BLAU);
                     k.set_farbe_fuellung(FARBE_SCHWARZ);
                     k.set_radius(wkzrad);
+
+                    if(kor != "0")
+                    {
+                        if(spiegeln_xbed != spiegeln_ybed)
+                        {
+                            if(kor == "1")
+                            {
+                                kor = "2";
+                            }else
+                            {
+                                kor = "1";
+                            }
+                        }
+                    }
+
                     if(  (abtyp == "0")  ||  (abtyp == "1" && kor == "0")  )//Anfahrtyp Gerade
                     {
                         s.richtung_unkehren();
@@ -3468,7 +3619,9 @@ void programmtext::aktualisiere_geo()
                                                 lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                 lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                 lageaendern_wi_alt, lageaendern_geswi_alt);
-                        geo.add_strecke(s);
+                        strecke sgeo = s;
+                        sgeo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
+                        geo.add_strecke(sgeo);
                         if(kor == "0")//mitte == keine
                         {
                             k.set_mittelpunkt(s.get_mittelpunkt3d());
@@ -3491,6 +3644,7 @@ void programmtext::aktualisiere_geo()
                             s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
                             k.set_mittelpunkt(s.startp());
                         }
+                        k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                         fraeserdarst.add_kreis(k);
                     }else//Anfahrtyp Bogen
                     {
@@ -3508,7 +3662,9 @@ void programmtext::aktualisiere_geo()
                                                    lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                    lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                    lageaendern_wi_alt, lageaendern_geswi_alt);
-                            geo.add_bogen(bo);
+                            bogen bogeo = bo;
+                            bogeo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
+                            geo.add_bogen(bogeo);
                             s.drenen_um_startpunkt_2d(90, true);
                             s.drenen_um_endpunkt_2d(45, true);
                             //-------------------------------------------------------------------
@@ -3523,6 +3679,7 @@ void programmtext::aktualisiere_geo()
                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                             fraeserdarst.add_kreis(k);
                         }else if(kor == "2")//rechts --> Bogen von rechts
                         {
@@ -3538,7 +3695,9 @@ void programmtext::aktualisiere_geo()
                                                    lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                    lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                    lageaendern_wi_alt, lageaendern_geswi_alt);
-                            geo.add_bogen(bo);
+                            bogen bogeo = bo;
+                            bogeo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
+                            geo.add_bogen(bogeo);
                             s.drenen_um_startpunkt_2d(90, false);
                             s.drenen_um_endpunkt_2d(45, false);
                             //-------------------------------------------------------------------
@@ -3553,6 +3712,7 @@ void programmtext::aktualisiere_geo()
                                                   lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                                   lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                                   lageaendern_wi_alt, lageaendern_geswi_alt);
+                            k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                             fraeserdarst.add_kreis(k);
                         }
                     }
@@ -3576,6 +3736,7 @@ void programmtext::aktualisiere_geo()
                                         lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                         lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                         lageaendern_wi_alt, lageaendern_geswi_alt);
+                s.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 geo.add_strecke(s);
 
                 kreis k;
@@ -3636,6 +3797,7 @@ void programmtext::aktualisiere_geo()
                                        lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                        lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                        lageaendern_wi_alt, lageaendern_geswi_alt);
+                bo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 geo.add_bogen(bo);
                 kreis k;
                 k.set_farbe(FARBE_BLAU);
@@ -3673,6 +3835,7 @@ void programmtext::aktualisiere_geo()
                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                       lageaendern_wi_alt, lageaendern_geswi_alt);
+                k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 fraeserdarst.add_kreis(k);
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
@@ -3695,6 +3858,7 @@ void programmtext::aktualisiere_geo()
                                        lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                        lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                        lageaendern_wi_alt, lageaendern_geswi_alt);
+                bo.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 geo.add_bogen(bo);
                 kreis k;
                 k.set_farbe(FARBE_BLAU);
@@ -3730,6 +3894,7 @@ void programmtext::aktualisiere_geo()
                                       lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
                                       lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
                                       lageaendern_wi_alt, lageaendern_geswi_alt);
+                k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                 fraeserdarst.add_kreis(k);
                 geo.zeilenvorschub();
                 fraeserdarst.zeilenvorschub();
@@ -4242,17 +4407,15 @@ punkt3d programmtext::spiegeln_punkt3d(punkt3d p, bool xbed, bool ybed, double x
 
 rechteck3d programmtext::spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed, double xpos, double ypos)
 {
-    int bezpu = r.bezpunkt_num();
-    r.set_bezugspunkt(MITTE);
     punkt3d mipu;
-    mipu = r.einfpunkt();
+    mipu = r.mi();
     if(xbed == true)
     {
         double x = mipu.x();
         double abstspiegelachse = xpos - x;
         x = x + (2*abstspiegelachse);
         mipu.set_x(x);
-        r.set_einfuegepunkt(mipu);
+        r.set_mipu(mipu);
         r.set_drewi(360-r.drewi());
     }
     if(ybed == true)
@@ -4261,10 +4424,9 @@ rechteck3d programmtext::spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed,
         double abstspiegelachse = ypos - y;
         y = y + (2*abstspiegelachse);
         mipu.set_y(y);
-        r.set_einfuegepunkt(mipu);
+        r.set_mipu(mipu);
         r.set_drewi(360-r.drewi());
     }
-    r.set_bezugspunkt(bezpu);
     return  r;
 }
 
@@ -4396,10 +4558,8 @@ rechteck3d programmtext::lageaendern_rechteck3d(rechteck3d r, bool afb, \
 {
     if(afb == true)
     {
-        int bezpu = r.bezpunkt_num();
-        r.set_bezugspunkt(MITTE);
         punkt3d mipu;
-        mipu = r.einfpunkt();
+        mipu = r.mi();
         double x = mipu.x();
         double y = mipu.y();
         double ax = xneu - xalt;
@@ -4433,8 +4593,7 @@ rechteck3d programmtext::lageaendern_rechteck3d(rechteck3d r, bool afb, \
         y = y + ay;
         mipu.set_x(x);
         mipu.set_y(y);
-        r.set_einfuegepunkt(mipu);
-        r.set_bezugspunkt(bezpu);
+        r.set_mipu(mipu);
     }
     return  r;
 }

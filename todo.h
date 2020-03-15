@@ -1,12 +1,12 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.03.12"
+#define PROGRAMMVERSION     "1.2020.03.15"
 
 /*
 
 
-  darstellugn prüfen bei ax und ay
+
 
 
 

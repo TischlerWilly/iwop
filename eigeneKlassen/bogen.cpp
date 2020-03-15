@@ -51,7 +51,6 @@ bogen::bogen(punkt3d startpunkt, punkt3d endpunkt, \
 
 bogen::bogen(punkt2d mipu, double rad, double startwinkel, double endwinkel)
 {
-    mittelp = mipu;
     radius = rad;
     punkt3d p;
     p.set_x(mipu.x());
@@ -172,12 +171,11 @@ void bogen::richtung_unkehren()
 
 void bogen::verschieben_um(double xversatz, double yversatz)
 {
-    if(hat_fehler() == false)
-    {
+    //if(hat_fehler() == false)
+    //{
         startp.verschieben_um(xversatz, yversatz);
         endp.verschieben_um(xversatz, yversatz);
-        mittelp.verschieben_um(xversatz, yversatz);
-    }
+    //}
 }
 
 double bogen::bogenwinkel()
@@ -187,6 +185,7 @@ double bogen::bogenwinkel()
 
 punkt2d bogen::mitte()
 {
+    punkt2d mittelp;
     punkt2d pstart(startp); //Z-Werte sollen hier ignoriert werden
     punkt2d pende(endp);    //Z-Werte sollen hier ignoriert werden
     strecke stre_spep;

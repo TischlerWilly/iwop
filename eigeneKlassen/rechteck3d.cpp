@@ -188,3 +188,69 @@ void rechteck3d::verschieben_um(double xversatz, double yversatz)
     unre.verschieben_um(xversatz, yversatz);
     einfuegepunkt.verschieben_um(xversatz, yversatz);
 }
+
+void rechteck3d::set_mipu(double x, double y, double z=0)
+{
+    unli.set_x(x - laenge/2);
+    obli.set_x(x - laenge/2);
+    links.set_x(x -laenge/2);
+    unre.set_x(x + laenge/2);
+    obre.set_x(x + laenge/2);
+    rechts.set_x(x + laenge/2);
+    mitte.set_x(x);
+    oben.set_x(x);
+    unten.set_x(x);
+
+    unli.set_y(y - breite/2);
+    unre.set_y(y - breite/2);
+    unten.set_y(y - breite/2);
+    obre.set_y(y + breite/2);
+    obli.set_y(y + breite/2);
+    oben.set_y(y + breite/2);
+    mitte.set_y(y);
+    links.set_y(y);
+    rechts.set_y(y);
+
+    switch(bezugspunkt)
+    {
+        case OBEN_LINKS:
+            einfuegepunkt = obli;
+            break;
+        case OBEN:
+            einfuegepunkt = oben;
+            break;
+        case OBEN_RECHTS:
+            einfuegepunkt = obre;
+            break;
+        case LINKS:
+            einfuegepunkt = links;
+            break;
+        case MITTE:
+            einfuegepunkt = mitte;
+            break;
+        case RECHTS:
+            einfuegepunkt = rechts;
+            break;
+        case UNTEN_LINKS:
+            einfuegepunkt = unli;
+            break;
+        case UNTEN:
+            einfuegepunkt = unten;
+            break;
+        case UNTEN_RECHTS:
+            einfuegepunkt = unre;
+            break;
+    }
+}
+
+void rechteck3d::set_mipu(punkt3d p)
+{
+    set_mipu(p.x(), p.y(), p.z());
+}
+
+
+
+
+
+
+

@@ -91,7 +91,6 @@ private:
     double radius;
     bool bogen_im_uzs; //Bogen im Uhrzeigersinn
 
-    punkt2d mittelp;
     bool fehler;
     QString fehlertext;
 

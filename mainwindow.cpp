@@ -2316,7 +2316,7 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
                 }else if(zeile.contains(TOPF_A5)  && zeile.indexOf(TOPF_A5)==0  )
                 {
                     prgzeile = replaceparam(TOPF_A5, prgzeile, zeile);
-                }else if(zeile.contains(TOPF_MA)  && zeile.indexOf(TOPF_A5)==0  )
+                }else if(zeile.contains(TOPF_MA)  && zeile.indexOf(TOPF_MA)==0  )
                 {
                     prgzeile = replaceparam(TOPF_MA, prgzeile, zeile);
                 }else if(zeile.contains(TOPF_MB)  && zeile.indexOf(TOPF_MB)==0  )
