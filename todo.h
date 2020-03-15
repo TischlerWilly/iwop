@@ -1,9 +1,16 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.02.29"
+#define PROGRAMMVERSION     "1.2020.03.15"
 
 /*
+
+
+
+
+
+
+
 Zusatzwünsche:
 
 - Schnelländerung Bohrgruppe
@@ -14,10 +21,6 @@ Zusatzwünsche:
 - Fräsbogenrichtung umkehren uzs/guzs
 
 ---------------------------------------------------------------------------In Arbeit:
----------------------------------------------------------------------------Faufr
-- programmtext.cpp
-    ->aktualisiere_geo()        <<<<<-----HIER WEITER MACHEN
----------------------------------------------------------------------------
 ---------------------------------------------------------------------------Fgerade
 - programmtext.cpp
     ->aktualisiere_geo()
@@ -37,10 +40,6 @@ Zusatzwünsche:
 - programmtext.cpp
     ->aktualisiere_geo()
        >noch Ecken Verrunden umsetzen
----------------------------------------------------------------------------
----------------------------------------------------------------------------Fabfa
-- programmtext.cpp
-    ->aktualisiere_geo()
 ---------------------------------------------------------------------------
 
 

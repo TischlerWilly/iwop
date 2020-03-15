@@ -21,7 +21,9 @@ public:
     strecke();
     strecke(QString geotext);
             void    set_start(punkt3d startpunkt);
+            void    set_start(punkt2d startpunkt);
             void    set_ende(punkt3d endpunkt);
+            void    set_ende(punkt2d endpunkt);
             void    richtung_unkehren();
             void    drenen_um_startpunkt_2d(double drehwinkel, \
                                              bool drehrichtung_im_uhrzeigersinn);

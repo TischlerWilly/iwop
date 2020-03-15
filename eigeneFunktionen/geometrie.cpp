@@ -94,6 +94,49 @@ double winkel(double endpunkt_x, double endpunkt_y,\
 {
     //berechnet wird immer der Winkel zur gedachten waagerechten Grundlinie
     //im Gegenuhrzeigersinn
+    double wi, xdif, ydif;
+    xdif = endpunkt_x - mittelpunkt_x;
+    ydif = endpunkt_y - mittelpunkt_y;
+    if(  (xdif > 0)  &&  (ydif == 0)  )
+    {
+        wi = 0;
+    }else if(  (xdif < 0)  &&  (ydif == 0)  )
+    {
+        wi = 180;
+    }else if(  (xdif == 0)  &&  (ydif > 0)  )
+    {
+        wi = 90;
+    }else if(  (xdif == 0)  &&  (ydif < 0)  )
+    {
+        wi = 270;
+    }else if(  (xdif > 0)  &&  (ydif > 0)  )
+    {
+        //tan(alpha) == Gegenkathete / Ankathete
+        //tan(wi)    == ydif         / xdif
+        wi = atan(ydif/xdif);
+        wi = wi*180/M_PI;//Weil sonst Ergebnis in Bogenmaß;
+    }else if(  (xdif < 0)  &&  (ydif > 0)  )
+    {
+        xdif = xdif * -1;
+        wi = atan(ydif/xdif);
+        wi = wi*180/M_PI;//Weil sonst Ergebnis in Bogenmaß;
+        wi = 180 - wi;
+    }else if(  (xdif < 0)  &&  (ydif < 0)  )
+    {
+        xdif = xdif * -1;
+        ydif = ydif * -1;
+        wi = atan(ydif/xdif);
+        wi = wi*180/M_PI;//Weil sonst Ergebnis in Bogenmaß;
+        wi = wi + 180;
+    }else//(xdif > 0)  &&  (ydif < 0)
+    {
+        ydif = ydif * -1;
+        wi = atan(ydif/xdif);
+        wi = wi*180/M_PI;//Weil sonst Ergebnis in Bogenmaß;
+        wi = 360 - wi;
+    }
+    return wi;
+    /*
     punkt3d mipu;
     mipu.set_x(mittelpunkt_x);
     mipu.set_y(mittelpunkt_y);
@@ -137,24 +180,59 @@ double winkel(double endpunkt_x, double endpunkt_y,\
     {
         wi = 270;
     }
-
-    return wi;
+    */
 }
 
 double winkel(double endpunkt1_x, double endpunkt1_y,\
               double mittelpunkt_x, double mittelpunkt_y,\
               double endpunkt2_x, double endpunkt2_y)
 {
+    //sp, mipu, ep
     double w1 = winkel(endpunkt1_x, endpunkt1_y,\
                        mittelpunkt_x, mittelpunkt_y);
 
     double w2 = winkel(endpunkt2_x, endpunkt2_y,\
                        mittelpunkt_x, mittelpunkt_y);
-    if(w2 == 0)
+    double wi;
+    wi = w1 - w2;
+    if(wi < 0)
     {
-        w2=360;
+        wi = wi * -1;
     }
-    return w2-w1;
+    if(w1 > w2)
+    {
+        wi = 360 - wi;
+    }
+
+    QString msg;
+    msg += "Winkel 1: ";
+    msg += double_to_qstring(w1);
+    msg += "\n";
+    msg += "Winkel 2: ";
+    msg += double_to_qstring(w2);
+    msg += "\n";
+    msg += "Winkel: ";
+    msg += double_to_qstring(wi);
+    QMessageBox mb;
+    mb.setText(msg);
+    //mb.exec();
+
+    return wi;
+}
+
+double winkel(punkt2d ep1, punkt2d mipu, punkt2d ep2)
+{
+    return winkel(ep1.x(), ep1.y(), mipu.x(), mipu.y(), ep2.x(), ep2.y());
+}
+
+double winkel(punkt3d ep1, punkt3d mipu, punkt3d ep2)
+{
+    return winkel(ep1.x(), ep1.y(), mipu.x(), mipu.y(), ep2.x(), ep2.y());
+}
+
+double winkel(punkt3d ep1, punkt2d mipu, punkt3d ep2)
+{
+    return winkel(ep1.x(), ep1.y(), mipu.x(), mipu.y(), ep2.x(), ep2.y());
 }
 
 void trimmen(QString *geo1, QString *geo2)

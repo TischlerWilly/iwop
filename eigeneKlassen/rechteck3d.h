@@ -42,6 +42,9 @@ public:
     inline  void    set_einfuegepunkt(punkt3d p)
     {
         einfuegepunkt = p;
+        //Lager der Punkte aktualisieren:
+        set_laenge(l());
+        set_breite(b());
     }
     inline  void    set_einfuegepunkt(double x, double y, double z)
     {
@@ -210,6 +213,8 @@ public:
     }
 
     void    verschieben_um(double xversatz, double yversatz);
+    void    set_mipu(double x, double y, double z);
+    void    set_mipu(punkt3d p);
 
 private:
     punkt3d obli,   oben,   obre;

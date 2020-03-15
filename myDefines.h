@@ -52,6 +52,7 @@
 #define DLG_VAR10               "[SWVARD40]"
 #define DLG_FAUF                "[KAFRAE40]"
 #define DLG_FABF                "[KOABFA40]"
+#define DLG_FABF2               "[KO'AB_N2]"
 #define DLG_FGERADE             "[G1]"
 #define DLG_FGERAWI             "[G_WINK40]"
 #define DLG_FBOUZS              "[G2]"
