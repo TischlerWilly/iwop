@@ -3788,7 +3788,12 @@ void programmtext::aktualisiere_geo()
                 bogen bo;
                 bo.set_startpunkt(sp);
                 bo.set_endpunkt(ep);
-                bo.set_radius(text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble(), true);
+                double rad = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                if(rad < 0)
+                {
+                    rad = rad * -1;
+                }
+                bo.set_radius(rad, true);
                 bo.set_farbe(FARBE_BLAU);
                 bogen bo_orgi = bo;
                 bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
@@ -3816,14 +3821,14 @@ void programmtext::aktualisiere_geo()
                 QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
                 if(kor == "0")//mitte == keine
                 {
-                   laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                   laenge = rad;
                 }else if(kor == "1")//links
                 {
-                   laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                   laenge = rad;
                    laenge = laenge + k.radius();
                 }else if(kor == "2")//rechts
                 {
-                    laenge = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                    laenge = rad;
                     laenge = laenge - k.radius();
                 }
                 s.set_laenge_2d(laenge, strecke_bezugspunkt_start);
@@ -3849,7 +3854,12 @@ void programmtext::aktualisiere_geo()
                 bogen bo;
                 bo.set_startpunkt(sp);
                 bo.set_endpunkt(ep);
-                bo.set_radius(text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble(), false);
+                double rad = text_mitte(zeile, FBOUZS_RADBO, ENDPAR).toDouble();
+                if(rad < 0)
+                {
+                    rad = rad * -1;
+                }
+                bo.set_radius(rad, false);
                 bo.set_farbe(FARBE_BLAU);
                 bogen bo_orgi = bo;
                 bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
@@ -3876,14 +3886,14 @@ void programmtext::aktualisiere_geo()
                 QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
                 if(kor == "0")//mitte == keine
                 {
-                   laenge = text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble();
+                   laenge = rad;
                 }else if(kor == "1")//links
                 {
-                   laenge = text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble();
+                   laenge = rad;
                    laenge = laenge - k.radius();
                 }else if(kor == "2")//rechts
                 {
-                    laenge = text_mitte(zeile, FBOGUZS_RADBO, ENDPAR).toDouble();
+                    laenge = rad;
                     laenge = laenge + k.radius();
                 }
                 s.set_laenge_2d(laenge, strecke_bezugspunkt_start);
