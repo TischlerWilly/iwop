@@ -5,7 +5,6 @@
 //#include "eigeneKlassen/prgpfade.h"
 
 #define DATEIENDUNG_EIGENE          ".fmc"
-#define DATEIENDUNG_BACKUP          ".bak_"
 #define PROGRAMMNAME                "IWOP"
 #define ANZAHL_LETZTER_DATEIEN      15
 #define ANZAHL_OFFENER_DATEIEN      99
@@ -16,13 +15,10 @@
 #define ENDE_EINSTELLUNGEN  "---------------------------"
 
 //Parameter:
-#define SETTINGS_PFAD_WERKZEUGE             "[Pfad Werkzeugliste]"
 #define SETTINGS_ANZ_UNDO_T                 "[Anzahl Wiederrufenschritte Programmliste]"
 #define SETTINGS_ANZ_UNDO_W                 "[Anzahl Wiederrufenschritte Werkzeugliste]"
-#define SETTINGS_DXF_KLASSE_WSTNP           "[Klasse Werkstuecknullpunkt]"
-#define SETTINGS_DXF_KLASSE_GEO             "[Klasse Geometrieen]"
-#define SETTINGS_DXF_KLASSE_GEO_BEACHTEN    "[Klasse der Geometrieen beachten]"
-#define SETTINGS_FKON_BERECHNEN             "[Fraeskonturen grafisch darstellen]"
+#define SETTINGS_STDPATH_OPEN_OPTION        "[StandartPfadDateiOefnen_Option]"
+#define SETTINGS_STDPATH_OPEN_PATH          "[StandartPfadDateiOefnen_Pfad]"
 #define ENDE_ZEILE                          "#ENDE#"
 
 //-------------------------------------------------------------------------------------------------------------------------------

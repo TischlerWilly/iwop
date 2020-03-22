@@ -141,6 +141,7 @@
      <string>Extras</string>
     </property>
     <addaction name="actionProgrammliste_anzeigen"/>
+    <addaction name="actionEinstellungen"/>
     <addaction name="separator"/>
     <addaction name="actionMakeKommentar"/>
     <addaction name="actionMakeHalt"/>
@@ -500,6 +501,11 @@
   <action name="actionMakeFgerawi">
    <property name="text">
     <string>Gerade mit Winkel</string>
+   </property>
+  </action>
+  <action name="actionEinstellungen">
+   <property name="text">
+    <string>Einstellungen</string>
    </property>
   </action>
  </widget>

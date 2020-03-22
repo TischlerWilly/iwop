@@ -50,6 +50,8 @@
 #include "Dialoge/dialog_fgerawi.h"
 #include "Dialoge/dialog_fbouzs.h"
 #include "Dialoge/dialog_fboguzs.h"
+#include "Dialoge/dialog_einstellungen.h"
+#include "eigeneKlassen/settings.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -73,6 +75,7 @@ public slots:
     void slotSaveConfig(QString text);
     void slot_maus_pos(QPoint p);
     void slotNeedWKZ(QString dlgtyp);
+    void slotGetEinstellungen(settings s);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
@@ -86,6 +89,8 @@ private:
     Ui::MainWindow *ui;
 
     //Objekte:
+    settings        set;
+    Dialog_einstellungen dlgsettings;
     vorschau vorschaufenster;
     programmtexte   tt;
     werkzeug        wkz;
@@ -127,7 +132,6 @@ private:
     QStringList     konfiguration_ini;
     bool            konfiguration_ini_ist_vorhanden;
     uint            anz_neue_dateien;
-    QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
     QString         vorlage_pende;
     QString         vorlage_kom;
@@ -251,6 +255,7 @@ private slots:
     void on_actionMakeFbouzs_triggered();
     void on_actionMakeFboguzs_triggered();
     void on_actionMakeFgerawi_triggered();
+    void on_actionEinstellungen_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -5,7 +5,11 @@
 
 /*
 
-
+Settings:
+-derzeit ohne Auswirkungen sind folgende Parameter:
+    ->anz_undo_wkz
+    ->userpath_opendialog
+      --->die Klasse prgpfade nutzen zum bekommen de Pfades des Postprozessors!
 
 
 

@@ -2,12 +2,13 @@
 
 prgpfade::prgpfade()
 {
-    dir_dlgbilder       = "dlgbilder";
-    dir_wkzbilder       = "wkzbilder";
-    inifile             = "konfiguration.ini";
-    inifile_wkz         = "wkz.ini";
-    ini_letzteDateien   = "letzte_dateien.ini";
-    ini_cadMaschine     = "maschine_cad.ini";
+    dir_dlgbilder         = "dlgbilder";
+    dir_wkzbilder         = "wkzbilder";
+    inifile               = "konfiguration.ini";
+    inifile_postprozessor = "postprozessor.ini";
+    inifile_wkz           = "wkz.ini";
+    ini_letzteDateien     = "letzte_dateien.ini";
+    ini_cadMaschine       = "maschine_cad.ini";
 }
 
 //--------------------------------------Programmordner:
@@ -42,6 +43,14 @@ QString prgpfade::get_path_user()
     tmp += ".iwop";
     return tmp;
 }
+QString prgpfade::get_path_user_postprozessor()
+{
+    QString tmp;
+    tmp = QDir::homePath();
+    tmp += QDir::separator();
+    tmp += ".postprozessor";
+    return tmp;
+}
 QString prgpfade::get_path_wkzbilder()
 {
     QString tmp;
@@ -63,6 +72,14 @@ QString prgpfade::get_path_inifile()
     tmp = get_path_user();
     tmp += QDir::separator();
     tmp += inifile;
+    return tmp;
+}
+QString prgpfade::get_path_inifile_postprozessor()
+{
+    QString tmp;
+    tmp = get_path_user_postprozessor();
+    tmp += QDir::separator();
+    tmp += inifile_postprozessor;
     return tmp;
 }
 QString prgpfade::get_path_inifile_wkz()

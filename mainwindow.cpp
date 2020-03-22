@@ -11,7 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Defaultwerte:
     kopierterEintrag_t              = NICHT_DEFINIERT;
     kopierterEintrag_w              = NICHT_DEFINIERT;
-    wkz.set_undo_redo_anz(settings_anz_undo_t.toUInt());
+    //wkz.set_undo_redo_anz(settings_anz_undo_t.toUInt());
+    wkz.set_undo_redo_anz(set.anz_undo_prg_int());
     vorlage_pkopf                   = prgkopf.get_default();
     vorlage_pende                   = prgende.get_default();
     vorlage_kom                     = kom.get_default();
@@ -39,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_var10                   = dlgvar10.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
-    settings_anz_undo_t             = "10";
+    //settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
     anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen    
@@ -209,6 +210,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgfauf, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
+    connect(&dlgsettings, SIGNAL(signalSendEinsellungen(settings)), this, SLOT(slotGetEinstellungen(settings)));
 
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
@@ -470,6 +472,16 @@ int MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on)
 }
 
 //---------------------------------------------------Konfiguration
+void MainWindow::on_actionEinstellungen_triggered()
+{
+    dlgsettings.set_einstellungen(set);
+    dlgsettings.show();
+}
+void MainWindow::slotGetEinstellungen(settings s)
+{
+    set = s;
+    saveConfig();
+}
 
 QString MainWindow::loadConfig()
 {
@@ -497,7 +509,19 @@ QString MainWindow::loadConfig()
                 //-----------------------------------------------------Settings:
                 if(text.contains(SETTINGS_ANZ_UNDO_T))
                 {
-                    settings_anz_undo_t = selektiereEintrag(text, SETTINGS_ANZ_UNDO_T, ENDE_ZEILE);
+                    set.set_anz_undo_prg(selektiereEintrag(text, SETTINGS_ANZ_UNDO_T, ENDE_ZEILE));
+                }
+                if(text.contains(SETTINGS_ANZ_UNDO_W))
+                {
+                    set.set_anz_undo_wkz(selektiereEintrag(text, SETTINGS_ANZ_UNDO_W, ENDE_ZEILE));
+                }
+                if(text.contains(SETTINGS_STDPATH_OPEN_OPTION))
+                {
+                    set.set_option_path_opendialog(selektiereEintrag(text, SETTINGS_STDPATH_OPEN_OPTION, ENDE_ZEILE));
+                }
+                if(text.contains(SETTINGS_STDPATH_OPEN_PATH))
+                {
+                    set.set_userpath_opendialog(selektiereEintrag(text, SETTINGS_STDPATH_OPEN_PATH, ENDE_ZEILE));
                 }
                 //-----------------------------------------------------Dialoge:
                 if(text.contains(DLG_PKOPF))
@@ -598,7 +622,22 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       "\n";
     //----------------------------------------------------Einstellungen:
     inhaltVonKonfiguration +=       SETTINGS_ANZ_UNDO_T;
-    inhaltVonKonfiguration +=       settings_anz_undo_t;
+    inhaltVonKonfiguration +=       set.anz_undo_prg_qstring().toUtf8();
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+
+    inhaltVonKonfiguration +=       SETTINGS_ANZ_UNDO_W;
+    inhaltVonKonfiguration +=       set.anz_undo_wkz_qstring().toUtf8();
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+
+    inhaltVonKonfiguration +=       SETTINGS_STDPATH_OPEN_OPTION;
+    inhaltVonKonfiguration +=       set.option_path_opendialog().toUtf8();
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+
+    inhaltVonKonfiguration +=       SETTINGS_STDPATH_OPEN_PATH;
+    inhaltVonKonfiguration +=       set.userpath_opendialog().toUtf8();
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     //----------------------------------------------------
@@ -765,11 +804,7 @@ void MainWindow::slotSaveConfig(QString text)
         //------------------------------------------------Settings:
         if(text.contains(SETTINGS_ANZ_UNDO_T))
         {
-            settings_anz_undo_t = selektiereEintrag(text, SETTINGS_ANZ_UNDO_T, ENDE_ZEILE);
-        }
-        if(text.contains(SETTINGS_FKON_BERECHNEN))
-        {
-            //fkon_berechnen = selektiereEintrag(text, SETTINGS_FKON_BERECHNEN, ENDE_ZEILE);
+            //settings_anz_undo_t = selektiereEintrag(text, SETTINGS_ANZ_UNDO_T, ENDE_ZEILE);
         }
         //------------------------------------------------Dialoge:
         if(text.contains(DLG_PKOPF))
@@ -1507,7 +1542,7 @@ void MainWindow::on_actionNeu_triggered()
     anz_neue_dateien++;
     name += int_to_qstring(anz_neue_dateien);
     undo_redo tmpur;
-    tmpur.set_groesse_max(settings_anz_undo_t.toInt());
+    tmpur.set_groesse_max(set.anz_undo_prg_int());
     t.set_wkz(wkz);
     tt.add(t, name, tmpur);
     update_gui();
@@ -1565,7 +1600,7 @@ void MainWindow::openFile(QString pfad)
             t.nurlesend(readonly);
             t.aktualisieren_fkon_ein_aus(tt.get_aktualisieren_fkon_ein_aus());
             undo_redo tmpur;
-            tmpur.set_groesse_max(settings_anz_undo_t.toInt());
+            tmpur.set_groesse_max(set.anz_undo_prg_int());
             t.set_wkz(wkz);
             tt.add(t, pfad, tmpur);
             file.close();
@@ -5633,6 +5668,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

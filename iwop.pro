@@ -28,6 +28,7 @@ SOURCES += \
         Dialoge/dialog_bohren.cpp \
         Dialoge/dialog_bohren_x.cpp \
         Dialoge/dialog_bohren_y.cpp \
+        Dialoge/dialog_einstellungen.cpp \
         Dialoge/dialog_fabf.cpp \
         Dialoge/dialog_fauf.cpp \
         Dialoge/dialog_fboguzs.cpp \
@@ -75,6 +76,7 @@ SOURCES += \
         eigeneKlassen/rechteck.cpp \
         eigeneKlassen/rechteck3d.cpp \
         eigeneKlassen/rechtecktasche.cpp \
+        eigeneKlassen/settings.cpp \
         eigeneKlassen/strecke.cpp \
         eigeneKlassen/tabelle_tz3.cpp \
         eigeneKlassen/text_zeilenweise.cpp \
@@ -94,6 +96,7 @@ HEADERS += \
         Dialoge/dialog_bohren.h \
         Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
+        Dialoge/dialog_einstellungen.h \
         Dialoge/dialog_fabf.h \
         Dialoge/dialog_fauf.h \
         Dialoge/dialog_fboguzs.h \
@@ -173,6 +176,7 @@ HEADERS += \
         eigeneKlassen/rechteck.h \
         eigeneKlassen/rechteck3d.h \
         eigeneKlassen/rechtecktasche.h \
+        eigeneKlassen/settings.h \
         eigeneKlassen/strecke.h \
         eigeneKlassen/tabelle_tz3.h \
         eigeneKlassen/text_zeilenweise.h \
@@ -195,6 +199,7 @@ FORMS += \
         Dialoge/dialog_bohren.ui \
         Dialoge/dialog_bohren_x.ui \
         Dialoge/dialog_bohren_y.ui \
+        Dialoge/dialog_einstellungen.ui \
         Dialoge/dialog_fabf.ui \
         Dialoge/dialog_fauf.ui \
         Dialoge/dialog_fboguzs.ui \
