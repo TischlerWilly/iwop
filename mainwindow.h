@@ -185,6 +185,7 @@ private:
     void aktualisiere_letzte_dateien_menu();
     void aktualisiere_offene_dateien_menu();    
     void closeEvent(QCloseEvent *ce);
+    QString ausgabepfad_postprozessor();
 
     //Funktionen Sichtbarkeiten:
     void hideElemets_noFileIsOpen();

@@ -1,15 +1,11 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.03.21"
+#define PROGRAMMVERSION     "1.2020.03.28"
 
 /*
 
-Settings:
--derzeit ohne Auswirkungen sind folgende Parameter:
-    ->anz_undo_wkz
-    ->userpath_opendialog
-      --->die Klasse prgpfade nutzen zum bekommen de Pfades des Postprozessors!
+
 
 
 

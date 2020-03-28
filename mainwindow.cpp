@@ -11,8 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Defaultwerte:
     kopierterEintrag_t              = NICHT_DEFINIERT;
     kopierterEintrag_w              = NICHT_DEFINIERT;
-    //wkz.set_undo_redo_anz(settings_anz_undo_t.toUInt());
-    wkz.set_undo_redo_anz(set.anz_undo_prg_int());
+    wkz.set_undo_redo_anz(set.anz_undo_wkz_int());
     vorlage_pkopf                   = prgkopf.get_default();
     vorlage_pende                   = prgende.get_default();
     vorlage_kom                     = kom.get_default();
@@ -43,29 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
-    anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen    
-    QDir tmpdir("P:\\CNC");
-    if(tmpdir.exists())
-    {
-        pfad_oefne_fmc = "P:\\CNC";
-    }else
-    {
-        //pfad_oefne_fmc += "C:\\Users\\AV6\\Documents\\CNC-Programme";
-        QString tmp;
-        tmp  = QDir::homePath();
-        tmp += QDir::separator();
-        tmp += "Documents";
-        tmp += QDir::separator();
-        tmp += "CNC-Programme";
+    anz_neue_dateien                = 0;//Zählung neuer Dateien mit 0 beginnen und dann raufzählen
 
-        QDir d(tmp);
-        if(!d.exists())
-        {
-            d.mkpath(tmp);
-        }
-
-        pfad_oefne_fmc = tmp;
-    }
     letzte_geoefnete_dateien.set_anz_eintreage(ANZAHL_LETZTER_DATEIEN);
     speichern_unter_flag            = false;
 
@@ -114,6 +92,39 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     loadWKZ();
     loadConfig_letzte_Dateien();
+    //--------------------------------------------------------------------------------Std-Pfad für den Öffnen_Dialog ermitteln:
+    QString optionopen = set.option_path_opendialog();
+    QString openpath;
+    if(optionopen == "user")
+    {
+        openpath = set.userpath_opendialog();
+    }else //"post"
+    {
+        openpath = ausgabepfad_postprozessor();
+    }
+    QDir tmpdir(openpath);
+    if(!openpath.isEmpty() == tmpdir.exists())
+    {
+        pfad_oefne_fmc = openpath;
+    }else
+    {
+        //pfad_oefne_fmc += "C:\\Users\\AV6\\Documents\\CNC-Programme";
+        QString tmp;
+        tmp  = QDir::homePath();
+        tmp += QDir::separator();
+        tmp += "Documents";
+        tmp += QDir::separator();
+        tmp += "CNC-Programme";
+
+        QDir d(tmp);
+        if(!d.exists())
+        {
+            d.mkpath(tmp);
+        }
+
+        pfad_oefne_fmc = tmp;
+    }
+    //--------------------------------------------------------------------------------
 
     //connect:
     connect(&prgkopf, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
@@ -994,6 +1005,51 @@ void MainWindow::loadWKZ()
     aktualisiere_anzeigetext_wkz(true);
 }
 
+QString MainWindow::ausgabepfad_postprozessor()
+{
+    prgpfade pf;
+    QString pfad;
+    QFile file(pf.get_path_inifile_postprozessor());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        //Keine inidatei vom Postprozessor gefunden
+    } else
+    {
+        text_zeilenweise tz;
+        tz.set_text(file.readAll());
+        bool useB = false;
+        QString a,b;
+        for(uint i=1; i<=tz.zeilenanzahl() ;i++)
+        {
+            QString zeile = tz.zeile(i);
+            if(zeile.contains("use_zielB:"))
+            {
+                if(text_rechts(zeile, "use_zielB:") == "ja")
+                {
+                    useB = true;
+                }else
+                {
+                    useB = false;
+                }
+            }else if(zeile.contains("verzeichnis_zielA:"))
+            {
+                a = text_rechts(zeile, "verzeichnis_zielA:");
+            }else if(zeile.contains("verzeichnis_zielB:"))
+            {
+                b = text_rechts(zeile, "verzeichnis_zielB:");
+            }
+        }
+        if(useB == false)
+        {
+            pfad = a;
+        }else
+        {
+            pfad = b;
+        }
+        file.close();
+    }
+    return pfad;
+}
 //---------------------------------------------------Sichtbarkeiten
 void MainWindow::hideElemets_noFileIsOpen()
 {
