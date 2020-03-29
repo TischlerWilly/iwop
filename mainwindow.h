@@ -76,6 +76,7 @@ public slots:
     void slot_maus_pos(QPoint p);
     void slotNeedWKZ(QString dlgtyp);
     void slotGetEinstellungen(settings s);
+    void slotGetZeilennummer(uint nr);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);

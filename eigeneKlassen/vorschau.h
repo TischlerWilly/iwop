@@ -41,13 +41,16 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void zoom(bool dichter);
+    punkt2d get_mauspos_npwst();
+    punkt2d get_mauspos_npanschlag();
+    uint get_zeile_von_Mauspos();
 
     QColor set_farbe(QString farbe);
     Qt::PenStyle set_linienstil(QString stil);
 
 
     punkt n;//Nullpunkt
-    punkt npv;//Nullpunkt-Verschiebung
+    punkt npv;//Nullpunkt-Verschiebung(Nicht XY-Versatz, Verschiebung des sichtbaren Ausschnittes)
     rechteck wst;//Werkstück
     rechteck wstd;//Dardestelltes Werkstück
     float sf;//Skalierungsfaktor
@@ -56,11 +59,13 @@ private:
     uint aktuelle_zeilennummer;
     int maus_pos_alt_x;
     int maus_pos_alt_y;
+    uint zeile_von_maus_pos;//Zum Zwischenspeichern damit Ergebnis nicht verfälscht wird wenn Maus sich bewegt
     bool mrg; //Mausrad gedrückt
     
 signals:
     void anfrage_werkstueckmasse();
     void sende_maus_pos(QPoint p);
+    void sende_zeilennummer(uint nr);
 
 public slots:
     void slot_aktualisieren(programmtext t_neu, int aktive_zeile);
@@ -68,6 +73,8 @@ public slots:
 
 private slots:
     void slot_zf_gleich_eins();
+    void slot_tunix();
+    void slot_sende_zeilennummer();
 
 };
 

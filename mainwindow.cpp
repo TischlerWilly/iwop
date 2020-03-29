@@ -97,15 +97,36 @@ MainWindow::MainWindow(QWidget *parent) :
     QString openpath;
     if(optionopen == "user")
     {
-        openpath = set.userpath_opendialog();
+        openpath = set.userpath_opendialog();        
     }else //"post"
     {
         openpath = ausgabepfad_postprozessor();
     }
-    QDir tmpdir(openpath);
-    if(!openpath.isEmpty() == tmpdir.exists())
+
+    if(!openpath.isEmpty())
     {
-        pfad_oefne_fmc = openpath;
+        openpath += QDir::separator();
+        openpath += "fmc";
+        QDir tmpdir(openpath);
+        if(tmpdir.exists())
+        {
+            pfad_oefne_fmc = openpath;
+        }else
+        {
+            //pfad_oefne_fmc += "C:\\Users\\AV6\\Documents\\CNC-Programme";
+            QString tmp;
+            tmp  = QDir::homePath();
+            tmp += QDir::separator();
+            tmp += "Documents";
+            tmp += QDir::separator();
+            tmp += "CNC-Programme";
+            QDir d(tmp);
+            if(!d.exists())
+            {
+                d.mkpath(tmp);
+            }
+            pfad_oefne_fmc = tmp;
+        }
     }else
     {
         //pfad_oefne_fmc += "C:\\Users\\AV6\\Documents\\CNC-Programme";
@@ -115,13 +136,11 @@ MainWindow::MainWindow(QWidget *parent) :
         tmp += "Documents";
         tmp += QDir::separator();
         tmp += "CNC-Programme";
-
         QDir d(tmp);
         if(!d.exists())
         {
             d.mkpath(tmp);
         }
-
         pfad_oefne_fmc = tmp;
     }
     //--------------------------------------------------------------------------------
@@ -221,6 +240,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgfauf, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
+    connect(&vorschaufenster, SIGNAL(sende_zeilennummer(uint)), this, SLOT(slotGetZeilennummer(uint)));
     connect(&dlgsettings, SIGNAL(signalSendEinsellungen(settings)), this, SLOT(slotGetEinstellungen(settings)));
 
     update_gui();
@@ -488,6 +508,7 @@ void MainWindow::on_actionEinstellungen_triggered()
     dlgsettings.set_einstellungen(set);
     dlgsettings.show();
 }
+
 void MainWindow::slotGetEinstellungen(settings s)
 {
     set = s;
@@ -5103,6 +5124,18 @@ void MainWindow::slot_maus_pos(QPoint p)
     QString x_ = QString::fromStdString(int_to_string(x));
     QString y_ = QString::fromStdString(int_to_string(y));
     ui->statusBar->showMessage("X:" + x_ + " / Y:" + y_);
+}
+
+void MainWindow::slotGetZeilennummer(uint nr)
+{
+    ui->listWidget_Programmliste->setCurrentRow(nr-1);//Aktuelle Zeile setzen
+    for(int i=1; i<=ui->listWidget_Programmliste->count() ;i++)
+    {
+        ui->listWidget_Programmliste->item(i-1)->setSelected(false);//Alle Zeilen die Deaktivierung
+    }
+    ui->listWidget_Programmliste->item(nr-1)->setSelected(true);//Aktuelle Zeile aktivieren
+    ui->listWidget_Programmliste->setFocus();//Listwidget in den Fokus setzen
+    on_action_aendern_triggered();//Zeile bearbeiten
 }
 
 //---------------------------------------------------Dialoge WOP:

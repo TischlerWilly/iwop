@@ -1,11 +1,15 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.03.28"
+#define PROGRAMMVERSION     "1.2020.03.29"
 
 /*
 
-
+- uint vorschau::get_zeile_von_Mauspos()
+    ->PUNKT
+    ->STRECKE
+    ->BOGEN
+    ->RECHTECK3D
 
 
 

@@ -847,6 +847,95 @@ void vorschau::zoom(bool dichter)
 
 }
 
+punkt2d vorschau::get_mauspos_npanschlag()
+{
+    QPoint p = this->mapFromGlobal(QCursor::pos());
+    int abst_nullp_x = p.x() - n.x + npv.x;
+    int abst_nullp_y = p.y() - n.y + npv.y;
+
+    punkt2d p2d;
+    p2d.set_x(abst_nullp_x/sf/zf);
+    p2d.set_y(abst_nullp_y/sf*-1/zf);
+    return p2d;
+}
+
+punkt2d vorschau::get_mauspos_npwst()
+{
+    punkt2d p;
+    p = get_mauspos_npanschlag();
+    p.set_x(p.x()-t.get_ax());
+    p.set_y(p.y()-t.get_ay());
+    return p;
+}
+
+uint vorschau::get_zeile_von_Mauspos()
+{
+    uint zeile = 0;
+    double abst = 9999999999;
+    strecke s; //nehmen wir für Längenberechnung/Abstandsberechnung
+    s.set_start(get_mauspos_npanschlag());
+    text_zeilenweise geotext = t.get_geo().get_text_zeilenweise();
+
+    for(uint i=1;i<=geotext.zeilenanzahl();i++)
+    {
+        text_zeilenweise spalten;
+        spalten.set_trennzeichen(TRZ_EL_);
+        spalten.set_text(geotext.zeile(i));
+
+        for(uint ii=1;ii<=spalten.zeilenanzahl();ii++)
+        {
+            text_zeilenweise element;
+            element.set_trennzeichen(TRZ_PA_);
+            element.set_text(spalten.zeile(ii));
+
+            if(element.get_text().contains(PUNKT))
+            {
+                //...
+            }else if(element.get_text().contains(STRECKE))
+            {
+                //...
+            }else if(element.get_text().contains(BOGEN))
+            {
+                //...
+            }else if(  element.get_text().contains(KREIS)  ||  element.get_text().contains(ZYLINDER)  )
+            {
+                punkt2d ep;
+                ep.set_x(element.zeile(2).toDouble());
+                ep.set_y(element.zeile(3).toDouble());
+                s.set_ende(ep);
+                double l = s.laenge2dim();
+                double rad = element.zeile(5).toDouble();
+                if(l > rad)
+                {
+                    l = l - rad;
+                }else
+                {
+                    double abst_mipu = l;
+                    double abst_umkreis = rad - l;
+                    double abst_min;
+                    if(abst_mipu < abst_umkreis)
+                    {
+                        abst_min = abst_mipu;
+                    }else
+                    {
+                        abst_min = abst_umkreis;
+                    }
+                    l = abst_min;
+                }
+                if(l < abst)
+                {
+                    abst = l;
+                    zeile = i;
+                }
+            }else if(  element.get_text().contains(RECHTECK3D)  ||  element.get_text().contains(WUERFEL)  )
+            {
+                //...
+            }
+        }
+    }
+    return zeile;
+}
+
 void vorschau::mouseMoveEvent(QMouseEvent *event)
 {
     if(mrg)
@@ -912,10 +1001,36 @@ void vorschau::mousePressEvent(QMouseEvent *event)
         maus_pos_alt_y = event->y();
     }else if(event->button() == Qt::RightButton)
     {
+        punkt2d pwst;
+        pwst = get_mauspos_npwst();
+        QString msg_pos_wst;
+        msg_pos_wst += "(X: ";
+        msg_pos_wst += pwst.x_QString();
+        msg_pos_wst += " / Y: ";
+        msg_pos_wst += pwst.y_QString();
+        msg_pos_wst += ")";
+
+        uint zeile = get_zeile_von_Mauspos();
+        zeile_von_maus_pos = zeile;
+        slot_aktives_Element_einfaerben(zeile);
+        QString msgedit;
+        msgedit += "Zeile ";
+        msgedit += int_to_qstring(zeile);
+        msgedit += " bearbeiten";
+
         QMenu m(this);
         m.addAction("Ansicht einpassen", this, SLOT(slot_zf_gleich_eins()), 0) ;
+        m.addAction(msg_pos_wst, this, SLOT(slot_tunix()), 0) ;
+        m.addAction(msgedit, this, SLOT(slot_sende_zeilennummer()), 0) ;
         m.exec(this->mapFrom(this, QCursor::pos()));
     }
+}
+
+void vorschau::slot_sende_zeilennummer()
+{
+    uint zeile = zeile_von_maus_pos;
+    slot_aktives_Element_einfaerben(zeile);
+    emit sende_zeilennummer(zeile);
 }
 
 void vorschau::mouseReleaseEvent(QMouseEvent *event)
@@ -932,6 +1047,11 @@ void vorschau::slot_zf_gleich_eins()
     npv.x = 0;
     npv.y = 0;
     this->update();
+}
+
+void vorschau::slot_tunix()
+{
+
 }
 
 QColor vorschau::set_farbe(QString farbe)
