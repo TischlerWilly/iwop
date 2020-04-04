@@ -46,33 +46,36 @@ public:
     }  
     inline double laenge3dim()
     {
-        return laenge3d;
+        return  laenge_3d(start, ende);
     }
     inline double laenge2dim()
     {
-        return laenge2d;
+        return  laenge_2d(start, ende);
     }
     inline QString laenge3dim_QString()
     {
-        return double_to_qstring(laenge3d);
+        return double_to_qstring(laenge3dim());
     }
     inline QString laenge2dim_QString()
     {
-        return double_to_qstring(laenge2d);
+        return double_to_qstring(laenge2dim());
     }
 
     punkt3d get_mittelpunkt3d();
     punkt2d get_mittelpunkt2d();
 
     double get_winkel();
+    double get_abst(punkt3d p);
+    double get_abst(punkt2d p);
 
     QString get_text();
 
 private:
     punkt3d start, ende;
-    double laenge3d, laenge2d;
 
-    void laenge_berechnen();
+    double laenge_2d(punkt3d sp, punkt3d ep);
+    double laenge_3d(punkt3d sp, punkt3d ep);
+    double get_abst_gerade(punkt3d p);
 
 
 

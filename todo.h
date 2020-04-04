@@ -4,6 +4,9 @@
 #define PROGRAMMVERSION     "1.2020.03.29"
 
 /*
+- double strecke::get_abst(punkt3d p)
+   ->void MainWindow::on_actionTestfunktion_triggered()
+
 
 - uint vorschau::get_zeile_von_Mauspos()
     ->PUNKT

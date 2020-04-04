@@ -890,7 +890,16 @@ uint vorschau::get_zeile_von_Mauspos()
 
             if(element.get_text().contains(PUNKT))
             {
-                //...
+                punkt2d ep;
+                ep.set_x(element.zeile(2).toDouble());
+                ep.set_y(element.zeile(3).toDouble());
+                s.set_ende(ep);
+                double l = s.laenge2dim();
+                if(l < abst)
+                {
+                    abst = l;
+                    zeile = i;
+                }
             }else if(element.get_text().contains(STRECKE))
             {
                 //...

@@ -8,8 +8,6 @@ strecke::strecke()
     p.set_z(0);
     set_start(p);
     set_ende(p);
-    laenge2d = 0;
-    laenge3d = 0;
 }
 
 strecke::strecke(QString geotext)
@@ -34,7 +32,6 @@ strecke::strecke(QString geotext)
 void strecke::set_start(punkt3d startpunkt)
 {
     start = startpunkt;
-    laenge_berechnen();
 }
 
 void strecke::set_start(punkt2d startpunkt)
@@ -43,13 +40,11 @@ void strecke::set_start(punkt2d startpunkt)
     p.set_x(startpunkt.x());
     p.set_y(startpunkt.y());
     start = p;
-    laenge_berechnen();
 }
 
 void strecke::set_ende(punkt3d endpunkt)
 {
     ende = endpunkt;
-    laenge_berechnen();
 }
 
 void strecke::set_ende(punkt2d endpunkt)
@@ -58,7 +53,6 @@ void strecke::set_ende(punkt2d endpunkt)
     p.set_x(endpunkt.x());
     p.set_y(endpunkt.y());
     ende = p;
-    laenge_berechnen();
 }
 
 void strecke::richtung_unkehren()
@@ -68,16 +62,19 @@ void strecke::richtung_unkehren()
     ende = tmp;
 }
 
-void strecke::laenge_berechnen()
+double strecke::laenge_3d(punkt3d sp, punkt3d ep)
 {
-    punkt3d p3 = ende-start;
-    laenge3d = sqrt(p3.x()*p3.x() + p3.y()*p3.y() + p3.z()*p3.z());
+    punkt3d p3 = ep - sp;
+    return sqrt(p3.x()*p3.x() + p3.y()*p3.y() + p3.z()*p3.z());
                 //Wurzel aus (a²+b²+c²)
+}
 
-    punkt2d sp(start);
-    punkt2d ep(ende);
-    punkt2d p2 = ep-sp;
-    laenge2d = sqrt(p2.x()*p2.x() + p2.y()*p2.y()); //Wurzel aus (a²+b²)
+double strecke::laenge_2d(punkt3d sp, punkt3d ep)
+{
+    punkt2d spu(sp);
+    punkt2d epu(ep);
+    punkt2d p2 = epu-spu;
+    return sqrt(p2.x()*p2.x() + p2.y()*p2.y()); //Wurzel aus (a²+b²)
 }
 
 punkt3d strecke::get_mittelpunkt3d()
@@ -137,7 +134,7 @@ void strecke::drenen_um_endpunkt_2d(double drehwinkel, bool drehrichtung_im_uhrz
 
 void strecke::set_laenge_2d(double neue_laenge, strecke_bezugspunkt bezugspunkt)
 {
-    double skalfakt = neue_laenge/laenge2d;
+    double skalfakt = neue_laenge/laenge_2d(startp(), endp());
 
     switch(bezugspunkt)
     {
@@ -154,7 +151,6 @@ void strecke::set_laenge_2d(double neue_laenge, strecke_bezugspunkt bezugspunkt)
         p3.set_y(ep.y());
         p3.set_z(ende.z());
         set_ende(p3);
-        laenge_berechnen();
     }
         break;
     case strecke_bezugspunkt_mitte:
@@ -182,8 +178,6 @@ void strecke::set_laenge_2d(double neue_laenge, strecke_bezugspunkt bezugspunkt)
         p3s.set_y(sp.y());
         p3s.set_z(start.z());
         set_start(p3s);
-
-        laenge_berechnen();
     }
         break;
     case strecke_bezugspunkt_ende:
@@ -199,7 +193,6 @@ void strecke::set_laenge_2d(double neue_laenge, strecke_bezugspunkt bezugspunkt)
         p3.set_y(sp.y());
         p3.set_z(start.z());
         set_start(p3);
-        laenge_berechnen();
     }
         break;
     }
@@ -268,3 +261,88 @@ double strecke::get_winkel()
 
     return w;
 }
+
+double strecke::get_abst_gerade(punkt3d p)
+{
+    //Strecke in Vektorenform bringen:
+    //Gerade = ortsvektor + (var * Richtungsvektor)
+    //Gerade =     sp     + (var * (ep-sp))
+    punkt3d ov; //Ortsvektor
+    ov = startp();
+    punkt3d rv; //Richtungsvektor
+    rv.set_x(  endp().x() - startp().x()  );
+    rv.set_y(  endp().y() - startp().y()  );
+    rv.set_z(  endp().z() - startp().z()  );
+    // Gerade = ov   + (var * rv  )
+    //          ov.x          rv.x   --> ov.x + (var * rv.x)
+    //          ov.y + (var * rv.y)  --> ov.y + (var * rv.y)
+    //          ov.z          rv.z   --> ov.z + (var * rv.z)
+
+    //  rv   * (Gerade - p  ) = 0
+    //  rv.x             p.x
+    //  rv.y * (Gerade - p.y) = 0
+    //  rv.z             p.z
+
+    // Ausmultiplizienen
+    //((rv.x * gerade.x) + (rv.y * gerade.y) + (rv.z * gerade.z)) - ( (rv.x * p.x) + (rv.y * p.y) + (rv.z * p.z) ) = 0
+    //((rv.x * gerade.x) + (rv.y * gerade.y) + (rv.z * gerade.z)) - (                    hans                    ) = 0
+    double hans = ( rv.x() * p.x() ) + (rv.y() * p.y() ) + (rv.z() * p.z() );
+
+    //((rv.x * gerade.x) + (rv.y * gerade.y) + (rv.z * gerade.z)) - hans = 0
+    //                        3  * (  2  +   3 * s )
+    //(rv.x * gerade.x) --> rv.x * (ov.x + rv.x*var)
+    //                             6 +  9s
+    //rv.x * ov.x + (rv.x*rv.x*var)
+    //(rv.x * ov.x + (rv.x*rv.x*var)) + (rv.y * ov.y + (rv.y*rv.y*var)) + (rv.z * ov.z + (rv.z*rv.z*var)) - hans = 0
+    //    a        + (rv.x*rv.x*var)) + (      b     + (rv.y*rv.y*var)) + (     c      + (rv.z*rv.z*var)) - hans = 0
+    //    a        + (    d    *var)) + (      b     + (     e *  var)) + (     c      + (     f *  var)) - hans = 0
+    //    a + (d * var) + b + (e *  var) + c + (f *  var) - hans = 0
+    //    a + b + c - hans  + ((d+e+f)*var )  = 0
+    //          g           +  (   h  *var )  = 0   /-g
+    //                    h * var = -g              /:h
+    //  var = (-g)/h
+    double a = rv.x() * ov.x();
+    double b = rv.y() * ov.y();
+    double c = rv.z() * ov.z();
+    double d = rv.x() * rv.x();
+    double e = rv.y() * rv.y();
+    double f = rv.z() * rv.z();
+    double g = a + b + c - hans;
+    double h = d + e + f;
+    double var = (-1 * g)/h;
+
+    //var in gerade einsetzen
+    // Gerade = ov   + (var * rv  )
+    punkt3d pp; //Punkt auf der Geraden an dem die Senkrechte linie zum Punkt P beginnt
+    pp.set_x(  ov.x() + (var * rv.x())  );
+    pp.set_y(  ov.y() + (var * rv.y())  );
+    pp.set_z(  ov.z() + (var * rv.z())  );
+
+    return laenge_3d(p, pp);
+}
+
+double strecke::get_abst(punkt3d p)
+{
+    return get_abst_gerade(p);
+    //dies ist falsch wenn der Punkt nicht im Bereich zwischen sp und ep liegt, weil die Strecke dann verlänger wird
+}
+
+double strecke::get_abst(punkt2d p)
+{
+    punkt3d p3d;
+    p3d.set_x(p.x());
+    p3d.set_y(p.y());
+    return  get_abst(p3d);
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -258,6 +258,7 @@ private slots:
     void on_actionMakeFboguzs_triggered();
     void on_actionMakeFgerawi_triggered();
     void on_actionEinstellungen_triggered();
+    void on_actionTestfunktion_triggered();
 };
 
 #endif // MAINWINDOW_H

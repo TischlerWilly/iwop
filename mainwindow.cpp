@@ -502,6 +502,22 @@ int MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on)
     return row;
 }
 
+//--------------------------------------------------
+void MainWindow::on_actionTestfunktion_triggered()
+{
+    strecke s;
+    punkt3d sp, ep, p;
+    ep.set_x(10);
+    p.set_x(2);
+    p.set_y(3);
+    s.set_start(sp);
+    s.set_ende(ep);
+    double abst = s.get_abst(p);
+    QMessageBox mb;
+    mb.setText(double_to_qstring(abst));
+    mb.exec();
+}
+
 //---------------------------------------------------Konfiguration
 void MainWindow::on_actionEinstellungen_triggered()
 {
@@ -5757,6 +5773,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

@@ -140,6 +140,7 @@
     <property name="title">
      <string>Extras</string>
     </property>
+    <addaction name="actionTestfunktion"/>
     <addaction name="actionProgrammliste_anzeigen"/>
     <addaction name="actionEinstellungen"/>
     <addaction name="separator"/>
@@ -506,6 +507,11 @@
   <action name="actionEinstellungen">
    <property name="text">
     <string>Einstellungen</string>
+   </property>
+  </action>
+  <action name="actionTestfunktion">
+   <property name="text">
+    <string>Testfunktion</string>
    </property>
   </action>
  </widget>
