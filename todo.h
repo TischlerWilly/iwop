@@ -14,8 +14,8 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 
 #############################################################################
 
-- double strecke::get_abst(punkt3d p)
-   ->void MainWindow::on_actionTestfunktion_triggered()
+->void MainWindow::on_actionTestfunktion_triggered()
+  -->Testfunktion verstecken
 
 
 - uint vorschau::get_zeile_von_Mauspos()
