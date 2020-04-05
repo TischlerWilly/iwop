@@ -244,23 +244,23 @@ void trimmen(QString *geo1, QString *geo2)
         strecke s1(text_a);
         strecke s2(text_b);
 
-        if(s1.endp() == s2.startp())
+        if(s1.endpu() == s2.stapu())
         {
             return;
         }
 
         punkt3d schnittpunkt;
-        schnittpunkt.set_z(s1.endp().z());
+        schnittpunkt.set_z(s1.endpu().z());
         //Schnittpunkt der beiden Geraden berechnen:
-        if(s1.startp().x()!=s1.endp().x()  &&  s2.startp().x()!=s2.endp().x())//sonst div/0 möglich
+        if(s1.stapu().x()!=s1.endpu().x()  &&  s2.stapu().x()!=s2.endpu().x())//sonst div/0 möglich
         {
             //Geradengleichungen aufstellen y = m*x + t:
             //m = (y2-y1):(x2-x1)
-            double m1 = (  s1.endp().y()-s1.startp().y()  )  /  (  s1.endp().x()-s1.startp().x()  );
-            double m2 = (  s2.endp().y()-s2.startp().y()  )  /  (  s2.endp().x()-s2.startp().x()  );
+            double m1 = (  s1.endpu().y()-s1.stapu().y()  )  /  (  s1.endpu().x()-s1.stapu().x()  );
+            double m2 = (  s2.endpu().y()-s2.stapu().y()  )  /  (  s2.endpu().x()-s2.stapu().x()  );
             //t = y1 - (m1*x1)
-            double t1 = s1.startp().y()  -  (m1*s1.startp().x());
-            double t2 = s2.startp().y()  -  (m2*s2.startp().x());
+            double t1 = s1.stapu().y()  -  (m1*s1.stapu().x());
+            double t2 = s2.stapu().y()  -  (m2*s2.stapu().x());
             //Geradengleichungen gleichsetzen:
             //m1*x+t1 = m2*x+t2     /-m2*x
             //(m1-m2)*x+t1 = t2     /-t1
@@ -276,14 +276,14 @@ void trimmen(QString *geo1, QString *geo2)
             s2.set_start(schnittpunkt);
         }else
         {
-            if(s1.startp().x()==s1.endp().x()  &&  s2.startp().x()!=s2.endp().x())//s1 ist senkrecht
+            if(s1.stapu().x()==s1.endpu().x()  &&  s2.stapu().x()!=s2.endpu().x())//s1 ist senkrecht
             {
                 //heißt x von s1 ist bekannt
                 //Geradengleichungen aufstellen für s2     y = m*x + t:
-                double m = (  s2.endp().y()-s2.startp().y()  )  /  (  s2.endp().x()-s2.startp().x()  );
+                double m = (  s2.endpu().y()-s2.stapu().y()  )  /  (  s2.endpu().x()-s2.stapu().x()  );
                 //t = y1 - (m*x)
-                double t = s2.startp().y()  -  (m*s2.startp().x());
-                double x = s1.startp().x();
+                double t = s2.stapu().y()  -  (m*s2.stapu().x());
+                double x = s1.stapu().x();
                 //x in die Gleichung einsetzen:
                 double y = m*x+t;
 
@@ -291,14 +291,14 @@ void trimmen(QString *geo1, QString *geo2)
                 schnittpunkt.set_y(y);
                 s1.set_ende(schnittpunkt);
                 s2.set_start(schnittpunkt);
-            }else if(s1.startp().x()!=s1.endp().x()  &&  s2.startp().x()==s2.endp().x())//s2 ist senkrecht
+            }else if(s1.stapu().x()!=s1.endpu().x()  &&  s2.stapu().x()==s2.endpu().x())//s2 ist senkrecht
             {
                 //heißt x von s2 ist bekannt
                 //Geradengleichungen aufstellen für s1     y = m*x + t:
-                double m = (  s1.endp().y()-s1.startp().y()  )  /  (  s1.endp().x()-s1.startp().x()  );
+                double m = (  s1.endpu().y()-s1.stapu().y()  )  /  (  s1.endpu().x()-s1.stapu().x()  );
                 //t = y - (m*x)
-                double t = s1.startp().y()  -  (m*s1.startp().x());
-                double x = s2.startp().x();
+                double t = s1.stapu().y()  -  (m*s1.stapu().x());
+                double x = s2.stapu().x();
                 //x in die Gleichung einsetzen:
                 double y = m*x+t;
 
@@ -325,7 +325,7 @@ void trimmen(QString *geo1, QString *geo2)
         strecke s(text_a);
         bogen b(text_b);
 
-        if(s.endp() == b.start())
+        if(s.endpu() == b.start())
         {
             return;
         }
@@ -345,10 +345,10 @@ void trimmen(QString *geo1, QString *geo2)
         //    x2 = X-Wert der vom Endpunkt der Strecke
         //    y1 = Y-Wert der vom Startpunkt der Strecke
         //    y2 = Y-Wert der vom Endpunkt der Strecke
-        double x1= s.startp().x();
-        double x2= s.endp().x();
-        double y1= s.startp().y();
-        double y2= s.endp().y();
+        double x1= s.stapu().x();
+        double x2= s.endpu().x();
+        double y1= s.stapu().y();
+        double y2= s.endpu().y();
         // a = y1-y2
         // b = x2-x1
         // c = x2*y1 - x1*y2
@@ -373,7 +373,7 @@ void trimmen(QString *geo1, QString *geo2)
             // y = my+ b*d / (a²+b²)
             double var_y = my+ var_b*var_d / (var_a*var_a + var_b*var_b);
 
-            punkt3d p3d = s.endp();
+            punkt3d p3d = s.endpu();
             p3d.set_x(var_x);
             p3d.set_y(var_y);
             s.set_ende(p3d);
@@ -392,8 +392,8 @@ void trimmen(QString *geo1, QString *geo2)
             double var_y1 = my+ (var_b*var_d - var_a*sqrt(var_e)) / (var_a*var_a + var_b*var_b);
             double var_y2 = my+ (var_b*var_d + var_a*sqrt(var_e)) / (var_a*var_a + var_b*var_b);
 
-            punkt3d p3d1 = s.endp();
-            punkt3d p3d2 = s.endp();
+            punkt3d p3d1 = s.endpu();
+            punkt3d p3d2 = s.endpu();
 
             p3d1.set_x(var_x1);
             p3d1.set_y(var_y1);
@@ -441,7 +441,7 @@ void trimmen(QString *geo1, QString *geo2)
         bogen b(text_a);
         strecke s(text_b);
 
-        if(b.ende() == s.startp())
+        if(b.ende() == s.stapu())
         {
             return;
         }
@@ -461,10 +461,10 @@ void trimmen(QString *geo1, QString *geo2)
         //    x2 = X-Wert der vom Endpunkt der Strecke
         //    y1 = Y-Wert der vom Startpunkt der Strecke
         //    y2 = Y-Wert der vom Endpunkt der Strecke
-        double x2= s.startp().x();
-        double x1= s.endp().x();
-        double y2= s.startp().y();
-        double y1= s.endp().y();
+        double x2= s.stapu().x();
+        double x1= s.endpu().x();
+        double y2= s.stapu().y();
+        double y1= s.endpu().y();
         // a = y1-y2
         // b = x2-x1
         // c = x2*y1 - x1*y2
@@ -489,7 +489,7 @@ void trimmen(QString *geo1, QString *geo2)
             // y = my+ b*d / (a²+b²)
             double var_y = my+ var_b*var_d / (var_a*var_a + var_b*var_b);
 
-            punkt3d p3d = s.startp();
+            punkt3d p3d = s.stapu();
             p3d.set_x(var_x);
             p3d.set_y(var_y);
             s.set_start(p3d);
@@ -508,8 +508,8 @@ void trimmen(QString *geo1, QString *geo2)
             double var_y1 = my+ (var_b*var_d - var_a*sqrt(var_e)) / (var_a*var_a + var_b*var_b);
             double var_y2 = my+ (var_b*var_d + var_a*sqrt(var_e)) / (var_a*var_a + var_b*var_b);
 
-            punkt3d p3d1 = s.startp();
-            punkt3d p3d2 = s.startp();
+            punkt3d p3d1 = s.stapu();
+            punkt3d p3d2 = s.stapu();
 
             p3d1.set_x(var_x1);
             p3d1.set_y(var_y1);
@@ -583,7 +583,7 @@ void trimmen(QString *geo1, QString *geo2)
         tmp.set_x(b2.mitte().x());
         tmp.set_y(b2.mitte().y());
         s.set_ende(tmp);
-        double abst = s.laenge2dim();
+        double abst = s.laenge2d();
 
         if(abst > r1+r2)//Kreise liegen zu weit auseinander
         {
@@ -592,8 +592,8 @@ void trimmen(QString *geo1, QString *geo2)
         {
             strecke_bezugspunkt sb = strecke_bezugspunkt_start;
             s.set_laenge_2d(r1, sb);
-            b1.set_endpunkt(s.endp());
-            b1.set_startpunkt(s.endp());
+            b1.set_endpunkt(s.endpu());
+            b1.set_startpunkt(s.endpu());
         }else//Kreise schneiden sich in 2 Punkten
         {
             //http://walter.bislins.ch/blog/index.asp?page=Schnittpunkte+zweier+Kreise+berechnen+%28JavaScript%29

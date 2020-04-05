@@ -8,6 +8,11 @@ punkt3d::punkt3d()
 }
 punkt3d::punkt3d(QString geotext)
 {
+    set_text(geotext);
+}
+
+void punkt3d::set_text(QString geotext)
+{
     text_zeilenweise tz;
     tz.set_trennzeichen(TRZ_PA_);
     tz.set_text(geotext);

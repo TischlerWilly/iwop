@@ -39,6 +39,7 @@ public:
     rechteck3d();
     rechteck3d(QString geotext);
 
+    void set_text(QString geotext);
     inline  void    set_einfuegepunkt(punkt3d p)
     {
         einfuegepunkt = p;

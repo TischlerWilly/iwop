@@ -19,6 +19,7 @@ public:
         z_param = z;
     }
 
+    void set_text(QString geotext);
     inline  void    set_x(double wert)
     {
         x_param = wert;

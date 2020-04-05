@@ -507,12 +507,13 @@ void MainWindow::on_actionTestfunktion_triggered()
 {
     strecke s;
     punkt3d sp, ep, p;
-    ep.set_x(10);
-    p.set_x(2);
-    p.set_y(3);
+    ep.set_x(9.84808);
+    ep.set_y(1.73648);
+    p.set_x(4.0558);
+    p.set_y(5.79228);
     s.set_start(sp);
     s.set_ende(ep);
-    double abst = s.get_abst(p);
+    double abst = s.abst(p); //==5mm
     QMessageBox mb;
     mb.setText(double_to_qstring(abst));
     mb.exec();

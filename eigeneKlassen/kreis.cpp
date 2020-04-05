@@ -8,6 +8,11 @@ kreis::kreis()
 
 kreis::kreis(QString geotext)
 {
+    set_text(geotext);
+}
+
+void kreis::set_text(QString geotext)
+{
     text_zeilenweise tz;
     tz.set_trennzeichen(TRZ_PA_);
     tz.set_text(geotext);

@@ -18,6 +18,7 @@ public:
         set_radius(radius);
     }
 
+    void set_text(QString geotext);
     inline  void    set_mittelpunkt(punkt3d mittelpunkt)
     {
         mittelp = mittelpunkt;

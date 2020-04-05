@@ -890,11 +890,10 @@ uint vorschau::get_zeile_von_Mauspos()
 
             if(element.get_text().contains(PUNKT))
             {
-                punkt2d ep;
-                ep.set_x(element.zeile(2).toDouble());
-                ep.set_y(element.zeile(3).toDouble());
+                punkt3d ep;
+                ep.set_text(element.get_text());
                 s.set_ende(ep);
-                double l = s.laenge2dim();
+                double l = s.laenge2d();
                 if(l < abst)
                 {
                     abst = l;
@@ -902,7 +901,14 @@ uint vorschau::get_zeile_von_Mauspos()
                 }
             }else if(element.get_text().contains(STRECKE))
             {
-                //...
+                strecke s2;
+                s2.set_text(element.get_text());
+                double l = s2.abst(get_mauspos_npanschlag());
+                if(l < abst)
+                {
+                    abst = l;
+                    zeile = i;
+                }
             }else if(element.get_text().contains(BOGEN))
             {
                 //...
@@ -912,7 +918,7 @@ uint vorschau::get_zeile_von_Mauspos()
                 ep.set_x(element.zeile(2).toDouble());
                 ep.set_y(element.zeile(3).toDouble());
                 s.set_ende(ep);
-                double l = s.laenge2dim();
+                double l = s.laenge2d();
                 double rad = element.zeile(5).toDouble();
                 if(l > rad)
                 {
@@ -938,7 +944,56 @@ uint vorschau::get_zeile_von_Mauspos()
                 }
             }else if(  element.get_text().contains(RECHTECK3D)  ||  element.get_text().contains(WUERFEL)  )
             {
-                //...
+                punkt3d pol, por, pul, pur;
+                if(element.get_text().contains(RECHTECK3D))
+                {
+                    rechteck3d r;
+                    r.set_text(element.get_text());
+                    pol = r.obl();
+                    por = r.obr();
+                    pul = r.unl();
+                    pur = r.unr();
+                }else
+                {
+                    wuerfel w;
+                    w.set_text(element.get_text());
+                    pol = w.obl();
+                    por = w.obr();
+                    pul = w.unl();
+                    pur = w.unr();
+                }
+                strecke sli, sre, sob, sun;
+                sli.set_start(pul);
+                sli.set_ende(pol);
+                sre.set_start(pur);
+                sre.set_ende(por);
+                sob.set_start(pol);
+                sob.set_ende(por);
+                sun.set_start(pul);
+                sun.set_ende(pur);
+                double abst_li, abst_re, abst_ob, abst_un;
+                abst_li = sli.abst(get_mauspos_npanschlag());
+                abst_re = sre.abst(get_mauspos_npanschlag());
+                abst_ob = sob.abst(get_mauspos_npanschlag());
+                abst_un = sun.abst(get_mauspos_npanschlag());
+                double min = abst_li;
+                if(abst_re < min)
+                {
+                    min = abst_re;
+                }
+                if(abst_ob < min)
+                {
+                    min = abst_ob;
+                }
+                if(abst_un < min)
+                {
+                    min = abst_un;
+                }
+                if(min < abst)
+                {
+                    abst = min;
+                    zeile = i;
+                }
             }
         }
     }

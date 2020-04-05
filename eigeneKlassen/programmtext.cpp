@@ -1174,8 +1174,8 @@ void programmtext::aktualisiere_klartext_var()
                 s.set_ende(ep);
                 s.drenen_um_startpunkt_2d(wi.toDouble(), false);
 
-                x = s.endp().x_QString();
-                y = s.endp().y_QString();
+                x = s.endpu().x_QString();
+                y = s.endpu().y_QString();
 
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_XS, xs);
                 zeile_klartext += var_to_klartext(VAR_ALLGEM_YS, ys);
@@ -2130,14 +2130,14 @@ void programmtext::aktualisiere_geo()
                     punkt3d mipu;
                     if(i==0)
                     {
-                        mipu.set_x(s.startp().x());
-                        mipu.set_y(s.startp().y());
+                        mipu.set_x(s.stapu().x());
+                        mipu.set_y(s.stapu().y());
                     }else
                     {
                         strecke stmp = s;
                         stmp.set_laenge_2d(i*raster, strecke_bezugspunkt_start);
-                        mipu.set_x(stmp.endp().x());
-                        mipu.set_y(stmp.endp().y());
+                        mipu.set_x(stmp.endpu().x());
+                        mipu.set_y(stmp.endpu().y());
                     }
                     k.set_mittelpunkt(mipu);
                     k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
@@ -2155,14 +2155,14 @@ void programmtext::aktualisiere_geo()
                         slorei2.verschieben_um(0, y2-y1);
                         if(i==0)
                         {
-                            mipu.set_x(slorei2.startp().x());
-                            mipu.set_y(slorei2.startp().y());
+                            mipu.set_x(slorei2.stapu().x());
+                            mipu.set_y(slorei2.stapu().y());
                         }else
                         {
                             strecke stmp = slorei2;
                             stmp.set_laenge_2d(i*raster, strecke_bezugspunkt_start);
-                            mipu.set_x(stmp.endp().x());
-                            mipu.set_y(stmp.endp().y());
+                            mipu.set_x(stmp.endpu().x());
+                            mipu.set_y(stmp.endpu().y());
                         }
 
                         k.set_mittelpunkt(mipu);
@@ -3093,26 +3093,26 @@ void programmtext::aktualisiere_geo()
                 strecke s;
                 s.set_start(sp);
                 s.set_ende(ep);
-                r.set_laenge(s.laenge2dim());
+                r.set_laenge(s.laenge2d());
                 r.set_breite(b);
                 if(kor == "0")//mitte
                 {
-                    r.set_einfuegepunkt(s.get_mittelpunkt3d());
+                    r.set_einfuegepunkt(s.mitpu3d());
                 }else if(kor == "1")//links
                 {
                     strecke s2 = s;
                     s2.set_laenge_2d(b);
                     s2.drenen_um_mittelpunkt_2d(90, true);
-                    r.set_einfuegepunkt(s2.startp());
+                    r.set_einfuegepunkt(s2.stapu());
                 }else if(kor == "2")//rechts
                 {
                     strecke s2 = s;
                     s2.set_laenge_2d(b);
                     s2.drenen_um_mittelpunkt_2d(90, false);
-                    r.set_einfuegepunkt(s2.startp());
+                    r.set_einfuegepunkt(s2.stapu());
                 }
 
-                r.set_drewi(s.get_winkel());
+                r.set_drewi(s.wink());
 
                 r.set_farbe_fuellung(FARBE_BLAU);
                 sp.set_linienbreite(13);
@@ -3351,7 +3351,7 @@ void programmtext::aktualisiere_geo()
                         stmp.set_start(sp);
                         stmp.set_ende(mipu);
                         stmp.drenen_um_startpunkt_2d(90, false);
-                        ep = stmp.endp();
+                        ep = stmp.endpu();
                         wird_dargestellt = true;
                         break;
                     }else if(tmp.contains(DLG_FBOGUZS))
@@ -3373,7 +3373,7 @@ void programmtext::aktualisiere_geo()
                         stmp.set_start(sp);
                         stmp.set_ende(mipu);
                         stmp.drenen_um_startpunkt_2d(90, true);
-                        ep = stmp.endp();
+                        ep = stmp.endpu();
                         wird_dargestellt = true;
                         break;
                     }
@@ -3422,25 +3422,25 @@ void programmtext::aktualisiere_geo()
 
                         if(kor == "0")//mitte == keine
                         {
-                            k.set_mittelpunkt(s.get_mittelpunkt3d());
+                            k.set_mittelpunkt(s.mitpu3d());
                         }else if(kor == "1")//links
                         {
                             strecke stmp;
-                            stmp.set_start(s.get_mittelpunkt3d());
-                            stmp.set_ende(s.endp());
+                            stmp.set_start(s.mitpu3d());
+                            stmp.set_ende(s.endpu());
                             stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
                             stmp.drenen_um_startpunkt_2d(90, false);
-                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                            k.set_mittelpunkt(s.startp());
+                            s.verschieben_um(stmp.endpu().x()-s.stapu().x(), stmp.endpu().y()-s.stapu().y());
+                            k.set_mittelpunkt(s.stapu());
                         }else if(kor == "2")//rechts
                         {
                             strecke stmp;
-                            stmp.set_start(s.get_mittelpunkt3d());
-                            stmp.set_ende(s.endp());
+                            stmp.set_start(s.mitpu3d());
+                            stmp.set_ende(s.endpu());
                             stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
                             stmp.drenen_um_startpunkt_2d(90, true);
-                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                            k.set_mittelpunkt(s.startp());
+                            s.verschieben_um(stmp.endpu().x()-s.stapu().x(), stmp.endpu().y()-s.stapu().y());
+                            k.set_mittelpunkt(s.stapu());
                         }
                         k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                         fraeserdarst.add_kreis(k);
@@ -3450,7 +3450,7 @@ void programmtext::aktualisiere_geo()
                         {
                             s.drenen_um_endpunkt_2d(90, false);
                             bogen bo;
-                            bo.set_startpunkt(s.startp());
+                            bo.set_startpunkt(s.stapu());
                             bo.set_endpunkt(sp);
                             bo.set_radius(anwert.toDouble(), false);
                             bo.set_farbe(FARBE_BLAU);
@@ -3469,7 +3469,7 @@ void programmtext::aktualisiere_geo()
                             double laenge = anwert.toDouble();
                             laenge = laenge - k.radius();
                             s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
-                            k.set_mittelpunkt(s.startp());
+                            k.set_mittelpunkt(s.stapu());
                             //-------------------------------------------------------------------
                             k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                             k = lageaendern_kreis(k, lageaendern_afb,\
@@ -3483,7 +3483,7 @@ void programmtext::aktualisiere_geo()
                         {
                             s.drenen_um_endpunkt_2d(90, true);
                             bogen bo;
-                            bo.set_startpunkt(s.startp());
+                            bo.set_startpunkt(s.stapu());
                             bo.set_endpunkt(sp);
                             bo.set_radius(anwert.toDouble(), true);
                             bo.set_farbe(FARBE_BLAU);
@@ -3502,7 +3502,7 @@ void programmtext::aktualisiere_geo()
                             double laenge = anwert.toDouble();
                             laenge = laenge - k.radius();
                             s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
-                            k.set_mittelpunkt(s.startp());
+                            k.set_mittelpunkt(s.stapu());
                             //-------------------------------------------------------------------
                             k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                             k = lageaendern_kreis(k, lageaendern_afb,\
@@ -3556,7 +3556,7 @@ void programmtext::aktualisiere_geo()
                         stmp.set_start(mipu);
                         stmp.set_ende(ep);
                         stmp.drenen_um_endpunkt_2d(90, true);
-                        sp = stmp.startp();
+                        sp = stmp.stapu();
                         wird_dargestellt = true;
                         break;
                     }else if(tmp.contains(DLG_FBOGUZS))
@@ -3578,7 +3578,7 @@ void programmtext::aktualisiere_geo()
                         stmp.set_start(mipu);
                         stmp.set_ende(ep);
                         stmp.drenen_um_endpunkt_2d(90, false);
-                        sp = stmp.startp();
+                        sp = stmp.stapu();
                         wird_dargestellt = true;
                         break;
                     }
@@ -3624,25 +3624,25 @@ void programmtext::aktualisiere_geo()
                         geo.add_strecke(sgeo);
                         if(kor == "0")//mitte == keine
                         {
-                            k.set_mittelpunkt(s.get_mittelpunkt3d());
+                            k.set_mittelpunkt(s.mitpu3d());
                         }else if(kor == "1")//links
                         {
                             strecke stmp;
-                            stmp.set_start(s.get_mittelpunkt3d());
-                            stmp.set_ende(s.endp());
+                            stmp.set_start(s.mitpu3d());
+                            stmp.set_ende(s.endpu());
                             stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
                             stmp.drenen_um_startpunkt_2d(90, true);
-                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                            k.set_mittelpunkt(s.startp());
+                            s.verschieben_um(stmp.endpu().x()-s.stapu().x(), stmp.endpu().y()-s.stapu().y());
+                            k.set_mittelpunkt(s.stapu());
                         }else if(kor == "2")//rechts
                         {
                             strecke stmp;
-                            stmp.set_start(s.get_mittelpunkt3d());
-                            stmp.set_ende(s.endp());
+                            stmp.set_start(s.mitpu3d());
+                            stmp.set_ende(s.endpu());
                             stmp.set_laenge_2d(k.radius(), strecke_bezugspunkt_start);
                             stmp.drenen_um_startpunkt_2d(90, false);
-                            s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                            k.set_mittelpunkt(s.startp());
+                            s.verschieben_um(stmp.endpu().x()-s.stapu().x(), stmp.endpu().y()-s.stapu().y());
+                            k.set_mittelpunkt(s.stapu());
                         }
                         k.verschieben_um(nullpunkt_wst.x(), nullpunkt_wst.y());
                         fraeserdarst.add_kreis(k);
@@ -3651,9 +3651,9 @@ void programmtext::aktualisiere_geo()
                         if(kor == "1")//links --> Bogen von links
                         {
                             bogen bo;
-                            bo.set_startpunkt(s.startp());
+                            bo.set_startpunkt(s.stapu());
                             s.drenen_um_endpunkt_2d(90, true);
-                            bo.set_endpunkt(s.startp());
+                            bo.set_endpunkt(s.stapu());
                             bo.set_radius(abwert.toDouble(), false);
                             bo.set_farbe(FARBE_BLAU);
                             bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
@@ -3671,7 +3671,7 @@ void programmtext::aktualisiere_geo()
                             double laenge = abwert.toDouble();
                             laenge = laenge - k.radius();
                             s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
-                            k.set_mittelpunkt(s.startp());
+                            k.set_mittelpunkt(s.stapu());
                             //-------------------------------------------------------------------
                             k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                             k = lageaendern_kreis(k, lageaendern_afb,\
@@ -3684,9 +3684,9 @@ void programmtext::aktualisiere_geo()
                         }else if(kor == "2")//rechts --> Bogen von rechts
                         {
                             bogen bo;
-                            bo.set_startpunkt(s.startp());
+                            bo.set_startpunkt(s.stapu());
                             s.drenen_um_endpunkt_2d(90, false);
-                            bo.set_endpunkt(s.startp());
+                            bo.set_endpunkt(s.stapu());
                             bo.set_radius(abwert.toDouble(), true);
                             bo.set_farbe(FARBE_BLAU);
                             bo = spiegeln_bogen(bo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
@@ -3704,7 +3704,7 @@ void programmtext::aktualisiere_geo()
                             double laenge = abwert.toDouble();
                             laenge = laenge - k.radius();
                             s.set_laenge_2d(laenge, strecke_bezugspunkt_ende);
-                            k.set_mittelpunkt(s.startp());
+                            k.set_mittelpunkt(s.stapu());
                             //-------------------------------------------------------------------
                             k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                             k = lageaendern_kreis(k, lageaendern_afb,\
@@ -3747,7 +3747,7 @@ void programmtext::aktualisiere_geo()
                 QString kor = text_mitte(zeile, VAR_ALLGEM_WKZKOR, ENDPAR);
                 if(kor == "0")//mitte == keine
                 {
-                    k.set_mittelpunkt(s.get_mittelpunkt3d());
+                    k.set_mittelpunkt(s.mitpu3d());
                 }else if(kor == "1")//links
                 {
                     strecke stmp = s;
@@ -3759,8 +3759,8 @@ void programmtext::aktualisiere_geo()
                     {
                         stmp.drenen_um_startpunkt_2d(90, true);
                     }
-                    s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                    k.set_mittelpunkt(s.get_mittelpunkt3d());
+                    s.verschieben_um(stmp.endpu().x()-s.stapu().x(), stmp.endpu().y()-s.stapu().y());
+                    k.set_mittelpunkt(s.mitpu3d());
                 }else if(kor == "2")//rechts
                 {
                     strecke stmp = s;
@@ -3772,8 +3772,8 @@ void programmtext::aktualisiere_geo()
                     {
                         stmp.drenen_um_startpunkt_2d(90, false);
                     }
-                    s.verschieben_um(stmp.endp().x()-s.startp().x(), stmp.endp().y()-s.startp().y());
-                    k.set_mittelpunkt(s.get_mittelpunkt3d());
+                    s.verschieben_um(stmp.endpu().x()-s.stapu().x(), stmp.endpu().y()-s.stapu().y());
+                    k.set_mittelpunkt(s.mitpu3d());
                 }
                 fraeserdarst.add_kreis(k);
                 geo.zeilenvorschub();
@@ -3832,7 +3832,7 @@ void programmtext::aktualisiere_geo()
                     laenge = laenge - k.radius();
                 }
                 s.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                k.set_mittelpunkt(s.endp());
+                k.set_mittelpunkt(s.endpu());
                 //-------------------------------------------------------------------
                 k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                 k = lageaendern_kreis(k, lageaendern_afb,\
@@ -3897,7 +3897,7 @@ void programmtext::aktualisiere_geo()
                     laenge = laenge + k.radius();
                 }
                 s.set_laenge_2d(laenge, strecke_bezugspunkt_start);
-                k.set_mittelpunkt(s.endp());
+                k.set_mittelpunkt(s.endpu());
                 k = spiegeln_kreis(k, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
                 k = lageaendern_kreis(k, lageaendern_afb,\
                                       lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
@@ -4442,8 +4442,8 @@ rechteck3d programmtext::spiegeln_rechteck3d(rechteck3d r, bool xbed, bool ybed,
 
 strecke programmtext::spiegeln_strecke(strecke s, bool xbed, bool ybed, double xpos, double ypos)
 {
-    s.set_start(spiegeln_punkt3d(s.startp(), xbed, ybed, xpos, ypos));
-    s.set_ende(spiegeln_punkt3d(s.endp(), xbed, ybed, xpos, ypos));
+    s.set_start(spiegeln_punkt3d(s.stapu(), xbed, ybed, xpos, ypos));
+    s.set_ende(spiegeln_punkt3d(s.endpu(), xbed, ybed, xpos, ypos));
     return  s;
 }
 
@@ -4504,8 +4504,8 @@ kreis programmtext::lageaendern_kreis(kreis k, bool afb, \
             s.set_start(sp);
             s.set_ende(ep);
             s.drenen_um_startpunkt_2d(w, false);
-            x = s.endp().x();
-            y = s.endp().y();
+            x = s.endpu().x();
+            y = s.endpu().y();
         }
         x = x + ax;
         y = y + ay;
@@ -4549,8 +4549,8 @@ punkt3d programmtext::lageaendern_punkt3d(punkt3d p, bool afb, \
             s.set_start(sp);
             s.set_ende(ep);
             s.drenen_um_startpunkt_2d(w, false);
-            x = s.endp().x();
-            y = s.endp().y();
+            x = s.endpu().x();
+            y = s.endpu().y();
         }
         x = x + ax;
         y = y + ay;
@@ -4595,8 +4595,8 @@ rechteck3d programmtext::lageaendern_rechteck3d(rechteck3d r, bool afb, \
             s.set_start(sp);
             s.set_ende(ep);
             s.drenen_um_startpunkt_2d(w, false);
-            x = s.endp().x();
-            y = s.endp().y();
+            x = s.endpu().x();
+            y = s.endpu().y();
             r.set_drewi(r.drewi()+w);
         }
         x = x + ax;
@@ -4614,8 +4614,8 @@ strecke programmtext::lageaendern_strecke(strecke s, bool afb, \
                                           double xalt2, double yalt2, double xneu2, double yneu2, \
                                           double wi2, double geswi2)
 {
-    s.set_start(lageaendern_punkt3d(s.startp(), afb, xalt, yalt, xneu, yneu, wi, geswi, kettenmas, xalt2, yalt2, xneu2, yneu2, wi2, geswi2));
-    s.set_ende(lageaendern_punkt3d(s.endp(), afb, xalt, yalt, xneu, yneu, wi, geswi, kettenmas, xalt2, yalt2, xneu2, yneu2, wi2, geswi2));
+    s.set_start(lageaendern_punkt3d(s.stapu(), afb, xalt, yalt, xneu, yneu, wi, geswi, kettenmas, xalt2, yalt2, xneu2, yneu2, wi2, geswi2));
+    s.set_ende(lageaendern_punkt3d(s.endpu(), afb, xalt, yalt, xneu, yneu, wi, geswi, kettenmas, xalt2, yalt2, xneu2, yneu2, wi2, geswi2));
     return s;
 }
 

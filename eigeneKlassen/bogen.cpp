@@ -62,8 +62,8 @@ bogen::bogen(punkt2d mipu, double rad, double startwinkel, double endwinkel)
     strecke sep = ssp;
     ssp.drenen_um_startpunkt_2d(startwinkel, false);
     sep.drenen_um_startpunkt_2d(endwinkel, false);
-    startp = ssp.endp();
-    endp = sep.endp();
+    startp = ssp.endpu();
+    endp = sep.endpu();
     bogen_im_uzs = false;
 
 }
@@ -191,7 +191,7 @@ punkt2d bogen::mitte()
     strecke stre_spep;
     stre_spep.set_start(startp);
     stre_spep.set_ende(endp);
-    double laenge = stre_spep.laenge2dim();
+    double laenge = stre_spep.laenge2d();
     fehler = false;
     if(  start() == ende()  )
     {
@@ -207,10 +207,10 @@ punkt2d bogen::mitte()
         fehlertext = "Fehler! Radius zu klein für Punktabstand Start-Ende";
     }else if( rad() == laenge/2)
     {
-        mittelp = stre_spep.get_mittelpunkt2d();
+        mittelp = stre_spep.mitpu2d();
     }else
     {
-        double a = stre_spep.laenge2dim()/2; //Hälfte des Abstandes von
+        double a = stre_spep.laenge2d()/2; //Hälfte des Abstandes von
                                              //Start und Endpunkt
         double r = rad();
         double x = sqrt(r*r - a*a)*2; //Länge der Mittelsenkrechtenn zu stre_spep
@@ -221,12 +221,12 @@ punkt2d bogen::mitte()
 
         if(im_uzs() == false)
         {
-            mittelp.set_x(stre_tmp.startp().x());
-            mittelp.set_y(stre_tmp.startp().y());
+            mittelp.set_x(stre_tmp.stapu().x());
+            mittelp.set_y(stre_tmp.stapu().y());
         }else
         {
-            mittelp.set_x(stre_tmp.endp().x());
-            mittelp.set_y(stre_tmp.endp().y());
+            mittelp.set_x(stre_tmp.endpu().x());
+            mittelp.set_y(stre_tmp.endpu().y());
         }
     }
 
@@ -255,26 +255,26 @@ void bogen::set_bogenwinkel(double wi, bogen_bezugspunkt bezug)
             s.set_start(mitte());
             s.set_ende(start());
             s.drenen_um_startpunkt_2d(wi, im_uzs());
-            set_endpunkt(s.endp());
+            set_endpunkt(s.endpu());
         }else if(bezug == bogen_bezugspunkt_ende)
         {
             strecke s;
             s.set_start(mitte());
             s.set_ende(ende());
             s.drenen_um_startpunkt_2d(wi, !im_uzs());
-            set_startpunkt(s.endp());
+            set_startpunkt(s.endpu());
         }else
         {
             strecke s;
             s.set_start(start());
             s.set_ende(ende());
-            s.set_ende(s.get_mittelpunkt3d());
+            s.set_ende(s.mitpu3d());
             s.set_start(mitte());
             s.set_laenge_2d(rad(), strecke_bezugspunkt_start);
             s.drenen_um_startpunkt_2d(wi/2, im_uzs());
-            set_endpunkt(s.endp());
+            set_endpunkt(s.endpu());
             s.drenen_um_startpunkt_2d(wi, !im_uzs());
-            set_startpunkt(s.endp());
+            set_startpunkt(s.endpu());
         }
     }
 }

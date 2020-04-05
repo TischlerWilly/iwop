@@ -20,64 +20,65 @@ class strecke : public darstellungsatribute
 public:
     strecke();
     strecke(QString geotext);
-            void    set_start(punkt3d startpunkt);
-            void    set_start(punkt2d startpunkt);
-            void    set_ende(punkt3d endpunkt);
-            void    set_ende(punkt2d endpunkt);
-            void    richtung_unkehren();
-            void    drenen_um_startpunkt_2d(double drehwinkel, \
-                                             bool drehrichtung_im_uhrzeigersinn);
-            void    drenen_um_endpunkt_2d(double drehwinkel, \
-                                             bool drehrichtung_im_uhrzeigersinn);
-            void    drenen_um_mittelpunkt_2d(double drehwinkel, \
-                                             bool drehrichtung_im_uhrzeigersinn);
-            void    set_laenge_2d(double neue_laenge, \
-                       strecke_bezugspunkt bezugspunkt = strecke_bezugspunkt_mitte);
-            void    verschieben_um(double xversatz, double yversatz);
 
+    //-----------------------------------------set_xy:
+    void    set_text(QString geotext);
+    void    set_start(punkt3d startpunkt);
+    void    set_start(punkt2d startpunkt);
+    void    set_ende(punkt3d endpunkt);
+    void    set_ende(punkt2d endpunkt);
 
-    inline punkt3d startp()
+    //-----------------------------------------get_xy:
+    inline punkt3d stapu()
     {
-        return start;
+        return Stapu;
     }
-    inline punkt3d endp()
+    inline punkt3d endpu()
     {
-        return ende;
-    }  
-    inline double laenge3dim()
-    {
-        return  laenge_3d(start, ende);
+        return Endpu;
     }
-    inline double laenge2dim()
-    {
-        return  laenge_2d(start, ende);
-    }
-    inline QString laenge3dim_QString()
-    {
-        return double_to_qstring(laenge3dim());
-    }
-    inline QString laenge2dim_QString()
-    {
-        return double_to_qstring(laenge2dim());
-    }
+    punkt3d mitpu3d();
+    punkt2d mitpu2d();
+    punkt3d schnittp_zur_senkr_an_p(punkt3d p);
 
-    punkt3d get_mittelpunkt3d();
-    punkt2d get_mittelpunkt2d();
-
-    double get_winkel();
-    double get_abst(punkt3d p);
-    double get_abst(punkt2d p);
+    inline double laenge3d()
+    {
+        return  laenge3d(Stapu, Endpu);
+    }
+    double laenge3d(punkt3d sp, punkt3d ep);
+    inline double laenge2d()
+    {
+        return  laenge2d(Stapu, Endpu);
+    }
+    double laenge2d(punkt3d sp, punkt3d ep);
+    inline QString laenge3d_QString()
+    {
+        return double_to_qstring(laenge3d());
+    }
+    inline QString laenge2d_QString()
+    {
+        return double_to_qstring(laenge2d());
+    }
+    double wink();
+    double abst(punkt3d p);
+    double abst(punkt2d p);
+    bool auf_strecke(punkt3d p);
 
     QString get_text();
 
+    //-----------------------------------------manipulationen:
+    void    richtung_unkehren();
+    void    drenen_um_startpunkt_2d(double drehwi, bool drehri_im_uzs);
+    void    drenen_um_endpunkt_2d(double drehwi, bool drehri_im_uzs);
+    void    drenen_um_mittelpunkt_2d(double drehwi, bool drehri_im_uzs);
+    void    set_laenge_2d(double neue_laenge, \
+               strecke_bezugspunkt bezugspunkt = strecke_bezugspunkt_mitte);
+    void    verschieben_um(double xversatz, double yversatz);
+
+    //-----------------------------------------
+
 private:
-    punkt3d start, ende;
-
-    double laenge_2d(punkt3d sp, punkt3d ep);
-    double laenge_3d(punkt3d sp, punkt3d ep);
-    double get_abst_gerade(punkt3d p);
-
-
+    punkt3d Stapu, Endpu;
 
 };
 

@@ -12,6 +12,11 @@ wuerfel::wuerfel()
 }
 wuerfel::wuerfel(QString geotext)
 {
+    set_text(geotext);
+}
+
+void wuerfel::set_text(QString geotext)
+{
     text_zeilenweise tz;
     tz.set_trennzeichen(TRZ_PA_);
     tz.set_text(geotext);

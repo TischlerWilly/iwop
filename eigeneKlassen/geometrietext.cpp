@@ -43,12 +43,12 @@ void geometrietext::add_strecke(strecke s, uint zeile)
 {
     QString alter_inhalt = text.zeile(zeile);
     text.zeile_ersaetzen(zeile, alter_inhalt + STRECKE + TRZ_PA + \
-                         s.startp().x_QString() + TRZ_PA + \
-                         s.startp().y_QString() + TRZ_PA + \
-                         s.startp().z_QString() + TRZ_PA + \
-                         s.endp().x_QString() + TRZ_PA + \
-                         s.endp().y_QString() + TRZ_PA + \
-                         s.endp().z_QString() + TRZ_PA + \
+                         s.stapu().x_QString() + TRZ_PA + \
+                         s.stapu().y_QString() + TRZ_PA + \
+                         s.stapu().z_QString() + TRZ_PA + \
+                         s.endpu().x_QString() + TRZ_PA + \
+                         s.endpu().y_QString() + TRZ_PA + \
+                         s.endpu().z_QString() + TRZ_PA + \
                          s.get_farbe() + TRZ_PA + \
                          s.get_linienbreite_qstring() + TRZ_PA + \
                          s.get_stil() + TRZ_EL);
