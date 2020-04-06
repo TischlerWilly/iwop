@@ -911,7 +911,74 @@ uint vorschau::get_zeile_von_Mauspos()
                 }
             }else if(element.get_text().contains(BOGEN))
             {
-                //...
+                bogen b;
+                b.set_text(element.get_text());
+                punkt3d sp, ep, mipu;
+                sp = b.start();
+                ep = b.ende();
+                mipu.set_x(b.mitte().x());
+                mipu.set_y(b.mitte().y());
+                strecke s1, s2, s3;
+                s1.set_start(mipu);
+                s2.set_start(mipu);
+                s3.set_start(mipu);
+                s1.set_ende(sp);
+                s2.set_ende(ep);
+                s3.set_ende(get_mauspos_npanschlag());
+                double w1, w2, w3;
+                w1 = s1.wink();
+                w2 = s2.wink();
+                w3 = s3.wink();
+                if(w1 > w2)
+                {
+                    double tmp;
+                    tmp = w1;
+                    w1 = w2;
+                    w2 = tmp;
+                }
+                if(  (w1 <= w3)  &&  (w3 <= w2)  )
+                {
+                    //Abstandsberechnung ähnlich wie beim Kreis:
+                    s.set_ende(mipu);
+                    double l = s.laenge2d();
+                    double rad = b.rad();
+                    if(l > rad)
+                    {
+                        //Punkt auf bOgen-Außenseite
+                        l = l - rad;
+                    }else
+                    {
+                        //Punkt auf Bogen-Innenseite
+                        l = rad - l;
+                    }
+                    if(l < abst)
+                    {
+                        abst = l;
+                        zeile = i;
+                    }
+                }else
+                {
+                    strecke s1, s2;
+                    s1.set_start(sp);
+                    s2.set_start(ep);
+                    s1.set_ende(get_mauspos_npanschlag());
+                    s2.set_ende(get_mauspos_npanschlag());
+                    double abst_sp, abst_ep, l;
+                    abst_sp = s1.laenge2d();
+                    abst_ep = s2.laenge2d();
+                    if(abst_sp < abst_ep)
+                    {
+                        l = abst_sp;
+                    }else
+                    {
+                        l = abst_ep;
+                    }
+                    if(l < abst)
+                    {
+                        abst = l;
+                        zeile = i;
+                    }
+                }
             }else if(  element.get_text().contains(KREIS)  ||  element.get_text().contains(ZYLINDER)  )
             {
                 punkt2d ep;

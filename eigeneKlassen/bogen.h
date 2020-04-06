@@ -21,7 +21,8 @@ public:
     bogen(punkt3d startpunkt, punkt3d endpunkt, float radiuswert, bool im_uhrzeigersinn);
     bogen(punkt2d mipu, double rad, double startwinkel, double endwinkel);
 
-    //------------------------------------------------------Werte setzen:
+    //------------------------------------------------------set_xy:
+    void set_text(QString geotext);
     void set_startpunkt(punkt3d startpunkt);
     void set_endpunkt(punkt3d endpunkt);
     void set_radius(float radiuswert, bool im_uhrzeigersinn);
@@ -32,14 +33,14 @@ public:
     void set_radius(float radiuswert, punkt2d bogenrichtung);    
     void set_bogenwinkel(double wi, bogen_bezugspunkt bezug);
 
-    //------------------------------------------------------Werte auslesen:
+    //------------------------------------------------------get_xy:
     inline punkt3d start()
     {
-        return startp;
+        return Stapu;
     }
     inline punkt3d ende()
     {
-        return endp;
+        return Endpu;
     }
     punkt2d mitte();
     inline punkt2d mittelpunkt()
@@ -48,19 +49,19 @@ public:
     }
     inline double rad()
     {
-        return radius;
+        return Rad;
     }
     inline QString rad_qString()
     {
-        return double_to_qstring(radius);
+        return double_to_qstring(Rad);
     }
     inline bool im_uzs()
     {
-        return bogen_im_uzs;
+        return Bogen_im_uzs;
     }
     inline QString im_uzs_QString()
     {
-        if(bogen_im_uzs == true)
+        if(Bogen_im_uzs == true)
         {
             return "ja";
         }else
@@ -72,14 +73,14 @@ public:
 
     inline bool hat_fehler()
     {
-        return fehler;
+        return Fehler;
     }
     inline QString  fehlermeldung()
     {
-        return fehlertext;
+        return Fehlertext;
     }
      QString get_text();
-     void get_mb();
+     void mb();
 
     //------------------------------------------------------Manipulationen:
     void    richtung_unkehren();
@@ -87,12 +88,12 @@ public:
 
 
 private:
-    punkt3d startp, endp;
-    double radius;
-    bool bogen_im_uzs; //Bogen im Uhrzeigersinn
+    punkt3d Stapu, Endpu;
+    double Rad;
+    bool Bogen_im_uzs; //Bogen im Uhrzeigersinn
 
-    bool fehler;
-    QString fehlertext;
+    bool Fehler;
+    QString Fehlertext;
 
 
 

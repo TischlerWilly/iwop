@@ -16,8 +16,6 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 
 
 
-- uint vorschau::get_zeile_von_Mauspos()
-    ->BOGEN
 
 
 
