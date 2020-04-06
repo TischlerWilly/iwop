@@ -140,8 +140,8 @@
     <property name="title">
      <string>Extras</string>
     </property>
-    <addaction name="actionTestfunktion"/>
     <addaction name="actionProgrammliste_anzeigen"/>
+    <addaction name="actionTestfunktion"/>
     <addaction name="actionEinstellungen"/>
     <addaction name="separator"/>
     <addaction name="actionMakeKommentar"/>

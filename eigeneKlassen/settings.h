@@ -18,6 +18,7 @@ public:
     void set_option_path_opendialog_post();
     void set_option_path_opendialog_user();
     void set_userpath_opendialog(QString path);
+    void set_entwickermod(bool mod);
 
     //Funkttionen get_xy:
     int anz_undo_prg_int();
@@ -26,12 +27,14 @@ public:
     QString anz_undo_wkz_qstring();
     QString option_path_opendialog();
     QString userpath_opendialog();
+    bool entwicklermod();
 
 private:
-    int       anz_undo_prg;
-    int       anz_undo_wkz;
-    QString   stdpath_opdendialog_option;
-    QString   stdpath_opdendialog_userpath;
+    int       Anz_undo_prg;
+    int       Anz_undo_wkz;
+    QString   Stdpath_opdendialog_option;
+    QString   Stdpath_opdendialog_userpath;
+    bool      Entwicklermodus;
 
 };
 

@@ -26,6 +26,13 @@ void Dialog_einstellungen::set_einstellungen(settings einstellungen)
         ui->radioButton_stdpath_opendialog_user->setChecked(true);
     }
     ui->lineEdit_userpath_opendialog->setText(set.userpath_opendialog());
+    if(set.entwicklermod() == true)
+    {
+        ui->checkBox_entwicklermodus->setChecked(true);
+    }else
+    {
+        ui->checkBox_entwicklermodus->setChecked(false);
+    }
 }
 
 settings Dialog_einstellungen::einstellungen()
@@ -40,6 +47,13 @@ settings Dialog_einstellungen::einstellungen()
         set.set_option_path_opendialog_user();
     }
     set.set_userpath_opendialog(ui->lineEdit_userpath_opendialog->text());
+    if(ui->checkBox_entwicklermodus->isChecked())
+    {
+        set.set_entwickermod(true);
+    }else
+    {
+        set.set_entwickermod(false);
+    }
 
     return set;
 }

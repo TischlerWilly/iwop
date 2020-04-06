@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.04.05"
+#define PROGRAMMVERSION     "1.2020.04.06"
 
 /*
 #############################################################################
@@ -14,8 +14,6 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 
 #############################################################################
 
-->void MainWindow::on_actionTestfunktion_triggered()
-  -->Testfunktion verstecken
 
 
 - uint vorschau::get_zeile_von_Mauspos()

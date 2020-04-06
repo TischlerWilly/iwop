@@ -167,6 +167,7 @@ private:
 
     //Funktionen:
     QString loadConfig();
+    void settings_umsetzen();
     QString saveConfig();
     void saveWKZ();
     void loadWKZ();

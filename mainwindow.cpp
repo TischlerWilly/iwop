@@ -530,6 +530,20 @@ void MainWindow::slotGetEinstellungen(settings s)
 {
     set = s;
     saveConfig();
+    settings_umsetzen();
+}
+
+void MainWindow::settings_umsetzen()
+{
+    if(set.entwicklermod() == true)
+    {
+        ui->actionTestfunktion->setVisible(true);
+        ui->actionProgrammliste_anzeigen->setVisible(true);
+    }else
+    {
+        ui->actionTestfunktion->setVisible(false);
+        ui->actionProgrammliste_anzeigen->setVisible(false);
+    }
 }
 
 QString MainWindow::loadConfig()
@@ -571,6 +585,16 @@ QString MainWindow::loadConfig()
                 if(text.contains(SETTINGS_STDPATH_OPEN_PATH))
                 {
                     set.set_userpath_opendialog(selektiereEintrag(text, SETTINGS_STDPATH_OPEN_PATH, ENDE_ZEILE));
+                }
+                if(text.contains(SETTINGS_ENTWICKLERMODUS))
+                {
+                    if(selektiereEintrag(text, SETTINGS_ENTWICKLERMODUS, ENDE_ZEILE) == "ja")
+                    {
+                        set.set_entwickermod(true);
+                    }else
+                    {
+                        set.set_entwickermod(false);
+                    }
                 }
                 //-----------------------------------------------------Dialoge:
                 if(text.contains(DLG_PKOPF))
@@ -657,6 +681,7 @@ QString MainWindow::loadConfig()
                 }
             }
     }
+    settings_umsetzen();
     return returnString;
 }
 
@@ -687,6 +712,19 @@ QString MainWindow::saveConfig()
 
     inhaltVonKonfiguration +=       SETTINGS_STDPATH_OPEN_PATH;
     inhaltVonKonfiguration +=       set.userpath_opendialog().toUtf8();
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
+
+    inhaltVonKonfiguration +=       SETTINGS_ENTWICKLERMODUS;
+    QString tmp_entwmod;
+    if(set.entwicklermod() == true)
+    {
+        tmp_entwmod = "ja";
+    }else
+    {
+        tmp_entwmod = "nein";
+    }
+    inhaltVonKonfiguration +=       tmp_entwmod.toUtf8();
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
     //----------------------------------------------------

@@ -19,6 +19,7 @@
 #define SETTINGS_ANZ_UNDO_W                 "[Anzahl Wiederrufenschritte Werkzeugliste]"
 #define SETTINGS_STDPATH_OPEN_OPTION        "[StandartPfadDateiOefnen_Option]"
 #define SETTINGS_STDPATH_OPEN_PATH          "[StandartPfadDateiOefnen_Pfad]"
+#define SETTINGS_ENTWICKLERMODUS            "[Entwicklermodus]"
 #define ENDE_ZEILE                          "#ENDE#"
 
 //-------------------------------------------------------------------------------------------------------------------------------
