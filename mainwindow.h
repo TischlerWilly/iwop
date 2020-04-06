@@ -72,6 +72,7 @@ public:
 public slots:
     void getDialogData(QString text);
     void getDialogDataModify(QString text);
+    void getDialogDataModify(QString text, uint zeilennummer);
     void slotSaveConfig(QString text);
     void slot_maus_pos(QPoint p);
     void slotNeedWKZ(QString dlgtyp);
@@ -180,6 +181,8 @@ private:
     void openFile(QString pfad);
     text_zeilenweise import_fmc(QString quelle, bool &readonly, QString prgname);
     QString replaceparam(QString param, QString ziel, QString quelle);
+    QString get_param(QString param, QString quelle);
+    QString set_param(QString param, QString wert, QString zeile);
     QString exportparam(QString param, QString paramzeile);
     QString exportparam_direktwert(QString param, QString wert);
     QString          export_fmc(text_zeilenweise tz);
@@ -261,6 +264,7 @@ private slots:
     void on_actionEinstellungen_triggered();
     void on_actionTestfunktion_triggered();
     void on_actionBogenrichtung_umkehren_triggered();
+    void on_actionFraesrichtung_umkehren_triggered();
 };
 
 #endif // MAINWINDOW_H

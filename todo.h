@@ -14,8 +14,8 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 
 #############################################################################
 
-
-
+- Fräsrichtung umkehren
+   -->void MainWindow::on_actionFraesrichtung_umkehren_triggered()
 
 
 
@@ -24,7 +24,6 @@ Zusatzwünsche:
 
 - Schnelländerung Bohrgruppe
 - HBE X umwandeln in HBE Y etc
-- Fräsrichtung umkehren
 - Fräsung mittig teilen (aus einer Fräsung 2 machen)
 - Fräsgerade verlängern um / kürzen um
 

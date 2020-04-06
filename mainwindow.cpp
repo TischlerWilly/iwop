@@ -1176,6 +1176,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
     ui->actionBogenrichtung_umkehren->setDisabled(true);
+    ui->actionFraesrichtung_umkehren->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -1231,6 +1232,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
     ui->actionBogenrichtung_umkehren->setEnabled(true);
+    ui->actionFraesrichtung_umkehren->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -3713,6 +3715,34 @@ QString MainWindow::replaceparam(QString param, QString ziel, QString quelle)
     return ziel;
 }
 
+QString MainWindow::get_param(QString param, QString quelle)
+{
+    //param = z.B: FAUF_ANTYP
+    //quelle = prgzeile (Programmzeile)
+    QString ergebnis;
+    QString trenz = ENDPAR;
+    if(quelle.contains(trenz+param))
+    {
+        ergebnis = text_mitte(quelle, trenz+param, ENDPAR);
+    }else
+    {
+        ergebnis = text_mitte(quelle, param, ENDPAR);
+    }
+    return ergebnis;
+}
+
+QString MainWindow::set_param(QString param, QString wert, QString zeile)
+{
+    //param = z.B: FAUF_ANTYP
+    //wert  = z.B: -2
+    //zeile = prgzeile (Programmzeile)
+    QString trenz = ENDPAR;
+    QString alterWert;
+    alterWert = get_param(param, zeile);
+    zeile.replace(param+alterWert+trenz, param+wert+trenz);
+    return zeile;
+}
+
 QString MainWindow::exportparam(QString param, QString paramzeile)
 {
     QString msg = param;
@@ -5276,6 +5306,41 @@ void MainWindow::getDialogDataModify(QString text)
     update_windowtitle();
 }
 
+void MainWindow::getDialogDataModify(QString text, uint zeilennummer)
+{
+    if(ui->listWidget_Programmliste->count() >= zeilennummer)
+    {
+        if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+        {
+            QString text_alt = tt.get_prgtext()->zeile(zeilennummer);
+            if(text != text_alt)
+            {
+                if(elementIstEingeblendet())
+                {
+                    tt.get_prgtext()->zeile_ersaetzen(zeilennummer, text);
+                    aktualisiere_anzeigetext();
+                    //pruefe_benutzereingaben(ui->listWidget_Programmliste->currentRow()+1);
+                }else
+                {
+                    tt.get_prgtext()->zeile_ersaetzen(zeilennummer, "//"+text);
+                    aktualisiere_anzeigetext();
+                }
+            }
+        }
+        vorschauAktualisieren();
+        update_windowtitle();
+    }else
+    {
+        QString msg;
+        msg += "Fehler in der Funktion \"void MainWindow::getDialogDataModify(QString text, uint zeilennummer)\"\n";
+        msg += "Zeilennummer > Länge der Liste.";
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+    }
+
+}
+
 void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 {
     QString tmp_text;
@@ -5789,12 +5854,11 @@ void MainWindow::on_actionBogenrichtung_umkehren_triggered()
         {
             //text aus der aktiven Zeile in string speichern:
             uint zeilennummer = ui->listWidget_Programmliste->currentRow()+1;
-            QString zeile, zeile_kt;
+            QString zeile;
 
             if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
             {
                 zeile = tt.get_prgtext()->zeile(zeilennummer);
-                zeile_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
             } else
             {
                 QMessageBox mb;
@@ -5802,7 +5866,7 @@ void MainWindow::on_actionBogenrichtung_umkehren_triggered()
                 mb.exec();
                 return;
             }
-            //ermitteln an welches Unterfenster der string gehen soll und die Zeile Übergeben:
+
             if(zeile.contains(DLG_FBOUZS))
             {
                 //Beide Bogenarten sind identisch in ihren Parametern
@@ -5822,6 +5886,121 @@ void MainWindow::on_actionBogenrichtung_umkehren_triggered()
                 QString msg;
                 msg += "Ihre Auswahl ist ungültig!\n";
                 msg += "Bitte markieren Sie eine Zeile die eine Bogenfräsung enthällt.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
+void MainWindow::on_actionFraesrichtung_umkehren_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+        int items_menge = items.count();
+
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            uint zeilennummer = ui->listWidget_Programmliste->currentRow()+1;
+            QString zeile;
+
+            if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+            {
+                zeile = tt.get_prgtext()->zeile(zeilennummer);
+            } else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+
+            if(zeile.contains(DLG_FAUF))
+            {
+                text_zeilenweise tz, tz_kt;
+                QString fauf, fauf_kt;
+                fauf = tt.get_prgtext()->get_text_zeilenweise().zeile(zeilennummer);
+                fauf_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
+                bool gesund = true;
+                for(uint i=zeilennummer+1 ; i<tt.get_prgtext()->get_text_zeilenweise().zeilenanzahl() ; i++)
+                {
+                    zeile = tt.get_prgtext()->get_text_zeilenweise().zeile(i);
+                    if(  zeile.contains(DLG_FGERADE)  ||  \
+                         zeile.contains(DLG_FGERAWI)  ||  \
+                         zeile.contains(DLG_FBOUZS)   ||  \
+                         zeile.contains(DLG_FBOGUZS)      )
+                    {
+                        tz.zeile_anhaengen(tt.get_prgtext()->get_text_zeilenweise().zeile(i));
+                        tz_kt.zeile_anhaengen(tt.get_prgtext()->get_klartext_zeilenweise().zeile(i));
+                    }else if(zeile.contains(DLG_FABF)  ||  \
+                             zeile.contains(DLG_FABF2)     )
+                    {
+                        gesund = true;
+                        break; //for-Schleife abbrechen
+                    }else
+                    {
+                        gesund = false;
+                        break; //for-Schleife abbrechen
+                    }
+                }
+                if(gesund == true)
+                {
+                    text_zeilenweise tz_neu;
+                    punkt3d sp, ep;
+                    sp.set_x(text_mitte(fauf_kt, FAUF_X, ENDPAR));
+                    sp.set_y(text_mitte(fauf_kt, FAUF_Y, ENDPAR));
+                    sp.set_z(text_mitte(fauf_kt, FAUF_Z, ENDPAR));
+                    for(uint i=1 ; i<tz.zeilenanzahl() ; i++)
+                    {
+                        QString zeile, zeile_kt;
+                        zeile = tz.zeile(i);
+                        zeile_kt = tz_kt.zeile(i);
+                        if(zeile.contains(DLG_FGERADE))
+                        {
+                            ep.set_x(get_param(FGERADE_X, zeile_kt));
+                            ep.set_y(get_param(FGERADE_Y, zeile_kt));
+                            ep.set_z(get_param(FGERADE_Z, zeile_kt));
+                            zeile = set_param(FGERADE_X, sp.x_QString(), zeile);
+                            zeile = set_param(FGERADE_Y, sp.y_QString(), zeile);
+                            zeile = set_param(FGERADE_Z, sp.z_QString(), zeile);
+                            tz_neu.zeile_anhaengen(zeile);
+                        }//else if....
+                        //...
+                        //...
+                        //...
+                        //...
+                    }
+                    fauf = set_param(FAUF_X, ep.x_QString(), fauf);
+                    fauf = set_param(FAUF_Y, ep.y_QString(), fauf);
+                    fauf = set_param(FAUF_Z, ep.z_QString(), fauf);
+                    tz_neu.zeile_vorwegsetzen(fauf);
+                    //Werte zurück speichern:
+                    //...
+                    //...
+                    //...
+                    //...
+                }else
+                {
+                    QString msg;
+                    msg += "Funktion kann nicht verwendet werden!\n";
+                    msg += "Es sind ungültige Programmzeilen innerhalb der Fräsbahn.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }
+            }else
+            {
+                QString msg;
+                msg += "Ihre Auswahl ist ungültig!\n";
+                msg += "Bitte markieren Sie eine Zeile die einen Fräser-Aufruf enthällt.";
                 QMessageBox mb;
                 mb.setText(msg);
                 mb.exec();
@@ -5875,6 +6054,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

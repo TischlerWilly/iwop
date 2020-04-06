@@ -197,6 +197,8 @@
     <addaction name="actionMakeLage_aendern"/>
     <addaction name="separator"/>
     <addaction name="actionBogenrichtung_umkehren"/>
+    <addaction name="separator"/>
+    <addaction name="actionFraesrichtung_umkehren"/>
    </widget>
    <widget class="QMenu" name="menuS_gen">
     <property name="title">
@@ -519,6 +521,11 @@
   <action name="actionBogenrichtung_umkehren">
    <property name="text">
     <string>Bogenrichtung umkehren</string>
+   </property>
+  </action>
+  <action name="actionFraesrichtung_umkehren">
+   <property name="text">
+    <string>Fräsrichtung umkehren</string>
    </property>
   </action>
  </widget>
