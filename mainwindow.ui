@@ -195,6 +195,8 @@
     </property>
     <addaction name="actionMakeSpiegeln"/>
     <addaction name="actionMakeLage_aendern"/>
+    <addaction name="separator"/>
+    <addaction name="actionBogenrichtung_umkehren"/>
    </widget>
    <widget class="QMenu" name="menuS_gen">
     <property name="title">
@@ -512,6 +514,11 @@
   <action name="actionTestfunktion">
    <property name="text">
     <string>Testfunktion</string>
+   </property>
+  </action>
+  <action name="actionBogenrichtung_umkehren">
+   <property name="text">
+    <string>Bogenrichtung umkehren</string>
    </property>
   </action>
  </widget>

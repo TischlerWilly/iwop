@@ -1172,8 +1172,10 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeFgerawi->setDisabled(true);
     ui->actionMakeFbouzs->setDisabled(true);
     ui->actionMakeFboguzs->setDisabled(true);
+    //Menü Manipulation:
     ui->actionMakeSpiegeln->setDisabled(true);
     ui->actionMakeLage_aendern->setDisabled(true);
+    ui->actionBogenrichtung_umkehren->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -1225,8 +1227,10 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeFgerawi->setEnabled(true);
     ui->actionMakeFbouzs->setEnabled(true);
     ui->actionMakeFboguzs->setEnabled(true);
+    //Menü Manipulation:
     ui->actionMakeSpiegeln->setEnabled(true);
     ui->actionMakeLage_aendern->setEnabled(true);
+    ui->actionBogenrichtung_umkehren->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -5772,6 +5776,65 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
         emit sendDialogData(msg, false);
     }
 }
+
+//---------------------------------------------------Dialoge Manipulation
+void MainWindow::on_actionBogenrichtung_umkehren_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+        int items_menge = items.count();
+
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            uint zeilennummer = ui->listWidget_Programmliste->currentRow()+1;
+            QString zeile, zeile_kt;
+
+            if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+            {
+                zeile = tt.get_prgtext()->zeile(zeilennummer);
+                zeile_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
+            } else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+            //ermitteln an welches Unterfenster der string gehen soll und die Zeile Übergeben:
+            if(zeile.contains(DLG_FBOUZS))
+            {
+                //Beide Bogenarten sind identisch in ihren Parametern
+                //Der einzige Unterschied ist die Bogenrichtung welche durch den Dialog-Nahmen definiert wird
+                //Solange dies so ist brauchen wir nur den Namen zu tauschen:
+                zeile.replace(DLG_FBOUZS, DLG_FBOGUZS);
+                getDialogDataModify(zeile);
+            }else if(zeile.contains(DLG_FBOGUZS))
+            {
+                //Beide Bogenarten sind identisch in ihren Parametern
+                //Der einzige Unterschied ist die Bogenrichtung welche durch den Dialog-Nahmen definiert wird
+                //Solange dies so ist brauchen wir nur den Namen zu tauschen:
+                zeile.replace(DLG_FBOGUZS, DLG_FBOUZS);
+                getDialogDataModify(zeile);
+            }else
+            {
+                QString msg;
+                msg += "Ihre Auswahl ist ungültig!\n";
+                msg += "Bitte markieren Sie eine Zeile die eine Bogenfräsung enthällt.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
 //---------------------------------------------------Dialoge wkz
 void MainWindow::on_pushButton_MakeFraeser_clicked()
 {
@@ -5812,6 +5875,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

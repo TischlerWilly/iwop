@@ -260,6 +260,7 @@ private slots:
     void on_actionMakeFgerawi_triggered();
     void on_actionEinstellungen_triggered();
     void on_actionTestfunktion_triggered();
+    void on_actionBogenrichtung_umkehren_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -20,7 +20,6 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 
 
 
-
 Zusatzwünsche:
 
 - Schnelländerung Bohrgruppe
@@ -28,7 +27,7 @@ Zusatzwünsche:
 - Fräsrichtung umkehren
 - Fräsung mittig teilen (aus einer Fräsung 2 machen)
 - Fräsgerade verlängern um / kürzen um
-- Fräsbogenrichtung umkehren uzs/guzs
+
 
 ---------------------------------------------------------------------------In Arbeit:
 ---------------------------------------------------------------------------Fgerade
