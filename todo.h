@@ -1,31 +1,27 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.04.06"
-
-/*
-#############################################################################
+#define PROGRAMMVERSION     "1.2020.04.07"
+/*#############################################################################
 Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 - Variablen beginnen mit einem großen Buchstaben
 - Funktionen beginnen mit einem kleinen Buchstaben
 - Funktionsnamen:
    Böse: get_x()
    Gut:      x()
-
 #############################################################################
 
-- Fräsrichtung umkehren
-   -->void MainWindow::on_actionFraesrichtung_umkehren_triggered()
+- Fräsgerade verlängern um / kürzen um
 
 
 
 
 Zusatzwünsche:
 
-- Schnelländerung Bohrgruppe
+- Schnelländerung Bohrgruppe, und andere Parameter
 - HBE X umwandeln in HBE Y etc
 - Fräsung mittig teilen (aus einer Fräsung 2 machen)
-- Fräsgerade verlängern um / kürzen um
+
 
 
 ---------------------------------------------------------------------------In Arbeit:

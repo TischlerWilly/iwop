@@ -5929,7 +5929,9 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                 QString fauf, fauf_kt;
                 fauf = tt.get_prgtext()->get_text_zeilenweise().zeile(zeilennummer);
                 fauf_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
-                bool gesund = true;
+                uint zeinum_beg, zeinum_end;
+                zeinum_beg = zeilennummer;
+                zeinum_end = zeinum_beg;
                 for(uint i=zeilennummer+1 ; i<tt.get_prgtext()->get_text_zeilenweise().zeilenanzahl() ; i++)
                 {
                     zeile = tt.get_prgtext()->get_text_zeilenweise().zeile(i);
@@ -5943,22 +5945,21 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                     }else if(zeile.contains(DLG_FABF)  ||  \
                              zeile.contains(DLG_FABF2)     )
                     {
-                        gesund = true;
+                        zeinum_end = i;
                         break; //for-Schleife abbrechen
                     }else
                     {
-                        gesund = false;
                         break; //for-Schleife abbrechen
                     }
                 }
-                if(gesund == true)
+                if(zeinum_beg != zeinum_end)
                 {
                     text_zeilenweise tz_neu;
                     punkt3d sp, ep;
                     sp.set_x(text_mitte(fauf_kt, FAUF_X, ENDPAR));
                     sp.set_y(text_mitte(fauf_kt, FAUF_Y, ENDPAR));
                     sp.set_z(text_mitte(fauf_kt, FAUF_Z, ENDPAR));
-                    for(uint i=1 ; i<tz.zeilenanzahl() ; i++)
+                    for(uint i=1 ; i<=tz.zeilenanzahl() ; i++)
                     {
                         QString zeile, zeile_kt;
                         zeile = tz.zeile(i);
@@ -5971,22 +5972,64 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                             zeile = set_param(FGERADE_X, sp.x_QString(), zeile);
                             zeile = set_param(FGERADE_Y, sp.y_QString(), zeile);
                             zeile = set_param(FGERADE_Z, sp.z_QString(), zeile);
-                            tz_neu.zeile_anhaengen(zeile);
-                        }//else if....
-                        //...
-                        //...
-                        //...
-                        //...
+                            sp = ep;
+                            tz_neu.zeile_vorwegsetzen(zeile);
+                        }else if(zeile.contains(DLG_FGERAWI))
+                        {
+                            double l, wi;
+                            l = get_param(FGERAWI_L, zeile_kt).toDouble();
+                            wi = get_param(FGERAWI_WI, zeile_kt).toDouble();
+                            strecke s;
+                            s.set_start(sp);
+                            punkt3d p;
+                            p = sp;
+                            p.set_x(p.x()+l);
+                            p.set_z(get_param(FGERAWI_Z, zeile_kt));
+                            s.set_ende(p);
+                            s.drenen_um_startpunkt_2d(wi, false);
+                            ep = s.endpu();
+                            zeile = set_param(FGERAWI_WI, double_to_qstring(wi+180), zeile);
+                            zeile = set_param(FGERAWI_Z, sp.z_QString(), zeile);
+                            sp = ep;
+                            tz_neu.zeile_vorwegsetzen(zeile);
+                        }else if(zeile.contains(DLG_FBOUZS))
+                        {
+                            ep.set_x(get_param(FBOUZS_XE, zeile_kt));
+                            ep.set_y(get_param(FBOUZS_YE, zeile_kt));
+                            ep.set_z(get_param(FBOUZS_ZE, zeile_kt));
+                            zeile = set_param(FBOUZS_XE, sp.x_QString(), zeile);
+                            zeile = set_param(FBOUZS_YE, sp.y_QString(), zeile);
+                            zeile = set_param(FBOUZS_ZE, sp.z_QString(), zeile);
+                            zeile.replace(DLG_FBOUZS, DLG_FBOGUZS);//Bogenrichtung umkehren
+                            sp = ep;
+                            tz_neu.zeile_vorwegsetzen(zeile);
+                        }else if(zeile.contains(DLG_FBOGUZS))
+                        {
+                            ep.set_x(get_param(FBOGUZS_XE, zeile_kt));
+                            ep.set_y(get_param(FBOGUZS_YE, zeile_kt));
+                            ep.set_z(get_param(FBOGUZS_ZE, zeile_kt));
+                            zeile = set_param(FBOGUZS_XE, sp.x_QString(), zeile);
+                            zeile = set_param(FBOGUZS_YE, sp.y_QString(), zeile);
+                            zeile = set_param(FBOGUZS_ZE, sp.z_QString(), zeile);
+                            zeile.replace(DLG_FBOGUZS, DLG_FBOUZS);//Bogenrichtung umkehren
+                            sp = ep;
+                            tz_neu.zeile_vorwegsetzen(zeile);
+                        }
                     }
                     fauf = set_param(FAUF_X, ep.x_QString(), fauf);
                     fauf = set_param(FAUF_Y, ep.y_QString(), fauf);
                     fauf = set_param(FAUF_Z, ep.z_QString(), fauf);
-                    tz_neu.zeile_vorwegsetzen(fauf);
                     //Werte zurück speichern:
-                    //...
-                    //...
-                    //...
-                    //...
+                    text_zeilenweise kopie_t;
+                    kopie_t = tt.get_prgtext()->get_text_zeilenweise();
+                    kopie_t.zeile_ersaetzen(zeinum_beg, fauf);
+                    for(uint i=1; i<=tz_neu.zeilenanzahl() ; i++)
+                    {
+                        kopie_t.zeile_ersaetzen(zeinum_beg+i, tz_neu.zeile(i));
+                    }
+                    tt.get_prgtext()->set_text(kopie_t.get_text());
+                    aktualisiere_anzeigetext();
+                    vorschauAktualisieren();
                 }else
                 {
                     QString msg;
