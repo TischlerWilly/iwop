@@ -126,7 +126,7 @@ void bogen::set_radius(float radiuswert, punkt2d bogenrichtung)
     }
 }
 
-QString bogen::get_text()
+QString bogen::text()
 {
     QString msg = BOGEN;
     msg += TRZ_PA;
@@ -150,11 +150,11 @@ QString bogen::get_text()
     msg += TRZ_PA;
     msg += mitte().y_QString();
     msg += TRZ_PA;
-    msg += get_farbe();
+    msg += farbe();
     msg += TRZ_PA;
-    msg += get_linienbreite_qstring();
+    msg += linienbreite_qstring();
     msg += TRZ_PA;
-    msg += get_stil();
+    msg += stil();
 
     return msg;
 }

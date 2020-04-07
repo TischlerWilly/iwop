@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>554</width>
+    <width>609</width>
     <height>344</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
   <widget class="QLabel" name="label_bild">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>310</x>
      <y>10</y>
      <width>291</width>
      <height>291</height>
@@ -34,28 +34,11 @@
     <rect>
      <x>6</x>
      <y>7</y>
-     <width>241</width>
+     <width>301</width>
      <height>291</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Werkzeugname</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit_name"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Werkzeugnummer</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
@@ -70,11 +53,19 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_nr"/>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Zustellmaß</string>
+      </property>
+     </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="comboBox_ausrichtung"/>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Werkzeugnummer</string>
+      </property>
+     </widget>
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_5">
@@ -83,10 +74,19 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_6">
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_nr"/>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit_name"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="comboBox_ausrichtung"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>Zustellmaß</string>
+       <string>Werkzeugname</string>
       </property>
      </widget>
     </item>
@@ -108,6 +108,16 @@
     </item>
     <item row="5" column="1">
      <widget class="QLineEdit" name="lineEdit_zustma"/>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLineEdit" name="lineEdit_spiegelnr"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Spiegelwerkzeug-Nr.</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -146,6 +156,7 @@
   <tabstop>lineEdit_nutzl</tabstop>
   <tabstop>lineEdit_zustma</tabstop>
   <tabstop>comboBox_drehricht</tabstop>
+  <tabstop>lineEdit_spiegelnr</tabstop>
   <tabstop>pushButton_ok</tabstop>
   <tabstop>pushButton_abbrechen</tabstop>
  </tabstops>

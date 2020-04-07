@@ -7,11 +7,11 @@ wkz_saege::wkz_saege()
 
 void wkz_saege::clear()
 {
-    name        = "unbekannt";
-    nr          = "0";
-    vertikal    = true;
-    dm          = 1;
-    breite      = 1;
+    Name        = "unbekannt";
+    Nr          = "0";
+    Vertikal    = true;
+    Dm          = 1;
+    Breite      = 1;
 }
 //-----------------------set_xy:
 void wkz_saege::set_data(QString new_data)
@@ -36,53 +36,53 @@ void wkz_saege::set_data(QString new_data)
 }
 void wkz_saege::set_name(QString neuer_name)
 {
-    name = neuer_name;
+    Name = neuer_name;
 }
 void wkz_saege::set_nummer(QString neue_nummer)
 {
-    nr = neue_nummer;
+    Nr = neue_nummer;
 }
 void wkz_saege::set_ausrichtung_vert(bool ist_vertikal)
 {
-    vertikal = ist_vertikal;
+    Vertikal = ist_vertikal;
 }
 void wkz_saege::set_ausrichtung_hori(bool ist_horizontal)
 {
     if(ist_horizontal)
     {
-        vertikal = false;
+        Vertikal = false;
     }else
     {
-        vertikal = true;
+        Vertikal = true;
     }
 }
 void wkz_saege::set_dm(double neuer_dm)
 {
-    dm = neuer_dm;
+    Dm = neuer_dm;
 }
 void wkz_saege::set_dm(QString neuer_dm)
 {
-    dm = neuer_dm.toDouble();
+    Dm = neuer_dm.toDouble();
 }
 void wkz_saege::set_breite(double neue_breite)
 {
-    breite = neue_breite;
+    Breite = neue_breite;
 }
 void wkz_saege::set_breite(QString neue_breite)
 {
-    breite = neue_breite.toDouble();
+    Breite = neue_breite.toDouble();
 }
 
 //-----------------------get_xy:
-QString wkz_saege::get_data()
+QString wkz_saege::text()
 {
     QString data = WKZ_SAEGE;
     data += SAEGE_NAME;
-    data += get_name();
+    data += name();
     data += ENDPAR;
 
     data += SAEGE_NR;
-    data += get_nummer();
+    data += nummer();
     data += ENDPAR;
 
     data += SAEGE_VERTIKAL;
@@ -96,30 +96,30 @@ QString wkz_saege::get_data()
     data += ENDPAR;
 
     data += SAEGE_DM;
-    data += get_dm_qstring();
+    data += dm_qstring();
     data += ENDPAR;
 
     data += SAEGE_BREITE;
-    data += get_breite_qstring();
+    data += breite_qstring();
     data += ENDPAR;
 
     return data;
 }
-QString wkz_saege::get_name()
+QString wkz_saege::name()
 {
-    return name;
+    return Name;
 }
-QString wkz_saege::get_nummer()
+QString wkz_saege::nummer()
 {
-    return  nr;
+    return  Nr;
 }
 bool wkz_saege::ist_vertikal()
 {
-    return vertikal;
+    return Vertikal;
 }
 bool wkz_saege::ist_horizontal()
 {
-    if(vertikal == true)
+    if(Vertikal == true)
     {
         return false;
     }else
@@ -127,21 +127,21 @@ bool wkz_saege::ist_horizontal()
         return true;
     }
 }
-double wkz_saege::get_dm()
+double wkz_saege::dm()
 {
-    return dm;
+    return Dm;
 }
-QString wkz_saege::get_dm_qstring()
+QString wkz_saege::dm_qstring()
 {
-    return double_to_qstring(dm);
+    return double_to_qstring(Dm);
 }
-double wkz_saege::get_breite()
+double wkz_saege::breite()
 {
-    return breite;
+    return Breite;
 }
-QString wkz_saege::get_breite_qstring()
+QString wkz_saege::breite_qstring()
 {
-    return  double_to_qstring(breite);
+    return  double_to_qstring(Breite);
 }
 
 

@@ -79,7 +79,7 @@ public:
     {
         return Fehlertext;
     }
-     QString get_text();
+     QString text();
      void mb();
 
     //------------------------------------------------------Manipulationen:

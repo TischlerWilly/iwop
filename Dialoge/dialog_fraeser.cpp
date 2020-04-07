@@ -29,6 +29,7 @@ void Dialog_fraeser::clear()
     ui->comboBox_drehricht->clear();
     ui->comboBox_drehricht->addItem("rechts");      //Index 0
     ui->comboBox_drehricht->addItem("links");       //Index 1
+    ui->lineEdit_spiegelnr->clear();
     loadwkzbild();
 }
 
@@ -64,7 +65,7 @@ void Dialog_fraeser::loadwkzbild()
     if(!ui->lineEdit_nr->text().isEmpty())
     {
         QString bild1;
-        bild1  = pf.get_path_wkzbilder_();
+        bild1  = pf.path_wkzbilder_();
         bild1 += ui->lineEdit_nr->text();
         bild1 += ".bmp";
         QFile file(bild1);
@@ -74,7 +75,7 @@ void Dialog_fraeser::loadwkzbild()
             ui->label_bild->setPixmap(pix1);
         }else
         {
-            bild1  = pf.get_path_dlgbilder_();
+            bild1  = pf.path_dlgbilder_();
             bild1 += "fraeser_nopic.bmp";
             QPixmap pix1(bild1);
             ui->label_bild->setPixmap(pix1);
@@ -83,7 +84,7 @@ void Dialog_fraeser::loadwkzbild()
     }else
     {
         QString bild1;
-        bild1  = pf.get_path_dlgbilder_();
+        bild1  = pf.path_dlgbilder_();
         bild1 += "fraeser.bmp";
         QPixmap pix1(bild1);
         ui->label_bild->setPixmap(pix1);
@@ -116,8 +117,9 @@ QString Dialog_fraeser::dialogDataToString()
     {
         wf.set_drehrichtung_uzs(false);
     }
+    wf.set_spiegelwkznr(ui->lineEdit_spiegelnr->text());
 
-    return wf.get_data();
+    return wf.text();
 }
 
 void Dialog_fraeser::getDialogData(QString text, bool openToChangeData)
@@ -181,6 +183,12 @@ void Dialog_fraeser::getDialogData(QString text, bool openToChangeData)
         {
             ui->comboBox_drehricht->setCurrentIndex(1);//links == gegen den Uhrzeigersinn
         }
+    }
+    parname = ENDPAR;
+    parname += FRAESER_SPIEGELNR;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_spiegelnr->setText(selektiereEintrag(text, parname, ENDPAR));
     }
 
     this->show();

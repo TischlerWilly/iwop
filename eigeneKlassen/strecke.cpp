@@ -256,7 +256,7 @@ bool strecke::auf_strecke(punkt3d p)
     return ergebnis;
 }
 
-QString strecke::get_text()
+QString strecke::text()
 {
     QString msg = STRECKE;
     msg += TRZ_PA;
@@ -272,11 +272,11 @@ QString strecke::get_text()
     msg += TRZ_PA;
     msg += endpu().z_QString();
     msg += TRZ_PA;
-    msg += get_farbe();
+    msg += farbe();
     msg += TRZ_PA;
-    msg += get_linienbreite_qstring();
+    msg += linienbreite_qstring();
     msg += TRZ_PA;
-    msg += get_stil();
+    msg += stil();
 
     return msg;
 }

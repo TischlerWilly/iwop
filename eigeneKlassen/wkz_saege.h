@@ -24,22 +24,22 @@ public:
     void set_breite(QString neue_breite);
 
     //--get_xy:
-    QString get_data();
-    QString get_name();
-    QString get_nummer();
+    QString text();
+    QString name();
+    QString nummer();
     bool ist_vertikal();
     bool ist_horizontal();
-    double get_dm();
-    QString get_dm_qstring();
-    double get_breite();
-    QString get_breite_qstring();
+    double dm();
+    QString dm_qstring();
+    double breite();
+    QString breite_qstring();
 
 private:
-    QString name;
-    QString nr;
-    bool vertikal;
-    double dm;
-    double breite;
+    QString Name;
+    QString Nr;
+    bool Vertikal;
+    double Dm;
+    double Breite;
 
     void clear();
 };

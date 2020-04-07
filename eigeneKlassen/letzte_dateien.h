@@ -9,10 +9,10 @@ public:
     letzte_dateien();
     letzte_dateien(uint anzahl_der_eintraege);
 
-    QString get_text();
-    inline uint get_anz_eintreage()
+    QString text();
+    inline uint anz_eintreage()
     {
-        return anz_eintraege;
+        return Anz_eintraege;
     }
 
     void set_text(QString liste);
@@ -23,8 +23,8 @@ public:
 
 
 private:
-    text_zeilenweise dateinamen;
-    uint anz_eintraege;
+    text_zeilenweise Dateinamen;
+    uint Anz_eintraege;
 
 
 

@@ -24,29 +24,32 @@ public:
     void set_zustellmas(double neues_zustma);
     void set_zustellmas(QString neuer_zustma);
     void set_drehrichtung_uzs(bool im_uhrzeigersinn);
+    void set_spiegelwkznr(QString nr);
 
     //--get_xy:
-    QString get_data();
-    QString get_name();
-    QString get_nummer();
+    QString text();
+    QString name();
+    QString nummer();
     bool ist_vertikal();
     bool ist_horizontal();
-    double get_dm();
-    QString get_dm_qstring();
-    double get_nutzlaenge();
-    QString get_nutzlaenge_qstring();
-    double get_zustellmas();
-    QString get_zustellmas_qstring();
+    double dm();
+    QString dm_qstring();
+    double nutzlaenge();
+    QString nutzlaenge_qstring();
+    double zustellmas();
+    QString zustellmas_qstring();
     bool dreht_im_uzs();
+    QString spiegelwkznr();
 
 private:
-    QString name;
-    QString nr;
-    bool vertikal;
-    double dm;
-    double nutzl;
-    double zustma;
-    bool drehri_uzs;
+    QString Name;
+    QString Nr;
+    bool Vertikal;
+    double Dm;
+    double Nutzl;
+    double Zustma;
+    bool Drehri_uzs;
+    QString SpiegelWKZ_nr;
 
     void clear();
 };

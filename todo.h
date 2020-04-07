@@ -10,18 +10,23 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
    Böse: get_x()
    Gut:      x()
 #############################################################################
+in Arbeit:
+- interne Namen siehe oben
+    ->weiter mit datei programmtext.h
 
-- Fräsgerade verlängern um / kürzen um
 
 
 
+Weitere Wünsche:
+- Erweiterung Parameter Werkzeugmagazin um die Parameter aus meiner odt-Datei
+- Beim Wechseln der Zeile im list-widget soll rechts das Foto des WKZ angezeigt werden + etwas text
 
-Zusatzwünsche:
-
+- Fräs-Gerade/Gerade-mit-Winkel mittig teilen
+- Fräsbahn vor aktiver Zeile teilen
+- Fräs-Gerade verlängern um / kürzen um
+  ->Soll nur möglich sein wenn die Gerade am Anfang oder am Ende einer Fräsbahn liegt
 - Schnelländerung Bohrgruppe, und andere Parameter
 - HBE X umwandeln in HBE Y etc
-- Fräsung mittig teilen (aus einer Fräsung 2 machen)
-
 
 
 ---------------------------------------------------------------------------In Arbeit:

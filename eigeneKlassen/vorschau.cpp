@@ -28,7 +28,7 @@ void vorschau::paintEvent(QPaintEvent *)
     painter.drawRect(0, 0, width(), height());
 
     //Maschine darstellen:
-    text_zeilenweise geotext = t.get_maschinengeo().get_text_zeilenweise();
+    text_zeilenweise geotext = t.get_maschinengeo().text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -42,7 +42,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Bearbeitungen darstellen:
-    geotext = t.get_geo().get_text_zeilenweise();
+    geotext = t.get_geo().text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -56,7 +56,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Fräskontur darstellen:
-    text_zeilenweise fkontext = t.get_fkon().get_text_zeilenweise();
+    text_zeilenweise fkontext = t.get_fkon().text_zw();
     for(uint i=1;i<=fkontext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -70,7 +70,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Fräser darstellen, aber nur in aktueller Zeile:
-    text_zeilenweise fraeserdarsttext = t.get_fraeserdarst().get_text_zeilenweise();
+    text_zeilenweise fraeserdarsttext = t.get_fraeserdarst().text_zw();
     if(aktuelle_zeilennummer <= fraeserdarsttext.zeilenanzahl() && \
             !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
@@ -874,7 +874,7 @@ uint vorschau::get_zeile_von_Mauspos()
     double abst = 9999999999;
     strecke s; //nehmen wir für Längenberechnung/Abstandsberechnung
     s.set_start(get_mauspos_npanschlag());
-    text_zeilenweise geotext = t.get_geo().get_text_zeilenweise();
+    text_zeilenweise geotext = t.get_geo().text_zw();
 
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {

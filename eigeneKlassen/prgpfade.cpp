@@ -2,40 +2,40 @@
 
 prgpfade::prgpfade()
 {
-    dir_dlgbilder         = "dlgbilder";
-    dir_wkzbilder         = "wkzbilder";
-    inifile               = "konfiguration.ini";
-    inifile_postprozessor = "postprozessor.ini";
-    inifile_wkz           = "wkz.ini";
-    ini_letzteDateien     = "letzte_dateien.ini";
-    ini_cadMaschine       = "maschine_cad.ini";
+    Dir_dlgbilder         = "dlgbilder";
+    Dir_wkzbilder         = "wkzbilder";
+    Inifile               = "konfiguration.ini";
+    Inifile_postprozessor = "postprozessor.ini";
+    Inifile_wkz           = "wkz.ini";
+    Ini_letzteDateien     = "letzte_dateien.ini";
+    Ini_cadMaschine       = "maschine_cad.ini";
 }
 
 //--------------------------------------Programmordner:
-QString prgpfade::get_path_prg()
+QString prgpfade::path_prg()
 {
     QString tmp;
     tmp = "C:\\Program Files\\iwop";
     return tmp;
 }
-QString prgpfade::get_path_dlgbilder()
+QString prgpfade::path_dlgbilder()
 {
     QString tmp;
-    tmp = get_path_prg();
+    tmp = path_prg();
     tmp += QDir::separator();
-    tmp += dir_dlgbilder;
+    tmp += Dir_dlgbilder;
     return tmp;
 }
-QString prgpfade::get_path_dlgbilder_()
+QString prgpfade::path_dlgbilder_()
 {
     QString tmp;
-    tmp = get_path_dlgbilder();
+    tmp = path_dlgbilder();
     tmp += QDir::separator();
     return tmp;
 }
 
 //--------------------------------------Nutzerordner:
-QString prgpfade::get_path_user()
+QString prgpfade::path_user()
 {
     QString tmp;
     tmp = QDir::homePath();
@@ -43,7 +43,7 @@ QString prgpfade::get_path_user()
     tmp += ".iwop";
     return tmp;
 }
-QString prgpfade::get_path_user_postprozessor()
+QString prgpfade::path_user_postprozessor()
 {
     QString tmp;
     tmp = QDir::homePath();
@@ -51,59 +51,59 @@ QString prgpfade::get_path_user_postprozessor()
     tmp += ".postprozessor";
     return tmp;
 }
-QString prgpfade::get_path_wkzbilder()
+QString prgpfade::path_wkzbilder()
 {
     QString tmp;
-    tmp = get_path_user();
+    tmp = path_user();
     tmp += QDir::separator();
-    tmp += dir_wkzbilder;
+    tmp += Dir_wkzbilder;
     return tmp;
 }
-QString prgpfade::get_path_wkzbilder_()
+QString prgpfade::path_wkzbilder_()
 {
     QString tmp;
-    tmp = get_path_wkzbilder();
+    tmp = path_wkzbilder();
     tmp += QDir::separator();
     return tmp;
 }
-QString prgpfade::get_path_inifile()
+QString prgpfade::path_inifile()
 {
     QString tmp;
-    tmp = get_path_user();
+    tmp = path_user();
     tmp += QDir::separator();
-    tmp += inifile;
+    tmp += Inifile;
     return tmp;
 }
-QString prgpfade::get_path_inifile_postprozessor()
+QString prgpfade::path_inifile_postprozessor()
 {
     QString tmp;
-    tmp = get_path_user_postprozessor();
+    tmp = path_user_postprozessor();
     tmp += QDir::separator();
-    tmp += inifile_postprozessor;
+    tmp += Inifile_postprozessor;
     return tmp;
 }
-QString prgpfade::get_path_inifile_wkz()
+QString prgpfade::path_inifile_wkz()
 {
     QString tmp;
-    tmp = get_path_user();
+    tmp = path_user();
     tmp += QDir::separator();
-    tmp += inifile_wkz;
+    tmp += Inifile_wkz;
     return tmp;
 }
-QString prgpfade::get_path_iniLetzteDateien()
+QString prgpfade::path_iniLetzteDateien()
 {
     QString tmp;
-    tmp = get_path_user();
+    tmp = path_user();
     tmp += QDir::separator();
-    tmp += ini_letzteDateien;
+    tmp += Ini_letzteDateien;
     return tmp;
 }
-QString prgpfade::get_path_iniCadMaschine()
+QString prgpfade::path_iniCadMaschine()
 {
     QString tmp;
-    tmp = get_path_user();
+    tmp = path_user();
     tmp += QDir::separator();
-    tmp += ini_cadMaschine;
+    tmp += Ini_cadMaschine;
     return tmp;
 }
 

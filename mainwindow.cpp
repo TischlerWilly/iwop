@@ -50,18 +50,30 @@ MainWindow::MainWindow(QWidget *parent) :
     vorschaufenster.setParent(ui->tab_Programmliste);
 
     prgpfade pf;
-    QDir dir(pf.get_path_prg());
-    if(!dir.exists())
+    QDir dir_prg(pf.path_prg());
+    if(!dir_prg.exists())
     {
         QString nachricht;
         nachricht = "Programmpfad nicht gefunden. Pfad \"";
-        nachricht += pf.get_path_prg();
+        nachricht += pf.path_prg();
         nachricht += "\" wird angelegt";
         QMessageBox mb;
         mb.setText(nachricht);
         mb.exec();        
-        dir.mkdir(pf.get_path_prg());
-        dir.mkdir(pf.get_path_wkzbilder());
+        dir_prg.mkdir(pf.path_prg());
+    }
+    QDir dir_user(pf.path_user());
+    if(!dir_user.exists())
+    {
+        QString nachricht;
+        nachricht = "Benutzer-Verzeichnis nicht gefunden. Pfad \"";
+        nachricht += pf.path_user();
+        nachricht += "\" wird angelegt";
+        QMessageBox mb;
+        mb.setText(nachricht);
+        mb.exec();
+        dir_user.mkdir(pf.path_user());
+        dir_user.mkdir(pf.path_wkzbilder());
     }
     QString msg = this->loadConfig();
     if(msg != "OK")
@@ -469,7 +481,7 @@ int MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on)
     }
     ui->listWidget_Werkzeug->clear();
     text_zeilenweise tmp;
-    tmp =wkz.get_anzeigetext();
+    tmp =wkz.anzeigetext();
     if(tmp.zeilenanzahl() == 0)
     {
         return -1;
@@ -550,7 +562,7 @@ QString MainWindow::loadConfig()
 {
     QString returnString = "OK";
     prgpfade pf;
-    QFile file(pf.get_path_inifile());
+    QFile file(pf.path_inifile());
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         konfiguration_ini_ist_vorhanden = false;
@@ -852,12 +864,12 @@ QString MainWindow::saveConfig()
 
     //Daten Speichern:
     prgpfade pf;
-    QFile file(pf.get_path_inifile());
+    QFile file(pf.path_inifile());
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
         QString msg;
         msg = "Fehler beim Zugriff auf die Datei \"";
-        msg += pf.get_path_inifile();
+        msg += pf.path_inifile();
         msg += "\"";
         QMessageBox mb;
         mb.setText(msg);
@@ -996,7 +1008,7 @@ void MainWindow::loadConfig_letzte_Dateien()
 {
     //QFile file(QDir::homePath() + PFAD_LETZTE_DATEIEN);
     prgpfade pf;
-    QFile file(pf.get_path_iniLetzteDateien());
+    QFile file(pf.path_iniLetzteDateien());
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QString tmp;
@@ -1043,12 +1055,12 @@ void MainWindow::saveWKZ()
 {
     //Daten Speichern:
     prgpfade pf;
-    QFile file(pf.get_path_inifile_wkz());
+    QFile file(pf.path_inifile_wkz());
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
         QString msg;
         msg = "Fehler beim Zugriff auf die Datei \"";
-        msg += pf.get_path_inifile_wkz();
+        msg += pf.path_inifile_wkz();
         msg += "\"";
         QMessageBox mb;
         mb.setText(msg);
@@ -1058,7 +1070,7 @@ void MainWindow::saveWKZ()
         file.remove(); //lösche alte Datei wenn vorhanden
         file.close(); //beende Zugriff
         file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
-        file.write(wkz.get_text().toUtf8()); //fülle Datei mit Inhalt
+        file.write(wkz.text().toUtf8()); //fülle Datei mit Inhalt
         file.close(); //beende Zugriff
         QMessageBox mb;
         mb.setText("Werkzeugmagazin wurde erfolgreich gespeichert.");
@@ -1069,7 +1081,7 @@ void MainWindow::saveWKZ()
 void MainWindow::loadWKZ()
 {
     prgpfade pf;
-    QFile file(pf.get_path_inifile_wkz());
+    QFile file(pf.path_inifile_wkz());
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         //Keine Werkzeugdatei vorhanden
@@ -1085,7 +1097,7 @@ QString MainWindow::ausgabepfad_postprozessor()
 {
     prgpfade pf;
     QString pfad;
-    QFile file(pf.get_path_inifile_postprozessor());
+    QFile file(pf.path_inifile_postprozessor());
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         //Keine inidatei vom Postprozessor gefunden
@@ -1776,7 +1788,7 @@ void MainWindow::aktuelisiere_letzte_dateien_inifile()
     }
     //Daten Speichern:
     prgpfade pf;
-    QFile inifile(pf.get_path_iniLetzteDateien());
+    QFile inifile(pf.path_iniLetzteDateien());
     if (!inifile.open(QIODevice::WriteOnly | QIODevice::Text)) //Wenn es nicht möglich ist die Datei zu öffnen oder neu anzulegen
     {
         QMessageBox mb;
@@ -1787,7 +1799,7 @@ void MainWindow::aktuelisiere_letzte_dateien_inifile()
         inifile.remove(); //lösche alte Datei wenn vorhanden
         inifile.close(); //beende Zugriff
         inifile.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
-        inifile.write(letzte_geoefnete_dateien.get_text().toUtf8()); //fülle Datei mit Inhalt
+        inifile.write(letzte_geoefnete_dateien.text().toUtf8()); //fülle Datei mit Inhalt
         inifile.close(); //beende Zugriff
     }
 }
@@ -1797,7 +1809,7 @@ void MainWindow::aktualisiere_letzte_dateien_menu()
     ui->menuLetzte_Dateien->clear();
 
     text_zeilenweise namen;
-    namen.set_text(letzte_geoefnete_dateien.get_text());
+    namen.set_text(letzte_geoefnete_dateien.text());
     for(uint i=1; i<=namen.zeilenanzahl() ;i++)
     {
         oefneLetzteDateien[i-1] = new QAction(namen.zeile(i), this);
@@ -5250,7 +5262,7 @@ void MainWindow::getDialogData(QString text)
         }
     }else if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
     {
-        text_zeilenweise at = wkz.get_anzeigetext();
+        text_zeilenweise at = wkz.anzeigetext();
         if(at.zeilenanzahl() == 0)
         {
             wkz.zeile_anhaengen(text);
@@ -5378,7 +5390,7 @@ void MainWindow::on_actionProgrammliste_anzeigen_triggered()
 
     QString tmp_geom;
     tmp_geom = "";
-    text_zeilenweise g =tt.get_prgtext()->get_geo().get_text_zeilenweise();
+    text_zeilenweise g =tt.get_prgtext()->get_geo().text_zw();
     for(uint i=1 ; i<=g.zeilenanzahl() ; i++)
     {
         tmp_geom += QString::fromStdString(int_to_string(i));
@@ -5390,7 +5402,7 @@ void MainWindow::on_actionProgrammliste_anzeigen_triggered()
     QString tmp_fkon;
     tmp_fkon = "";
     //text_zeilenweise fk =tt.get_prgtext()->get_fkon().get_text_zeilenweise();
-    text_zeilenweise fk =tt.get_prgtext()->get_fraeserdarst().get_text_zeilenweise();
+    text_zeilenweise fk =tt.get_prgtext()->get_fraeserdarst().text_zw();
     for(uint i=1 ; i<=fk.zeilenanzahl() ; i++)
     {
         tmp_fkon += QString::fromStdString(int_to_string(i));
@@ -6019,6 +6031,37 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                     fauf = set_param(FAUF_X, ep.x_QString(), fauf);
                     fauf = set_param(FAUF_Y, ep.y_QString(), fauf);
                     fauf = set_param(FAUF_Z, ep.z_QString(), fauf);
+                    //Spiegel-Werkzeug vorhanden?:
+                    QString werkzeugname = get_param(FAUF_WKZ, fauf);
+                    QString werkzeug = wkz.wkz_mit_name(werkzeugname);
+                    if(!werkzeug.isEmpty())//WKZ wurde gefunden
+                    {
+                        wkz_fraeser w;
+                        w.set_data(werkzeug);
+                        QString spiegelWKZ_nr = w.spiegelwkznr();
+                        if(!spiegelWKZ_nr.isEmpty())//Spiegel-WKZ ist definiert
+                        {
+                            QString spiegelWkz = wkz.wkz_mit_nr(spiegelWKZ_nr);
+                            if(!spiegelWkz.isEmpty())//Spiegel-WKZ gefunden
+                            {
+                                wkz_fraeser spw;
+                                spw.set_data(spiegelWkz);
+                                QString spiegelWKZ_name = spw.name();
+                                if(!spiegelWKZ_name.isEmpty())//Spiegel-WKZ Name gefunden
+                                {
+                                    fauf = set_param(FAUF_WKZ, spiegelWKZ_name, fauf);
+                                    QString kor = get_param(FAUF_KOR, fauf);
+                                    if(kor == "1")
+                                    {
+                                        fauf = set_param(FAUF_KOR, "2", fauf);
+                                    }else if(kor == "2")
+                                    {
+                                        fauf = set_param(FAUF_KOR, "1", fauf);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //Werte zurück speichern:
                     text_zeilenweise kopie_t;
                     kopie_t = tt.get_prgtext()->get_text_zeilenweise();
@@ -6079,19 +6122,19 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
     if(dlgtyp == DLG_NUT)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgnut, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.get_wkzlist(WKZ_SAEGE, SAEGE_NAME));
+        emit sendWKZlist(wkz.wkzlist(WKZ_SAEGE, SAEGE_NAME));
     }else if(dlgtyp == DLG_KTA)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgkta, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
+        emit sendWKZlist(wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME));
     }else if(dlgtyp == DLG_RTA)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgrta, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
+        emit sendWKZlist(wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME));
     }else if(dlgtyp == DLG_FAUF)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgfauf, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME));
+        emit sendWKZlist(wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME));
     }
 }
 

@@ -30,28 +30,28 @@ void kreis::set_text(QString geotext)
 
 void kreis::verschieben_um(double xversatz, double yversatz)
 {
-    mittelp.verschieben_um(xversatz, yversatz);
+    Mittelp.verschieben_um(xversatz, yversatz);
 }
 
-QString kreis::get_text()
+QString kreis::text()
 {
     QString msg = KREIS;
     msg += TRZ_PA;
-    msg += mittelp.x_QString();
+    msg += Mittelp.x_QString();
     msg += TRZ_PA;
-    msg += mittelp.y_QString();
+    msg += Mittelp.y_QString();
     msg += TRZ_PA;
-    msg += mittelp.z_QString();
+    msg += Mittelp.z_QString();
     msg += TRZ_PA;
     msg += radius_QString();
     msg += TRZ_PA;
-    msg += get_farbe();
+    msg += farbe();
     msg += TRZ_PA;
-    msg += get_farbe_fuellung();
+    msg += farbe_fuellung();
     msg += TRZ_PA;
-    msg += get_linienbreite_qstring();
+    msg += linienbreite_qstring();
     msg += TRZ_PA;
-    msg += get_stil();
+    msg += stil();
 
     return msg;
 }

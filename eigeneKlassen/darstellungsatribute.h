@@ -11,47 +11,47 @@ public:
 
     inline void set_farbe(QString neue_farbe)
     {
-        farbe = neue_farbe;
+        Farbe = neue_farbe;
     }
     inline void set_farbe_fuellung(QString neue_farbe)
     {
-        farbe_fuellung = neue_farbe;
+        Farbe_fuellung = neue_farbe;
     }
     inline void set_stil(QString neuer_stil)
     {
-        stil = neuer_stil;
+        Stil = neuer_stil;
     }
     inline void set_linienbreite(int neue_breite)
     {
-        breite = neue_breite;
+        Breite = neue_breite;
     }
 
-    inline QString get_farbe()
+    inline QString farbe()
     {
-        return farbe;
+        return Farbe;
     }
-    inline QString get_farbe_fuellung()
+    inline QString farbe_fuellung()
     {
-        return farbe_fuellung;
+        return Farbe_fuellung;
     }
-    inline QString get_stil()
+    inline QString stil()
     {
-        return stil;
+        return Stil;
     }
-    inline int get_linienbreite()
+    inline int linienbreite()
     {
-        return breite;
+        return Breite;
     }
-    inline QString get_linienbreite_qstring()
+    inline QString linienbreite_qstring()
     {
-        return int_to_qstring(breite);
+        return int_to_qstring(Breite);
     }
 
 private:
-    QString farbe;
-    QString farbe_fuellung;
-    QString stil;
-    int     breite;
+    QString Farbe;
+    QString Farbe_fuellung;
+    QString Stil;
+    int     Breite;
 };
 
 #define FARBE_KEINE       "keine"

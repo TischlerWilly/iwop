@@ -4,7 +4,7 @@
 //#define DLG_FAUF                "[KAFRAE40]"
 
 //--------------------------------Parameternahmen in der fmc-Datei
-#define FAUF_WKZ       "WKZID="
+#define FAUF_WKZ       "WKZID=" //Name des WKZ z.B: IMA601
 #define FAUF_X         "X="
 #define FAUF_Y         "Y="
 #define FAUF_Z         "Z="

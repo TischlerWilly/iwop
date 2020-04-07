@@ -10,7 +10,7 @@ Dialog_fbouzs::Dialog_fbouzs(QWidget *parent) :
     ui->pushButton_ok->setDefault(true);
 
     prgpfade pf;
-    QString bild1 = pf.get_path_dlgbilder_();
+    QString bild1 = pf.path_dlgbilder_();
     bild1 += "fbouzs_1.bmp";
     QPixmap pix1(bild1);
     ui->label_bild->setPixmap(pix1);

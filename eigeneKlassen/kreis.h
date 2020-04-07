@@ -21,47 +21,47 @@ public:
     void set_text(QString geotext);
     inline  void    set_mittelpunkt(punkt3d mittelpunkt)
     {
-        mittelp = mittelpunkt;
+        Mittelp = mittelpunkt;
     }
     inline  void    set_mittelpunkt(double x, double y, double z)
     {
-        mittelp.set_x(x);
-        mittelp.set_y(y);
-        mittelp.set_z(z);
+        Mittelp.set_x(x);
+        Mittelp.set_y(y);
+        Mittelp.set_z(z);
     }
     inline  void    set_radius(double radius)
     {
-        rad = radius;
+        Rad = radius;
     }
     inline  void    set_radius(QString radius)
     {
-        rad = radius.toDouble();
+        Rad = radius.toDouble();
     }
 
     inline  punkt3d     mitte3d()
     {
-        return mittelp;
+        return Mittelp;
     }
     inline  punkt2d     mitte2d()
     {
-        return punkt2d(mittelp.x(), mittelp.y());
+        return punkt2d(Mittelp.x(), Mittelp.y());
     }
     inline  double      radius()
     {
-        return rad;
+        return Rad;
     }
     inline  QString     radius_QString()
     {
-        return double_to_qstring(rad);
+        return double_to_qstring(Rad);
     }
 
     void    verschieben_um(double xversatz, double yversatz);
 
-    QString get_text();
+    QString text();
 
 private:
-    punkt3d     mittelp;
-    double      rad;
+    punkt3d     Mittelp;
+    double      Rad;
 
 };
 

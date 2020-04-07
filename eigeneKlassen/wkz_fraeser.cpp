@@ -6,13 +6,14 @@ wkz_fraeser::wkz_fraeser()
 }
 void wkz_fraeser::clear()
 {
-    name        = "unbekannt";
-    nr          = "0";
-    vertikal    = true;
-    dm          = 1;
-    nutzl       = 1;
-    zustma      = 1;
-    drehri_uzs  = true;
+    Name        = "unbekannt";
+    Nr          = "0";
+    Vertikal    = true;
+    Dm          = 1;
+    Nutzl       = 1;
+    Zustma      = 1;
+    Drehri_uzs  = true;
+    SpiegelWKZ_nr = "";
 }
 //-----------------------set_xy:
 void wkz_fraeser::set_data(QString new_data)
@@ -44,68 +45,74 @@ void wkz_fraeser::set_data(QString new_data)
     {
         set_drehrichtung_uzs(false);
     }
+    tmp = text_mitte(new_data, FRAESER_SPIEGELNR, ENDPAR);
+    set_spiegelwkznr(tmp);
 }
 void wkz_fraeser::set_name(QString neuer_name)
 {
-    name = neuer_name;
+    Name = neuer_name;
 }
 void wkz_fraeser::set_nummer(QString neue_nummer)
 {
-    nr = neue_nummer;
+    Nr = neue_nummer;
 }
 void wkz_fraeser::set_ausrichtung_vert(bool ist_vertikal)
 {
-    vertikal = ist_vertikal;
+    Vertikal = ist_vertikal;
 }
 void wkz_fraeser::set_ausrichtung_hori(bool ist_horizontal)
 {
     if(ist_horizontal)
     {
-        vertikal = false;
+        Vertikal = false;
     }else
     {
-        vertikal = true;
+        Vertikal = true;
     }
 }
 void wkz_fraeser::set_dm(double neuer_dm)
 {
-    dm = neuer_dm;
+    Dm = neuer_dm;
 }
 void wkz_fraeser::set_dm(QString neuer_dm)
 {
-    dm = neuer_dm.toDouble();
+    Dm = neuer_dm.toDouble();
 }
 void wkz_fraeser::set_nutzlaenge(double neue_nutzl)
 {
-    nutzl = neue_nutzl;
+    Nutzl = neue_nutzl;
 }
 void wkz_fraeser::set_nutzlaenge(QString neue_nutzl)
 {
-    nutzl = neue_nutzl.toDouble();
+    Nutzl = neue_nutzl.toDouble();
 }
 void wkz_fraeser::set_zustellmas(double neues_zustma)
 {
-    zustma = neues_zustma;
+    Zustma = neues_zustma;
 }
 void wkz_fraeser::set_zustellmas(QString neuer_zustma)
 {
-    zustma = neuer_zustma.toDouble();
+    Zustma = neuer_zustma.toDouble();
 }
 void wkz_fraeser::set_drehrichtung_uzs(bool im_uhrzeigersinn)
 {
-    drehri_uzs = im_uhrzeigersinn;
+    Drehri_uzs = im_uhrzeigersinn;
+}
+void wkz_fraeser::set_spiegelwkznr(QString nr)
+{
+    SpiegelWKZ_nr = nr;
 }
 
 //-----------------------get_xy:
-QString wkz_fraeser::get_data()
+QString wkz_fraeser::text()
 {
     QString data = WKZ_FRAESER;
     data += FRAESER_NAME;
-    data += get_name();
+    data += name();
     data += ENDPAR;
 
     data += FRAESER_NR;
-    data += get_nummer();
+    data += nummer();
     data += ENDPAR;
 
     data += FRAESER_VERTIKAL;
@@ -119,15 +126,15 @@ QString wkz_fraeser::get_data()
     data += ENDPAR;
 
     data += FRAESER_DM;
-    data += get_dm_qstring();
+    data += dm_qstring();
     data += ENDPAR;
 
     data += FRAESER_NUTZL;
-    data += get_nutzlaenge_qstring();
+    data += nutzlaenge_qstring();
     data += ENDPAR;
 
     data += FRAESER_ZUSTMAS;
-    data += get_zustellmas_qstring();
+    data += zustellmas_qstring();
     data += ENDPAR;
 
     data += FRAESER_UZS;
@@ -140,23 +147,27 @@ QString wkz_fraeser::get_data()
     }
     data += ENDPAR;
 
+    data += FRAESER_SPIEGELNR;
+    data += spiegelwkznr();
+    data += ENDPAR;
+
     return data;
 }
-QString wkz_fraeser::get_name()
+QString wkz_fraeser::name()
 {
-    return name;
+    return Name;
 }
-QString wkz_fraeser::get_nummer()
+QString wkz_fraeser::nummer()
 {
-    return  nr;
+    return  Nr;
 }
 bool wkz_fraeser::ist_vertikal()
 {
-    return vertikal;
+    return Vertikal;
 }
 bool wkz_fraeser::ist_horizontal()
 {
-    if(vertikal == true)
+    if(Vertikal == true)
     {
         return false;
     }else
@@ -164,35 +175,38 @@ bool wkz_fraeser::ist_horizontal()
         return true;
     }
 }
-double wkz_fraeser::get_dm()
+double wkz_fraeser::dm()
 {
-    return dm;
+    return Dm;
 }
-QString wkz_fraeser::get_dm_qstring()
+QString wkz_fraeser::dm_qstring()
 {
-    return double_to_qstring(dm);
+    return double_to_qstring(Dm);
 }
-double wkz_fraeser::get_nutzlaenge()
+double wkz_fraeser::nutzlaenge()
 {
-    return nutzl;
+    return Nutzl;
 }
-QString wkz_fraeser::get_nutzlaenge_qstring()
+QString wkz_fraeser::nutzlaenge_qstring()
 {
-    return  double_to_qstring(nutzl);
+    return  double_to_qstring(Nutzl);
 }
-double wkz_fraeser::get_zustellmas()
+double wkz_fraeser::zustellmas()
 {
-    return zustma;
+    return Zustma;
 }
-QString wkz_fraeser::get_zustellmas_qstring()
+QString wkz_fraeser::zustellmas_qstring()
 {
-    return double_to_qstring(zustma);
+    return double_to_qstring(Zustma);
 }
 bool wkz_fraeser::dreht_im_uzs()
 {
-    return drehri_uzs;
+    return Drehri_uzs;
 }
-
+QString wkz_fraeser::spiegelwkznr()
+{
+    return SpiegelWKZ_nr;
+}
 
 
 

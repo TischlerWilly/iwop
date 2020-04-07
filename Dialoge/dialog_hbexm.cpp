@@ -10,13 +10,13 @@ Dialog_hbexm::Dialog_hbexm(QWidget *parent) :
     ui->pushButton_ok->setDefault(true);
 
     prgpfade pf;
-    QString bild1 = pf.get_path_dlgbilder_();
+    QString bild1 = pf.path_dlgbilder_();
     bild1 += "hbexm_1.bmp";
     QPixmap pix1(bild1);
     ui->label_bild->setPixmap(pix1);
     ui->label_bild->setScaledContents(true);//Bild skallieren
 
-    QString bild2 = pf.get_path_dlgbilder_();
+    QString bild2 = pf.path_dlgbilder_();
     bild2 += "hbexm_2.bmp";
     QPixmap pix2(bild2);
     ui->label_bild_2->setPixmap(pix2);

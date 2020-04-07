@@ -40,22 +40,22 @@ public:
 
     void set_text(QString neuer_text);
 
-    inline QString          get_text()
+    inline QString          text()
     {
-        return text.get_text();
+        return Text.get_text();
     }
-    inline text_zeilenweise get_text_zeilenweise()
+    inline text_zeilenweise text_zw()
     {
-        return text;
+        return Text;
     }
-    inline uint             get_aktuelle_zeile()
+    inline uint             akt_zeile()
     {
-        return aktuelle_zeile;
+        return Aktuelle_zeile;
     }
 
 private:
-    uint                aktuelle_zeile;
-    text_zeilenweise    text;
+    uint                Aktuelle_zeile;
+    text_zeilenweise    Text;
 
 };
 

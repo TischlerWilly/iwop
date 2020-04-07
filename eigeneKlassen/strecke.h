@@ -64,7 +64,7 @@ public:
     double abst(punkt2d p);
     bool auf_strecke(punkt3d p);
 
-    QString get_text();
+    QString text();
 
     //-----------------------------------------manipulationen:
     void    richtung_unkehren();

@@ -15,56 +15,56 @@ void letzte_dateien::set_anz_eintreage(uint neue_anz)
     //darf nicht verwendet werde, wenn bereits Daten eingelesen sind
     if(neue_anz > 1)
     {
-        dateinamen.clear();
-        anz_eintraege = neue_anz;
+        Dateinamen.clear();
+        Anz_eintraege = neue_anz;
     }
 }
 
 void letzte_dateien::datei_merken(QString name)
 {
-    QString tmp = dateinamen.get_text();
+    QString tmp = Dateinamen.get_text();
     if(tmp.contains(name))
     {
         uint pos=0;
-        for(uint i = 1 ; i<=dateinamen.zeilenanzahl() ; i++)
+        for(uint i = 1 ; i<=Dateinamen.zeilenanzahl() ; i++)
         {
-            if(dateinamen.zeile(i) == name)
+            if(Dateinamen.zeile(i) == name)
             {
                 pos = i;
                 break;
             }
         }
-        dateinamen.zeilen_loeschen(pos,1);
-        dateinamen.zeile_anhaengen(name);
-    }else if(dateinamen.zeilenanzahl() < anz_eintraege)
+        Dateinamen.zeilen_loeschen(pos,1);
+        Dateinamen.zeile_anhaengen(name);
+    }else if(Dateinamen.zeilenanzahl() < Anz_eintraege)
     {
-        dateinamen.zeile_anhaengen(name);
+        Dateinamen.zeile_anhaengen(name);
     }else
     {
-        dateinamen.zeilen_loeschen(1,1);
-        dateinamen.zeile_anhaengen(name);
+        Dateinamen.zeilen_loeschen(1,1);
+        Dateinamen.zeile_anhaengen(name);
     }
 }
 
 void letzte_dateien::datei_vergessen(QString name)
 {
-    for(uint i=1; i<=dateinamen.zeilenanzahl() ;i++)
+    for(uint i=1; i<=Dateinamen.zeilenanzahl() ;i++)
     {
-        if(dateinamen.zeile(i) == name)
+        if(Dateinamen.zeile(i) == name)
         {
-            dateinamen.zeile_loeschen(i);
+            Dateinamen.zeile_loeschen(i);
             break;
         }
     }
 }
 
-QString letzte_dateien::get_text()
+QString letzte_dateien::text()
 {
     QString retstr;
     //Reihenfolge der Einträge umdrehen:
-    for(uint i=dateinamen.zeilenanzahl(); i>0;i--)
+    for(uint i=Dateinamen.zeilenanzahl(); i>0;i--)
     {
-        retstr += dateinamen.zeile(i);
+        retstr += Dateinamen.zeile(i);
         retstr += "\n";
     }
     retstr = retstr.left(retstr.length() - 1);//letzets Zeichen löschen = "\n"
@@ -75,8 +75,8 @@ void letzte_dateien::set_text(QString liste)
     text_zeilenweise tz;
     tz.set_text(liste);
 
-    if(tz.zeilenanzahl() <= anz_eintraege)
+    if(tz.zeilenanzahl() <= Anz_eintraege)
     {
-        dateinamen = tz;
+        Dateinamen = tz;
     }
 }

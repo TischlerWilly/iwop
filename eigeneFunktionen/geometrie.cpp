@@ -314,8 +314,8 @@ void trimmen(QString *geo1, QString *geo2)
         }
 
         //Werte zurück in die geo-QStrings schreiben:
-        *geo1 = s1.get_text();
-        *geo2 = s2.get_text();
+        *geo1 = s1.text();
+        *geo2 = s2.text();
 
         //QMessageBox mb;
         //mb.setText("m1: " + double_to_qstring(m1) + "\nm2: " + double_to_qstring(m2));
@@ -433,8 +433,8 @@ void trimmen(QString *geo1, QString *geo2)
 
 
         //Werte zurück in die geo-QStrings schreiben:
-        *geo1 = s.get_text();
-        *geo2 = b.get_text();
+        *geo1 = s.text();
+        *geo2 = b.text();
 
     }else if(text_a.contains(BOGEN) && text_b.contains(STRECKE))
     {
@@ -549,8 +549,8 @@ void trimmen(QString *geo1, QString *geo2)
 
 
         //Werte zurück in die geo-QStrings schreiben:
-        *geo2 = s.get_text();
-        *geo1 = b.get_text();
+        *geo2 = s.text();
+        *geo1 = b.text();
     }else if(text_a.contains(BOGEN) && text_b.contains(BOGEN))
     {
         bogen b1(text_a);
@@ -658,8 +658,8 @@ void trimmen(QString *geo1, QString *geo2)
 
 
         //Werte zurück in die geo-QStrings schreiben:
-        *geo1 = b1.get_text();
-        *geo2 = b2.get_text();
+        *geo1 = b1.text();
+        *geo2 = b2.text();
 
     }
 }

@@ -7,6 +7,8 @@
 #include "eigeneKlassen/text_zeilenweise.h"
 #include "eigeneKlassen/undo_redo_tz.h"
 #include "eigeneFunktionen/text.h"
+#include "eigeneKlassen/wkz_fraeser.h"
+#include "eigeneKlassen/wkz_saege.h"
 
 class werkzeug
 {
@@ -20,14 +22,16 @@ public:
     int  zeilen_einfuegen(uint zeilennummer_vor_neuer_zeile, QString zeilentext);
 
     //------------get_xy:
-    QString get_text();
+    QString text();
     QString zeile(uint zeilennummer);
     QString zeilen(uint zeilennummer_beginn, uint zeilenmenge);
     int zeile_ersaetzen(uint zeilennummer, QString neuer_zeilentext);
     int zeile_loeschen(uint zeilennummer);
     int zeilen_loeschen(uint zeilennummer_beginn, uint zeilenmenge);
-    text_zeilenweise get_anzeigetext();
-    text_zeilenweise get_wkzlist(QString wkztyp, QString paramfilter = "");
+    text_zeilenweise anzeigetext();
+    text_zeilenweise wkzlist(QString wkztyp, QString paramfilter = "");
+    QString wkz_mit_nr(QString wkznr);
+    QString wkz_mit_name(QString wkzname);
 
     //------------
     //MainWindow::aktualisiere_anzeigetext_wkz(bool undo_redo_on = true);
@@ -38,8 +42,8 @@ public:
     void set_undo_redo_anz(uint anz);
 
 private:
-    text_zeilenweise wkzlist;
-    undo_redo_tz vur;      //enthällt Wiederrufenschritte
+    text_zeilenweise Wkzlist;
+    undo_redo_tz Vur;      //enthällt Wiederrufenschritte
 
 };
 

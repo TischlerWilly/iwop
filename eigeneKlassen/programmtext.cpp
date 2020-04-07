@@ -1015,7 +1015,7 @@ void programmtext::aktualisiere_klartext_var()
                 //--------------------------------------------------------------------
                 QString wkzname = text_mitte(zeile, FAUF_WKZ, ENDPAR);
                 text_zeilenweise wtz;
-                wtz = wkz.get_wkzlist(WKZ_FRAESER);
+                wtz = wkz.wkzlist(WKZ_FRAESER);
                 for(uint i=1; i<=wtz.zeilenanzahl() ;i++)
                 {
                     QString aktname = text_mitte(wtz.zeile(i), FRAESER_NAME, ENDPAR);
@@ -3180,9 +3180,9 @@ void programmtext::aktualisiere_geo()
 
                     QString wkzname = text_mitte(zeile, KTA_WKZ, ENDPAR);
                     text_zeilenweise wkzlist_name;
-                    wkzlist_name = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME);
+                    wkzlist_name = wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME);
                     text_zeilenweise wkzlist_dm;
-                    wkzlist_dm = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_DM);
+                    wkzlist_dm = wkz.wkzlist(WKZ_FRAESER, FRAESER_DM);
 
                     for(uint i=1; i<=wkzlist_name.zeilenanzahl() ;i++)
                     {
@@ -3237,9 +3237,9 @@ void programmtext::aktualisiere_geo()
                 double wkzdm = min/4;
                 QString wkzname = text_mitte(zeile, RTA_WKZ, ENDPAR);
                 text_zeilenweise wkzlist_name;
-                wkzlist_name = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_NAME);
+                wkzlist_name = wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME);
                 text_zeilenweise wkzlist_dm;
-                wkzlist_dm = wkz.get_wkzlist(WKZ_FRAESER, FRAESER_DM);
+                wkzlist_dm = wkz.wkzlist(WKZ_FRAESER, FRAESER_DM);
 
                 for(uint i=1; i<=wkzlist_name.zeilenanzahl() ;i++)
                 {
@@ -4067,7 +4067,7 @@ void programmtext::aktualisiere_min_max()
     max_x = 0;
     max_y = 0;
     //min und max berechnen:
-    text_zeilenweise geotext = geo.get_text_zeilenweise();
+    text_zeilenweise geotext = geo.text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
