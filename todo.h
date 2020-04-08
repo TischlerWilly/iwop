@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.04.07"
+#define PROGRAMMVERSION     "1.2020.04.08"
 /*#############################################################################
 Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 - Variablen beginnen mit einem großen Buchstaben
@@ -18,9 +18,6 @@ in Arbeit:
 
 
 Weitere Wünsche:
-- Erweiterung Parameter Werkzeugmagazin um die Parameter aus meiner odt-Datei
-- Beim Wechseln der Zeile im list-widget soll rechts das Foto des WKZ angezeigt werden + etwas text
-
 - Fräs-Gerade/Gerade-mit-Winkel mittig teilen
 - Fräsbahn vor aktiver Zeile teilen
 - Fräs-Gerade verlängern um / kürzen um

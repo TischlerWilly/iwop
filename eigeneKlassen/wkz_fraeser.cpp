@@ -6,17 +6,26 @@ wkz_fraeser::wkz_fraeser()
 }
 void wkz_fraeser::clear()
 {
-    Name        = "unbekannt";
-    Nr          = "0";
-    Vertikal    = true;
-    Dm          = 1;
-    Nutzl       = 1;
-    Zustma      = 1;
-    Drehri_uzs  = true;
-    SpiegelWKZ_nr = "";
+    Name            = "unbekannt";
+    Nr              = "0";
+    Vertikal        = true;
+    Dm              = 1;
+    Nutzl           = 1;
+    Zustma          = 1;
+    Drehri_uzs      = true;
+    SpiegelWKZ_nr   = "";
+    Use_for         = "";
+    Not_use_for     = "";
+    Besonderheiten  = "";
+    Schneidenanz    = 0;
+    Klingenform     = "";
+    Klingenart      = "";
+    Vorschub        = 0;
+    Anfahrvorschub  = 0;
+    Drehzahl        = 0;
 }
 //-----------------------set_xy:
-void wkz_fraeser::set_data(QString new_data)
+void wkz_fraeser::set_text(QString new_data)
 {
     QString tmp;
     tmp = text_mitte(new_data, FRAESER_NAME, ENDPAR);
@@ -47,6 +56,24 @@ void wkz_fraeser::set_data(QString new_data)
     }
     tmp = text_mitte(new_data, FRAESER_SPIEGELNR, ENDPAR);
     set_spiegelwkznr(tmp);
+    tmp = text_mitte(new_data, FRAESER_USE_FOR, ENDPAR);
+    set_use_for(tmp);
+    tmp = text_mitte(new_data, FRAESER_NOT_USE_FOR, ENDPAR);
+    set_not_use_for(tmp);
+    tmp = text_mitte(new_data, FRAESER_BESONDERH, ENDPAR);
+    set_besonderheiten(tmp);
+    tmp = text_mitte(new_data, FRAESER_SCHNEIDENANZ, ENDPAR);
+    set_schneidenanz(tmp);
+    tmp = text_mitte(new_data, FRAESER_KLINGENFORM, ENDPAR);
+    set_klingenform(tmp);
+    tmp = text_mitte(new_data, FRAESER_KLINGENART, ENDPAR);
+    set_klingenart(tmp);
+    tmp = text_mitte(new_data, FRAESER_VO, ENDPAR);
+    set_vorschub(tmp);
+    tmp = text_mitte(new_data, FRAESER_ANVO, ENDPAR);
+    set_anfahrvorschub(tmp);
+    tmp = text_mitte(new_data, FRAESER_DREHZ, ENDPAR);
+    set_drehzahl(tmp);
 }
 void wkz_fraeser::set_name(QString neuer_name)
 {
@@ -149,6 +176,42 @@ QString wkz_fraeser::text()
 
     data += FRAESER_SPIEGELNR;
     data += spiegelwkznr();
+    data += ENDPAR;
+
+    data += FRAESER_USE_FOR;
+    data += use_for();
+    data += ENDPAR;
+
+    data += FRAESER_NOT_USE_FOR;
+    data += not_use_for();
+    data += ENDPAR;
+
+    data += FRAESER_BESONDERH;
+    data += besonderheiten();
+    data += ENDPAR;
+
+    data += FRAESER_SCHNEIDENANZ;
+    data += schneidenanz_QString();
+    data += ENDPAR;
+
+    data += FRAESER_KLINGENFORM;
+    data += klingenform();
+    data += ENDPAR;
+
+    data += FRAESER_KLINGENART;
+    data += klingenart();
+    data += ENDPAR;
+
+    data += FRAESER_VO;
+    data += vorschub_QString();
+    data += ENDPAR;
+
+    data += FRAESER_ANVO;
+    data += anfahrvorschub_QString();
+    data += ENDPAR;
+
+    data += FRAESER_DREHZ;
+    data += drehzahl_QString();
     data += ENDPAR;
 
     return data;

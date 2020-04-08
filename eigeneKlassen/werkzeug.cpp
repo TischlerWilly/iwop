@@ -242,7 +242,7 @@ QString werkzeug::wkz_mit_nr(QString wkznr)
         if(zeile.contains(WKZ_FRAESER))
         {
             wkz_fraeser wf;
-            wf.set_data(zeile);
+            wf.set_text(zeile);
             if(wf.nummer() == wkznr)
             {
                 erg = zeile;
@@ -251,7 +251,7 @@ QString werkzeug::wkz_mit_nr(QString wkznr)
         }else if(zeile.contains(WKZ_SAEGE))
         {
             wkz_saege ws;
-            ws.set_data(zeile);
+            ws.set_text(zeile);
             if(ws.nummer() == wkznr)
             {
                 erg = zeile;
@@ -270,7 +270,7 @@ QString werkzeug::wkz_mit_name(QString wkzname)
         if(zeile.contains(WKZ_FRAESER))
         {
             wkz_fraeser wf;
-            wf.set_data(zeile);
+            wf.set_text(zeile);
             if(wf.name() == wkzname)
             {
                 erg = zeile;
@@ -279,7 +279,7 @@ QString werkzeug::wkz_mit_name(QString wkzname)
         }else if(zeile.contains(WKZ_SAEGE))
         {
             wkz_saege ws;
-            ws.set_data(zeile);
+            ws.set_text(zeile);
             if(ws.name() == wkzname)
             {
                 erg = zeile;

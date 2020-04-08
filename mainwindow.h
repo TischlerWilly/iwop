@@ -265,6 +265,7 @@ private slots:
     void on_actionTestfunktion_triggered();
     void on_actionBogenrichtung_umkehren_triggered();
     void on_actionFraesrichtung_umkehren_triggered();
+    void on_listWidget_Werkzeug_currentRowChanged(int currentRow);
 };
 
 #endif // MAINWINDOW_H

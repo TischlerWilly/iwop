@@ -100,6 +100,40 @@
        <string>Speichern</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_bild">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>40</y>
+        <width>291</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_wkzinfo">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>350</y>
+        <width>181</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Werkzeuginfo</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

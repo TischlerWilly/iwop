@@ -23,6 +23,10 @@ public:
 
     //------------get_xy:
     QString text();
+    inline  text_zeilenweise tz()
+    {
+        return Wkzlist;
+    }
     QString zeile(uint zeilennummer);
     QString zeilen(uint zeilennummer_beginn, uint zeilenmenge);
     int zeile_ersaetzen(uint zeilennummer, QString neuer_zeilentext);

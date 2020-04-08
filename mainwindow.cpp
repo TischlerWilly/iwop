@@ -315,13 +315,27 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     {
         tmp = 1;
     }
-    ui->listWidget_Werkzeug->setFixedWidth(tmp);
+    int breite_a = tmp;
+    ui->listWidget_Werkzeug->setFixedWidth(breite_a/4);
     tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -50;
     if(tmp < 1)
     {
         tmp = 1;
     }
     ui->listWidget_Werkzeug->setFixedHeight(tmp);
+    //---Bild:
+    ui->label_bild->move(5 + ui->listWidget_Werkzeug->width() + 5, ui->listWidget_Werkzeug->y());
+    int breite_bild = breite_a/3-5;
+    if(breite_bild > 400)
+    {
+        breite_bild = 400;
+    }
+    ui->label_bild->setFixedWidth(breite_bild);
+    ui->label_bild->setFixedHeight(ui->label_bild->width());
+    //---Wkz-Infotext:
+    ui->label_wkzinfo->move(ui->label_bild->x(), ui->label_bild->y() + ui->label_bild->height() + 5);
+    ui->label_wkzinfo->setFixedWidth(breite_a/3*2-5);
+    ui->label_wkzinfo->setFixedHeight(ui->listWidget_Werkzeug->height() - ui->label_bild->height() - 10);
     //---Button unten:
     ui->pushButton_wkz_speichern->move(5, ui->listWidget_Werkzeug->pos().y() + ui->listWidget_Werkzeug->height() + 15 );
     //-------------------------------------------Reiter Programmliste:
@@ -6037,7 +6051,7 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                     if(!werkzeug.isEmpty())//WKZ wurde gefunden
                     {
                         wkz_fraeser w;
-                        w.set_data(werkzeug);
+                        w.set_text(werkzeug);
                         QString spiegelWKZ_nr = w.spiegelwkznr();
                         if(!spiegelWKZ_nr.isEmpty())//Spiegel-WKZ ist definiert
                         {
@@ -6045,7 +6059,7 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                             if(!spiegelWkz.isEmpty())//Spiegel-WKZ gefunden
                             {
                                 wkz_fraeser spw;
-                                spw.set_data(spiegelWkz);
+                                spw.set_text(spiegelWkz);
                                 QString spiegelWKZ_name = spw.name();
                                 if(!spiegelWKZ_name.isEmpty())//Spiegel-WKZ Name gefunden
                                 {
@@ -6115,6 +6129,121 @@ void MainWindow::on_pushButton_MakeSaege_clicked()
     emit sendDialogData("clear", false);
 }
 
+void MainWindow::on_listWidget_Werkzeug_currentRowChanged(int currentRow)
+{
+    if(ui->tabWidget->currentIndex() == INDEX_WERKZEUGLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Werkzeug->selectedItems();
+        int items_menge = items.count();
+        if(items_menge==1)
+        {
+            QString programmzeile;
+            if(ui->listWidget_Werkzeug->count() > currentRow)
+            {
+                programmzeile = wkz.zeile(currentRow+1);
+            }
+            QString wkzname, wkznr;
+            if(programmzeile.contains(WKZ_FRAESER))
+            {
+                wkz_fraeser w;
+                w.set_text(programmzeile);
+                wkznr = w.nummer();
+            }else if(programmzeile.contains(WKZ_SAEGE))
+            {
+                wkz_saege w;
+                w.set_text(programmzeile);
+                wkznr = w.nummer();
+            }
+            prgpfade pf;
+            if(!wkznr.isEmpty())
+            {
+                QString bild1;
+                bild1  = pf.path_wkzbilder_();
+                bild1 += wkznr;
+                bild1 += ".bmp";
+                QFile file(bild1);
+                if(file.exists())
+                {
+                    QPixmap pix1(bild1);
+                    ui->label_bild->setPixmap(pix1);
+                }else
+                {
+                    if(programmzeile.contains(WKZ_FRAESER))
+                    {
+                        bild1  = pf.path_dlgbilder_();
+                        bild1 += "fraeser_nopic.bmp";
+                        QPixmap pix1(bild1);
+                        ui->label_bild->setPixmap(pix1);
+                    }else if(programmzeile.contains(WKZ_SAEGE))
+                    {
+                        bild1  = pf.path_dlgbilder_();
+                        bild1 += "saege_nopic.bmp";
+                        QPixmap pix1(bild1);
+                        ui->label_bild->setPixmap(pix1);
+                    }
+                }
+                ui->label_bild->setScaledContents(true);//Bild skallieren
+
+                //Infotext:
+                QString info;
+                if(programmzeile.contains(WKZ_FRAESER))
+                {
+                    wkz_fraeser w;
+                    w.set_text(programmzeile);
+                    info += "Werkzeugname:\t";
+                    info += w.name();
+                    info += "\nNummer:\t\t";
+                    info += w.nummer();
+                    info += "\nSpiegelwerkzeug:\t";
+                    info += w.spiegelwkznr();
+                    info += "\nVerwenden für:\t";
+                    info += w.use_for();
+                    info += "\nNicht für:\t";
+                    info += w.not_use_for();
+                    info += "\nBesonderheiten:\t";
+                    info += w.besonderheiten();
+                    info += "\nSchneidenanz:\t";
+                    info += w.schneidenanz_QString();
+                    info += "\nKlingenform:\t";
+                    info += w.klingenform();
+                    info += "\nKlingenart:\t";
+                    info += w.klingenart();
+                    info += "\nDrehrichtung:\t";
+                    if(w.dreht_im_uzs() == true)
+                    {
+                        info += "rechts";
+                    }else
+                    {
+                        info += "links";
+                    }
+                    info += "\nDurchmesser:\t";
+                    info += w.dm_qstring();
+                    info += "\nNutzlänge:\t";
+                    info += w.nutzlaenge_qstring();
+                    info += "\nVorschub:\t";
+                    info += w.vorschub_QString();
+                    info += "\nAnfahrvorschub:\t";
+                    info += w.anfahrvorschub_QString();
+                    info += "\nDrehzahl:\t\t";
+                    info += w.drehzahl_QString();
+                }else if(programmzeile.contains(WKZ_SAEGE))
+                {
+                    wkz_saege w;
+                    w.set_text(programmzeile);
+                    info += "Werkzeugname:\t";
+                    info += w.name();
+                    info += "\nNummer:\t\t";
+                    info += w.nummer();
+                    info += "\nDurchmesser:\t";
+                    info += w.dm_qstring();
+                    info += "\nBreite:\t\t";
+                    info += w.breite_qstring();
+                }
+                ui->label_wkzinfo->setText(info);
+            }
+        }
+    }
+}
 //---------------------------------------------------WKZ:
 void MainWindow::slotNeedWKZ(QString dlgtyp)
 {
@@ -6126,20 +6255,67 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
     }else if(dlgtyp == DLG_KTA)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgkta, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME));
+        werkzeug wlist;
+        for(uint i=1; i<=wkz.tz().zeilenanzahl() ;i++)
+        {
+            QString zeile = wkz.zeile(i);
+            if(zeile.contains(WKZ_FRAESER))
+            {
+                QString filter;
+                filter  = FRAESER_VERTIKAL;
+                filter += "1";
+                if(zeile.contains(filter))
+                {
+                    wlist.zeile_anhaengen(zeile);
+                }
+            }
+        }
+        emit sendWKZlist(wlist.wkzlist(WKZ_FRAESER, FRAESER_NAME));//Nur die Namen übergeben
     }else if(dlgtyp == DLG_RTA)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgrta, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME));
+        werkzeug wlist;
+        for(uint i=1; i<=wkz.tz().zeilenanzahl() ;i++)
+        {
+            QString zeile = wkz.zeile(i);
+            if(zeile.contains(WKZ_FRAESER))
+            {
+                QString filter;
+                filter  = FRAESER_VERTIKAL;
+                filter += "1";
+                if(zeile.contains(filter))
+                {
+                    wlist.zeile_anhaengen(zeile);
+                }
+            }
+        }
+        emit sendWKZlist(wlist.wkzlist(WKZ_FRAESER, FRAESER_NAME));//Nur die Namen übergeben
     }else if(dlgtyp == DLG_FAUF)
     {
         connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgfauf, SLOT(getWKZlist(text_zeilenweise)));
-        emit sendWKZlist(wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME));
+        werkzeug wlist;
+        for(uint i=1; i<=wkz.tz().zeilenanzahl() ;i++)
+        {
+            QString zeile = wkz.zeile(i);
+            if(zeile.contains(WKZ_FRAESER))
+            {
+                QString filter;
+                filter  = FRAESER_VERTIKAL;
+                filter += "1";
+                if(zeile.contains(filter))
+                {
+                    wlist.zeile_anhaengen(zeile);
+                }
+            }
+        }
+        emit sendWKZlist(wlist.wkzlist(WKZ_FRAESER, FRAESER_NAME));//Nur die Namen übergeben
     }
 }
 
 
 //---------------------------------------------------
+
+
 
 
 

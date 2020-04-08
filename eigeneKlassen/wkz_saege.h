@@ -13,7 +13,7 @@ class wkz_saege
 public:
     wkz_saege();
     //--set_xy:
-    void set_data(QString new_data);
+    void set_text(QString new_data);
     void set_name(QString neuer_name);
     void set_nummer(QString neue_nummer);
     void set_ausrichtung_vert(bool ist_vertikal);

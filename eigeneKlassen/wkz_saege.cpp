@@ -14,7 +14,7 @@ void wkz_saege::clear()
     Breite      = 1;
 }
 //-----------------------set_xy:
-void wkz_saege::set_data(QString new_data)
+void wkz_saege::set_text(QString new_data)
 {
     QString tmp;
     tmp = text_mitte(new_data, SAEGE_NAME, ENDPAR);

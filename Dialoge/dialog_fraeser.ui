@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>609</width>
-    <height>344</height>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,100 +32,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>6</x>
-     <y>7</y>
-     <width>301</width>
-     <height>291</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Ausrichtung</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Durchmesser</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Zustellmaß</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Werkzeugnummer</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Nutzlänge</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_nr"/>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit_name"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="comboBox_ausrichtung"/>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Werkzeugname</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Drehrichtung</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QComboBox" name="comboBox_drehricht"/>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_dm"/>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEdit_nutzl"/>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="lineEdit_zustma"/>
-    </item>
-    <item row="7" column="1">
-     <widget class="QLineEdit" name="lineEdit_spiegelnr"/>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Spiegelwerkzeug-Nr.</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>304</y>
+     <x>180</x>
+     <y>500</y>
      <width>241</width>
      <height>31</height>
     </rect>
@@ -147,6 +55,200 @@
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>303</y>
+     <width>591</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>Verwenden für</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="text">
+       <string>Besonderheiten</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_14">
+      <property name="text">
+       <string>Klingenart</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="text">
+       <string>Klingenform</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_12">
+      <property name="text">
+       <string>Schneidenanzahl</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>NICHT verwenden für</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit_schneidenanz"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_kleingenform"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEdit_klingenart"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit_use_for"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit_not_use_for"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="lineEdit_besonderheiten"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>9</y>
+     <width>301</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Werkzeugname</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit_name"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Werkzeugnummer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_nr"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Ausrichtung</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="comboBox_ausrichtung"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Durchmesser</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit_dm"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Nutzlänge</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit_nutzl"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Zustellmaß</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="lineEdit_zustma"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Drehrichtung</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QComboBox" name="comboBox_drehricht"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Spiegelwerkzeug-Nr.</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLineEdit" name="lineEdit_spiegelnr"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>Vorschub</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>Anfahrvorschub</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>Drehzahl</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QLineEdit" name="lineEdit_vo"/>
+    </item>
+    <item row="9" column="1">
+     <widget class="QLineEdit" name="lineEdit_anvo"/>
+    </item>
+    <item row="10" column="1">
+     <widget class="QLineEdit" name="lineEdit_drehz"/>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>lineEdit_name</tabstop>
@@ -157,6 +259,15 @@
   <tabstop>lineEdit_zustma</tabstop>
   <tabstop>comboBox_drehricht</tabstop>
   <tabstop>lineEdit_spiegelnr</tabstop>
+  <tabstop>lineEdit_vo</tabstop>
+  <tabstop>lineEdit_anvo</tabstop>
+  <tabstop>lineEdit_drehz</tabstop>
+  <tabstop>lineEdit_schneidenanz</tabstop>
+  <tabstop>lineEdit_kleingenform</tabstop>
+  <tabstop>lineEdit_klingenart</tabstop>
+  <tabstop>lineEdit_use_for</tabstop>
+  <tabstop>lineEdit_not_use_for</tabstop>
+  <tabstop>lineEdit_besonderheiten</tabstop>
   <tabstop>pushButton_ok</tabstop>
   <tabstop>pushButton_abbrechen</tabstop>
  </tabstops>
