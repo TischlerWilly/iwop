@@ -1203,6 +1203,9 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeLage_aendern->setDisabled(true);
     ui->actionBogenrichtung_umkehren->setDisabled(true);
     ui->actionFraesrichtung_umkehren->setDisabled(true);
+    ui->actionFraesbahn_teilen_vor_akt_Zeilen->setDisabled(true);
+    ui->actionFraesbahn_teilen_in_akt_Zeile->setDisabled(true);
+    ui->actionFraesbahn_verlaengern_Gerade->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -1259,6 +1262,9 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeLage_aendern->setEnabled(true);
     ui->actionBogenrichtung_umkehren->setEnabled(true);
     ui->actionFraesrichtung_umkehren->setEnabled(true);
+    ui->actionFraesbahn_teilen_vor_akt_Zeilen->setEnabled(true);
+    ui->actionFraesbahn_teilen_in_akt_Zeile->setEnabled(true);
+    ui->actionFraesbahn_verlaengern_Gerade->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -6114,6 +6120,412 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
     }
 }
 
+void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+        int items_menge = items.count();
+
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            uint zeilennummer = ui->listWidget_Programmliste->currentRow()+1;
+            QString zeile, zeile_kt;
+
+            if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+            {
+                zeile = tt.get_prgtext()->zeile(zeilennummer);
+                zeile_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
+            }else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+            if(  zeile.contains(DLG_FGERADE)  ||  zeile.contains(DLG_FGERAWI)  )
+            {
+                //Koordinaten ermitteln
+                strecke s;
+                punkt3d sp, ep, mipu;
+                sp.set_x(get_param(VAR_ALLGEM_XS, zeile_kt));
+                sp.set_y(get_param(VAR_ALLGEM_YS, zeile_kt));
+                sp.set_z(get_param(VAR_ALLGEM_ZS, zeile_kt));
+                ep.set_x(get_param(VAR_ALLGEM_XE, zeile_kt));
+                ep.set_y(get_param(VAR_ALLGEM_YE, zeile_kt));
+                ep.set_z(get_param(VAR_ALLGEM_ZE, zeile_kt));
+                s.set_start(sp);
+                s.set_ende(ep);
+                mipu = s.mitpu3d();
+                //Aufruf Fräser suchen:
+                QString fauf;
+                uint zeinum_fauf = 0;
+                for(uint ii=zeilennummer-1;  (  (ii>=1) && (fauf.isEmpty())  )  ;ii--)
+                {
+                    QString zeile = tt.get_prgtext()->zeile(ii);
+                    if(zeile.contains(DLG_FAUF))
+                    {
+                        fauf = zeile;
+                        zeinum_fauf = ii;
+                    }
+                }
+                if(fauf.isEmpty())
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Hier kann keine Fräsbahn geteilt werden.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }else if(zeinum_fauf == zeilennummer-1)
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Die ausgewählte Zeile darf nich die Zeile nach dem Fräseraufruf sein.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }else if(  fauf.at(0)=='/'  &&  fauf.at(1)=='/')
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Der zugehörige Fräseraufruf darf nicht ausgeblendet sein.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }else
+                {
+                    //X-Y-Z-Wert als Geraden-Ende einfügen:
+                    if(zeile.contains(DLG_FGERADE))
+                    {
+                        zeile = set_param(FGERADE_X, mipu.x_QString(), zeile);
+                        zeile = set_param(FGERADE_Y, mipu.y_QString(), zeile);
+                        zeile = set_param(FGERADE_Z, mipu.z_QString(), zeile);
+                    }else if(zeile.contains(DLG_FGERAWI))
+                    {
+                        double l = s.laenge3d()/2;
+                        zeile = set_param(FGERAWI_L, double_to_qstring(l), zeile);
+                        zeile = set_param(FGERAWI_Z, mipu.z_QString(), zeile);
+                    }
+                    //X-Y-Z-Wert in Fräser-Aufruf einfügen:
+                    fauf = set_param(FAUF_X, mipu.x_QString(), fauf);
+                    fauf = set_param(FAUF_Y, mipu.y_QString(), fauf);
+                    fauf = set_param(FAUF_Z, mipu.z_QString(), fauf);
+                    //aktuelle Zeile ersetzen:
+                    tt.get_prgtext()->zeile_ersaetzen(zeilennummer, zeile);
+                    //Zeilen zum Einfügen zusammenstellen:
+                    text_zeilenweise tz;
+                    QString fabf = DLG_FABF;
+                    fabf += vorlage_fabf;
+                    tz.set_text(fabf);
+                    QString kom = DLG_KOM;
+                    kom += vorlage_kom;
+                    kom = set_param(KOM_BEZ, "---------------", kom);
+                    tz.zeile_anhaengen(kom);
+                    tz.zeile_anhaengen(fauf);
+                    if(zeile.contains(DLG_FGERADE))
+                    {
+                        zeile = set_param(FGERADE_X, ep.x_QString(), zeile);
+                        zeile = set_param(FGERADE_Y, ep.y_QString(), zeile);
+                        zeile = set_param(FGERADE_Z, ep.z_QString(), zeile);
+                        tz.zeile_anhaengen(zeile);
+                    }else if(zeile.contains(DLG_FGERAWI))
+                    {
+                        zeile = set_param(FGERAWI_Z, ep.z_QString(), zeile);
+                        tz.zeile_anhaengen(zeile);
+                    }
+                    //Zeilen in Programmliste einfügen:
+                    tt.get_prgtext()->zeilen_einfuegen(zeilennummer, tz.get_text());
+                    aktualisiere_anzeigetext();
+                    vorschauAktualisieren();
+                }
+            }else
+            {
+                QString msg;
+                msg += "Ihre Auswahl ist ungültig!\n";
+                msg += "Bitte markieren Sie eine Zeile die eine gerade Fräskontur enthällt.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Bitte nur eine Zeile markieren!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
+void MainWindow::on_actionFraesbahn_teilen_vor_akt_Zeilen_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+        int items_menge = items.count();
+
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            uint zeilennummer = ui->listWidget_Programmliste->currentRow()+1;
+            QString zeile, zeile_kt;
+
+            if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+            {
+                zeile = tt.get_prgtext()->zeile(zeilennummer);
+                zeile_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
+            } else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+            if(zeile.contains(DLG_FGERADE)  ||  zeile.contains(DLG_FGERAWI)  || \
+               zeile.contains(DLG_FBOUZS)   ||  zeile.contains(DLG_FBOGUZS)     )
+            {
+                //Koordinaten für neuen Fräseraufruf ermitteln
+                QString x, y, z;
+                x = get_param(VAR_ALLGEM_XS, zeile_kt);
+                y = get_param(VAR_ALLGEM_YS, zeile_kt);
+                z = get_param(VAR_ALLGEM_ZS, zeile_kt);
+                //Aufruf Fräser suchen:
+                QString fauf;
+                uint zeinum_fauf = 0;
+                for(uint ii=zeilennummer-1;  (  (ii>=1) && (fauf.isEmpty())  )  ;ii--)
+                {
+                    QString zeile = tt.get_prgtext()->zeile(ii);
+                    if(zeile.contains(DLG_FAUF))
+                    {
+                        fauf = zeile;
+                        zeinum_fauf = ii;
+                    }
+                }
+                if(fauf.isEmpty())
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Hier kann keine Fräsbahn geteilt werden.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }else if(zeinum_fauf == zeilennummer-1)
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Die ausgewählte Zeile darf nich die Zeile nach dem Fräseraufruf sein.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }else if(  fauf.at(0)=='/'  &&  fauf.at(1)=='/')
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Der zugehörige Fräseraufruf darf nicht ausgeblendet sein.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }else
+                {
+                    //X-Y-Z-Wert in Fräser-Aufruf einfügen:
+                    fauf = set_param(FAUF_X, x, fauf);
+                    fauf = set_param(FAUF_Y, y, fauf);
+                    fauf = set_param(FAUF_Z, z, fauf);
+                    //Zeilen zum Einfügen zusammenstellen:
+                    text_zeilenweise tz;
+                    QString fabf = DLG_FABF;
+                    fabf += vorlage_fabf;
+                    tz.set_text(fabf);
+                    QString kom = DLG_KOM;
+                    kom += vorlage_kom;
+                    kom = set_param(KOM_BEZ, "---------------", kom);
+                    tz.zeile_anhaengen(kom);
+                    tz.zeile_anhaengen(fauf);
+                    //Zeilen in Programmliste einfügen:
+                    tt.get_prgtext()->zeilen_einfuegen(zeilennummer-1, tz.get_text());
+                    aktualisiere_anzeigetext();
+                    vorschauAktualisieren();
+                }
+            }else
+            {
+                QString msg;
+                msg += "Ihre Auswahl ist ungültig!\n";
+                msg += "Bitte markieren Sie eine Zeile die eine Fräskontur enthällt. (Gerade/Bogen)";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Bitte nur eine Zeile markieren!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
+void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+        int items_menge = items.count();
+
+        if(items_menge==1)
+        {
+            //text aus der aktiven Zeile in string speichern:
+            uint zeilennummer = ui->listWidget_Programmliste->currentRow()+1;
+            QString zeile, zeile_kt;
+
+            if(ui->listWidget_Programmliste->currentIndex().isValid()  &&  (ui->listWidget_Programmliste->currentItem()->isSelected()))
+            {
+                zeile = tt.get_prgtext()->zeile(zeilennummer);
+                zeile_kt = tt.get_prgtext()->get_klartext_zeilenweise().zeile(zeilennummer);
+            }else
+            {
+                QMessageBox mb;
+                mb.setText("Sie haben noch nichts ausgewaelt was geaendert werden kann!");
+                mb.exec();
+                return;
+            }
+            if(  zeile.contains(DLG_FGERADE)  ||  zeile.contains(DLG_FGERAWI)  )
+            {
+                //Prüfen ob die gerade fräsbahn am Anfang oder am Ende der Fräsbahn liegt:
+                if(zeilennummer > 1)
+                {
+                    QString zeile_vor = tt.get_prgtext()->zeile(zeilennummer -1);
+                    if(zeile_vor.contains(DLG_FAUF))
+                    {
+                        //Koordinaten ermitteln
+                        strecke s;
+                        punkt3d sp, ep;
+                        sp.set_x(get_param(VAR_ALLGEM_XS, zeile_kt));
+                        sp.set_y(get_param(VAR_ALLGEM_YS, zeile_kt));
+                        sp.set_z(get_param(VAR_ALLGEM_ZS, zeile_kt));
+                        ep.set_x(get_param(VAR_ALLGEM_XE, zeile_kt));
+                        ep.set_y(get_param(VAR_ALLGEM_YE, zeile_kt));
+                        ep.set_z(get_param(VAR_ALLGEM_ZE, zeile_kt));
+                        s.set_start(sp);
+                        s.set_ende(ep);
+                        //Wie viel soll die Bahn länger werden?:
+                        double zugabe;
+                        zugabe = 20;        //<<-- Dies später noch durch Nutzereingabe abfangen
+                        //Fräsbahn verlängern:
+                        s.set_laenge_2d(s.laenge2d()+zugabe, strecke_bezugspunkt_ende);
+                        zeile_vor = set_param(FAUF_X, s.stapu().x_QString(), zeile_vor);
+                        zeile_vor = set_param(FAUF_Y, s.stapu().y_QString(), zeile_vor);
+                        //Daten zurück speichern:
+                        tt.get_prgtext()->zeile_ersaetzen(zeilennummer-1, zeile_vor);
+                        if(zeile.contains(DLG_FGERAWI))
+                        {
+                            zeile = set_param(FGERAWI_L, double_to_qstring(s.laenge2d()), zeile);
+
+                        }else // DLG_FGERADE
+                        {
+                            zeile = set_param(FGERADE_X, s.endpu().x_QString(), zeile);
+                            zeile = set_param(FGERADE_Y, s.endpu().y_QString(), zeile);
+                        }
+                        tt.get_prgtext()->zeile_ersaetzen(zeilennummer, zeile);
+                        aktualisiere_anzeigetext();
+                        vorschauAktualisieren();
+                    }else
+                    {
+                        if(zeilennummer < tt.get_prgtext()->get_text_zeilenweise().zeilenanzahl())
+                        {
+                            QString zeile_nach = tt.get_prgtext()->zeile(zeilennummer +1);
+                            if(zeile_nach.contains(DLG_FABF)  ||  zeile_nach.contains(DLG_FABF2))
+                            {
+                                //Koordinaten ermitteln
+                                strecke s;
+                                punkt3d sp, ep;
+                                sp.set_x(get_param(VAR_ALLGEM_XS, zeile_kt));
+                                sp.set_y(get_param(VAR_ALLGEM_YS, zeile_kt));
+                                sp.set_z(get_param(VAR_ALLGEM_ZS, zeile_kt));
+                                ep.set_x(get_param(VAR_ALLGEM_XE, zeile_kt));
+                                ep.set_y(get_param(VAR_ALLGEM_YE, zeile_kt));
+                                ep.set_z(get_param(VAR_ALLGEM_ZE, zeile_kt));
+                                s.set_start(sp);
+                                s.set_ende(ep);
+                                //Wie viel soll die Bahn länger werden?:
+                                double zugabe;
+                                zugabe = 20;        //<<-- Dies später noch durch Nutzereingabe abfangen
+                                //Fräsbahn verlängern:
+                                if(zeile.contains(DLG_FGERADE))
+                                {
+                                    s.set_laenge_2d(s.laenge2d()+zugabe, strecke_bezugspunkt_start);
+                                    zeile = set_param(FGERADE_X, s.endpu().x_QString(), zeile);
+                                    zeile = set_param(FGERADE_Y, s.endpu().y_QString(), zeile);
+                                }else //DLG_FGERAWI
+                                {
+                                    zeile = set_param(FGERAWI_L, double_to_qstring(s.laenge2d()), zeile);
+                                }
+                                tt.get_prgtext()->zeile_ersaetzen(zeilennummer, zeile);
+                                aktualisiere_anzeigetext();
+                                vorschauAktualisieren();
+                            }else
+                            {
+                                QString msg;
+                                msg += "Ihre Auswahl ist ungültig!\n";
+                                msg += "Die Gerade liegt nicht am Anfang und nicht am Ende einer Fräsbahn.";
+                                QMessageBox mb;
+                                mb.setText(msg);
+                                mb.exec();
+                            }
+                        }else
+                        {
+                            QString msg;
+                            msg += "Ihre Auswahl ist ungültig!\n";
+                            msg += "Die markierte Zeile darf nicht die letzte programmzeile sei.\n";
+                            msg += "Es muss ein Fräser-Abfahren vorhanden sein.";
+                            QMessageBox mb;
+                            mb.setText(msg);
+                            mb.exec();
+                        }
+                    }
+                }else
+                {
+                    QString msg;
+                    msg += "Ihre Auswahl ist ungültig!\n";
+                    msg += "Die markierte Zeile darf nicht die erst programmzeile sei.\n";
+                    msg += "Es muss ein Fräseraufruf vorhanden sein.";
+                    QMessageBox mb;
+                    mb.setText(msg);
+                    mb.exec();
+                }
+            }else
+            {
+                QString msg;
+                msg += "Ihre Auswahl ist ungültig!\n";
+                msg += "Bitte markieren Sie eine Zeile die eine gerade Fräskontur enthällt.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Bitte nur eine Zeile markieren!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
 //---------------------------------------------------Dialoge wkz
 void MainWindow::on_pushButton_MakeFraeser_clicked()
 {
@@ -6314,6 +6726,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

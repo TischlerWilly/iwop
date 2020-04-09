@@ -266,6 +266,9 @@ private slots:
     void on_actionBogenrichtung_umkehren_triggered();
     void on_actionFraesrichtung_umkehren_triggered();
     void on_listWidget_Werkzeug_currentRowChanged(int currentRow);
+    void on_actionFraesbahn_teilen_in_akt_Zeile_triggered();
+    void on_actionFraesbahn_teilen_vor_akt_Zeilen_triggered();
+    void on_actionFraesbahn_verlaengern_Gerade_triggered();
 };
 
 #endif // MAINWINDOW_H

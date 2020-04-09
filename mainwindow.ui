@@ -233,6 +233,9 @@
     <addaction name="actionBogenrichtung_umkehren"/>
     <addaction name="separator"/>
     <addaction name="actionFraesrichtung_umkehren"/>
+    <addaction name="actionFraesbahn_teilen_in_akt_Zeile"/>
+    <addaction name="actionFraesbahn_teilen_vor_akt_Zeilen"/>
+    <addaction name="actionFraesbahn_verlaengern_Gerade"/>
    </widget>
    <widget class="QMenu" name="menuS_gen">
     <property name="title">
@@ -560,6 +563,21 @@
   <action name="actionFraesrichtung_umkehren">
    <property name="text">
     <string>Fräsrichtung umkehren</string>
+   </property>
+  </action>
+  <action name="actionFraesbahn_teilen_in_akt_Zeile">
+   <property name="text">
+    <string>Fräsbahn teilen in akt Zeile</string>
+   </property>
+  </action>
+  <action name="actionFraesbahn_teilen_vor_akt_Zeilen">
+   <property name="text">
+    <string>Fräsbahn teilen vor akt Zeilen</string>
+   </property>
+  </action>
+  <action name="actionFraesbahn_verlaengern_Gerade">
+   <property name="text">
+    <string>Fräsbahn verlängern (Gerade)</string>
    </property>
   </action>
  </widget>

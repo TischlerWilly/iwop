@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.04.08"
+#define PROGRAMMVERSION     "1.2020.04.09"
 /*#############################################################################
 Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 - Variablen beginnen mit einem großen Buchstaben
@@ -12,9 +12,10 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 #############################################################################
 in Arbeit:
 - interne Namen siehe oben
-    ->weiter mit datei programmtext.h
+    ->weiter mit Datei programmtext.h
 
-
+- void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
+ -->zugabe = 20;        //<<-- Dies später noch durch Nutzereingabe abfangen
 
 
 Weitere Wünsche:
