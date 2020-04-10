@@ -6178,14 +6178,6 @@ void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
                     QMessageBox mb;
                     mb.setText(msg);
                     mb.exec();
-                }else if(zeinum_fauf == zeilennummer-1)
-                {
-                    QString msg;
-                    msg += "Ihre Auswahl ist ungültig!\n";
-                    msg += "Die ausgewählte Zeile darf nich die Zeile nach dem Fräseraufruf sein.";
-                    QMessageBox mb;
-                    mb.setText(msg);
-                    mb.exec();
                 }else if(  fauf.at(0)=='/'  &&  fauf.at(1)=='/')
                 {
                     QString msg;
@@ -6377,6 +6369,7 @@ void MainWindow::on_actionFraesbahn_teilen_vor_akt_Zeilen_triggered()
 
 void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
 {
+    double defaultwert = 10;
     if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
     {
         QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
@@ -6407,38 +6400,93 @@ void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
                     QString zeile_vor = tt.get_prgtext()->zeile(zeilennummer -1);
                     if(zeile_vor.contains(DLG_FAUF))
                     {
-                        //Koordinaten ermitteln
-                        strecke s;
-                        punkt3d sp, ep;
-                        sp.set_x(get_param(VAR_ALLGEM_XS, zeile_kt));
-                        sp.set_y(get_param(VAR_ALLGEM_YS, zeile_kt));
-                        sp.set_z(get_param(VAR_ALLGEM_ZS, zeile_kt));
-                        ep.set_x(get_param(VAR_ALLGEM_XE, zeile_kt));
-                        ep.set_y(get_param(VAR_ALLGEM_YE, zeile_kt));
-                        ep.set_z(get_param(VAR_ALLGEM_ZE, zeile_kt));
-                        s.set_start(sp);
-                        s.set_ende(ep);
-                        //Wie viel soll die Bahn länger werden?:
-                        double zugabe;
-                        zugabe = 20;        //<<-- Dies später noch durch Nutzereingabe abfangen
-                        //Fräsbahn verlängern:
-                        s.set_laenge_2d(s.laenge2d()+zugabe, strecke_bezugspunkt_ende);
-                        zeile_vor = set_param(FAUF_X, s.stapu().x_QString(), zeile_vor);
-                        zeile_vor = set_param(FAUF_Y, s.stapu().y_QString(), zeile_vor);
-                        //Daten zurück speichern:
-                        tt.get_prgtext()->zeile_ersaetzen(zeilennummer-1, zeile_vor);
-                        if(zeile.contains(DLG_FGERAWI))
+                        bool am_anfang_verlaengern = true;
+                        //Prüfen ob Zeile danach schon der Abfahren-Befehl ist:
+                        if(zeilennummer < tt.get_prgtext()->get_text_zeilenweise().zeilenanzahl())
                         {
-                            zeile = set_param(FGERAWI_L, double_to_qstring(s.laenge2d()), zeile);
-
-                        }else // DLG_FGERADE
-                        {
-                            zeile = set_param(FGERADE_X, s.endpu().x_QString(), zeile);
-                            zeile = set_param(FGERADE_Y, s.endpu().y_QString(), zeile);
+                            QString zeile_nach = tt.get_prgtext()->zeile(zeilennummer +1);
+                            if(zeile_nach.contains(DLG_FABF)  ||  zeile_nach.contains(DLG_FABF2))
+                            {
+                                //Die Zeile vor der aktiven Zeile ist der Fräser-Aufruf
+                                //Die Zeile nach der aktiven Zeil eist der Abfahren-Befehl
+                                //in diesem Fall wollen wir die Gerade am Ende verlängern
+                                am_anfang_verlaengern = false;
+                                //Koordinaten ermitteln
+                                strecke s;
+                                punkt3d sp, ep;
+                                sp.set_x(get_param(VAR_ALLGEM_XS, zeile_kt));
+                                sp.set_y(get_param(VAR_ALLGEM_YS, zeile_kt));
+                                sp.set_z(get_param(VAR_ALLGEM_ZS, zeile_kt));
+                                ep.set_x(get_param(VAR_ALLGEM_XE, zeile_kt));
+                                ep.set_y(get_param(VAR_ALLGEM_YE, zeile_kt));
+                                ep.set_z(get_param(VAR_ALLGEM_ZE, zeile_kt));
+                                s.set_start(sp);
+                                s.set_ende(ep);
+                                //Wie viel soll die Bahn länger werden?:
+                                double zugabe;
+                                zugabe = defaultwert;
+                                userinput uin;
+                                uin.setWindowTitle("Zugabe festlegen");
+                                uin.set_default(zugabe, 2);
+                                uin.eingabedlg();
+                                uin.formelauswertung();
+                                zugabe = uin.input().toDouble();
+                                //Fräsbahn verlängern:
+                                if(zeile.contains(DLG_FGERADE))
+                                {
+                                    s.set_laenge_2d(s.laenge2d()+zugabe, strecke_bezugspunkt_start);
+                                    zeile = set_param(FGERADE_X, s.endpu().x_QString(), zeile);
+                                    zeile = set_param(FGERADE_Y, s.endpu().y_QString(), zeile);
+                                }else //DLG_FGERAWI
+                                {
+                                    zeile = set_param(FGERAWI_L, double_to_qstring(s.laenge2d()), zeile);
+                                }
+                                tt.get_prgtext()->zeile_ersaetzen(zeilennummer, zeile);
+                                aktualisiere_anzeigetext();
+                                vorschauAktualisieren();
+                            }
                         }
-                        tt.get_prgtext()->zeile_ersaetzen(zeilennummer, zeile);
-                        aktualisiere_anzeigetext();
-                        vorschauAktualisieren();
+                        if(am_anfang_verlaengern == true)
+                        {
+                            //Koordinaten ermitteln
+                            strecke s;
+                            punkt3d sp, ep;
+                            sp.set_x(get_param(VAR_ALLGEM_XS, zeile_kt));
+                            sp.set_y(get_param(VAR_ALLGEM_YS, zeile_kt));
+                            sp.set_z(get_param(VAR_ALLGEM_ZS, zeile_kt));
+                            ep.set_x(get_param(VAR_ALLGEM_XE, zeile_kt));
+                            ep.set_y(get_param(VAR_ALLGEM_YE, zeile_kt));
+                            ep.set_z(get_param(VAR_ALLGEM_ZE, zeile_kt));
+                            s.set_start(sp);
+                            s.set_ende(ep);
+                            //Wie viel soll die Bahn länger werden?:
+                            double zugabe;
+                            zugabe = defaultwert;
+                            userinput uin;
+                            uin.setWindowTitle("Zugabe festlegen");
+                            uin.set_default(zugabe, 2);
+                            uin.eingabedlg();
+                            uin.formelauswertung();
+                            zugabe = uin.input().toDouble();
+                            //Fräsbahn verlängern:
+                            s.set_laenge_2d(s.laenge2d()+zugabe, strecke_bezugspunkt_ende);
+                            zeile_vor = set_param(FAUF_X, s.stapu().x_QString(), zeile_vor);
+                            zeile_vor = set_param(FAUF_Y, s.stapu().y_QString(), zeile_vor);
+                            //Daten zurück speichern:
+                            tt.get_prgtext()->zeile_ersaetzen(zeilennummer-1, zeile_vor);
+                            if(zeile.contains(DLG_FGERAWI))
+                            {
+                                zeile = set_param(FGERAWI_L, double_to_qstring(s.laenge2d()), zeile);
+
+                            }else // DLG_FGERADE
+                            {
+                                zeile = set_param(FGERADE_X, s.endpu().x_QString(), zeile);
+                                zeile = set_param(FGERADE_Y, s.endpu().y_QString(), zeile);
+                            }
+                            tt.get_prgtext()->zeile_ersaetzen(zeilennummer, zeile);
+                            aktualisiere_anzeigetext();
+                            vorschauAktualisieren();
+                        }
                     }else
                     {
                         if(zeilennummer < tt.get_prgtext()->get_text_zeilenweise().zeilenanzahl())
@@ -6459,7 +6507,13 @@ void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
                                 s.set_ende(ep);
                                 //Wie viel soll die Bahn länger werden?:
                                 double zugabe;
-                                zugabe = 20;        //<<-- Dies später noch durch Nutzereingabe abfangen
+                                zugabe = defaultwert;
+                                userinput uin;
+                                uin.setWindowTitle("Zugabe festlegen");
+                                uin.set_default(zugabe, 2);
+                                uin.eingabedlg();
+                                uin.formelauswertung();
+                                zugabe = uin.input().toDouble();
                                 //Fräsbahn verlängern:
                                 if(zeile.contains(DLG_FGERADE))
                                 {

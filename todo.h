@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.04.09"
+#define PROGRAMMVERSION     "1.2020.04.10"
 /*#############################################################################
 Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 - Variablen beginnen mit einem großen Buchstaben
@@ -14,15 +14,8 @@ in Arbeit:
 - interne Namen siehe oben
     ->weiter mit Datei programmtext.h
 
-- void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
- -->zugabe = 20;        //<<-- Dies später noch durch Nutzereingabe abfangen
-
 
 Weitere Wünsche:
-- Fräs-Gerade/Gerade-mit-Winkel mittig teilen
-- Fräsbahn vor aktiver Zeile teilen
-- Fräs-Gerade verlängern um / kürzen um
-  ->Soll nur möglich sein wenn die Gerade am Anfang oder am Ende einer Fräsbahn liegt
 - Schnelländerung Bohrgruppe, und andere Parameter
 - HBE X umwandeln in HBE Y etc
 

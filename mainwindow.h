@@ -52,6 +52,7 @@
 #include "Dialoge/dialog_fboguzs.h"
 #include "Dialoge/dialog_einstellungen.h"
 #include "eigeneKlassen/settings.h"
+#include "eigeneKlassen/userinput.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1

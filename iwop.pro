@@ -54,6 +54,7 @@ SOURCES += \
         Dialoge/dialog_saege.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
+        Dialoge/dialog_userinput.cpp \
         Dialoge/dialog_var.cpp \
         Dialoge/dialog_var10.cpp \
         eigeneFunktionen/geometrie.cpp \
@@ -82,6 +83,7 @@ SOURCES += \
         eigeneKlassen/text_zeilenweise.cpp \
         eigeneKlassen/undo_redo.cpp \
         eigeneKlassen/undo_redo_tz.cpp \
+        eigeneKlassen/userinput.cpp \
         eigeneKlassen/vorschau.cpp \
         eigeneKlassen/wenndannsonst.cpp \
         eigeneKlassen/werkzeug.cpp \
@@ -122,6 +124,7 @@ HEADERS += \
         Dialoge/dialog_saege.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
+        Dialoge/dialog_userinput.h \
         Dialoge/dialog_var.h \
         Dialoge/dialog_var10.h \
         eigeneDefines/define_allegm_var.h \
@@ -182,6 +185,7 @@ HEADERS += \
         eigeneKlassen/text_zeilenweise.h \
         eigeneKlassen/undo_redo.h \
         eigeneKlassen/undo_redo_tz.h \
+        eigeneKlassen/userinput.h \
         eigeneKlassen/vorschau.h \
         eigeneKlassen/wenndannsonst.h \
         eigeneKlassen/werkzeug.h \
@@ -225,6 +229,7 @@ FORMS += \
         Dialoge/dialog_saege.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
+        Dialoge/dialog_userinput.ui \
         Dialoge/dialog_var.ui \
         Dialoge/dialog_var10.ui \
         mainwindow.ui

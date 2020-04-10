@@ -564,20 +564,32 @@
    <property name="text">
     <string>Fräsrichtung umkehren</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionFraesbahn_teilen_in_akt_Zeile">
    <property name="text">
     <string>Fräsbahn teilen in akt Zeile</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
   <action name="actionFraesbahn_teilen_vor_akt_Zeilen">
    <property name="text">
     <string>Fräsbahn teilen vor akt Zeilen</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+T</string>
+   </property>
   </action>
   <action name="actionFraesbahn_verlaengern_Gerade">
    <property name="text">
     <string>Fräsbahn verlängern (Gerade)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
    </property>
   </action>
  </widget>
