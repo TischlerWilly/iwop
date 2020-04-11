@@ -1,16 +1,45 @@
 #include "text_zeilenweise.h"
 
+//###########################################################################
+//Public:
+//###########################################################################
 text_zeilenweise::text_zeilenweise()
 {
-    trenner = '\n';
+    Trenner = '\n';
     clear();
 }
 
-//---------------------------------------------------------------------------
-//Funktionen zum lesen des Textes:
+//---------------------------------------------set_xy:
+void text_zeilenweise::set_text(QString neuer_text)
+{
+    clear();
+    Text = neuer_text;
+    zeilen_zaehlen();
+}
+void text_zeilenweise::set_text(QStringList liste)
+{
+    clear();
+    for(int i=0; i<liste.size() ;i++)
+    {
+        if(!Text.isEmpty())
+        {
+            Text += Trenner;
+        }
+        Text += liste.at(i);
+    }
+    zeilen_zaehlen();
+}
+void text_zeilenweise::set_trennzeichen(char neues_Trennzeichen)
+{
+    Trenner = neues_Trennzeichen;
+    QString tmp = Text;
+    set_text(tmp);//neuberechnung anstoßen
+}
+
+//---------------------------------------------get_xy:
 QString text_zeilenweise::zeile(uint zeilennummer)
 {
-    if(zeilennummer > anzahl_der_zeilen)
+    if(zeilennummer > Anzahl_der_zeilen)
     {
         return "Zeilennummer ist groesser als Anzahl der Zeilen!!!";
     }
@@ -20,23 +49,22 @@ QString text_zeilenweise::zeile(uint zeilennummer)
     }
     QString returntext;
     uint aktuelle_zeile = 1;
-    for(int i=0 ; i<text.count() ; i++)
+    for(int i=0 ; i<Text.count() ; i++)
     {
-        if(text.at(i) == trenner)
+        if(Text.at(i) == Trenner)
         {
             aktuelle_zeile++;
         }
         if(aktuelle_zeile == zeilennummer)
         {
-            returntext += text.at(i);
+            returntext += Text.at(i);
         }
     }
     return textzeile_ohne_Zeilenvorschuebe(returntext);
 }
-
 QString text_zeilenweise::zeilen(uint zeilennummer_beginn, uint zeilenmenge)
 {
-    if(zeilennummer_beginn+zeilenmenge > anzahl_der_zeilen)
+    if(zeilennummer_beginn+zeilenmenge > Anzahl_der_zeilen)
     {
         return "Zeilennummer ist groesser als Anzahl der Zeilen!!!";
     }
@@ -49,178 +77,161 @@ QString text_zeilenweise::zeilen(uint zeilennummer_beginn, uint zeilenmenge)
     {
         if(i!=zeilennummer_beginn)
         {
-            returntext += trenner;
+            returntext += Trenner;
         }
         returntext += zeile(i);
     }
     return returntext;
 }
-
-//---------------------------------------------------------------------------
-//Funktionen zum erweitern des Textes:
-void text_zeilenweise::set_text(QString neuer_text)
+uint text_zeilenweise::finde_Zeile(QString zeilentext)
 {
-    clear();
-    text = neuer_text;
-    zeilen_zaehlen();
-}
-
-void text_zeilenweise::set_text(QStringList liste)
-{
-    clear();
-    for(int i=0; i<liste.size() ;i++)
+    if(Text.contains(zeilentext))
     {
-        if(!text.isEmpty())
+        for(uint i = 1; i<= zeilenanzahl() ; i++)
         {
-            text += trenner;
-        }
-        text += liste.at(i);
-    }
-    zeilen_zaehlen();
-}
-
-void text_zeilenweise::zeile_vorwegsetzen(QString zeilentext)
-{
-    zeilentext = textzeile_ohne_Zeilenvorschuebe(zeilentext);
-    if(anzahl_der_zeilen == 0)
-    {
-        set_text(zeilentext);
-    }else
-    {
-        set_text(zeilentext + trenner + text);
-    }
-}
-
-void text_zeilenweise::zeile_anhaengen(QString zeilentext)
-{
-    zeilentext = textzeile_ohne_Zeilenvorschuebe(zeilentext);
-    if(anzahl_der_zeilen == 0)
-    {
-        if(zeilentext.isEmpty())
-        {
-            set_text("\n");
-        }else
-        {
-            set_text(zeilentext);
-        }
-    }else
-    {
-        set_text(text + trenner + zeilentext);
-    }
-}
-
-void text_zeilenweise::zeilen_anhaengen(QString zeilentext)
-{
-    if(anzahl_der_zeilen == 0)
-    {
-        if(zeilentext.isEmpty())
-        {
-            set_text("\n");
-        }else
-        {
-            set_text(zeilentext);
-        }
-    }else
-    {
-        set_text(text + trenner + zeilentext);
-    }
-}
-
-int text_zeilenweise::zeile_einfuegen(uint zeilennummer_vor_neuer_zeile, QString zeilentext)
-{
-    zeilentext = textzeile_ohne_Zeilenvorschuebe(zeilentext);
-    if(zeilennummer_vor_neuer_zeile > anzahl_der_zeilen)
-    {
-        return 1; //Meldet Fehler in der Funktion
-    }
-    if(zeilennummer_vor_neuer_zeile == 0)
-    {
-        set_text(zeilentext + trenner + text);
-    }else
-    {
-        uint aktuelle_zeile = 1;
-        QString text_davor, text_danach;
-        for(int i=0 ; i<text.count() ; i++)
-        {
-            if(aktuelle_zeile <= zeilennummer_vor_neuer_zeile)
+            if(zeile(i)== zeilentext)
             {
-                text_davor += text.at(i);
-            }else{
-                text_danach += text.at(i);
+                return i;
             }
-            if(text.at(i) == trenner)
-            {
-                aktuelle_zeile++;
-            }            
         }
-        set_text(text_davor + zeilentext + trenner + text_danach);
     }
     return 0;
 }
 
+//---------------------------------------------Manipulationen:
+void text_zeilenweise::clear()
+{
+    Text = "";
+    Anzahl_der_zeilen = 0;
+}
+void text_zeilenweise::zeile_vorwegsetzen(QString zeilentext)
+{
+    zeilentext = textzeile_ohne_Zeilenvorschuebe(zeilentext);
+    if(Anzahl_der_zeilen == 0)
+    {
+        set_text(zeilentext);
+    }else
+    {
+        set_text(zeilentext + Trenner + Text);
+    }
+}
+void text_zeilenweise::zeile_anhaengen(QString zeilentext)
+{
+    zeilentext = textzeile_ohne_Zeilenvorschuebe(zeilentext);
+    if(Anzahl_der_zeilen == 0)
+    {
+        if(zeilentext.isEmpty())
+        {
+            set_text("\n");
+        }else
+        {
+            set_text(zeilentext);
+        }
+    }else
+    {
+        set_text(Text + Trenner + zeilentext);
+    }
+}
+void text_zeilenweise::zeilen_anhaengen(QString zeilentext)
+{
+    if(Anzahl_der_zeilen == 0)
+    {
+        if(zeilentext.isEmpty())
+        {
+            set_text("\n");
+        }else
+        {
+            set_text(zeilentext);
+        }
+    }else
+    {
+        set_text(Text + Trenner + zeilentext);
+    }
+}
+int text_zeilenweise::zeile_einfuegen(uint zeilennummer_vor_neuer_zeile, QString zeilentext)
+{
+    zeilentext = textzeile_ohne_Zeilenvorschuebe(zeilentext);
+    if(zeilennummer_vor_neuer_zeile > Anzahl_der_zeilen)
+    {
+        return 1; //Meldet Fehler in der Funktion
+    }
+    if(zeilennummer_vor_neuer_zeile == 0)
+    {
+        set_text(zeilentext + Trenner + Text);
+    }else
+    {
+        uint aktuelle_zeile = 1;
+        QString text_davor, text_danach;
+        for(int i=0 ; i<Text.count() ; i++)
+        {
+            if(aktuelle_zeile <= zeilennummer_vor_neuer_zeile)
+            {
+                text_davor += Text.at(i);
+            }else{
+                text_danach += Text.at(i);
+            }
+            if(Text.at(i) == Trenner)
+            {
+                aktuelle_zeile++;
+            }
+        }
+        set_text(text_davor + zeilentext + Trenner + text_danach);
+    }
+    return 0;
+}
 int text_zeilenweise::zeilen_einfuegen(uint zeilennummer_vor_neuer_zeile, QString zeilentext)
 {
-    if(zeilennummer_vor_neuer_zeile > anzahl_der_zeilen)
+    if(zeilennummer_vor_neuer_zeile > Anzahl_der_zeilen)
     {
         return 1; //Meldet Fehler in der Funktion
     }
 
     if(zeilennummer_vor_neuer_zeile == 0)
     {
-        set_text(zeilentext + trenner + text);
+        set_text(zeilentext + Trenner + Text);
     }else
     {
         uint aktuelle_zeile = 1;
         QString text_davor, text_danach;
 
-        for(int i=0 ; i<text.count() ; i++)
+        for(int i=0 ; i<Text.count() ; i++)
         {
             if(aktuelle_zeile <= zeilennummer_vor_neuer_zeile)
             {
-                text_davor += text.at(i);
+                text_davor += Text.at(i);
             }else{
-                text_danach += text.at(i);
+                text_danach += Text.at(i);
             }
-            if(text.at(i) == trenner)
+            if(Text.at(i) == Trenner)
             {
                 aktuelle_zeile++;
             }
         }
-        set_text(text_davor + zeilentext + trenner + text_danach);
+        set_text(text_davor + zeilentext + Trenner + text_danach);
     }
     return 0; //Keine Fehler in der Funktion
 }
-
-void text_zeilenweise::set_trennzeichen(char neues_Trennzeichen)
-{
-    trenner = neues_Trennzeichen;
-    QString tmp = text;
-    set_text(tmp);//neuberechnung anstoßen
-}
-
-//---------------------------------------------------------------------------
-//Funktionen zum manipulieren/ändern des Textes:
 int text_zeilenweise::zeile_ersaetzen(uint zeilennummer, QString neuer_zeilentext)
 {
     neuer_zeilentext = textzeile_ohne_Zeilenvorschuebe(neuer_zeilentext);
-    if(zeilennummer > anzahl_der_zeilen)
+    if(zeilennummer > Anzahl_der_zeilen)
     {
         return 1; //Meldet Fehler in der Funktion
     }
     if(zeilennummer == 0)
     {
         return 1; //Meldet Fehler in der Funktion
-    }else if(zeilennummer == anzahl_der_zeilen)
+    }else if(zeilennummer == Anzahl_der_zeilen)
     {                           //Wenn wir in der letzten Zeile sind:
         uint aktuelle_zeile = 1;
         QString text_davor;
-        for(int i=0 ; i<text.count() ; i++)
+        for(int i=0 ; i<Text.count() ; i++)
         {
             if(aktuelle_zeile < zeilennummer)
             {
-                text_davor += text.at(i);
+                text_davor += Text.at(i);
             }
-            if(text.at(i) == trenner)
+            if(Text.at(i) == Trenner)
             {
                 aktuelle_zeile++;
             }
@@ -230,54 +241,45 @@ int text_zeilenweise::zeile_ersaetzen(uint zeilennummer, QString neuer_zeilentex
     {
         uint aktuelle_zeile = 1;
         QString text_davor, text_danach;
-        for(int i=0 ; i<text.count() ; i++)
+        for(int i=0 ; i<Text.count() ; i++)
         {
             if(aktuelle_zeile < zeilennummer)
             {
-                text_davor += text.at(i);
+                text_davor += Text.at(i);
             }else if(aktuelle_zeile > zeilennummer)
             {
-                text_danach += text.at(i);
+                text_danach += Text.at(i);
             }
-            if(text.at(i) == trenner)
+            if(Text.at(i) == Trenner)
             {
                 aktuelle_zeile++;
             }
         }
-        set_text(text_davor + neuer_zeilentext + trenner + text_danach);
+        set_text(text_davor + neuer_zeilentext + Trenner + text_danach);
     }
     return 0;
 }
-
-//---------------------------------------------------------------------------
-//Funktionen zum veringern des Textes:
-void text_zeilenweise::clear()
-{
-    text = "";
-    anzahl_der_zeilen = 0;
-}
-
 int text_zeilenweise::zeile_loeschen(uint zeilennummer)
 {
-    if(zeilennummer > anzahl_der_zeilen)
+    if(zeilennummer > Anzahl_der_zeilen)
     {
         return 1; //Meldet Fehler in der Funktion
     }
     uint aktuelle_zeile = 1;
     QString tmp;
-    for(int i=0 ; i<text.count() ; i++)
+    for(int i=0 ; i<Text.count() ; i++)
     {
         if(aktuelle_zeile != zeilennummer)
         {
-            tmp += text.at(i);
+            tmp += Text.at(i);
         }
-        if(text.at(i) == trenner)
+        if(Text.at(i) == Trenner)
         {
             aktuelle_zeile++;
         }
 
     }
-    if(tmp.at(tmp.count()-1) == trenner)
+    if(tmp.at(tmp.count()-1) == Trenner)
     {//Wenn das letzte Zeichen ein Zeilenvorschub ist:
         //letztes Zeichen entfernen:
         QString tmp_neu;
@@ -291,18 +293,17 @@ int text_zeilenweise::zeile_loeschen(uint zeilennummer)
 
     return 0; //Keine Fehler in der Funktion
 }
-
 int text_zeilenweise::zeilen_loeschen(uint zeilennummer_beginn, uint zeilenmenge)
 {
-    if(zeilennummer_beginn+zeilenmenge-1 > anzahl_der_zeilen)
+    if(zeilennummer_beginn+zeilenmenge-1 > Anzahl_der_zeilen)
     {
         return 1; //Meldet Fehler in der Funktion
     }
     uint aktuelle_zeile = 1;
     QString tmp;
-    for(int i=0 ; i<text.count() ; i++)
+    for(int i=0 ; i<Text.count() ; i++)
     {
-        if(text.at(i) == trenner)
+        if(Text.at(i) == Trenner)
         {
             if(  (zeilennummer_beginn == 1)  &&  (aktuelle_zeile <= zeilenmenge)  )
             {
@@ -315,7 +316,7 @@ int text_zeilenweise::zeilen_loeschen(uint zeilennummer_beginn, uint zeilenmenge
         }
         if(  (aktuelle_zeile < zeilennummer_beginn)  ||  (aktuelle_zeile >=zeilennummer_beginn + zeilenmenge)  )
         {
-            tmp += text.at(i);
+            tmp += Text.at(i);
         }
     }
     set_text(tmp);
@@ -323,50 +324,34 @@ int text_zeilenweise::zeilen_loeschen(uint zeilennummer_beginn, uint zeilenmenge
     return 0; //Keine Fehler in der Funktion
 }
 
+//---------------------------------------------
+//###########################################################################
+//Private:
+//###########################################################################
 
-//---------------------------------------------------------------------------
-//andere Funktionen:
-uint text_zeilenweise::finde_Zeile(QString zeilentext)
-{
-    if(text.contains(zeilentext))
-    {
-        for(uint i = 1; i<= zeilenanzahl() ; i++)
-        {
-            if(zeile(i)== zeilentext)
-            {
-                return i;
-            }
-        }
-    }
-    return 0;
-}
-
-//---------------------------------------------------------------------------
-//interne Funktinen:
 void text_zeilenweise::zeilen_zaehlen()
 {
-    if(text.isEmpty())
+    if(Text.isEmpty())
     {
-        anzahl_der_zeilen = 0;
+        Anzahl_der_zeilen = 0;
     }else
     {
-        anzahl_der_zeilen = 1;
-        for(int i=0 ; i<text.count() ; i++)
+        Anzahl_der_zeilen = 1;
+        for(int i=0 ; i<Text.count() ; i++)
         {
-            if(text.at(i) == trenner)
+            if(Text.at(i) == Trenner)
             {
-                anzahl_der_zeilen++;
+                Anzahl_der_zeilen++;
             }
         }
     }
 }
-
 QString text_zeilenweise::textzeile_ohne_Zeilenvorschuebe(QString zeilentext)
 {
     QString tmp;
     for(int i=0 ; i<zeilentext.count() ;i++)
     {
-        if(zeilentext.at(i) != trenner)
+        if(zeilentext.at(i) != Trenner)
         {
             tmp += zeilentext.at(i);
         }

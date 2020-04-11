@@ -42,7 +42,7 @@ public:
 
     inline QString          text()
     {
-        return Text.get_text();
+        return Text.text();
     }
     inline text_zeilenweise text_zw()
     {

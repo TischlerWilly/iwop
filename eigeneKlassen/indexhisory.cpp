@@ -32,7 +32,7 @@ void indexhisory::del(int index)
 
 int indexhisory::get_current()
 {
-    if(History.get_text().isEmpty())
+    if(History.text().isEmpty())
     {
         return 0;
     }else

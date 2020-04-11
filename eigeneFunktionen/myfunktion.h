@@ -22,10 +22,5 @@ QString genauigkeit_reduzieren(QString zahl, uint nachkommastellen);
 
 QString genauigkeit_reduzieren(double zahl, uint nachkommastellen);
 
-bool cagleich(punkt3d p1, punkt3d p2, double tolleranz);
-
-bool cagleich(punkt2d p1, punkt2d p2, double tolleranz);
-
-bool cagleich(double p1, double p2, double tolleranz);
 
 #endif // MYFUNKTION_H

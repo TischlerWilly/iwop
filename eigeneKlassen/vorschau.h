@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QPainter>
-#include "rechteck.h"
 #include <QMessageBox>
 #include <QStatusBar>
 #include <QMouseEvent>
@@ -51,8 +50,8 @@ private:
 
     punkt n;//Nullpunkt
     punkt npv;//Nullpunkt-Verschiebung(Nicht XY-Versatz, Verschiebung des sichtbaren Ausschnittes)
-    rechteck wst;//Werkstück
-    rechteck wstd;//Dardestelltes Werkstück
+    rechteck3d wst;//Werkstück
+    rechteck3d wstd;//Dardestelltes Werkstück
     float sf;//Skalierungsfaktor
     float zf;//Zoomfaktor
     programmtext t;

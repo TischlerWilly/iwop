@@ -74,9 +74,7 @@ SOURCES += \
         eigeneKlassen/programmtexte.cpp \
         eigeneKlassen/punkt2d.cpp \
         eigeneKlassen/punkt3d.cpp \
-        eigeneKlassen/rechteck.cpp \
         eigeneKlassen/rechteck3d.cpp \
-        eigeneKlassen/rechtecktasche.cpp \
         eigeneKlassen/settings.cpp \
         eigeneKlassen/strecke.cpp \
         eigeneKlassen/tabelle_tz3.cpp \
@@ -176,9 +174,7 @@ HEADERS += \
         eigeneKlassen/programmtexte.h \
         eigeneKlassen/punkt2d.h \
         eigeneKlassen/punkt3d.h \
-        eigeneKlassen/rechteck.h \
         eigeneKlassen/rechteck3d.h \
-        eigeneKlassen/rechtecktasche.h \
         eigeneKlassen/settings.h \
         eigeneKlassen/strecke.h \
         eigeneKlassen/tabelle_tz3.h \

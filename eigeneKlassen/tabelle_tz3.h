@@ -15,7 +15,7 @@ public:
 
     inline QString get_text()
     {
-        return zeile.get_text();
+        return zeile.text();
     }
 
     QString get_zeile(uint zeilennummer);

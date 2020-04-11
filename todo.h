@@ -12,7 +12,7 @@ Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 #############################################################################
 in Arbeit:
 - interne Namen siehe oben
-    ->weiter mit Datei programmtext.h
+    ->weiter mit Datei rechteck3d.h
 
 
 Weitere Wünsche:

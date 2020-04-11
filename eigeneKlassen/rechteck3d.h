@@ -53,6 +53,12 @@ public:
         einfuegepunkt.set_y(y);
         einfuegepunkt.set_z(z);
     }
+    inline  void    set_einfuegepunkt(int x, int y)
+    {
+        einfuegepunkt.set_x(x);
+        einfuegepunkt.set_y(y);
+        einfuegepunkt.set_z(0);
+    }
     inline  void    set_bezugspunkt(int nummer_des_punktes)
     {
         bezugspunkt = nummer_des_punktes;

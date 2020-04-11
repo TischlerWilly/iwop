@@ -19,67 +19,67 @@ public:
     void del(uint index);
     void clear();
 
+    //----------------------------------------------set_xy:
     void set_current_index(int index);
     void set_current_index(QString pfad);
     void set_index_vor();
     void set_index_nach();
+
     inline void set_prgname(QString name)
     {
-        vpname.replace(current_index, name);
+        Vpname.replace(Current_index, name);
     }
     inline void set_prgname(QString name, uint index)
     {
-        vpname.replace(index, name);
-    }
-    void aktualisieren_fkon_ein_aus(bool einschalten);
-
-    inline  bool get_aktualisieren_fkon_ein_aus()
-    {
-        return aktualisieren_fkon_eingeschaltet;
+        Vpname.replace(index, name);
     }
 
-    int get_size();
-    bool dateien_sind_offen();
-    bool isopen(QString pfad);
+    //----------------------------------------------get_xy:
+    int                 size();
+    bool                isopen(QString pfad);
+    bool                dateien_sind_offen();
+    text_zeilenweise    names();
 
-    inline programmtext *get_prgtext()
+    inline  programmtext   *prgtext()
     {
-        return &vp[current_index];
+        return &Vp[Current_index];
     }
-    inline programmtext *get_prgtext(uint index)
+    inline  programmtext   *prgtext(uint index)
     {
-        return &vp[index];
+        return &Vp[index];
     }
-    inline undo_redo *get_prg_undo_redo()
+    inline  undo_redo      *prg_undo_redo()
     {
-        return &vur[current_index];
+        return &Vur[Current_index];
     }
-    inline undo_redo *get_prg_undo_redo(uint index)
+    inline  undo_redo      *prg_undo_redo(uint index)
     {
-        return &vur[index];
+        return &Vur[index];
     }
-    inline QString get_prgname()
+    inline  QString         prgname()
     {
-        return vpname.at(current_index);
+        return Vpname.at(Current_index);
     }
-    inline QString get_prgname(uint index)
+    inline  QString         prgname(uint index)
     {
-        return vpname.at(index);
+        return Vpname.at(index);
     }
-    inline uint get_current_index()
+    inline  uint            current_index()
     {
-        return current_index;
+        return Current_index;
     }
 
-    text_zeilenweise get_names();
+    //----------------------------------------------Manipulationen:
+
+    //----------------------------------------------
 
 private:
-    QVector<programmtext> vp;    //Vector enthällt Programmtexte
-    QVector<undo_redo> vur;      //Vector enthällt Wiederrufenschritte
-    QVector<QString> vpname;     //Vektor enthällt Dateinahmen (Pfade)
-    uint current_index;
-    indexhisory ih;
-    bool    aktualisieren_fkon_eingeschaltet;
+    QVector<programmtext> Vp;    //Vector enthällt Programmtexte
+    QVector<undo_redo>    Vur;   //Vector enthällt Wiederrufenschritte
+    QVector<QString>      Vpname;//Vektor enthällt Dateinahmen (Pfade)
+
+    uint        Current_index;
+    indexhisory Ih;
 };
 
 #endif // PROGRAMMTEXTE_H

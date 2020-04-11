@@ -23,15 +23,12 @@ public:
 
 
 private:
-    vector<programmtext> vector_t;
-    vector<int> erstes_aktives_element_t;
-    vector<int> anz_aktive_elemente_t;
+    std::vector<programmtext> vector_t;
+    std::vector<int> erstes_aktives_element_t;
+    std::vector<int> anz_aktive_elemente_t;
 
     int aktuelle_position;
     uint max_anzahl;
-
-
-
 
 };
 

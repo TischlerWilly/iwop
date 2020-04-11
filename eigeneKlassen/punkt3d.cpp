@@ -25,8 +25,8 @@ void punkt3d::set_text(QString geotext)
 
 void punkt3d::verschieben_um(double xversatz, double yversatz)
 {
-    x_param += xversatz;
-    y_param += yversatz;
+    X_param += xversatz;
+    Y_param += yversatz;
 }
 
 //-------------------Funktionen nicht innerhalb der Klasse:

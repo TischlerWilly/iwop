@@ -10,7 +10,7 @@ werkzeug::werkzeug()
 void werkzeug::set_text(QString neuer_Text)
 {
     Wkzlist.set_text(neuer_Text);
-    QString tmp = Wkzlist.get_text();
+    QString tmp = Wkzlist.text();
     if(!tmp.contains(LISTENENDE_WKZ))
     {
         Wkzlist.zeile_anhaengen(LISTENENDE_WKZ);
@@ -81,7 +81,7 @@ int werkzeug::zeilen_einfuegen(uint zeilennummer_vor_neuer_zeile, QString zeilen
 //------------get_xy:
 QString werkzeug::text()
 {
-    return Wkzlist.get_text();
+    return Wkzlist.text();
 }
 QString werkzeug::zeile(uint zeilennummer)
 {

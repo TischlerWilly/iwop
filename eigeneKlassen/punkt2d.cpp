@@ -14,8 +14,8 @@ punkt2d::punkt2d(punkt3d p)
 
 void punkt2d::verschieben_um(double xversatz, double yversatz)
 {
-    x_param += xversatz;
-    y_param += yversatz;
+    X_param += xversatz;
+    Y_param += yversatz;
 }
 
 //-------------------Funktionen nicht innerhalb der Klasse:

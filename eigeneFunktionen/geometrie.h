@@ -34,4 +34,8 @@ double winkel(punkt3d ep1, punkt2d mipu, punkt3d ep2);
 
 void trimmen(QString *geo1, QString *geo2);
 
+bool cagleich(punkt3d p1, punkt3d p2, double tolleranz);
+bool cagleich(punkt2d p1, punkt2d p2, double tolleranz);
+bool cagleich(double p1, double p2, double tolleranz);
+
 #endif // GEOMETRIE_H

@@ -22,7 +22,7 @@ void letzte_dateien::set_anz_eintreage(uint neue_anz)
 
 void letzte_dateien::datei_merken(QString name)
 {
-    QString tmp = Dateinamen.get_text();
+    QString tmp = Dateinamen.text();
     if(tmp.contains(name))
     {
         uint pos=0;

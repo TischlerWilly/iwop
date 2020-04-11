@@ -5,9 +5,9 @@ vorschau::vorschau(QWidget *parent) :
 {
     this->resize(500, 500);
     this->setWindowTitle("Vorschau");
-    wstd.set_bezugspunkt_nummer(MITTE);
+    wstd.set_bezugspunkt(MITTE);
     wstd.set_einfuegepunkt(width()/2 , height()/2);
-    t.warnungen_einschalten(false);
+    t.set_warnungen_ein_aus(false);
     this->setMouseTracking(true);
     zf = 1;
     npv.x = 0;
@@ -28,7 +28,7 @@ void vorschau::paintEvent(QPaintEvent *)
     painter.drawRect(0, 0, width(), height());
 
     //Maschine darstellen:
-    text_zeilenweise geotext = t.get_maschinengeo().text_zw();
+    text_zeilenweise geotext = t.maschinengeo().text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -42,7 +42,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Bearbeitungen darstellen:
-    geotext = t.get_geo().text_zw();
+    geotext = t.geo().text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -56,7 +56,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Fräskontur darstellen:
-    text_zeilenweise fkontext = t.get_fkon().text_zw();
+    text_zeilenweise fkontext = t.fkon().text_zw();
     for(uint i=1;i<=fkontext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -70,9 +70,9 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Fräser darstellen, aber nur in aktueller Zeile:
-    text_zeilenweise fraeserdarsttext = t.get_fraeserdarst().text_zw();
+    text_zeilenweise fraeserdarsttext = t.fraeserdarst().text_zw();
     if(aktuelle_zeilennummer <= fraeserdarsttext.zeilenanzahl() && \
-            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+            !t.klartext_zw().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
@@ -100,7 +100,7 @@ void vorschau::paintEvent(QPaintEvent *)
     //Aktuelle Zeile noch einmal rot überzeichen, da bereits wieder überdeckt
     //durch deckungsgleiche Elemente in späteren Zeilen:
     if(aktuelle_zeilennummer <= geotext.zeilenanzahl() && \
-            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+            !t.klartext_zw().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
@@ -112,7 +112,7 @@ void vorschau::paintEvent(QPaintEvent *)
         }
     }
     if(aktuelle_zeilennummer <= fkontext.zeilenanzahl() && \
-            !t.get_klartext_zeilenweise().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+            !t.klartext_zw().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
@@ -135,7 +135,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
     element.set_trennzeichen(TRZ_PA_);
     element.set_text(geometrieElement);
 
-    if(element.get_text().contains(PUNKT))
+    if(element.text().contains(PUNKT))
     {
         punkt2d p2;
         p2.set_x(element.zeile(2).toDouble()*sf*zf);
@@ -155,7 +155,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         painter.drawPoint(n.x-npv.x+p2.x(), \
                           n.y-npv.y-p2.y());
         painter.setPen(pen_alt);
-    }else if(element.get_text().contains(STRECKE))
+    }else if(element.text().contains(STRECKE))
     {
         punkt2d startpunkt, endpunkt;
         startpunkt.set_x(element.zeile(2).toDouble()*sf*zf);
@@ -183,7 +183,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
                          n.y-npv.y-endpunkt.y());
 
         painter.setPen(pen_alt);
-    }else if(element.get_text().contains(BOGEN))
+    }else if(element.text().contains(BOGEN))
     {
         double rad = element.zeile(8).toDouble()*sf*zf;
         punkt2d mipu;
@@ -256,7 +256,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
                         bogwi*16);
 
         painter.setPen(pen_alt);
-    }else if(element.get_text().contains(KREIS))
+    }else if(element.text().contains(KREIS))
     {
         double rad = element.zeile(5).toDouble()*sf*zf;
         QPen pen, pen_alt;
@@ -285,7 +285,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
 
         painter.setPen(pen_alt);
         painter.setBrush(brush_alt);
-    }else if(element.get_text().contains(ZYLINDER))
+    }else if(element.text().contains(ZYLINDER))
     {
         double rad = element.zeile(5).toDouble()*sf*zf;
         QPen pen, pen_alt;
@@ -314,7 +314,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
 
         painter.setPen(pen_alt);
         painter.setBrush(brush_alt);
-    }else if(element.get_text().contains(RECHTECK3D))
+    }else if(element.text().contains(RECHTECK3D))
     {
         rechteck3d r;
         int bezpunkt = element.zeile(2).toInt();
@@ -463,7 +463,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
 
         painter.setPen(pen_alt);
         painter.setBrush(brush_alt);
-    }else if(element.get_text().contains(WUERFEL))
+    }else if(element.text().contains(WUERFEL))
     {
         rechteck3d r;
         int bezpunkt = element.zeile(2).toInt();
@@ -626,7 +626,7 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
     element.set_trennzeichen(TRZ_PA_);
     element.set_text(geometrieElement);
 
-    if(element.get_text().contains(STRECKE))
+    if(element.text().contains(STRECKE))
     {
         punkt2d startpunkt, endpunkt;
         startpunkt.set_x(element.zeile(2).toDouble()*sf*zf);
@@ -654,7 +654,7 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
                          n.y-npv.y-endpunkt.y());
 
         painter.setPen(pen_alt);
-    }else if(element.get_text().contains(BOGEN))
+    }else if(element.text().contains(BOGEN))
     {
         double rad = element.zeile(8).toDouble()*sf*zf;
         punkt2d mipu;
@@ -733,8 +733,8 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
 void vorschau::werkstueck_darstellung_berechnen()
 {
     int randabstand = 10;
-    float maximallaenge = t.get_max_x() - t.get_min_x();
-    float maximalbreite = t.get_max_y() - t.get_min_y();
+    float maximallaenge = t.max_x() - t.min_x();
+    float maximalbreite = t.max_y() - t.min_y();
 
     float bildlaenge = width()-randabstand*2;
     float bildbreite = height()-randabstand*2;
@@ -750,8 +750,8 @@ void vorschau::werkstueck_darstellung_berechnen()
         set_sf(faktor_breite);
     }
 
-    float laenge = wst.get_laenge() * get_sf() * zf;
-    float breite = wst.get_breite() * get_sf() * zf;
+    float laenge = wst.l() * get_sf() * zf;
+    float breite = wst.b() * get_sf() * zf;
 
     wstd.set_laenge(laenge);
     wstd.set_breite(breite);
@@ -760,16 +760,16 @@ void vorschau::werkstueck_darstellung_berechnen()
     basispunkt.x = randabstand;
     basispunkt.y = height()-randabstand;
 
-    n.x = basispunkt.x - t.get_min_x()*sf * zf;
-    n.y = basispunkt.y + t.get_min_y()*sf * zf;
+    n.x = basispunkt.x - t.min_x()*sf * zf;
+    n.y = basispunkt.y + t.min_y()*sf * zf;
 
 }
 
 void vorschau::slot_aktualisieren(programmtext t_neu, int aktive_zeile)
 {
     t = t_neu;
-    wst.set_laenge(t.get_werkstuecklaenge());
-    wst.set_breite(t.get_werkstueckbreite());
+    wst.set_laenge(t.werkstuecklaenge());
+    wst.set_breite(t.werkstueckbreite());
     aktuelle_zeilennummer = aktive_zeile;
     werkstueck_darstellung_berechnen();
     this->update();
@@ -863,8 +863,8 @@ punkt2d vorschau::get_mauspos_npwst()
 {
     punkt2d p;
     p = get_mauspos_npanschlag();
-    p.set_x(p.x()-t.get_ax());
-    p.set_y(p.y()-t.get_ay());
+    p.set_x(p.x()-t.ax());
+    p.set_y(p.y()-t.ay());
     return p;
 }
 
@@ -874,7 +874,7 @@ uint vorschau::get_zeile_von_Mauspos()
     double abst = 9999999999;
     strecke s; //nehmen wir für Längenberechnung/Abstandsberechnung
     s.set_start(get_mauspos_npanschlag());
-    text_zeilenweise geotext = t.get_geo().text_zw();
+    text_zeilenweise geotext = t.geo().text_zw();
 
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
@@ -888,10 +888,10 @@ uint vorschau::get_zeile_von_Mauspos()
             element.set_trennzeichen(TRZ_PA_);
             element.set_text(spalten.zeile(ii));
 
-            if(element.get_text().contains(PUNKT))
+            if(element.text().contains(PUNKT))
             {
                 punkt3d ep;
-                ep.set_text(element.get_text());
+                ep.set_text(element.text());
                 s.set_ende(ep);
                 double l = s.laenge2d();
                 if(l < abst)
@@ -899,20 +899,20 @@ uint vorschau::get_zeile_von_Mauspos()
                     abst = l;
                     zeile = i;
                 }
-            }else if(element.get_text().contains(STRECKE))
+            }else if(element.text().contains(STRECKE))
             {
                 strecke s2;
-                s2.set_text(element.get_text());
+                s2.set_text(element.text());
                 double l = s2.abst(get_mauspos_npanschlag());
                 if(l < abst)
                 {
                     abst = l;
                     zeile = i;
                 }
-            }else if(element.get_text().contains(BOGEN))
+            }else if(element.text().contains(BOGEN))
             {
                 bogen b;
-                b.set_text(element.get_text());
+                b.set_text(element.text());
                 punkt3d sp, ep, mipu;
                 sp = b.start();
                 ep = b.ende();
@@ -979,7 +979,7 @@ uint vorschau::get_zeile_von_Mauspos()
                         zeile = i;
                     }
                 }
-            }else if(  element.get_text().contains(KREIS)  ||  element.get_text().contains(ZYLINDER)  )
+            }else if(  element.text().contains(KREIS)  ||  element.text().contains(ZYLINDER)  )
             {
                 punkt2d ep;
                 ep.set_x(element.zeile(2).toDouble());
@@ -1009,13 +1009,13 @@ uint vorschau::get_zeile_von_Mauspos()
                     abst = l;
                     zeile = i;
                 }
-            }else if(  element.get_text().contains(RECHTECK3D)  ||  element.get_text().contains(WUERFEL)  )
+            }else if(  element.text().contains(RECHTECK3D)  ||  element.text().contains(WUERFEL)  )
             {
                 punkt3d pol, por, pul, pur;
-                if(element.get_text().contains(RECHTECK3D))
+                if(element.text().contains(RECHTECK3D))
                 {
                     rechteck3d r;
-                    r.set_text(element.get_text());
+                    r.set_text(element.text());
                     pol = r.obl();
                     por = r.obr();
                     pul = r.unl();
@@ -1023,7 +1023,7 @@ uint vorschau::get_zeile_von_Mauspos()
                 }else
                 {
                     wuerfel w;
-                    w.set_text(element.get_text());
+                    w.set_text(element.text());
                     pol = w.obl();
                     por = w.obr();
                     pul = w.unl();

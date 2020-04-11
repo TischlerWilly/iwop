@@ -14,66 +14,66 @@ public:
             punkt3d(QString geotext);
     inline  punkt3d(double x, double y, double z)
     {
-        x_param = x;
-        y_param = y;
-        z_param = z;
+        X_param = x;
+        Y_param = y;
+        Z_param = z;
     }
 
     void set_text(QString geotext);
     inline  void    set_x(double wert)
     {
-        x_param = wert;
+        X_param = wert;
     }
     inline  void    set_y(double wert)
     {
-        y_param = wert;
+        Y_param = wert;
     }
     inline  void    set_z(double wert)
     {
-        z_param = wert;
+        Z_param = wert;
     }
     inline  void    set_x(QString wert)
     {
-        x_param = wert.toDouble();
+        X_param = wert.toDouble();
     }
     inline  void    set_y(QString wert)
     {
-        y_param = wert.toDouble();
+        Y_param = wert.toDouble();
     }
     inline  void    set_z(QString wert)
     {
-        z_param = wert.toDouble();
+        Z_param = wert.toDouble();
     }
 
     inline  double  x()
     {
-        return x_param;
+        return X_param;
     }
     inline  double  y()
     {
-        return y_param;
+        return Y_param;
     }
     inline  double  z()
     {
-        return z_param;
+        return Z_param;
     }
     inline  QString x_QString()
     {
-        return double_to_qstring(x_param);
+        return double_to_qstring(X_param);
     }
     inline  QString y_QString()
     {
-        return double_to_qstring(y_param);
+        return double_to_qstring(Y_param);
     }
     inline  QString z_QString()
     {
-        return double_to_qstring(z_param);
+        return double_to_qstring(Z_param);
     }
 
     void    verschieben_um(double xversatz, double yversatz);
 
 private:
-    double  x_param, y_param, z_param;
+    double  X_param, Y_param, Z_param;
 };
 
 //-------------------Funktionen nicht innerhalb der Klasse:
