@@ -21,13 +21,13 @@ public:
     void set_entwickermod(bool mod);
 
     //Funkttionen get_xy:
-    int anz_undo_prg_int();
+    int     anz_undo_prg_int();
     QString anz_undo_prg_qstring();
-    int anz_undo_wkz_int();
+    int     anz_undo_wkz_int();
     QString anz_undo_wkz_qstring();
     QString option_path_opendialog();
     QString userpath_opendialog();
-    bool entwicklermod();
+    bool    entwicklermod();
 
 private:
     int       Anz_undo_prg;

@@ -2,22 +2,22 @@
 
 userinput::userinput()
 {
-    connect(&dui, SIGNAL(send_input(QString)), this, SLOT(set_input(QString)));
+    connect(&Dui, SIGNAL(send_input(QString)), this, SLOT(set_input(QString)));
 }
 
 void userinput::setWindowTitle(QString title)
 {
-    dui.setWindowTitle(title);
+    Dui.setWindowTitle(title);
 }
 
 void userinput::set_default(QString d)
 {
-    dui.set_default(d);
+    Dui.set_default(d);
 }
 
 void userinput::set_default(double d)
 {
-    dui.set_default(double_to_qstring(d).replace(".",","));
+    Dui.set_default(double_to_qstring(d).replace(".",","));
 }
 
 void userinput::set_default(double d, int anz_nachkommastellen)
@@ -37,7 +37,7 @@ void userinput::set_default(double d, int anz_nachkommastellen)
             def += rechts.at(i);
         }
     }
-    dui.set_default(def);
+    Dui.set_default(def);
 }
 
 void userinput::set_input(QString inp)
@@ -52,7 +52,7 @@ QString userinput::input()
 
 void userinput::eingabedlg()
 {
-    dui.exec();
+    Dui.exec();
 }
 
 void userinput::formelauswertung()

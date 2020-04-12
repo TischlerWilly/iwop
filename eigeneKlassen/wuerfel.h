@@ -12,24 +12,24 @@ public:
     void set_text(QString geotext);
     inline  void    set_hoehe(double neue_hoehe)
     {
-        hoehe = neue_hoehe;
+        Hoehe = neue_hoehe;
     }
     inline  void    set_hoehe(QString neue_hoehe)
     {
-        hoehe = neue_hoehe.toDouble();
+        Hoehe = neue_hoehe.toDouble();
     }
 
-    inline  double  get_hoehe()
+    inline  double  hoehe()
     {
-        return hoehe;
+        return Hoehe;
     }
-    inline  QString get_hoehe_qstring()
+    inline  QString hoehe_qstring()
     {
-        return double_to_qstring(hoehe);
+        return double_to_qstring(Hoehe);
     }
 
 private:
-    double hoehe;
+    double Hoehe;
 };
 
 #endif // WUERFEL_H

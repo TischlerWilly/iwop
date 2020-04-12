@@ -25,7 +25,7 @@ public slots:
     void set_input(QString inp);
 
 private:
-    Dialog_userinput dui;
+    Dialog_userinput Dui;
     QString Def;    //Default
     QString Input;  //Nutzer-Eingabe
 };

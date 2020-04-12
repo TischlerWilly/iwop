@@ -469,7 +469,7 @@ float WennDannSonst::ergebnis_berechnen(QString formelText)
     fehler_nullen();
     formelText = leerzeichen_entfernen(formelText);
 
-    while(formelText.contains("("))
+    while(formelText.contains("(") &&  formelText.contains(")"))
     {
         QString links, mitte, rechts;
         links = Klammern_aufloesen_text_links(formelText);

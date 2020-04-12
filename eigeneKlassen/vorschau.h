@@ -24,11 +24,10 @@ public:
 protected:
     void paintEvent(QPaintEvent *);
 
-
 private:
     void zeichneGeotext(QString geometrieElement, uint i);
     void zeichneFkon(QString geometrieElement, uint i);
-    float get_sf();
+    float sf();
     void set_sf(float neuer_faktor);
     void werkstueck_darstellung_berechnen();
     punkt drehen_arcTo(punkt oben_links, float laenge, float breite, \
@@ -40,26 +39,26 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void zoom(bool dichter);
-    punkt2d get_mauspos_npwst();
-    punkt2d get_mauspos_npanschlag();
-    uint get_zeile_von_Mauspos();
+    punkt2d mauspos_npwst();
+    punkt2d mauspos_npanschlag();
+    uint zeile_von_Mauspos();
 
     QColor set_farbe(QString farbe);
     Qt::PenStyle set_linienstil(QString stil);
 
 
-    punkt n;//Nullpunkt
-    punkt npv;//Nullpunkt-Verschiebung(Nicht XY-Versatz, Verschiebung des sichtbaren Ausschnittes)
-    rechteck3d wst;//Werkstück
-    rechteck3d wstd;//Dardestelltes Werkstück
-    float sf;//Skalierungsfaktor
-    float zf;//Zoomfaktor
-    programmtext t;
-    uint aktuelle_zeilennummer;
-    int maus_pos_alt_x;
-    int maus_pos_alt_y;
-    uint zeile_von_maus_pos;//Zum Zwischenspeichern damit Ergebnis nicht verfälscht wird wenn Maus sich bewegt
-    bool mrg; //Mausrad gedrückt
+    punkt       N;    //Nullpunkt
+    punkt       Npv;  //Nullpunkt-Verschiebung(Nicht XY-Versatz, Verschiebung des sichtbaren Ausschnittes)
+    rechteck3d  Wst;  //Werkstück
+    rechteck3d  Wstd; //Dardestelltes Werkstück
+    float       Sf;   //Skalierungsfaktor
+    float       Zf;   //Zoomfaktor
+    programmtext T;
+    uint        Aktuelle_zeilennummer;
+    int         Maus_pos_alt_x;
+    int         Maus_pos_alt_y;
+    uint        Zeile_von_maus_pos;//Zum Zwischenspeichern damit Ergebnis nicht verfälscht wird wenn Maus sich bewegt
+    bool        Mrg;  //Mausrad gedrückt
     
 signals:
     void anfrage_werkstueckmasse();

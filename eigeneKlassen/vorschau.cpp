@@ -5,14 +5,14 @@ vorschau::vorschau(QWidget *parent) :
 {
     this->resize(500, 500);
     this->setWindowTitle("Vorschau");
-    wstd.set_bezugspunkt(MITTE);
-    wstd.set_einfuegepunkt(width()/2 , height()/2);
-    t.set_warnungen_ein_aus(false);
+    Wstd.set_bezugspunkt(MITTE);
+    Wstd.set_einfuegepunkt(width()/2 , height()/2);
+    T.set_warnungen_ein_aus(false);
     this->setMouseTracking(true);
-    zf = 1;
-    npv.x = 0;
-    npv.y = 0;
-    mrg = false;
+    Zf = 1;
+    Npv.x = 0;
+    Npv.y = 0;
+    Mrg = false;
     this->setCursor(Qt::CrossCursor);
 }
 
@@ -28,7 +28,7 @@ void vorschau::paintEvent(QPaintEvent *)
     painter.drawRect(0, 0, width(), height());
 
     //Maschine darstellen:
-    text_zeilenweise geotext = t.maschinengeo().text_zw();
+    text_zeilenweise geotext = T.maschinengeo().text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -42,7 +42,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Bearbeitungen darstellen:
-    geotext = t.geo().text_zw();
+    geotext = T.geo().text_zw();
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -56,7 +56,7 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Fräskontur darstellen:
-    text_zeilenweise fkontext = t.fkon().text_zw();
+    text_zeilenweise fkontext = T.fkon().text_zw();
     for(uint i=1;i<=fkontext.zeilenanzahl();i++)
     {
         text_zeilenweise spalten;
@@ -70,57 +70,43 @@ void vorschau::paintEvent(QPaintEvent *)
     }
 
     //Fräser darstellen, aber nur in aktueller Zeile:
-    text_zeilenweise fraeserdarsttext = t.fraeserdarst().text_zw();
-    if(aktuelle_zeilennummer <= fraeserdarsttext.zeilenanzahl() && \
-            !t.klartext_zw().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+    text_zeilenweise fraeserdarsttext = T.fraeserdarst().text_zw();
+    if(Aktuelle_zeilennummer <= fraeserdarsttext.zeilenanzahl() && \
+            !T.klartext_zw().zeile(Aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
-        spalten.set_text(fraeserdarsttext.zeile(aktuelle_zeilennummer));
+        spalten.set_text(fraeserdarsttext.zeile(Aktuelle_zeilennummer));
 
         for(uint ii=1;ii<=spalten.zeilenanzahl();ii++)
         {
-            zeichneGeotext(spalten.zeile(ii), aktuelle_zeilennummer);
+            zeichneGeotext(spalten.zeile(ii), Aktuelle_zeilennummer);
         }
     }
-    /*
-    for(uint i=1;i<=fraeserdarsttext.zeilenanzahl();i++)
-    {
-        text_zeilenweise spalten;
-        spalten.set_trennzeichen(TRZ_EL_);
-        spalten.set_text(fraeserdarsttext.zeile(i));
-
-        for(uint ii=1;ii<=spalten.zeilenanzahl();ii++)
-        {
-            zeichneGeotext(spalten.zeile(ii), i);
-        }
-    }
-    */
-
     //Aktuelle Zeile noch einmal rot überzeichen, da bereits wieder überdeckt
     //durch deckungsgleiche Elemente in späteren Zeilen:
-    if(aktuelle_zeilennummer <= geotext.zeilenanzahl() && \
-            !t.klartext_zw().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+    if(Aktuelle_zeilennummer <= geotext.zeilenanzahl() && \
+            !T.klartext_zw().zeile(Aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
-        spalten.set_text(geotext.zeile(aktuelle_zeilennummer));
+        spalten.set_text(geotext.zeile(Aktuelle_zeilennummer));
 
         for(uint ii=1;ii<=spalten.zeilenanzahl();ii++)
         {
-            zeichneGeotext(spalten.zeile(ii), aktuelle_zeilennummer);
+            zeichneGeotext(spalten.zeile(ii), Aktuelle_zeilennummer);
         }
     }
-    if(aktuelle_zeilennummer <= fkontext.zeilenanzahl() && \
-            !t.klartext_zw().zeile(aktuelle_zeilennummer).contains(DLG_PKOPF))
+    if(Aktuelle_zeilennummer <= fkontext.zeilenanzahl() && \
+            !T.klartext_zw().zeile(Aktuelle_zeilennummer).contains(DLG_PKOPF))
     {
         text_zeilenweise spalten;
         spalten.set_trennzeichen(TRZ_EL_);
-        spalten.set_text(fkontext.zeile(aktuelle_zeilennummer));
+        spalten.set_text(fkontext.zeile(Aktuelle_zeilennummer));
 
         for(uint ii=1;ii<=spalten.zeilenanzahl();ii++)
         {
-            zeichneFkon(spalten.zeile(ii), aktuelle_zeilennummer);
+            zeichneFkon(spalten.zeile(ii), Aktuelle_zeilennummer);
         }
     }
 }
@@ -138,12 +124,12 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
     if(element.text().contains(PUNKT))
     {
         punkt2d p2;
-        p2.set_x(element.zeile(2).toDouble()*sf*zf);
-        p2.set_y(element.zeile(3).toDouble()*sf*zf);
+        p2.set_x(element.zeile(2).toDouble()*Sf*Zf);
+        p2.set_y(element.zeile(3).toDouble()*Sf*Zf);
         QPen pen, pen_alt;
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(6).toInt());
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -152,22 +138,22 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         }
         pen.setCapStyle(Qt::RoundCap);
         painter.setPen(pen);
-        painter.drawPoint(n.x-npv.x+p2.x(), \
-                          n.y-npv.y-p2.y());
+        painter.drawPoint(N.x-Npv.x+p2.x(), \
+                          N.y-Npv.y-p2.y());
         painter.setPen(pen_alt);
     }else if(element.text().contains(STRECKE))
     {
         punkt2d startpunkt, endpunkt;
-        startpunkt.set_x(element.zeile(2).toDouble()*sf*zf);
-        startpunkt.set_y(element.zeile(3).toDouble()*sf*zf);
-        endpunkt.set_x(element.zeile(5).toDouble()*sf*zf);
-        endpunkt.set_y(element.zeile(6).toDouble()*sf*zf);
+        startpunkt.set_x(element.zeile(2).toDouble()*Sf*Zf);
+        startpunkt.set_y(element.zeile(3).toDouble()*Sf*Zf);
+        endpunkt.set_x(element.zeile(5).toDouble()*Sf*Zf);
+        endpunkt.set_y(element.zeile(6).toDouble()*Sf*Zf);
 
         QPen pen, pen_alt;
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(9).toInt());
         pen.setStyle(set_linienstil(element.zeile(10)));
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -177,18 +163,18 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         pen.setCapStyle(Qt::RoundCap);
         painter.setPen(pen);
 
-        painter.drawLine(n.x-npv.x+startpunkt.x(), \
-                         n.y-npv.y-startpunkt.y(), \
-                         n.x-npv.x+endpunkt.x(), \
-                         n.y-npv.y-endpunkt.y());
+        painter.drawLine(N.x-Npv.x+startpunkt.x(), \
+                         N.y-Npv.y-startpunkt.y(), \
+                         N.x-Npv.x+endpunkt.x(), \
+                         N.y-Npv.y-endpunkt.y());
 
         painter.setPen(pen_alt);
     }else if(element.text().contains(BOGEN))
     {
-        double rad = element.zeile(8).toDouble()*sf*zf;
+        double rad = element.zeile(8).toDouble()*Sf*Zf;
         punkt2d mipu;
-        mipu.set_x(element.zeile(10).toDouble()*sf*zf);//Mittelpunkt in X
-        mipu.set_y(element.zeile(11).toDouble()*sf*zf);//Mittelpunkt in Y
+        mipu.set_x(element.zeile(10).toDouble()*Sf*Zf);//Mittelpunkt in X
+        mipu.set_y(element.zeile(11).toDouble()*Sf*Zf);//Mittelpunkt in Y
         punkt2d obli;
         obli.set_x(mipu.x()-rad);
         obli.set_y(mipu.y()+rad);
@@ -238,7 +224,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(13).toInt());
         pen.setStyle(set_linienstil(element.zeile(14)));
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -248,8 +234,8 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         pen.setCapStyle(Qt::RoundCap);
         painter.setPen(pen);
 
-        painter.drawArc(n.x-npv.x+obli.x(),\
-                        n.y-npv.y-obli.y(),\
+        painter.drawArc(N.x-Npv.x+obli.x(),\
+                        N.y-Npv.y-obli.y(),\
                         rad*2,\
                         rad*2,\
                         stawi*16,\
@@ -258,12 +244,12 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         painter.setPen(pen_alt);
     }else if(element.text().contains(KREIS))
     {
-        double rad = element.zeile(5).toDouble()*sf*zf;
+        double rad = element.zeile(5).toDouble()*Sf*Zf;
         QPen pen, pen_alt;
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(8).toInt());
         pen.setStyle(set_linienstil(element.zeile(9)));
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -278,8 +264,8 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         brush.setColor(set_farbe(element.zeile(7)));
         painter.setBrush(brush);
 
-        painter.drawEllipse(n.x-npv.x+(element.zeile(2).toDouble()*sf*zf)-rad,\
-                            n.y-npv.y-(element.zeile(3).toDouble()*sf*zf)-rad,\
+        painter.drawEllipse(N.x-Npv.x+(element.zeile(2).toDouble()*Sf*Zf)-rad,\
+                            N.y-Npv.y-(element.zeile(3).toDouble()*Sf*Zf)-rad,\
                             rad*2,\
                             rad*2);
 
@@ -287,12 +273,12 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         painter.setBrush(brush_alt);
     }else if(element.text().contains(ZYLINDER))
     {
-        double rad = element.zeile(5).toDouble()*sf*zf;
+        double rad = element.zeile(5).toDouble()*Sf*Zf;
         QPen pen, pen_alt;
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(9).toInt());
         pen.setStyle(set_linienstil(element.zeile(10)));
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -307,8 +293,8 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         brush.setColor(set_farbe(element.zeile(8)));
         painter.setBrush(brush);
 
-        painter.drawEllipse(n.x-npv.x+(element.zeile(2).toDouble()*sf*zf)-rad,\
-                            n.y-npv.y-(element.zeile(3).toDouble()*sf*zf)-rad,\
+        painter.drawEllipse(N.x-Npv.x+(element.zeile(2).toDouble()*Sf*Zf)-rad,\
+                            N.y-Npv.y-(element.zeile(3).toDouble()*Sf*Zf)-rad,\
                             rad*2,\
                             rad*2);
 
@@ -338,12 +324,12 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
             bezpunkt = UNTEN_RECHTS;
         }
         r.set_bezugspunkt(bezpunkt);
-        r.set_einfuegepunkt(n.x-npv.x+element.zeile(3).toDouble()*sf*zf,\
-                            n.y-npv.y-element.zeile(4).toDouble()*sf*zf,\
-                            element.zeile(5).toDouble()*sf*zf);
-        r.set_laenge(element.zeile(6).toDouble()*sf*zf);
-        r.set_breite(element.zeile(7).toDouble()*sf*zf);
-        r.set_rad(element.zeile(8).toDouble()*sf*zf);
+        r.set_einfuegepunkt(N.x-Npv.x+element.zeile(3).toDouble()*Sf*Zf,\
+                            N.y-Npv.y-element.zeile(4).toDouble()*Sf*Zf,\
+                            element.zeile(5).toDouble()*Sf*Zf);
+        r.set_laenge(element.zeile(6).toDouble()*Sf*Zf);
+        r.set_breite(element.zeile(7).toDouble()*Sf*Zf);
+        r.set_rad(element.zeile(8).toDouble()*Sf*Zf);
         r.set_drewi(element.zeile(9).toDouble());
 
         QPen pen, pen_alt;
@@ -351,7 +337,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         pen.setWidth(element.zeile(12).toInt());
         pen.setStyle(set_linienstil(element.zeile(13)));
         pen.setCapStyle(Qt::RoundCap);
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -487,12 +473,12 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
             bezpunkt = UNTEN_RECHTS;
         }
         r.set_bezugspunkt(bezpunkt);
-        r.set_einfuegepunkt(n.x-npv.x+element.zeile(3).toDouble()*sf*zf,\
-                            n.y-npv.y-element.zeile(4).toDouble()*sf*zf,\
-                            element.zeile(5).toDouble()*sf*zf);
-        r.set_laenge(element.zeile(6).toDouble()*sf*zf);
-        r.set_breite(element.zeile(7).toDouble()*sf*zf);
-        r.set_rad(element.zeile(8).toDouble()*sf*zf);
+        r.set_einfuegepunkt(N.x-Npv.x+element.zeile(3).toDouble()*Sf*Zf,\
+                            N.y-Npv.y-element.zeile(4).toDouble()*Sf*Zf,\
+                            element.zeile(5).toDouble()*Sf*Zf);
+        r.set_laenge(element.zeile(6).toDouble()*Sf*Zf);
+        r.set_breite(element.zeile(7).toDouble()*Sf*Zf);
+        r.set_rad(element.zeile(8).toDouble()*Sf*Zf);
         r.set_drewi(element.zeile(9).toDouble());
 
         QPen pen, pen_alt;
@@ -500,7 +486,7 @@ void vorschau::zeichneGeotext(QString geometrieElement, uint i)
         pen.setWidth(element.zeile(13).toInt());
         pen.setStyle(set_linienstil(element.zeile(14)));
         pen.setCapStyle(Qt::RoundCap);
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -629,16 +615,16 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
     if(element.text().contains(STRECKE))
     {
         punkt2d startpunkt, endpunkt;
-        startpunkt.set_x(element.zeile(2).toDouble()*sf*zf);
-        startpunkt.set_y(element.zeile(3).toDouble()*sf*zf);
-        endpunkt.set_x(element.zeile(5).toDouble()*sf*zf);
-        endpunkt.set_y(element.zeile(6).toDouble()*sf*zf);
+        startpunkt.set_x(element.zeile(2).toDouble()*Sf*Zf);
+        startpunkt.set_y(element.zeile(3).toDouble()*Sf*Zf);
+        endpunkt.set_x(element.zeile(5).toDouble()*Sf*Zf);
+        endpunkt.set_y(element.zeile(6).toDouble()*Sf*Zf);
 
         QPen pen, pen_alt;
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(9).toInt());
         pen.setStyle(set_linienstil(element.zeile(10)));
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -648,18 +634,18 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
         pen.setCapStyle(Qt::RoundCap);
         painter.setPen(pen);
 
-        painter.drawLine(n.x-npv.x+startpunkt.x(), \
-                         n.y-npv.y-startpunkt.y(), \
-                         n.x-npv.x+endpunkt.x(), \
-                         n.y-npv.y-endpunkt.y());
+        painter.drawLine(N.x-Npv.x+startpunkt.x(), \
+                         N.y-Npv.y-startpunkt.y(), \
+                         N.x-Npv.x+endpunkt.x(), \
+                         N.y-Npv.y-endpunkt.y());
 
         painter.setPen(pen_alt);
     }else if(element.text().contains(BOGEN))
     {
-        double rad = element.zeile(8).toDouble()*sf*zf;
+        double rad = element.zeile(8).toDouble()*Sf*Zf;
         punkt2d mipu;
-        mipu.set_x(element.zeile(10).toDouble()*sf*zf);//Mittelpunkt in X
-        mipu.set_y(element.zeile(11).toDouble()*sf*zf);//Mittelpunkt in Y
+        mipu.set_x(element.zeile(10).toDouble()*Sf*Zf);//Mittelpunkt in X
+        mipu.set_y(element.zeile(11).toDouble()*Sf*Zf);//Mittelpunkt in Y
         punkt2d obli;
         obli.set_x(mipu.x()-rad);
         obli.set_y(mipu.y()+rad);
@@ -709,7 +695,7 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
         pen_alt = painter.pen();
         pen.setWidth(element.zeile(13).toInt());
         pen.setStyle(set_linienstil(element.zeile(14)));
-        if(i==aktuelle_zeilennummer)
+        if(i==Aktuelle_zeilennummer)
         {
             pen.setColor(Qt::red);
         }else
@@ -719,8 +705,8 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
         pen.setCapStyle(Qt::RoundCap);
         painter.setPen(pen);
 
-        painter.drawArc(n.x-npv.x+obli.x(),\
-                        n.y-npv.y-obli.y(),\
+        painter.drawArc(N.x-Npv.x+obli.x(),\
+                        N.y-Npv.y-obli.y(),\
                         rad*2,\
                         rad*2,\
                         stawi*16,\
@@ -733,8 +719,8 @@ void vorschau::zeichneFkon(QString geometrieElement, uint i)
 void vorschau::werkstueck_darstellung_berechnen()
 {
     int randabstand = 10;
-    float maximallaenge = t.max_x() - t.min_x();
-    float maximalbreite = t.max_y() - t.min_y();
+    float maximallaenge = T.max_x() - T.min_x();
+    float maximalbreite = T.max_y() - T.min_y();
 
     float bildlaenge = width()-randabstand*2;
     float bildbreite = height()-randabstand*2;
@@ -750,27 +736,27 @@ void vorschau::werkstueck_darstellung_berechnen()
         set_sf(faktor_breite);
     }
 
-    float laenge = wst.l() * get_sf() * zf;
-    float breite = wst.b() * get_sf() * zf;
+    float laenge = Wst.l() * sf() * Zf;
+    float breite = Wst.b() * sf() * Zf;
 
-    wstd.set_laenge(laenge);
-    wstd.set_breite(breite);
+    Wstd.set_laenge(laenge);
+    Wstd.set_breite(breite);
 
     punkt basispunkt;
     basispunkt.x = randabstand;
     basispunkt.y = height()-randabstand;
 
-    n.x = basispunkt.x - t.min_x()*sf * zf;
-    n.y = basispunkt.y + t.min_y()*sf * zf;
+    N.x = basispunkt.x - T.min_x()*Sf * Zf;
+    N.y = basispunkt.y + T.min_y()*Sf * Zf;
 
 }
 
 void vorschau::slot_aktualisieren(programmtext t_neu, int aktive_zeile)
 {
-    t = t_neu;
-    wst.set_laenge(t.werkstuecklaenge());
-    wst.set_breite(t.werkstueckbreite());
-    aktuelle_zeilennummer = aktive_zeile;
+    T = t_neu;
+    Wst.set_laenge(T.werkstuecklaenge());
+    Wst.set_breite(T.werkstueckbreite());
+    Aktuelle_zeilennummer = aktive_zeile;
     werkstueck_darstellung_berechnen();
     this->update();
 
@@ -779,7 +765,7 @@ void vorschau::slot_aktualisieren(programmtext t_neu, int aktive_zeile)
 void vorschau::slot_aktives_Element_einfaerben(int zeilennummer)
 {
     //Element aus dieser Zeile farbig markieren
-    aktuelle_zeilennummer = zeilennummer;
+    Aktuelle_zeilennummer = zeilennummer;
     werkstueck_darstellung_berechnen();
     this->update();
 }
@@ -817,64 +803,64 @@ punkt2d vorschau::drehen_arcTo(punkt2d oben_links, double laenge, double breite,
 }
 
 //-------------------------------------------------------------
-float vorschau::get_sf()
+float vorschau::sf()
 {
-    return sf;
+    return Sf;
 }
 
 //-------------------------------------------------------------
 void vorschau::set_sf(float neuer_faktor)
 {
-    sf = neuer_faktor;
+    Sf = neuer_faktor;
 }
 
 void vorschau::zoom(bool dichter)
 {
     if(dichter == true)
     {
-        zf = zf + zf/25;
+        Zf = Zf + Zf/25;
     }else
     {
-        if(zf > 1)
+        if(Zf > 1)
         {
-            zf = zf - zf/25;
+            Zf = Zf - Zf/25;
         }else
         {
-            //npv.x = 0;
-            //npv.y = 0;
+            //Npv.x = 0;
+            //Npv.y = 0;
         }
     }
 
 }
 
-punkt2d vorschau::get_mauspos_npanschlag()
+punkt2d vorschau::mauspos_npanschlag()
 {
     QPoint p = this->mapFromGlobal(QCursor::pos());
-    int abst_nullp_x = p.x() - n.x + npv.x;
-    int abst_nullp_y = p.y() - n.y + npv.y;
+    int abst_nullp_x = p.x() - N.x + Npv.x;
+    int abst_nullp_y = p.y() - N.y + Npv.y;
 
     punkt2d p2d;
-    p2d.set_x(abst_nullp_x/sf/zf);
-    p2d.set_y(abst_nullp_y/sf*-1/zf);
+    p2d.set_x(abst_nullp_x/Sf/Zf);
+    p2d.set_y(abst_nullp_y/Sf*-1/Zf);
     return p2d;
 }
 
-punkt2d vorschau::get_mauspos_npwst()
+punkt2d vorschau::mauspos_npwst()
 {
     punkt2d p;
-    p = get_mauspos_npanschlag();
-    p.set_x(p.x()-t.ax());
-    p.set_y(p.y()-t.ay());
+    p = mauspos_npanschlag();
+    p.set_x(p.x()-T.ax());
+    p.set_y(p.y()-T.ay());
     return p;
 }
 
-uint vorschau::get_zeile_von_Mauspos()
+uint vorschau::zeile_von_Mauspos()
 {
     uint zeile = 0;
     double abst = 9999999999;
     strecke s; //nehmen wir für Längenberechnung/Abstandsberechnung
-    s.set_start(get_mauspos_npanschlag());
-    text_zeilenweise geotext = t.geo().text_zw();
+    s.set_start(mauspos_npanschlag());
+    text_zeilenweise geotext = T.geo().text_zw();
 
     for(uint i=1;i<=geotext.zeilenanzahl();i++)
     {
@@ -903,7 +889,7 @@ uint vorschau::get_zeile_von_Mauspos()
             {
                 strecke s2;
                 s2.set_text(element.text());
-                double l = s2.abst(get_mauspos_npanschlag());
+                double l = s2.abst(mauspos_npanschlag());
                 if(l < abst)
                 {
                     abst = l;
@@ -924,7 +910,7 @@ uint vorschau::get_zeile_von_Mauspos()
                 s3.set_start(mipu);
                 s1.set_ende(sp);
                 s2.set_ende(ep);
-                s3.set_ende(get_mauspos_npanschlag());
+                s3.set_ende(mauspos_npanschlag());
                 double w1, w2, w3;
                 w1 = s1.wink();
                 w2 = s2.wink();
@@ -961,8 +947,8 @@ uint vorschau::get_zeile_von_Mauspos()
                     strecke s1, s2;
                     s1.set_start(sp);
                     s2.set_start(ep);
-                    s1.set_ende(get_mauspos_npanschlag());
-                    s2.set_ende(get_mauspos_npanschlag());
+                    s1.set_ende(mauspos_npanschlag());
+                    s2.set_ende(mauspos_npanschlag());
                     double abst_sp, abst_ep, l;
                     abst_sp = s1.laenge2d();
                     abst_ep = s2.laenge2d();
@@ -1039,10 +1025,10 @@ uint vorschau::get_zeile_von_Mauspos()
                 sun.set_start(pul);
                 sun.set_ende(pur);
                 double abst_li, abst_re, abst_ob, abst_un;
-                abst_li = sli.abst(get_mauspos_npanschlag());
-                abst_re = sre.abst(get_mauspos_npanschlag());
-                abst_ob = sob.abst(get_mauspos_npanschlag());
-                abst_un = sun.abst(get_mauspos_npanschlag());
+                abst_li = sli.abst(mauspos_npanschlag());
+                abst_re = sre.abst(mauspos_npanschlag());
+                abst_ob = sob.abst(mauspos_npanschlag());
+                abst_un = sun.abst(mauspos_npanschlag());
                 double min = abst_li;
                 if(abst_re < min)
                 {
@@ -1069,22 +1055,22 @@ uint vorschau::get_zeile_von_Mauspos()
 
 void vorschau::mouseMoveEvent(QMouseEvent *event)
 {
-    if(mrg)
+    if(Mrg)
     {
-        npv.x = npv.x + maus_pos_alt_x-event->x();
-        npv.y = npv.y + maus_pos_alt_y-event->y();
-        maus_pos_alt_x = event->x();
-        maus_pos_alt_y = event->y();
+        Npv.x = Npv.x + Maus_pos_alt_x-event->x();
+        Npv.y = Npv.y + Maus_pos_alt_y-event->y();
+        Maus_pos_alt_x = event->x();
+        Maus_pos_alt_y = event->y();
         this->update();
     }
 
     QPoint p = this->mapFromGlobal(QCursor::pos());
-    int abst_nullp_x = p.x() - n.x+npv.x;
-    int abst_nullp_y = p.y() - n.y+npv.y;
+    int abst_nullp_x = p.x() - N.x+Npv.x;
+    int abst_nullp_y = p.y() - N.y+Npv.y;
 
     QPoint p_real;
-    p_real.setX(abst_nullp_x/sf/zf);
-    p_real.setY(abst_nullp_y/sf*-1/zf);
+    p_real.setX(abst_nullp_x/Sf/Zf);
+    p_real.setY(abst_nullp_y/Sf*-1/Zf);
 
     emit sende_maus_pos(p_real);
 }
@@ -1094,8 +1080,8 @@ void vorschau::wheelEvent(QWheelEvent *event)
     QPoint mauspos = event->pos();
     mauspos.setY(this->height()-mauspos.y());
     QPoint wstpos;
-    wstpos.setX(  (mauspos.x() - n.x+npv.x)  /sf/zf  );
-    wstpos.setY(  (n.x+npv.y - mauspos.y())  /sf/zf  );
+    wstpos.setX(  (mauspos.x() - N.x+Npv.x)  /Sf/Zf  );
+    wstpos.setY(  (N.x+Npv.y - mauspos.y())  /Sf/Zf  );
 
     int i = event->delta();
     if(i<0)
@@ -1107,18 +1093,18 @@ void vorschau::wheelEvent(QWheelEvent *event)
     }
 
     QPoint wstposneu;
-    wstposneu.setX(  (mauspos.x() - n.x+npv.x)  /sf/zf  );
-    wstposneu.setY(  (n.x+npv.y - mauspos.y())  /sf/zf  );
+    wstposneu.setX(  (mauspos.x() - N.x+Npv.x)  /Sf/Zf  );
+    wstposneu.setY(  (N.x+Npv.y - mauspos.y())  /Sf/Zf  );
     int xversmm = wstposneu.x() - wstpos.x();
     int yversmm = wstposneu.y() - wstpos.y();
-    int xverspixel = xversmm*sf*zf;
-    int yverspixel = yversmm*sf*zf;
-    npv.x = npv.x-xverspixel;
-    npv.y = npv.y-yverspixel;
-    if(zf<=1)
+    int xverspixel = xversmm*Sf*Zf;
+    int yverspixel = yversmm*Sf*Zf;
+    Npv.x = Npv.x-xverspixel;
+    Npv.y = Npv.y-yverspixel;
+    if(Zf<=1)
     {
-        npv.x = 0;
-        npv.y = 0;
+        Npv.x = 0;
+        Npv.y = 0;
     }
     this->update();
 }
@@ -1127,13 +1113,13 @@ void vorschau::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::MidButton)
     {
-        mrg = true;
-        maus_pos_alt_x = event->x();
-        maus_pos_alt_y = event->y();
+        Mrg = true;
+        Maus_pos_alt_x = event->x();
+        Maus_pos_alt_y = event->y();
     }else if(event->button() == Qt::RightButton)
     {
         punkt2d pwst;
-        pwst = get_mauspos_npwst();
+        pwst = mauspos_npwst();
         QString msg_pos_wst;
         msg_pos_wst += "(X: ";
         msg_pos_wst += pwst.x_QString();
@@ -1141,8 +1127,8 @@ void vorschau::mousePressEvent(QMouseEvent *event)
         msg_pos_wst += pwst.y_QString();
         msg_pos_wst += ")";
 
-        uint zeile = get_zeile_von_Mauspos();
-        zeile_von_maus_pos = zeile;
+        uint zeile = zeile_von_Mauspos();
+        Zeile_von_maus_pos = zeile;
         slot_aktives_Element_einfaerben(zeile);
         QString msgedit;
         msgedit += "Zeile ";
@@ -1150,7 +1136,7 @@ void vorschau::mousePressEvent(QMouseEvent *event)
         msgedit += " bearbeiten";
 
         QMenu m(this);
-        m.addAction("Ansicht einpassen", this, SLOT(slot_zf_gleich_eins()), 0) ;
+        m.addAction("Ansicht einpassen", this, SLOT(slot_Zf_gleich_eins()), 0) ;
         m.addAction(msg_pos_wst, this, SLOT(slot_tunix()), 0) ;
         m.addAction(msgedit, this, SLOT(slot_sende_zeilennummer()), 0) ;
         m.exec(this->mapFrom(this, QCursor::pos()));
@@ -1159,7 +1145,7 @@ void vorschau::mousePressEvent(QMouseEvent *event)
 
 void vorschau::slot_sende_zeilennummer()
 {
-    uint zeile = zeile_von_maus_pos;
+    uint zeile = Zeile_von_maus_pos;
     slot_aktives_Element_einfaerben(zeile);
     emit sende_zeilennummer(zeile);
 }
@@ -1168,15 +1154,15 @@ void vorschau::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::MidButton)
     {
-        mrg = false;
+        Mrg = false;
     }
 }
 
 void vorschau::slot_zf_gleich_eins()
 {
-    zf = 1;
-    npv.x = 0;
-    npv.y = 0;
+    Zf = 1;
+    Npv.x = 0;
+    Npv.y = 0;
     this->update();
 }
 

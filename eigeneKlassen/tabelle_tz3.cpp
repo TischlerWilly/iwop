@@ -7,31 +7,28 @@ tabelle_tz3::tabelle_tz3()
     set_trennzeichen_eintraege('/');
 }
 
-
-
+//--------------------------------------------------------set_xy:
 void tabelle_tz3::set_trennzeichen_zeilen(char neues_Trennzeichen)
 {
-    zeile.set_trennzeichen(neues_Trennzeichen);
+    Zeile.set_trennzeichen(neues_Trennzeichen);
 }
-
 void tabelle_tz3::set_trennzeichen_spalten(char neues_Trennzeichen)
 {
-    spalte.set_trennzeichen(neues_Trennzeichen);
+    Spalte.set_trennzeichen(neues_Trennzeichen);
 }
-
 void tabelle_tz3::set_trennzeichen_eintraege(char neues_Trennzeichen)
 {
-    eintrag.set_trennzeichen(neues_Trennzeichen);
+    Eintrag.set_trennzeichen(neues_Trennzeichen);
 }
-
 void tabelle_tz3::set_text(QString neuer_text)
 {
-    zeile.set_text(neuer_text);
+    Zeile.set_text(neuer_text);
 }
 
-QString tabelle_tz3::get_zeile(uint zeilennummer)
+//--------------------------------------------------------get_xy:
+QString tabelle_tz3::zeile(uint zeilennummer)
 {
-    QString tmp = zeile.zeile(zeilennummer);
+    QString tmp = Zeile.zeile(zeilennummer);
     if (tmp == "Zeilennummer ist groesser als Anzahl der Zeilen!!!")
     {
         tmp = "";
@@ -41,28 +38,11 @@ QString tabelle_tz3::get_zeile(uint zeilennummer)
     }
     return tmp;
 }
-
-QString tabelle_tz3::get_spalte(uint zeilennummer, uint spaltennummer)
+QString tabelle_tz3::spalte(uint zeilennummer, uint spaltennummer)
 {
-    spalte.set_text(get_zeile(zeilennummer));
+    Spalte.set_text(zeile(zeilennummer));
 
-    QString tmp = spalte.zeile(spaltennummer);
-    if (tmp == "Zeilennummer ist groesser als Anzahl der Zeilen!!!")
-    {
-        tmp = "";
-    }else if(tmp == "Zeilennummer ist Null!!!")
-    {
-        tmp = "";
-    }
-    //return tmp + spalte.get_trennzeichen();
-    return tmp;
-}
-
-QString tabelle_tz3::get_eintrag(uint zeilennummer, uint spaltennummer, uint eintragsnummer)
-{
-    eintrag.set_text(get_spalte(zeilennummer, spaltennummer));
-
-    QString tmp = eintrag.zeile(eintragsnummer);
+    QString tmp = Spalte.zeile(spaltennummer);
     if (tmp == "Zeilennummer ist groesser als Anzahl der Zeilen!!!")
     {
         tmp = "";
@@ -72,117 +52,56 @@ QString tabelle_tz3::get_eintrag(uint zeilennummer, uint spaltennummer, uint ein
     }
     return tmp;
 }
-
-bool tabelle_tz3::zeile_ersaetzen(uint zeilennummer, QString neuer_text)
+QString tabelle_tz3::spalten()
 {
-    if(zeile.zeile_ersaetzen(zeilennummer, neuer_text))
-    {
-        return true;//Fehler ist aufgetreten
-    }else
-    {
-        return false;//Kein Fehler ist aufgetreten
-    }
-}
+    text_zeilenweise tz;
 
-bool tabelle_tz3::spalte_ersatzen(uint zeilennummer, uint spaltennummer, QString neuer_text)
-{
-    spalte.set_text(zeile.zeile(zeilennummer));
-
-    if(spalte.zeile_ersaetzen(spaltennummer, neuer_text))
+    for(uint i=1 ; i<=Zeile.zeilenanzahl() ; i++)
     {
-        return true;//Fehler ist aufgetreten
-    }else
-    {
-        if(zeile.zeile_ersaetzen(zeilennummer, spalte.text()))
+        Spalte.set_text(Zeile.zeile(i));
+        for(uint ii=1 ; ii<=Spalte.zeilenanzahl(); ii++)
         {
-            return true;//Fehler ist aufgetreten
-        }else
-        {
-            return false;//Kein Fehler ist aufgetreten
-        }
-    }
-}
-
-bool tabelle_tz3::eintrag_ersatzen(uint zeilennummer, uint spaltennummer, uint eintragsnummer, QString neuer_text)
-{
-    spalte.set_text(zeile.zeile(zeilennummer));
-    eintrag.set_text(spalte.zeile(spaltennummer));
-
-    if(eintrag.zeile_ersaetzen(eintragsnummer, neuer_text))
-    {
-        return true;//Fehler ist aufgetreten
-    }else
-    {
-        if(spalte.zeile_ersaetzen(spaltennummer, eintrag.text()))
-        {
-            return true;//Fehler ist aufgetreten
-        }else
-        {
-            if(zeile.zeile_ersaetzen(zeilennummer, spalte.text()))
+            QString tmp = Spalte.zeile(ii);
+            if(!tmp.isEmpty() &&  tmp!=" ")
             {
-                return true;//Fehler ist aufgetreten
-            }else
-            {
-                return false;//Kein Fehler ist aufgetreten
+                tz.zeilen_anhaengen(tmp);
             }
         }
     }
-}
 
-void tabelle_tz3::zeile_anhaengen(QString neuer_text)
-{
-    zeile.zeile_anhaengen(neuer_text);
+    return tz.text();
 }
-
-bool tabelle_tz3::spalte_anhaengen(uint zeilennummer, QString neuer_text)
+QString tabelle_tz3::eintrag(uint zeilennummer, uint spaltennummer, uint eintragsnummer)
 {
-    if(zeile.zeilenanzahl() < zeilennummer)
+    Eintrag.set_text(spalte(zeilennummer, spaltennummer));
+
+    QString tmp = Eintrag.zeile(eintragsnummer);
+    if (tmp == "Zeilennummer ist groesser als Anzahl der Zeilen!!!")
     {
-        return true;//Fehler ist aufgetreten
-    }else
+        tmp = "";
+    }else if(tmp == "Zeilennummer ist Null!!!")
     {
-        spalte.set_text(zeile.zeile(zeilennummer));
-        spalte.zeile_anhaengen(neuer_text);
-        zeile.zeile_ersaetzen(zeilennummer, spalte.text());
-        return false;//Kein Fehler ist aufgetreten
+        tmp = "";
     }
+    return tmp;
 }
-
-bool tabelle_tz3::eintrag_anhaengen(uint zeilennummer, uint spaltennummer, QString neuer_text)
+uint tabelle_tz3::spaltenzahl(uint zeilennummer)
 {
-    if(zeile.zeilenanzahl() < zeilennummer)
-    {
-        return true;//Fehler ist aufgetreten
-    }else
-    {
-        if(spalte.zeilenanzahl() < spaltennummer)
-        {
-            return true;//Fehler ist aufgetreten
-        }else
-        {
-            spalte.set_text(zeile.zeile(zeilennummer));
-            eintrag.set_text(spalte.zeile(spaltennummer));
-            eintrag.zeile_anhaengen(neuer_text);
-            spalte.zeile_ersaetzen(spaltennummer, eintrag.text());
-            zeile.zeile_ersaetzen(zeilennummer, spalte.text());
-            return false;//Kein Fehler ist aufgetreten
-        }
-    }
+    Spalte.set_text(Zeile.zeile(zeilennummer));
+    return Spalte.zeilenanzahl();
 }
-
 QString tabelle_tz3::folgespalte(uint zeile_aktuell, uint spalte_aktuell)
 {
     text_zeilenweise tz;
-    tz.set_trennzeichen(spalte.trennzeichen());
+    tz.set_trennzeichen(Spalte.trennzeichen());
     uint pos = 0;
 
-    for(uint i=1 ; i<=zeile.zeilenanzahl() ; i++)
+    for(uint i=1 ; i<=Zeile.zeilenanzahl() ; i++)
     {
-        spalte.set_text(zeile.zeile(i));
-        for(uint ii=1 ; ii<=spalte.zeilenanzahl(); ii++)
+        Spalte.set_text(Zeile.zeile(i));
+        for(uint ii=1 ; ii<=Spalte.zeilenanzahl(); ii++)
         {
-            QString tmp = spalte.zeile(ii);
-            //tmp.remove(spalte.get_trennzeichen());
+            QString tmp = Spalte.zeile(ii);
             if(!tmp.isEmpty() &&  tmp!=" ")
             {
                 tz.zeilen_anhaengen(tmp);
@@ -202,20 +121,18 @@ QString tabelle_tz3::folgespalte(uint zeile_aktuell, uint spalte_aktuell)
         return "";
     }
 }
-
 QString tabelle_tz3::vorherigespalte(uint zeile_aktuell, uint spalte_aktuell)
 {
     text_zeilenweise tz;
-    tz.set_trennzeichen(spalte.trennzeichen());
+    tz.set_trennzeichen(Spalte.trennzeichen());
     uint pos = 0;
 
-    for(uint i=1 ; i<=zeile.zeilenanzahl() ; i++)
+    for(uint i=1 ; i<=Zeile.zeilenanzahl() ; i++)
     {
-        spalte.set_text(zeile.zeile(i));
-        for(uint ii=1 ; ii<=spalte.zeilenanzahl(); ii++)
+        Spalte.set_text(Zeile.zeile(i));
+        for(uint ii=1 ; ii<=Spalte.zeilenanzahl(); ii++)
         {
-            QString tmp = spalte.zeile(ii);
-            //tmp.remove(spalte.get_trennzeichen());
+            QString tmp = Spalte.zeile(ii);
             if(!tmp.isEmpty() &&  tmp!=" ")
             {
                 tz.zeilen_anhaengen(tmp);
@@ -236,33 +153,35 @@ QString tabelle_tz3::vorherigespalte(uint zeile_aktuell, uint spalte_aktuell)
     }
 }
 
-QString tabelle_tz3::get_spalten()
+//--------------------------------------------------------Manipulationen:
+bool tabelle_tz3::zeile_ersaetzen(uint zeilennummer, QString neuer_text)
 {
-    text_zeilenweise tz;
-
-    for(uint i=1 ; i<=zeile.zeilenanzahl() ; i++)
+    if(Zeile.zeile_ersaetzen(zeilennummer, neuer_text))
     {
-        spalte.set_text(zeile.zeile(i));
-        for(uint ii=1 ; ii<=spalte.zeilenanzahl(); ii++)
+        return true;//Fehler ist aufgetreten
+    }else
+    {
+        return false;//Kein Fehler ist aufgetreten
+    }
+}
+bool tabelle_tz3::spalte_ersatzen(uint zeilennummer, uint spaltennummer, QString neuer_text)
+{
+    Spalte.set_text(Zeile.zeile(zeilennummer));
+
+    if(Spalte.zeile_ersaetzen(spaltennummer, neuer_text))
+    {
+        return true;//Fehler ist aufgetreten
+    }else
+    {
+        if(Zeile.zeile_ersaetzen(zeilennummer, Spalte.text()))
         {
-            QString tmp = spalte.zeile(ii);
-            //tmp.remove(spalte.get_trennzeichen());
-            if(!tmp.isEmpty() &&  tmp!=" ")
-            {
-                tz.zeilen_anhaengen(tmp);
-            }
+            return true;//Fehler ist aufgetreten
+        }else
+        {
+            return false;//Kein Fehler ist aufgetreten
         }
     }
-
-    return tz.text();
 }
-
-uint tabelle_tz3::get_spaltenzahl(uint zeilennummer)
-{
-    spalte.set_text(zeile.zeile(zeilennummer));
-    return spalte.zeilenanzahl();
-}
-
 bool tabelle_tz3::vorherigespalte_ersaetzen(uint zeile_aktuell, uint spalte_aktuell, QString neuer_text)
 {
     //Pos der vorheriegen Spalte finden:
@@ -273,12 +192,12 @@ bool tabelle_tz3::vorherigespalte_ersaetzen(uint zeile_aktuell, uint spalte_aktu
     uint zeilennummer = 0;
     uint spaltennummer = 0;
 
-    for(uint i=1 ; i<=zeile.zeilenanzahl() ; i++)
+    for(uint i=1 ; i<=Zeile.zeilenanzahl() ; i++)
     {
-        spalte.set_text(zeile.zeile(i));
-        for(uint ii=1 ; ii<=spalte.zeilenanzahl(); ii++)
+        Spalte.set_text(Zeile.zeile(i));
+        for(uint ii=1 ; ii<=Spalte.zeilenanzahl(); ii++)
         {
-            QString tmp = spalte.zeile(ii);
+            QString tmp = Spalte.zeile(ii);
             if(tmp == text_vorherige_spalte   &&    \
                     i <= zeile_aktuell  &&          \
                     ii <= spalte_aktuell)
@@ -291,3 +210,74 @@ bool tabelle_tz3::vorherigespalte_ersaetzen(uint zeile_aktuell, uint spalte_aktu
     //Text ersetzen:
     return spalte_ersatzen(zeilennummer, spaltennummer, neuer_text);
 }
+bool tabelle_tz3::eintrag_ersatzen(uint zeilennummer, uint spaltennummer, uint eintragsnummer, QString neuer_text)
+{
+    Spalte.set_text(Zeile.zeile(zeilennummer));
+    Eintrag.set_text(Spalte.zeile(spaltennummer));
+
+    if(Eintrag.zeile_ersaetzen(eintragsnummer, neuer_text))
+    {
+        return true;//Fehler ist aufgetreten
+    }else
+    {
+        if(Spalte.zeile_ersaetzen(spaltennummer, Eintrag.text()))
+        {
+            return true;//Fehler ist aufgetreten
+        }else
+        {
+            if(Zeile.zeile_ersaetzen(zeilennummer, Spalte.text()))
+            {
+                return true;//Fehler ist aufgetreten
+            }else
+            {
+                return false;//Kein Fehler ist aufgetreten
+            }
+        }
+    }
+}
+void tabelle_tz3::zeile_anhaengen(QString neuer_text)
+{
+    Zeile.zeile_anhaengen(neuer_text);
+}
+bool tabelle_tz3::spalte_anhaengen(uint zeilennummer, QString neuer_text)
+{
+    if(Zeile.zeilenanzahl() < zeilennummer)
+    {
+        return true;//Fehler ist aufgetreten
+    }else
+    {
+        Spalte.set_text(Zeile.zeile(zeilennummer));
+        Spalte.zeile_anhaengen(neuer_text);
+        Zeile.zeile_ersaetzen(zeilennummer, Spalte.text());
+        return false;//Kein Fehler ist aufgetreten
+    }
+}
+bool tabelle_tz3::eintrag_anhaengen(uint zeilennummer, uint spaltennummer, QString neuer_text)
+{
+    if(Zeile.zeilenanzahl() < zeilennummer)
+    {
+        return true;//Fehler ist aufgetreten
+    }else
+    {
+        if(Spalte.zeilenanzahl() < spaltennummer)
+        {
+            return true;//Fehler ist aufgetreten
+        }else
+        {
+            Spalte.set_text(Zeile.zeile(zeilennummer));
+            Eintrag.set_text(Spalte.zeile(spaltennummer));
+            Eintrag.zeile_anhaengen(neuer_text);
+            Spalte.zeile_ersaetzen(spaltennummer, Eintrag.text());
+            Zeile.zeile_ersaetzen(zeilennummer, Spalte.text());
+            return false;//Kein Fehler ist aufgetreten
+        }
+    }
+}
+
+//--------------------------------------------------------
+
+
+
+
+
+

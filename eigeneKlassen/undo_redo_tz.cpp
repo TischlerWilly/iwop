@@ -5,95 +5,92 @@ undo_redo_tz::undo_redo_tz()
     set_groesse_max(20);
     clear();
 }
-
-void undo_redo_tz::set_groesse_max(uint maximale_anzahl_an_wiederrufenschritten)
-{
-    if(maximale_anzahl_an_wiederrufenschritten > vector_t.size())
-    {
-        max_anzahl = maximale_anzahl_an_wiederrufenschritten;
-    }
-    if(maximale_anzahl_an_wiederrufenschritten < vector_t.size())
-    {
-        vector_t.clear();
-        max_anzahl = maximale_anzahl_an_wiederrufenschritten;
-    }
-
-}
-
-uint undo_redo_tz::get_groesse_max()
-{
-    return max_anzahl;
-}
-
-uint undo_redo_tz::get_groesse()
-{
-    return vector_t.size();
-}
-
 void undo_redo_tz::neu(text_zeilenweise t_neu)
 {
-    if((uint)aktuelle_position+1 == vector_t.size())
+    if((uint)Aktuelle_position+1 == Vector_t.size())
     {
-        if(vector_t.size() < max_anzahl)
+        if(Vector_t.size() < Max_anzahl)
         {
-            vector_t.push_back(t_neu);
-            aktuelle_position++;
+            Vector_t.push_back(t_neu);
+            Aktuelle_position++;
         }else
         {
-            vector_t.erase(vector_t.begin());
-            vector_t.push_back(t_neu);
+            Vector_t.erase(Vector_t.begin());
+            Vector_t.push_back(t_neu);
         }
     }else
     {
-        vector_t.erase(vector_t.begin()+aktuelle_position+1, vector_t.end());
-        vector_t.push_back(t_neu);
-        aktuelle_position = vector_t.size()-1;
+        Vector_t.erase(Vector_t.begin()+Aktuelle_position+1, Vector_t.end());
+        Vector_t.push_back(t_neu);
+        Aktuelle_position = Vector_t.size()-1;
     }
-    //QMessageBox mb;
-    //mb.setText("neu " + QString::fromStdString(lib_ol_int_to_string(aktuelle_position)));
-    //mb.exec();
 }
 
+//----------------------------------------set_xy:
+void undo_redo_tz::set_groesse_max(uint maximale_anzahl_an_wiederrufenschritten)
+{
+    if(maximale_anzahl_an_wiederrufenschritten > Vector_t.size())
+    {
+        Max_anzahl = maximale_anzahl_an_wiederrufenschritten;
+    }
+    if(maximale_anzahl_an_wiederrufenschritten < Vector_t.size())
+    {
+        Vector_t.clear();
+        Max_anzahl = maximale_anzahl_an_wiederrufenschritten;
+    }
+}
+
+//----------------------------------------get_xy:
+uint undo_redo_tz::groesse_max()
+{
+    return Max_anzahl;
+}
+uint undo_redo_tz::groesse()
+{
+    return Vector_t.size();
+}
+int undo_redo_tz::erstes_aktives_element()
+{
+    return Erstes_aktives_element_t.at(Aktuelle_position);
+}
+int undo_redo_tz::anz_aktive_elemente()
+{
+    return Anz_aktive_elemente_t.at(Aktuelle_position);
+}
+
+//----------------------------------------Manipulationen:
 void undo_redo_tz::clear()
 {
-    aktuelle_position = -1;
-    vector_t.clear();
+    Aktuelle_position = -1;
+    Vector_t.clear();
 }
-
 text_zeilenweise undo_redo_tz::undo()
 {
-    //QMessageBox mb;
-    //mb.setText("undo " + QString::fromStdString(lib_ol_int_to_string(aktuelle_position)));
-    //mb.exec();
-    if(aktuelle_position > 0)
+    if(Aktuelle_position > 0)
     {
-        aktuelle_position--;
-        return vector_t.at(aktuelle_position);
+        Aktuelle_position--;
+        return Vector_t.at(Aktuelle_position);
     }else
     {
-        return vector_t.at(0);
+        return Vector_t.at(0);
     }
 }
-
 text_zeilenweise undo_redo_tz::redo()
 {
-    if((uint)aktuelle_position+1 < vector_t.size())
+    if((uint)Aktuelle_position+1 < Vector_t.size())
     {
-        aktuelle_position++;
-        return vector_t.at(aktuelle_position);
+        Aktuelle_position++;
+        return Vector_t.at(Aktuelle_position);
     }else
     {
-        return vector_t.at(aktuelle_position);
+        return Vector_t.at(Aktuelle_position);
     }
 }
 
-int undo_redo_tz::get_erstes_aktives_element()
-{
-    return erstes_aktives_element_t.at(aktuelle_position);
-}
+//----------------------------------------
 
-int undo_redo_tz::get_anz_aktive_elemente()
-{
-    return anz_aktive_elemente_t.at(aktuelle_position);
-}
+
+
+
+
 

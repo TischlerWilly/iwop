@@ -14,6 +14,7 @@ rechteck3d::rechteck3d(QString geotext)
     set_text(geotext);
 }
 
+//--------------------------------------------------set_xy:
 void rechteck3d::set_text(QString geotext)
 {
     text_zeilenweise tz;
@@ -34,224 +35,221 @@ void rechteck3d::set_text(QString geotext)
     set_linienbreite(tz.zeile(12).toInt());
     set_stil(tz.zeile(13));
 }
+void rechteck3d::set_mipu(double x, double y, double z=0)
+{
+    Unli.set_x(x - Laenge/2);
+    Obli.set_x(x - Laenge/2);
+    Links.set_x(x -Laenge/2);
+    Unre.set_x(x + Laenge/2);
+    Obre.set_x(x + Laenge/2);
+    Rechts.set_x(x + Laenge/2);
+    Mitte.set_x(x);
+    Oben.set_x(x);
+    Unten.set_x(x);
 
+    Unli.set_y(y - Breite/2);
+    Unre.set_y(y - Breite/2);
+    Unten.set_y(y - Breite/2);
+    Obre.set_y(y + Breite/2);
+    Obli.set_y(y + Breite/2);
+    Oben.set_y(y + Breite/2);
+    Mitte.set_y(y);
+    Links.set_y(y);
+    Rechts.set_y(y);
+
+    switch(Bezugspunkt)
+    {
+        case OBEN_LINKS:
+            Einfuegepunkt = Obli;
+            break;
+        case OBEN:
+            Einfuegepunkt = Oben;
+            break;
+        case OBEN_RECHTS:
+            Einfuegepunkt = Obre;
+            break;
+        case LINKS:
+            Einfuegepunkt = Links;
+            break;
+        case MITTE:
+            Einfuegepunkt = Mitte;
+            break;
+        case RECHTS:
+            Einfuegepunkt = Rechts;
+            break;
+        case UNTEN_LINKS:
+            Einfuegepunkt = Unli;
+            break;
+        case UNTEN:
+            Einfuegepunkt = Unten;
+            break;
+        case UNTEN_RECHTS:
+            Einfuegepunkt = Unre;
+            break;
+    }
+}
+void rechteck3d::set_mipu(punkt3d p)
+{
+    set_mipu(p.x(), p.y(), p.z());
+}
 void rechteck3d::set_z(double z)
 {
-    obli.set_z(z);
-    oben.set_z(z);
-    obre.set_z(z);
-    links.set_z(z);
-    mitte.set_z(z);
-    rechts.set_z(z);
-    unli.set_z(z);
-    unten.set_z(z);
-    unre.set_z(z);
+    Obli.set_z(z);
+    Oben.set_z(z);
+    Obre.set_z(z);
+    Links.set_z(z);
+    Mitte.set_z(z);
+    Rechts.set_z(z);
+    Unli.set_z(z);
+    Unten.set_z(z);
+    Unre.set_z(z);
 }
-
 void rechteck3d::set_laenge(double neue_laenge)
 {
-    laenge = neue_laenge;
-    switch(bezugspunkt)
+    Laenge = neue_laenge;
+    switch(Bezugspunkt)
     {
         case LINKS:
         case UNTEN_LINKS:
         case OBEN_LINKS:
-            unli.set_x(einfuegepunkt.x());
-            obli.set_x(einfuegepunkt.x());
-            links.set_x(einfuegepunkt.x());
-            unre.set_x(einfuegepunkt.x() + neue_laenge);
-            obre.set_x(einfuegepunkt.x() + neue_laenge);
-            rechts.set_x(einfuegepunkt.x() + neue_laenge);
-            mitte.set_x(einfuegepunkt.x() + neue_laenge/2);
-            oben.set_x(einfuegepunkt.x() + neue_laenge/2);
-            unten.set_x(einfuegepunkt.x() + neue_laenge/2);
+            Unli.set_x(Einfuegepunkt.x());
+            Obli.set_x(Einfuegepunkt.x());
+            Links.set_x(Einfuegepunkt.x());
+            Unre.set_x(Einfuegepunkt.x() + neue_laenge);
+            Obre.set_x(Einfuegepunkt.x() + neue_laenge);
+            Rechts.set_x(Einfuegepunkt.x() + neue_laenge);
+            Mitte.set_x(Einfuegepunkt.x() + neue_laenge/2);
+            Oben.set_x(Einfuegepunkt.x() + neue_laenge/2);
+            Unten.set_x(Einfuegepunkt.x() + neue_laenge/2);
             break;
         case RECHTS:
         case UNTEN_RECHTS:
         case OBEN_RECHTS:
-            unli.set_x(einfuegepunkt.x() - neue_laenge);
-            obli.set_x(einfuegepunkt.x() - neue_laenge);
-            links.set_x(einfuegepunkt.x() - neue_laenge);
-            unre.set_x(einfuegepunkt.x());
-            obre.set_x(einfuegepunkt.x());
-            rechts.set_x(einfuegepunkt.x());
-            mitte.set_x(einfuegepunkt.x() - neue_laenge/2);
-            oben.set_x(einfuegepunkt.x() - neue_laenge/2);
-            unten.set_x(einfuegepunkt.x() - neue_laenge/2);
+            Unli.set_x(Einfuegepunkt.x() - neue_laenge);
+            Obli.set_x(Einfuegepunkt.x() - neue_laenge);
+            Links.set_x(Einfuegepunkt.x() - neue_laenge);
+            Unre.set_x(Einfuegepunkt.x());
+            Obre.set_x(Einfuegepunkt.x());
+            Rechts.set_x(Einfuegepunkt.x());
+            Mitte.set_x(Einfuegepunkt.x() - neue_laenge/2);
+            Oben.set_x(Einfuegepunkt.x() - neue_laenge/2);
+            Unten.set_x(Einfuegepunkt.x() - neue_laenge/2);
             break;
         case OBEN:
         case UNTEN:
         case MITTE:
-            unli.set_x(einfuegepunkt.x() - neue_laenge/2);
-            obli.set_x(einfuegepunkt.x() - neue_laenge/2);
-            links.set_x(einfuegepunkt.x() - neue_laenge/2);
-            unre.set_x(einfuegepunkt.x() + neue_laenge/2);
-            obre.set_x(einfuegepunkt.x() + neue_laenge/2);
-            rechts.set_x(einfuegepunkt.x() + neue_laenge/2);
-            mitte.set_x(einfuegepunkt.x());
-            oben.set_x(einfuegepunkt.x());
-            unten.set_x(einfuegepunkt.x());
+            Unli.set_x(Einfuegepunkt.x() - neue_laenge/2);
+            Obli.set_x(Einfuegepunkt.x() - neue_laenge/2);
+            Links.set_x(Einfuegepunkt.x() - neue_laenge/2);
+            Unre.set_x(Einfuegepunkt.x() + neue_laenge/2);
+            Obre.set_x(Einfuegepunkt.x() + neue_laenge/2);
+            Rechts.set_x(Einfuegepunkt.x() + neue_laenge/2);
+            Mitte.set_x(Einfuegepunkt.x());
+            Oben.set_x(Einfuegepunkt.x());
+            Unten.set_x(Einfuegepunkt.x());
             break;
     }
 }
-
 void rechteck3d::set_breite(double neue_breite)
 {
-    breite = neue_breite;
-    switch(bezugspunkt)
+    Breite = neue_breite;
+    switch(Bezugspunkt)
     {
         case UNTEN:
         case UNTEN_LINKS:
         case UNTEN_RECHTS:
-            unli.set_y(einfuegepunkt.y());
-            unre.set_y(einfuegepunkt.y());
-            unten.set_y(einfuegepunkt.y());
-            obre.set_y(einfuegepunkt.y() + neue_breite);
-            obli.set_y(einfuegepunkt.y() + neue_breite);
-            oben.set_y(einfuegepunkt.y() + neue_breite);
-            mitte.set_y(einfuegepunkt.y() + neue_breite/2);
-            links.set_y(einfuegepunkt.y() + neue_breite/2);
-            rechts.set_y(einfuegepunkt.y() + neue_breite/2);
+            Unli.set_y(Einfuegepunkt.y());
+            Unre.set_y(Einfuegepunkt.y());
+            Unten.set_y(Einfuegepunkt.y());
+            Obre.set_y(Einfuegepunkt.y() + neue_breite);
+            Obli.set_y(Einfuegepunkt.y() + neue_breite);
+            Oben.set_y(Einfuegepunkt.y() + neue_breite);
+            Mitte.set_y(Einfuegepunkt.y() + neue_breite/2);
+            Links.set_y(Einfuegepunkt.y() + neue_breite/2);
+            Rechts.set_y(Einfuegepunkt.y() + neue_breite/2);
             break;
         case OBEN:
         case OBEN_LINKS:
         case OBEN_RECHTS:
-            unli.set_y(einfuegepunkt.y() - neue_breite);
-            unre.set_y(einfuegepunkt.y() - neue_breite);
-            unten.set_y(einfuegepunkt.y() - neue_breite);
-            obre.set_y(einfuegepunkt.y());
-            obli.set_y(einfuegepunkt.y());
-            oben.set_y(einfuegepunkt.y());
-            mitte.set_y(einfuegepunkt.y() - neue_breite/2);
-            links.set_y(einfuegepunkt.y() - neue_breite/2);
-            rechts.set_y(einfuegepunkt.y() - neue_breite/2);
+            Unli.set_y(Einfuegepunkt.y() - neue_breite);
+            Unre.set_y(Einfuegepunkt.y() - neue_breite);
+            Unten.set_y(Einfuegepunkt.y() - neue_breite);
+            Obre.set_y(Einfuegepunkt.y());
+            Obli.set_y(Einfuegepunkt.y());
+            Oben.set_y(Einfuegepunkt.y());
+            Mitte.set_y(Einfuegepunkt.y() - neue_breite/2);
+            Links.set_y(Einfuegepunkt.y() - neue_breite/2);
+            Rechts.set_y(Einfuegepunkt.y() - neue_breite/2);
             break;
         case LINKS:
         case RECHTS:
         case MITTE:
-            unli.set_y(einfuegepunkt.y() - neue_breite/2);
-            unre.set_y(einfuegepunkt.y() - neue_breite/2);
-            unten.set_y(einfuegepunkt.y() - neue_breite/2);
-            obre.set_y(einfuegepunkt.y() + neue_breite/2);
-            obli.set_y(einfuegepunkt.y() + neue_breite/2);
-            oben.set_y(einfuegepunkt.y() + neue_breite/2);
-            mitte.set_y(einfuegepunkt.y());
-            links.set_y(einfuegepunkt.y());
-            rechts.set_y(einfuegepunkt.y());
+            Unli.set_y(Einfuegepunkt.y() - neue_breite/2);
+            Unre.set_y(Einfuegepunkt.y() - neue_breite/2);
+            Unten.set_y(Einfuegepunkt.y() - neue_breite/2);
+            Obre.set_y(Einfuegepunkt.y() + neue_breite/2);
+            Obli.set_y(Einfuegepunkt.y() + neue_breite/2);
+            Oben.set_y(Einfuegepunkt.y() + neue_breite/2);
+            Mitte.set_y(Einfuegepunkt.y());
+            Links.set_y(Einfuegepunkt.y());
+            Rechts.set_y(Einfuegepunkt.y());
             break;
     }
 }
+void rechteck3d::set_rad(double neuer_radius)
+{
+    Radius = neuer_radius;
+}
+void rechteck3d::set_drewi(double neuer_drehwinkel)
+{
+    Drehwinkel = neuer_drehwinkel;
+}
 
+//--------------------------------------------------get_xy:
 punkt3d rechteck3d::bezpunkt()
 {
-    switch(bezugspunkt)
+    switch(Bezugspunkt)
     {
         case UNTEN_LINKS:
-            return unli;
+            return Unli;
         case UNTEN_RECHTS:
-            return unre;
+            return Unre;
         case OBEN_RECHTS:
-            return obre;
+            return Obre;
         case OBEN_LINKS:
-            return obli;
+            return Obli;
         case MITTE:
-            return mitte;
+            return Mitte;
         case LINKS:
-            return links;
+            return Links;
         case RECHTS:
-            return rechts;
+            return Rechts;
         case OBEN:
-            return oben;
+            return Oben;
         case UNTEN:
-            return unten;
+            return Unten;
         default:
             punkt3d p(0,0,0);
             return p;
     }
 }
 
-void rechteck3d::set_rad(double neuer_radius)
-{
-    radius = neuer_radius;
-}
-
-void rechteck3d::set_drewi(double neuer_drehwinkel)
-{
-    drehwinkel = neuer_drehwinkel;
-}
-
+//--------------------------------------------------Manipulaionen:
 void rechteck3d::verschieben_um(double xversatz, double yversatz)
 {
-    obli.verschieben_um(xversatz, yversatz);
-    oben.verschieben_um(xversatz, yversatz);
-    obre.verschieben_um(xversatz, yversatz);
-    links.verschieben_um(xversatz, yversatz);
-    mitte.verschieben_um(xversatz, yversatz);
-    rechts.verschieben_um(xversatz, yversatz);
-    unli.verschieben_um(xversatz, yversatz);
-    unten.verschieben_um(xversatz, yversatz);
-    unre.verschieben_um(xversatz, yversatz);
-    einfuegepunkt.verschieben_um(xversatz, yversatz);
+    Obli.verschieben_um(xversatz, yversatz);
+    Oben.verschieben_um(xversatz, yversatz);
+    Obre.verschieben_um(xversatz, yversatz);
+    Links.verschieben_um(xversatz, yversatz);
+    Mitte.verschieben_um(xversatz, yversatz);
+    Rechts.verschieben_um(xversatz, yversatz);
+    Unli.verschieben_um(xversatz, yversatz);
+    Unten.verschieben_um(xversatz, yversatz);
+    Unre.verschieben_um(xversatz, yversatz);
+    Einfuegepunkt.verschieben_um(xversatz, yversatz);
 }
 
-void rechteck3d::set_mipu(double x, double y, double z=0)
-{
-    unli.set_x(x - laenge/2);
-    obli.set_x(x - laenge/2);
-    links.set_x(x -laenge/2);
-    unre.set_x(x + laenge/2);
-    obre.set_x(x + laenge/2);
-    rechts.set_x(x + laenge/2);
-    mitte.set_x(x);
-    oben.set_x(x);
-    unten.set_x(x);
-
-    unli.set_y(y - breite/2);
-    unre.set_y(y - breite/2);
-    unten.set_y(y - breite/2);
-    obre.set_y(y + breite/2);
-    obli.set_y(y + breite/2);
-    oben.set_y(y + breite/2);
-    mitte.set_y(y);
-    links.set_y(y);
-    rechts.set_y(y);
-
-    switch(bezugspunkt)
-    {
-        case OBEN_LINKS:
-            einfuegepunkt = obli;
-            break;
-        case OBEN:
-            einfuegepunkt = oben;
-            break;
-        case OBEN_RECHTS:
-            einfuegepunkt = obre;
-            break;
-        case LINKS:
-            einfuegepunkt = links;
-            break;
-        case MITTE:
-            einfuegepunkt = mitte;
-            break;
-        case RECHTS:
-            einfuegepunkt = rechts;
-            break;
-        case UNTEN_LINKS:
-            einfuegepunkt = unli;
-            break;
-        case UNTEN:
-            einfuegepunkt = unten;
-            break;
-        case UNTEN_RECHTS:
-            einfuegepunkt = unre;
-            break;
-    }
-}
-
-void rechteck3d::set_mipu(punkt3d p)
-{
-    set_mipu(p.x(), p.y(), p.z());
-}
+//--------------------------------------------------
 
 
 

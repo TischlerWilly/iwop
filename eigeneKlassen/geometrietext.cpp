@@ -109,7 +109,7 @@ void geometrietext::add_zylinder(zylinder z, uint zeile)
                          z.mitte3d().y_QString() + TRZ_PA + \
                          z.mitte3d().z_QString() + TRZ_PA + \
                          z.radius_QString() + TRZ_PA + \
-                         z.get_hoehe_qstring() + TRZ_PA + \
+                         z.hoehe_qstring() + TRZ_PA + \
                          z.farbe() + TRZ_PA + \
                          z.farbe_fuellung() + TRZ_PA + \
                          z.linienbreite_qstring() + TRZ_PA + \
@@ -154,7 +154,7 @@ void geometrietext::add_wuerfel(wuerfel w, uint zeile)
                          w.b_qstring() + TRZ_PA + \
                          w.rad_qstring() + TRZ_PA + \
                          w.drewi_qstring() + TRZ_PA + \
-                         w.get_hoehe_qstring() + TRZ_PA + \
+                         w.hoehe_qstring() + TRZ_PA + \
                          w.farbe() + TRZ_PA + \
                          w.farbe_fuellung() + TRZ_PA + \
                          w.linienbreite_qstring() + TRZ_PA + \

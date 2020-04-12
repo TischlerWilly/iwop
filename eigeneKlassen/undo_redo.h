@@ -12,23 +12,30 @@ class undo_redo
 public:
     undo_redo();
     void neu(programmtext t_neu);
+
+    //----------------------------------set_xy:
     void set_groesse_max(uint maximale_anzahl_an_wiederrufenschritten);
-    uint get_groesse_max();
-    uint get_groesse();
-    void clear();
+
+    //----------------------------------get_xy:
+    uint groesse_max();
+    uint groesse();
+    int  erstes_aktives_element();
+    int  anz_aktive_elemente();
+
+    //----------------------------------Manipulationen:
+    void         clear();
     programmtext undo();
     programmtext redo();
-    int get_erstes_aktives_element();
-    int get_anz_aktive_elemente();
 
+    //----------------------------------
 
 private:
-    std::vector<programmtext> vector_t;
-    std::vector<int> erstes_aktives_element_t;
-    std::vector<int> anz_aktive_elemente_t;
+    std::vector<programmtext>   Vector_t;
+    std::vector<int>            Erstes_aktives_element_t;
+    std::vector<int>            Anz_aktive_elemente_t;
 
-    int aktuelle_position;
-    uint max_anzahl;
+    int     Aktuelle_position;
+    uint    Max_anzahl;
 
 };
 

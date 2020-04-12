@@ -39,199 +39,204 @@ public:
     rechteck3d();
     rechteck3d(QString geotext);
 
+    //--------------------------------------------------set_xy:
     void set_text(QString geotext);
+    void set_mipu(double x, double y, double z);
+    void set_mipu(punkt3d p);
+    void set_z(double z);
+    void set_laenge(double neue_laenge);
+    void set_breite(double neue_breite);
+    void set_rad(double neuer_radius);
+    void set_drewi(double neuer_drehwinkel);
+
     inline  void    set_einfuegepunkt(punkt3d p)
     {
-        einfuegepunkt = p;
+        Einfuegepunkt = p;
         //Lager der Punkte aktualisieren:
         set_laenge(l());
         set_breite(b());
     }
     inline  void    set_einfuegepunkt(double x, double y, double z)
     {
-        einfuegepunkt.set_x(x);
-        einfuegepunkt.set_y(y);
-        einfuegepunkt.set_z(z);
+        Einfuegepunkt.set_x(x);
+        Einfuegepunkt.set_y(y);
+        Einfuegepunkt.set_z(z);
     }
     inline  void    set_einfuegepunkt(int x, int y)
     {
-        einfuegepunkt.set_x(x);
-        einfuegepunkt.set_y(y);
-        einfuegepunkt.set_z(0);
+        Einfuegepunkt.set_x(x);
+        Einfuegepunkt.set_y(y);
+        Einfuegepunkt.set_z(0);
     }
     inline  void    set_bezugspunkt(int nummer_des_punktes)
     {
-        bezugspunkt = nummer_des_punktes;
+        Bezugspunkt = nummer_des_punktes;
     }
     inline  void    set_bezugspunkt(QString nummer_des_punktes)
     {
-        bezugspunkt = nummer_des_punktes.toInt();
-    }
-            void    set_z(double z);
-            void    set_laenge(double neue_laenge);
+        Bezugspunkt = nummer_des_punktes.toInt();
+    }      
     inline  void    set_laenge(QString neue_laenge)
     {
         set_laenge(neue_laenge.toDouble());
-    }
-            void    set_breite(double neue_breite);
+    }       
     inline  void    set_breite(QString neue_breite)
     {
         set_breite(neue_breite.toDouble());
-    }
-            void    set_rad(double neuer_radius);
+    }       
     inline  void    set_rad(QString neuer_radius)
     {
         set_rad(neuer_radius.toDouble());
-    }
-            void    set_drewi(double neuer_drehwinkel);
+    }       
     inline  void    set_drewi(QString neuer_drehwinkel)
     {
         set_drewi(neuer_drehwinkel.toDouble());
     }
 
+    //--------------------------------------------------get_xy:
             punkt3d bezpunkt();
     inline  int     bezpunkt_num()
     {
-        return bezugspunkt;
+        return Bezugspunkt;
     }
     inline  QString bezpunkt_num_qstring()
     {
-        return int_to_qstring(bezugspunkt);
+        return int_to_qstring(Bezugspunkt);
     }
     inline  punkt3d einfpunkt()
     {
-        return einfuegepunkt;
+        return Einfuegepunkt;
     }
     inline  double  l()
     {
-        return laenge;
+        return Laenge;
     }
     inline  QString l_qstring()
     {
-        return double_to_qstring(laenge);
+        return double_to_qstring(Laenge);
     }
     inline  double  b()
     {
-        return breite;
+        return Breite;
     }
     inline  QString b_qstring()
     {
-        return double_to_qstring(breite);
+        return double_to_qstring(Breite);
     }
     inline  punkt3d obl(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return obli;
+            return Obli;
         }else
         {
-            return drehen(mitte, obli, drehwinkel, true);
+            return drehen(Mitte, Obli, Drehwinkel, true);
         }
     }
     inline  punkt3d ob(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return oben;
+            return Oben;
         }else
         {
-            return drehen(mitte, oben, drehwinkel, true);
+            return drehen(Mitte, Oben, Drehwinkel, true);
         }
     }
     inline  punkt3d obr(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return obre;
+            return Obre;
         }else
         {
-            return drehen(mitte, obre, drehwinkel, true);
+            return drehen(Mitte, Obre, Drehwinkel, true);
         }
     }
     inline  punkt3d li(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return links;
+            return Links;
         }else
         {
-            return drehen(mitte, links, drehwinkel, true);
+            return drehen(Mitte, Links, Drehwinkel, true);
         }
     }
     inline  punkt3d mi()
     {
-        return mitte;
+        return Mitte;
     }
     inline  punkt3d re(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return rechts;
+            return Rechts;
         }else
         {
-            return drehen(mitte, rechts, drehwinkel, true);
+            return drehen(Mitte, Rechts, Drehwinkel, true);
         }
     }
     inline  punkt3d unl(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return unli;
+            return Unli;
         }else
         {
-            return drehen(mitte, unli, drehwinkel, true);
+            return drehen(Mitte, Unli, Drehwinkel, true);
         }
     }
     inline  punkt3d un(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return unten;
+            return Unten;
         }else
         {
-            return drehen(mitte, unten, drehwinkel, true);
+            return drehen(Mitte, Unten, Drehwinkel, true);
         }
     }
     inline  punkt3d unr(bool ungedreht = true)
     {
         if(ungedreht)
         {
-            return unre;
+            return Unre;
         }else
         {
-            return drehen(mitte, unre, drehwinkel, true);
+            return drehen(Mitte, Unre, Drehwinkel, true);
         }
     }
     inline  double  rad()
     {
-        return radius;
+        return Radius;
     }
     inline  QString rad_qstring()
     {
-        return double_to_qstring(radius);
+        return double_to_qstring(Radius);
     }
     inline  double  drewi()
     {
-        return drehwinkel;
+        return Drehwinkel;
     }
     inline  QString drewi_qstring()
     {
-        return double_to_qstring(drehwinkel);
+        return double_to_qstring(Drehwinkel);
     }
 
+    //--------------------------------------------------Manipulaionen:
     void    verschieben_um(double xversatz, double yversatz);
-    void    set_mipu(double x, double y, double z);
-    void    set_mipu(punkt3d p);
+
 
 private:
-    punkt3d obli,   oben,   obre;
-    punkt3d links,  mitte,  rechts;
-    punkt3d unli,   unten,  unre;
-    punkt3d einfuegepunkt;
-    int bezugspunkt;
-    double laenge, breite;
-    double radius;
-    double drehwinkel;
+    punkt3d Obli,   Oben,   Obre;
+    punkt3d Links,  Mitte,  Rechts;
+    punkt3d Unli,   Unten,  Unre;
+    punkt3d Einfuegepunkt;
+    int Bezugspunkt;
+    double Laenge, Breite;
+    double Radius;
+    double Drehwinkel;
 
 
 
