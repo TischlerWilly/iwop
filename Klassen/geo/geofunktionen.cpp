@@ -1,4 +1,4 @@
-#include "geometrie.h"
+#include "geofunktionen.h"
 
 punkt drehen(punkt drehzentrum, punkt alter_punkt, \
              float drehwinkel, bool drehrichtung_im_uhrzeigersinn)

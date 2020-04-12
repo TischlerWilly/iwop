@@ -9,7 +9,7 @@
 #include <QWheelEvent>
 #include <QMenu>
 #include <math.h>
-#include "Funktionen/geometrie.h"
+#include "geofunktionen.h"
 #include "Klassen/programmtext.h"
 
 

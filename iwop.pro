@@ -57,7 +57,7 @@ SOURCES += \
         Dialoge/dialog_userinput.cpp \
         Dialoge/dialog_var.cpp \
         Dialoge/dialog_var10.cpp \
-        Funktionen/geometrie.cpp \
+        Klassen/geo/geofunktionen.cpp \
         Funktionen/myfunktion.cpp \
         Funktionen/runden.cpp \
         Funktionen/text.cpp \
@@ -157,7 +157,7 @@ HEADERS += \
         Klassen/geo/defines_geometrie.h \
         Defines/defines_halt.h \
         Defines/defines_kom.h \
-        Funktionen/geometrie.h \
+        Klassen/geo/geofunktionen.h \
         Funktionen/myfunktion.h \
         Funktionen/runden.h \
         Funktionen/text.h \

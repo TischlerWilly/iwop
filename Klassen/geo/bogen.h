@@ -6,7 +6,6 @@
 #include "punkt2d.h"
 #include "strecke.h"
 #include "darstellungsatribute.h"
-#include "Funktionen/myfunktion.h"
 
 enum bogen_bezugspunkt{bogen_bezugspunkt_start, \
                        bogen_bezugspunkt_mitte, \

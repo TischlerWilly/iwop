@@ -7,7 +7,7 @@
 #include "punkt3d.h"
 #include "punkt2d.h"
 #include "darstellungsatribute.h"
-#include "Funktionen/geometrie.h"
+#include "geofunktionen.h"
 #include "Klassen/text_zeilenweise.h"
 #include "defines_geometrie.h"
 
