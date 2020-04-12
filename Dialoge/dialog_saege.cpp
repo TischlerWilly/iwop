@@ -60,7 +60,7 @@ void Dialog_saege::loadwkzbild()
     if(!ui->lineEdit_nr->text().isEmpty())
     {
         QString bild1;
-        bild1  = pf.get_path_wkzbilder_();
+        bild1  = pf.path_wkzbilder_();
         bild1 += ui->lineEdit_nr->text();
         bild1 += ".bmp";
         QFile file(bild1);
@@ -70,7 +70,7 @@ void Dialog_saege::loadwkzbild()
             ui->label_bild->setPixmap(pix1);
         }else
         {
-            bild1  = pf.get_path_dlgbilder_();
+            bild1  = pf.path_dlgbilder_();
             bild1 += "saege_nopic.bmp";
             QPixmap pix1(bild1);
             ui->label_bild->setPixmap(pix1);
@@ -79,7 +79,7 @@ void Dialog_saege::loadwkzbild()
     }else
     {
         QString bild1;
-        bild1  = pf.get_path_dlgbilder_();
+        bild1  = pf.path_dlgbilder_();
         bild1 += "saege.bmp";
         QPixmap pix1(bild1);
         ui->label_bild->setPixmap(pix1);
@@ -109,7 +109,7 @@ QString Dialog_saege::dialogDataToString()
         ws.set_ausrichtung_hori(true);
     }
 
-    return ws.get_data();
+    return ws.text();
 }
 
 void Dialog_saege::getDialogData(QString text, bool openToChangeData)

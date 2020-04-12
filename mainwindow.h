@@ -14,14 +14,14 @@
 #include <QBrush>
 #include <QListWidgetItem>
 #include <QRect>
-#include "eigeneKlassen/vorschau.h"
-#include "eigeneKlassen/programmtexte.h"
+#include "Klassen/geo/vorschau.h"
+#include "Klassen/programmtexte.h"
 #include "todo.h"
-#include "eigeneKlassen/prgpfade.h"
+#include "Klassen/prgpfade.h"
 #include "Dialoge/dialog_programmlisten.h"
 #include "Dialoge/dialog_prgkopf.h"
 #include "Dialoge/dialog_prgende.h"
-#include "eigeneKlassen/letzte_dateien.h"
+#include "Klassen/letzte_dateien.h"
 #include "Dialoge/dialog_kom.h"
 #include "Dialoge/dialog_halt.h"
 #include "Dialoge/dialog_bohren.h"
@@ -36,7 +36,7 @@
 #include "Dialoge/dialog_hbeym.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
-#include "eigeneKlassen/werkzeug.h"
+#include "Klassen/werkzeug.h"
 #include "Dialoge/dialog_fraeser.h"
 #include "Dialoge/dialog_saege.h"
 #include "Dialoge/dialog_nut.h"
@@ -50,6 +50,9 @@
 #include "Dialoge/dialog_fgerawi.h"
 #include "Dialoge/dialog_fbouzs.h"
 #include "Dialoge/dialog_fboguzs.h"
+#include "Dialoge/dialog_einstellungen.h"
+#include "Klassen/settings.h"
+#include "Klassen/userinput.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -70,9 +73,12 @@ public:
 public slots:
     void getDialogData(QString text);
     void getDialogDataModify(QString text);
+    void getDialogDataModify(QString text, uint zeilennummer);
     void slotSaveConfig(QString text);
     void slot_maus_pos(QPoint p);
     void slotNeedWKZ(QString dlgtyp);
+    void slotGetEinstellungen(settings s);
+    void slotGetZeilennummer(uint nr);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
@@ -86,6 +92,8 @@ private:
     Ui::MainWindow *ui;
 
     //Objekte:
+    settings        set;
+    Dialog_einstellungen dlgsettings;
     vorschau vorschaufenster;
     programmtexte   tt;
     werkzeug        wkz;
@@ -127,7 +135,6 @@ private:
     QStringList     konfiguration_ini;
     bool            konfiguration_ini_ist_vorhanden;
     uint            anz_neue_dateien;
-    QString         settings_anz_undo_t;
     QString         vorlage_pkopf;
     QString         vorlage_pende;
     QString         vorlage_kom;
@@ -162,6 +169,7 @@ private:
 
     //Funktionen:
     QString loadConfig();
+    void settings_umsetzen();
     QString saveConfig();
     void saveWKZ();
     void loadWKZ();
@@ -174,6 +182,8 @@ private:
     void openFile(QString pfad);
     text_zeilenweise import_fmc(QString quelle, bool &readonly, QString prgname);
     QString replaceparam(QString param, QString ziel, QString quelle);
+    QString get_param(QString param, QString quelle);
+    QString set_param(QString param, QString wert, QString zeile);
     QString exportparam(QString param, QString paramzeile);
     QString exportparam_direktwert(QString param, QString wert);
     QString          export_fmc(text_zeilenweise tz);
@@ -181,6 +191,7 @@ private:
     void aktualisiere_letzte_dateien_menu();
     void aktualisiere_offene_dateien_menu();    
     void closeEvent(QCloseEvent *ce);
+    QString ausgabepfad_postprozessor();
 
     //Funktionen Sichtbarkeiten:
     void hideElemets_noFileIsOpen();
@@ -251,6 +262,14 @@ private slots:
     void on_actionMakeFbouzs_triggered();
     void on_actionMakeFboguzs_triggered();
     void on_actionMakeFgerawi_triggered();
+    void on_actionEinstellungen_triggered();
+    void on_actionTestfunktion_triggered();
+    void on_actionBogenrichtung_umkehren_triggered();
+    void on_actionFraesrichtung_umkehren_triggered();
+    void on_listWidget_Werkzeug_currentRowChanged(int currentRow);
+    void on_actionFraesbahn_teilen_in_akt_Zeile_triggered();
+    void on_actionFraesbahn_teilen_vor_akt_Zeilen_triggered();
+    void on_actionFraesbahn_verlaengern_Gerade_triggered();
 };
 
 #endif // MAINWINDOW_H

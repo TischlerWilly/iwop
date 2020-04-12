@@ -1,24 +1,23 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.03.21"
+#define PROGRAMMVERSION     "1.2020.04.12"
+/*#############################################################################
+Diese Klassen-Design-Regeln habe ich mir vorgenommen:
+- Variablen beginnen mit einem großen Buchstaben
+- Funktionen beginnen mit einem kleinen Buchstaben
+- Funktionsnamen:
+   Böse: get_x()
+   Gut:      x()
+#############################################################################
+in Arbeit:
 
-/*
 
 
-
-
-
-
-
-Zusatzwünsche:
-
-- Schnelländerung Bohrgruppe
+Weitere Wünsche:
+- Schnelländerung Bohrgruppe, und andere Parameter
 - HBE X umwandeln in HBE Y etc
-- Fräsrichtung umkehren
-- Fräsung mittig teilen (aus einer Fräsung 2 machen)
-- Fräsgerade verlängern um / kürzen um
-- Fräsbogenrichtung umkehren uzs/guzs
+
 
 ---------------------------------------------------------------------------In Arbeit:
 ---------------------------------------------------------------------------Fgerade

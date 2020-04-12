@@ -24,11 +24,21 @@ void Dialog_fraeser::clear()
     ui->lineEdit_nutzl->clear();
     ui->lineEdit_zustma->clear();
     ui->comboBox_ausrichtung->clear();
-    ui->comboBox_ausrichtung->addItem("vertikel");  //Index 0
+    ui->comboBox_ausrichtung->addItem("vertikal");  //Index 0
     ui->comboBox_ausrichtung->addItem("horizontal");//Index 1
     ui->comboBox_drehricht->clear();
     ui->comboBox_drehricht->addItem("rechts");      //Index 0
     ui->comboBox_drehricht->addItem("links");       //Index 1
+    ui->lineEdit_spiegelnr->clear();
+    ui->lineEdit_use_for->clear();
+    ui->lineEdit_not_use_for->clear();
+    ui->lineEdit_besonderheiten->clear();
+    ui->lineEdit_schneidenanz->clear();
+    ui->lineEdit_kleingenform->clear();
+    ui->lineEdit_klingenart->clear();
+    ui->lineEdit_vo->clear();
+    ui->lineEdit_anvo->clear();
+    ui->lineEdit_drehz->clear();
     loadwkzbild();
 }
 
@@ -64,7 +74,7 @@ void Dialog_fraeser::loadwkzbild()
     if(!ui->lineEdit_nr->text().isEmpty())
     {
         QString bild1;
-        bild1  = pf.get_path_wkzbilder_();
+        bild1  = pf.path_wkzbilder_();
         bild1 += ui->lineEdit_nr->text();
         bild1 += ".bmp";
         QFile file(bild1);
@@ -74,7 +84,7 @@ void Dialog_fraeser::loadwkzbild()
             ui->label_bild->setPixmap(pix1);
         }else
         {
-            bild1  = pf.get_path_dlgbilder_();
+            bild1  = pf.path_dlgbilder_();
             bild1 += "fraeser_nopic.bmp";
             QPixmap pix1(bild1);
             ui->label_bild->setPixmap(pix1);
@@ -83,7 +93,7 @@ void Dialog_fraeser::loadwkzbild()
     }else
     {
         QString bild1;
-        bild1  = pf.get_path_dlgbilder_();
+        bild1  = pf.path_dlgbilder_();
         bild1 += "fraeser.bmp";
         QPixmap pix1(bild1);
         ui->label_bild->setPixmap(pix1);
@@ -116,8 +126,18 @@ QString Dialog_fraeser::dialogDataToString()
     {
         wf.set_drehrichtung_uzs(false);
     }
+    wf.set_spiegelwkznr(ui->lineEdit_spiegelnr->text());
+    wf.set_use_for(ui->lineEdit_use_for->text());
+    wf.set_not_use_for(ui->lineEdit_not_use_for->text());
+    wf.set_besonderheiten(ui->lineEdit_besonderheiten->text());
+    wf.set_schneidenanz(ui->lineEdit_schneidenanz->text());
+    wf.set_klingenform(ui->lineEdit_kleingenform->text());
+    wf.set_klingenart(ui->lineEdit_klingenart->text());
+    wf.set_vorschub(ui->lineEdit_vo->text());
+    wf.set_anfahrvorschub(ui->lineEdit_anvo->text());
+    wf.set_drehzahl(ui->lineEdit_drehz->text());
 
-    return wf.get_data();
+    return wf.text();
 }
 
 void Dialog_fraeser::getDialogData(QString text, bool openToChangeData)
@@ -181,6 +201,66 @@ void Dialog_fraeser::getDialogData(QString text, bool openToChangeData)
         {
             ui->comboBox_drehricht->setCurrentIndex(1);//links == gegen den Uhrzeigersinn
         }
+    }
+    parname = ENDPAR;
+    parname += FRAESER_SPIEGELNR;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_spiegelnr->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_USE_FOR;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_use_for->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_NOT_USE_FOR;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_not_use_for->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_BESONDERH;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_besonderheiten->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_SCHNEIDENANZ;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_schneidenanz->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_KLINGENFORM;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_kleingenform->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_KLINGENART;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_klingenart->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_VO;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_vo->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_ANVO;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_anvo->setText(selektiereEintrag(text, parname, ENDPAR));
+    }
+    parname = ENDPAR;
+    parname += FRAESER_DREHZ;
+    if(text.contains(parname))
+    {
+        ui->lineEdit_drehz->setText(selektiereEintrag(text, parname, ENDPAR));
     }
 
     this->show();

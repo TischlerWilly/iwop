@@ -4,9 +4,9 @@
 #include <QDialog>
 #include <QDir>
 #include "myDefines.h"
-#include "eigeneFunktionen/text.h"
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneDefines/defines_kom.h"
+#include "Funktionen/text.h"
+#include "Funktionen/umwandeln.h"
+#include "Defines/defines_kom.h"
 
 namespace Ui {
 class Dialog_kom;

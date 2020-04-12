@@ -28,6 +28,7 @@ SOURCES += \
         Dialoge/dialog_bohren.cpp \
         Dialoge/dialog_bohren_x.cpp \
         Dialoge/dialog_bohren_y.cpp \
+        Dialoge/dialog_einstellungen.cpp \
         Dialoge/dialog_fabf.cpp \
         Dialoge/dialog_fauf.cpp \
         Dialoge/dialog_fboguzs.cpp \
@@ -53,40 +54,41 @@ SOURCES += \
         Dialoge/dialog_saege.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
+        Dialoge/dialog_userinput.cpp \
         Dialoge/dialog_var.cpp \
         Dialoge/dialog_var10.cpp \
-        eigeneFunktionen/geometrie.cpp \
-        eigeneFunktionen/myfunktion.cpp \
-        eigeneFunktionen/runden.cpp \
-        eigeneFunktionen/text.cpp \
-        eigeneFunktionen/umwandeln.cpp \
-        eigeneKlassen/bogen.cpp \
-        eigeneKlassen/darstellungsatribute.cpp \
-        eigeneKlassen/formel.cpp \
-        eigeneKlassen/geometrietext.cpp \
-        eigeneKlassen/indexhisory.cpp \
-        eigeneKlassen/kreis.cpp \
-        eigeneKlassen/letzte_dateien.cpp \
-        eigeneKlassen/prgpfade.cpp \
-        eigeneKlassen/programmtext.cpp \
-        eigeneKlassen/programmtexte.cpp \
-        eigeneKlassen/punkt2d.cpp \
-        eigeneKlassen/punkt3d.cpp \
-        eigeneKlassen/rechteck.cpp \
-        eigeneKlassen/rechteck3d.cpp \
-        eigeneKlassen/rechtecktasche.cpp \
-        eigeneKlassen/strecke.cpp \
-        eigeneKlassen/tabelle_tz3.cpp \
-        eigeneKlassen/text_zeilenweise.cpp \
-        eigeneKlassen/undo_redo.cpp \
-        eigeneKlassen/undo_redo_tz.cpp \
-        eigeneKlassen/vorschau.cpp \
-        eigeneKlassen/wenndannsonst.cpp \
-        eigeneKlassen/werkzeug.cpp \
-        eigeneKlassen/wkz_fraeser.cpp \
-        eigeneKlassen/wkz_saege.cpp \
-        eigeneKlassen/wuerfel.cpp \
-        eigeneKlassen/zylinder.cpp \
+        Klassen/geo/geofunktionen.cpp \
+        Funktionen/myfunktion.cpp \
+        Funktionen/runden.cpp \
+        Funktionen/text.cpp \
+        Funktionen/umwandeln.cpp \
+        Klassen/geo/bogen.cpp \
+        Klassen/geo/darstellungsatribute.cpp \
+        Klassen/formel.cpp \
+        Klassen/geo/geometrietext.cpp \
+        Klassen/indexhisory.cpp \
+        Klassen/geo/kreis.cpp \
+        Klassen/letzte_dateien.cpp \
+        Klassen/prgpfade.cpp \
+        Klassen/programmtext.cpp \
+        Klassen/programmtexte.cpp \
+        Klassen/geo/punkt2d.cpp \
+        Klassen/geo/punkt3d.cpp \
+        Klassen/geo/rechteck3d.cpp \
+        Klassen/settings.cpp \
+        Klassen/geo/strecke.cpp \
+        Klassen/tabelle_tz3.cpp \
+        Klassen/text_zeilenweise.cpp \
+        Klassen/undo_redo.cpp \
+        Klassen/undo_redo_tz.cpp \
+        Klassen/userinput.cpp \
+        Klassen/geo/vorschau.cpp \
+        Klassen/wenndannsonst.cpp \
+        Klassen/werkzeug.cpp \
+        Klassen/wkz_fraeser.cpp \
+        Klassen/wkz_saege.cpp \
+        Klassen/geo/wuerfel.cpp \
+        Klassen/geo/zylinder.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -94,6 +96,7 @@ HEADERS += \
         Dialoge/dialog_bohren.h \
         Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
+        Dialoge/dialog_einstellungen.h \
         Dialoge/dialog_fabf.h \
         Dialoge/dialog_fauf.h \
         Dialoge/dialog_fboguzs.h \
@@ -119,74 +122,75 @@ HEADERS += \
         Dialoge/dialog_saege.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
+        Dialoge/dialog_userinput.h \
         Dialoge/dialog_var.h \
         Dialoge/dialog_var10.h \
-        eigeneDefines/define_allegm_var.h \
-        eigeneDefines/define_bo.h \
-        eigeneDefines/define_boX.h \
-        eigeneDefines/define_boY.h \
-        eigeneDefines/define_fabf.h \
-        eigeneDefines/define_fauf.h \
-        eigeneDefines/define_fboguzs.h \
-        eigeneDefines/define_fbouzs.h \
-        eigeneDefines/define_fgerade.h \
-        eigeneDefines/define_fgerawi.h \
-        eigeneDefines/define_hbexm.h \
-        eigeneDefines/define_hbexp.h \
-        eigeneDefines/define_hbeym.h \
-        eigeneDefines/define_hbeyp.h \
-        eigeneDefines/define_kta.h \
-        eigeneDefines/define_lage_aendern.h \
-        eigeneDefines/define_loreiae.h \
-        eigeneDefines/define_loreima.h \
-        eigeneDefines/define_nut.h \
-        eigeneDefines/define_prgende.h \
-        eigeneDefines/define_prgkopf.h \
-        eigeneDefines/define_rta.h \
-        eigeneDefines/define_spiegeln.h \
-        eigeneDefines/define_topf.h \
-        eigeneDefines/define_var.h \
-        eigeneDefines/define_var10.h \
-        eigeneDefines/define_wkz.h \
-        eigeneDefines/define_wkz_fraeser.h \
-        eigeneDefines/define_wkz_saege.h \
-        eigeneDefines/defines_geometrie.h \
-        eigeneDefines/defines_halt.h \
-        eigeneDefines/defines_kom.h \
-        eigeneFunktionen/geometrie.h \
-        eigeneFunktionen/myfunktion.h \
-        eigeneFunktionen/runden.h \
-        eigeneFunktionen/text.h \
-        eigeneFunktionen/umwandeln.h \
-        eigeneKlassen/bogen.h \
-        eigeneKlassen/darstellungsatribute.h \
-        eigeneKlassen/formel.h \
-        eigeneKlassen/geometrietext.h \
-        eigeneKlassen/indexhisory.h \
-        eigeneKlassen/kreis.h \
-        eigeneKlassen/letzte_dateien.h \
-        eigeneKlassen/prgpfade.h \
-        eigeneKlassen/programmtext.h \
-        eigeneKlassen/programmtexte.h \
-        eigeneKlassen/punkt2d.h \
-        eigeneKlassen/punkt3d.h \
-        eigeneKlassen/rechteck.h \
-        eigeneKlassen/rechteck3d.h \
-        eigeneKlassen/rechtecktasche.h \
-        eigeneKlassen/strecke.h \
-        eigeneKlassen/tabelle_tz3.h \
-        eigeneKlassen/text_zeilenweise.h \
-        eigeneKlassen/undo_redo.h \
-        eigeneKlassen/undo_redo_tz.h \
-        eigeneKlassen/vorschau.h \
-        eigeneKlassen/wenndannsonst.h \
-        eigeneKlassen/werkzeug.h \
-        eigeneKlassen/wkz_fraeser.h \
-        eigeneKlassen/wkz_saege.h \
-        eigeneKlassen/wuerfel.h \
-        eigeneKlassen/zylinder.h \
-        eigeneMakros/makro_geometrie.h \
-        eigeneStruncts/punkt.h \
+        Defines/define_allegm_var.h \
+        Defines/define_bo.h \
+        Defines/define_boX.h \
+        Defines/define_boY.h \
+        Defines/define_fabf.h \
+        Defines/define_fauf.h \
+        Defines/define_fboguzs.h \
+        Defines/define_fbouzs.h \
+        Defines/define_fgerade.h \
+        Defines/define_fgerawi.h \
+        Defines/define_hbexm.h \
+        Defines/define_hbexp.h \
+        Defines/define_hbeym.h \
+        Defines/define_hbeyp.h \
+        Defines/define_kta.h \
+        Defines/define_lage_aendern.h \
+        Defines/define_loreiae.h \
+        Defines/define_loreima.h \
+        Defines/define_nut.h \
+        Defines/define_prgende.h \
+        Defines/define_prgkopf.h \
+        Defines/define_rta.h \
+        Defines/define_spiegeln.h \
+        Defines/define_topf.h \
+        Defines/define_var.h \
+        Defines/define_var10.h \
+        Defines/define_wkz.h \
+        Defines/define_wkz_fraeser.h \
+        Defines/define_wkz_saege.h \
+        Klassen/geo/defines_geometrie.h \
+        Defines/defines_halt.h \
+        Defines/defines_kom.h \
+        Klassen/geo/geofunktionen.h \
+        Funktionen/myfunktion.h \
+        Funktionen/runden.h \
+        Funktionen/text.h \
+        Funktionen/umwandeln.h \
+        Klassen/geo/bogen.h \
+        Klassen/geo/darstellungsatribute.h \
+        Klassen/formel.h \
+        Klassen/geo/geometrietext.h \
+        Klassen/geo/makro_geometrie.h \
+        Klassen/indexhisory.h \
+        Klassen/geo/kreis.h \
+        Klassen/letzte_dateien.h \
+        Klassen/prgpfade.h \
+        Klassen/programmtext.h \
+        Klassen/programmtexte.h \
+        Klassen/geo/punkt2d.h \
+        Klassen/geo/punkt3d.h \
+        Klassen/geo/rechteck3d.h \
+        Klassen/settings.h \
+        Klassen/geo/strecke.h \
+        Klassen/tabelle_tz3.h \
+        Klassen/text_zeilenweise.h \
+        Klassen/undo_redo.h \
+        Klassen/undo_redo_tz.h \
+        Klassen/userinput.h \
+        Klassen/geo/vorschau.h \
+        Klassen/wenndannsonst.h \
+        Klassen/werkzeug.h \
+        Klassen/wkz_fraeser.h \
+        Klassen/wkz_saege.h \
+        Klassen/geo/wuerfel.h \
+        Klassen/geo/zylinder.h \
+        Struncts/punkt.h \
         mainwindow.h \
         myDefines.h \
         todo.h
@@ -195,6 +199,7 @@ FORMS += \
         Dialoge/dialog_bohren.ui \
         Dialoge/dialog_bohren_x.ui \
         Dialoge/dialog_bohren_y.ui \
+        Dialoge/dialog_einstellungen.ui \
         Dialoge/dialog_fabf.ui \
         Dialoge/dialog_fauf.ui \
         Dialoge/dialog_fboguzs.ui \
@@ -220,6 +225,7 @@ FORMS += \
         Dialoge/dialog_saege.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
+        Dialoge/dialog_userinput.ui \
         Dialoge/dialog_var.ui \
         Dialoge/dialog_var10.ui \
         mainwindow.ui
@@ -230,8 +236,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    eigeneMakros/makro_geometrie.h~ \
-    eigeneStruncts/punkt.h~ \
+    Klassen/geo/makro_geometrie.h~ \
+    Makros/makro_geometrie.h~ \
+    Struncts/punkt.h~ \
     iwop.ico
 
 RC_ICONS = iwop.ico

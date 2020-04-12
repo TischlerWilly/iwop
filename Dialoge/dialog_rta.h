@@ -3,12 +3,12 @@
 
 #include <QDialog>
 #include <QDir>
-#include "eigeneKlassen/prgpfade.h"
+#include "Klassen/prgpfade.h"
 #include "myDefines.h"
-#include "eigeneFunktionen/text.h"
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneKlassen/text_zeilenweise.h"
-#include "eigeneDefines/define_rta.h"
+#include "Funktionen/text.h"
+#include "Funktionen/umwandeln.h"
+#include "Klassen/text_zeilenweise.h"
+#include "Defines/define_rta.h"
 
 namespace Ui {
 class Dialog_rta;

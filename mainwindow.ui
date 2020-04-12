@@ -100,6 +100,40 @@
        <string>Speichern</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_bild">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>40</y>
+        <width>291</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_wkzinfo">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>350</y>
+        <width>181</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Werkzeuginfo</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -141,6 +175,8 @@
      <string>Extras</string>
     </property>
     <addaction name="actionProgrammliste_anzeigen"/>
+    <addaction name="actionTestfunktion"/>
+    <addaction name="actionEinstellungen"/>
     <addaction name="separator"/>
     <addaction name="actionMakeKommentar"/>
     <addaction name="actionMakeHalt"/>
@@ -193,6 +229,13 @@
     </property>
     <addaction name="actionMakeSpiegeln"/>
     <addaction name="actionMakeLage_aendern"/>
+    <addaction name="separator"/>
+    <addaction name="actionBogenrichtung_umkehren"/>
+    <addaction name="separator"/>
+    <addaction name="actionFraesrichtung_umkehren"/>
+    <addaction name="actionFraesbahn_teilen_in_akt_Zeile"/>
+    <addaction name="actionFraesbahn_teilen_vor_akt_Zeilen"/>
+    <addaction name="actionFraesbahn_verlaengern_Gerade"/>
    </widget>
    <widget class="QMenu" name="menuS_gen">
     <property name="title">
@@ -500,6 +543,53 @@
   <action name="actionMakeFgerawi">
    <property name="text">
     <string>Gerade mit Winkel</string>
+   </property>
+  </action>
+  <action name="actionEinstellungen">
+   <property name="text">
+    <string>Einstellungen</string>
+   </property>
+  </action>
+  <action name="actionTestfunktion">
+   <property name="text">
+    <string>Testfunktion</string>
+   </property>
+  </action>
+  <action name="actionBogenrichtung_umkehren">
+   <property name="text">
+    <string>Bogenrichtung umkehren</string>
+   </property>
+  </action>
+  <action name="actionFraesrichtung_umkehren">
+   <property name="text">
+    <string>Fräsrichtung umkehren</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionFraesbahn_teilen_in_akt_Zeile">
+   <property name="text">
+    <string>Fräsbahn teilen in akt Zeile</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionFraesbahn_teilen_vor_akt_Zeilen">
+   <property name="text">
+    <string>Fräsbahn teilen vor akt Zeilen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionFraesbahn_verlaengern_Gerade">
+   <property name="text">
+    <string>Fräsbahn verlängern (Gerade)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
    </property>
   </action>
  </widget>
