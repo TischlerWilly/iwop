@@ -13,7 +13,7 @@
 #include "zylinder.h"
 #include "rechteck3d.h"
 #include "wuerfel.h"
-#include "Defines/defines_geometrie.h"
+#include "defines_geometrie.h"
 #include "Funktionen/geometrie.h"
 
 

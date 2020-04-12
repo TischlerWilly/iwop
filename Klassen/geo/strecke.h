@@ -9,7 +9,7 @@
 #include "darstellungsatribute.h"
 #include "Funktionen/geometrie.h"
 #include "Klassen/text_zeilenweise.h"
-#include "Defines/defines_geometrie.h"
+#include "defines_geometrie.h"
 
 enum strecke_bezugspunkt{strecke_bezugspunkt_start, \
                          strecke_bezugspunkt_mitte, \

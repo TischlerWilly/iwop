@@ -154,7 +154,7 @@ HEADERS += \
         Defines/define_wkz.h \
         Defines/define_wkz_fraeser.h \
         Defines/define_wkz_saege.h \
-        Defines/defines_geometrie.h \
+        Klassen/geo/defines_geometrie.h \
         Defines/defines_halt.h \
         Defines/defines_kom.h \
         Funktionen/geometrie.h \

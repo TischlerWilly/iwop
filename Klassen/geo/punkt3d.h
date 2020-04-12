@@ -5,7 +5,7 @@
 #include "Funktionen/umwandeln.h"
 #include "darstellungsatribute.h"
 #include "Klassen/text_zeilenweise.h"
-#include "Defines/defines_geometrie.h"
+#include "defines_geometrie.h"
 
 class punkt3d : public darstellungsatribute
 {
