@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include "Struncts/punkt.h"
-#include "Makros/makro_geometrie.h"
+#include "makro_geometrie.h"
 #include "Klassen/geo/punkt2d.h"
 #include "Klassen/geo/strecke.h"
 #include "Klassen/geo/bogen.h"

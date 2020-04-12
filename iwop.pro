@@ -166,6 +166,7 @@ HEADERS += \
         Klassen/geo/darstellungsatribute.h \
         Klassen/formel.h \
         Klassen/geo/geometrietext.h \
+        Klassen/geo/makro_geometrie.h \
         Klassen/indexhisory.h \
         Klassen/geo/kreis.h \
         Klassen/letzte_dateien.h \
@@ -189,7 +190,6 @@ HEADERS += \
         Klassen/wkz_saege.h \
         Klassen/geo/wuerfel.h \
         Klassen/geo/zylinder.h \
-        Makros/makro_geometrie.h \
         Struncts/punkt.h \
         mainwindow.h \
         myDefines.h \
@@ -236,6 +236,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    Klassen/geo/makro_geometrie.h~ \
     Makros/makro_geometrie.h~ \
     Struncts/punkt.h~ \
     iwop.ico
