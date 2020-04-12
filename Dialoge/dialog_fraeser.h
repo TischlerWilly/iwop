@@ -3,13 +3,13 @@
 
 #include <QDialog>
 #include <QDir>
-#include "eigeneFunktionen/text.h"
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneKlassen/prgpfade.h"
+#include "Funktionen/text.h"
+#include "Funktionen/umwandeln.h"
+#include "Klassen/prgpfade.h"
 #include "myDefines.h"
-#include "eigeneDefines/define_wkz.h"
-#include "eigeneDefines/define_wkz_fraeser.h"
-#include "eigeneKlassen/wkz_fraeser.h"
+#include "Defines/define_wkz.h"
+#include "Defines/define_wkz_fraeser.h"
+#include "Klassen/wkz_fraeser.h"
 
 #include <QMessageBox>
 

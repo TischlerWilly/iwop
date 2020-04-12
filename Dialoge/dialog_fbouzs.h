@@ -3,11 +3,11 @@
 
 #include <QDialog>
 #include <QDir>
-#include "eigeneKlassen/prgpfade.h"
+#include "Klassen/prgpfade.h"
 #include "myDefines.h"
-#include "eigeneFunktionen/text.h"
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneDefines/define_fbouzs.h"
+#include "Funktionen/text.h"
+#include "Funktionen/umwandeln.h"
+#include "Defines/define_fbouzs.h"
 
 namespace Ui {
 class Dialog_fbouzs;

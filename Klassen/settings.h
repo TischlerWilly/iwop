@@ -2,7 +2,7 @@
 #define SETTINGS_H
 
 #include <QString>
-#include <eigeneFunktionen/umwandeln.h>
+#include <Funktionen/umwandeln.h>
 
 class settings
 {

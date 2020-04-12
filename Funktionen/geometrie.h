@@ -2,11 +2,11 @@
 #define GEOMETRIE_H
 
 #include <math.h>
-#include "../eigeneStruncts/punkt.h"
-#include "../eigeneMakros/makro_geometrie.h"
-#include "../eigeneKlassen/punkt2d.h"
-#include "../eigeneKlassen/strecke.h"
-#include "../eigeneKlassen/bogen.h"
+#include "Struncts/punkt.h"
+#include "Makros/makro_geometrie.h"
+#include "Klassen/geo/punkt2d.h"
+#include "Klassen/geo/strecke.h"
+#include "Klassen/geo/bogen.h"
 
 
 

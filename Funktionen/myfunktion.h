@@ -3,11 +3,11 @@
 
 #include <QString>
 #include "myDefines.h"
-#include "../eigeneKlassen/wenndannsonst.h"
+#include "Klassen/wenndannsonst.h"
 #include "text.h"
 #include "umwandeln.h"
-#include "../eigeneKlassen/punkt3d.h"
-#include "../eigeneKlassen/punkt2d.h"
+#include "Klassen/geo/punkt3d.h"
+#include "Klassen/geo/punkt2d.h"
 
 
 QString ausdruck_auswerten (QString ausdruck);

@@ -14,14 +14,14 @@
 #include <QBrush>
 #include <QListWidgetItem>
 #include <QRect>
-#include "eigeneKlassen/vorschau.h"
-#include "eigeneKlassen/programmtexte.h"
+#include "Klassen/geo/vorschau.h"
+#include "Klassen/programmtexte.h"
 #include "todo.h"
-#include "eigeneKlassen/prgpfade.h"
+#include "Klassen/prgpfade.h"
 #include "Dialoge/dialog_programmlisten.h"
 #include "Dialoge/dialog_prgkopf.h"
 #include "Dialoge/dialog_prgende.h"
-#include "eigeneKlassen/letzte_dateien.h"
+#include "Klassen/letzte_dateien.h"
 #include "Dialoge/dialog_kom.h"
 #include "Dialoge/dialog_halt.h"
 #include "Dialoge/dialog_bohren.h"
@@ -36,7 +36,7 @@
 #include "Dialoge/dialog_hbeym.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
-#include "eigeneKlassen/werkzeug.h"
+#include "Klassen/werkzeug.h"
 #include "Dialoge/dialog_fraeser.h"
 #include "Dialoge/dialog_saege.h"
 #include "Dialoge/dialog_nut.h"
@@ -51,8 +51,8 @@
 #include "Dialoge/dialog_fbouzs.h"
 #include "Dialoge/dialog_fboguzs.h"
 #include "Dialoge/dialog_einstellungen.h"
-#include "eigeneKlassen/settings.h"
-#include "eigeneKlassen/userinput.h"
+#include "Klassen/settings.h"
+#include "Klassen/userinput.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1

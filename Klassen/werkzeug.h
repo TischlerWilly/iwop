@@ -1,14 +1,14 @@
 #ifndef WERKZEUG_H
 #define WERKZEUG_H
 
-#include "eigeneDefines/define_wkz.h"
-#include "eigeneDefines/define_wkz_fraeser.h"
-#include "eigeneDefines/define_wkz_saege.h"
-#include "eigeneKlassen/text_zeilenweise.h"
-#include "eigeneKlassen/undo_redo_tz.h"
-#include "eigeneFunktionen/text.h"
-#include "eigeneKlassen/wkz_fraeser.h"
-#include "eigeneKlassen/wkz_saege.h"
+#include "Defines/define_wkz.h"
+#include "Defines/define_wkz_fraeser.h"
+#include "Defines/define_wkz_saege.h"
+#include "Klassen/text_zeilenweise.h"
+#include "Klassen/undo_redo_tz.h"
+#include "Funktionen/text.h"
+#include "Klassen/wkz_fraeser.h"
+#include "Klassen/wkz_saege.h"
 
 class werkzeug
 {

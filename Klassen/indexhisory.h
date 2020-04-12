@@ -2,7 +2,7 @@
 #define INDEXHISORY_H
 
 #include "text_zeilenweise.h"
-#include "../eigeneFunktionen/umwandeln.h"
+#include "Funktionen/umwandeln.h"
 
 class indexhisory
 {

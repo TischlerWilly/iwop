@@ -6,7 +6,7 @@
 #include <sstream>
 #include <math.h>
 #include <QString>
-#include "../eigeneStruncts/punkt.h"
+#include "Struncts/punkt.h"
 
 
 std::string int_to_string(int zahl);

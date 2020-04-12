@@ -1,7 +1,7 @@
 #ifndef LETZTE_DATEIEN_H
 #define LETZTE_DATEIEN_H
 
-#include "eigeneKlassen/text_zeilenweise.h"
+#include "Klassen/text_zeilenweise.h"
 
 class letzte_dateien
 {

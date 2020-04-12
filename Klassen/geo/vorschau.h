@@ -9,8 +9,8 @@
 #include <QWheelEvent>
 #include <QMenu>
 #include <math.h>
-#include "../eigeneFunktionen/geometrie.h"
-#include "programmtext.h"
+#include "Funktionen/geometrie.h"
+#include "Klassen/programmtext.h"
 
 
 

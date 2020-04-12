@@ -2,10 +2,10 @@
 #define WKZ_FRAESER_H
 
 #include <QString>
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneFunktionen/text.h"
-#include "eigeneDefines/define_wkz.h"
-#include "eigeneDefines/define_wkz_fraeser.h"
+#include "Funktionen/umwandeln.h"
+#include "Funktionen/text.h"
+#include "Defines/define_wkz.h"
+#include "Defines/define_wkz_fraeser.h"
 
 class wkz_fraeser
 {

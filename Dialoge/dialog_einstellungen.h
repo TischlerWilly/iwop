@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QFileDialog>
-#include "eigeneKlassen/settings.h"
+#include "Klassen/settings.h"
 
 namespace Ui {
 class Dialog_einstellungen;

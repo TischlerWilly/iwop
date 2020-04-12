@@ -2,10 +2,10 @@
 #define PUNKT3D_H
 
 #include <QString>
-#include "../eigeneFunktionen/umwandeln.h"
+#include "Funktionen/umwandeln.h"
 #include "darstellungsatribute.h"
-#include "text_zeilenweise.h"
-#include "../eigeneDefines/defines_geometrie.h"
+#include "Klassen/text_zeilenweise.h"
+#include "Defines/defines_geometrie.h"
 
 class punkt3d : public darstellungsatribute
 {

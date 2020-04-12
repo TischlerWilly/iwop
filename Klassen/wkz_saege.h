@@ -2,10 +2,10 @@
 #define WKZ_SAEGE_H
 
 #include <QString>
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneFunktionen/text.h"
-#include "eigeneDefines/define_wkz.h"
-#include "eigeneDefines/define_wkz_saege.h"
+#include "Funktionen/umwandeln.h"
+#include "Funktionen/text.h"
+#include "Defines/define_wkz.h"
+#include "Defines/define_wkz_saege.h"
 
 
 class wkz_saege

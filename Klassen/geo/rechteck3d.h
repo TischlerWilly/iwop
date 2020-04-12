@@ -31,7 +31,7 @@
 
 #include "darstellungsatribute.h"
 #include "punkt3d.h"
-#include "../eigeneFunktionen/geometrie.h"
+#include "Funktionen/geometrie.h"
 
 class rechteck3d : public darstellungsatribute
 {

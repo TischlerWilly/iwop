@@ -4,7 +4,7 @@
 
 #include <QString>
 #include <qvector.h>
-#include "../eigeneFunktionen/umwandeln.h"
+#include "Funktionen/umwandeln.h"
 #include "programmtext.h"
 #include "undo_redo.h"
 #include "indexhisory.h"

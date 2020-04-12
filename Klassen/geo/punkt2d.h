@@ -2,7 +2,7 @@
 #define PUNKT2D_H
 
 #include <QString>
-#include "../eigeneFunktionen/umwandeln.h"
+#include "Funktionen/umwandeln.h"
 #include "punkt3d.h"
 #include "darstellungsatribute.h"
 

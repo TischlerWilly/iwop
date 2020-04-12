@@ -3,9 +3,9 @@
 
 #include <QString>
 #include <QMessageBox>
-#include "text_zeilenweise.h"
-#include "../eigeneStruncts/punkt.h"
-#include "../eigeneFunktionen/umwandeln.h"
+#include "Klassen/text_zeilenweise.h"
+#include "Struncts/punkt.h"
+#include "Funktionen/umwandeln.h"
 #include "punkt3d.h"
 #include "strecke.h"
 #include "bogen.h"
@@ -13,8 +13,8 @@
 #include "zylinder.h"
 #include "rechteck3d.h"
 #include "wuerfel.h"
-#include "../eigeneDefines/defines_geometrie.h"
-#include "../eigeneFunktionen/geometrie.h"
+#include "Defines/defines_geometrie.h"
+#include "Funktionen/geometrie.h"
 
 
 class geometrietext

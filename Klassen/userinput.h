@@ -2,9 +2,9 @@
 #define USERINPUT_H
 
 #include "Dialoge/dialog_userinput.h"
-#include "eigeneFunktionen/umwandeln.h"
-#include "eigeneKlassen/formel.h"
-#include "eigeneFunktionen/text.h"
+#include "Funktionen/umwandeln.h"
+#include "Klassen/formel.h"
+#include "Funktionen/text.h"
 #include <QMessageBox>
 
 class userinput : public QObject
