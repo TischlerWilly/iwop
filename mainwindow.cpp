@@ -6192,12 +6192,24 @@ void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
                     {
                         zeile = set_param(FGERADE_X, mipu.x_QString(), zeile);
                         zeile = set_param(FGERADE_Y, mipu.y_QString(), zeile);
-                        zeile = set_param(FGERADE_Z, mipu.z_QString(), zeile);
+                        if(sp.z() == mipu.z())
+                        {
+                            zeile = set_param(FGERADE_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERADE_Z, mipu.z_QString(), zeile);
+                        }
                     }else if(zeile.contains(DLG_FGERAWI))
                     {
                         double l = s.laenge3d()/2;
                         zeile = set_param(FGERAWI_L, double_to_qstring(l), zeile);
-                        zeile = set_param(FGERAWI_Z, mipu.z_QString(), zeile);
+                        if(sp.z() == mipu.z())
+                        {
+                            zeile = set_param(FGERAWI_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERAWI_Z, mipu.z_QString(), zeile);
+                        }
                     }
                     //X-Y-Z-Wert in Fräser-Aufruf einfügen:
                     fauf = set_param(FAUF_X, mipu.x_QString(), fauf);
@@ -6219,11 +6231,23 @@ void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
                     {
                         zeile = set_param(FGERADE_X, ep.x_QString(), zeile);
                         zeile = set_param(FGERADE_Y, ep.y_QString(), zeile);
-                        zeile = set_param(FGERADE_Z, ep.z_QString(), zeile);
+                        if(mipu.z() == ep.z())
+                        {
+                            zeile = set_param(FGERADE_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERADE_Z, ep.z_QString(), zeile);
+                        }
                         tz.zeile_anhaengen(zeile);
                     }else if(zeile.contains(DLG_FGERAWI))
                     {
-                        zeile = set_param(FGERAWI_Z, ep.z_QString(), zeile);
+                        if(mipu.z() == ep.z())
+                        {
+                            zeile = set_param(FGERAWI_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERAWI_Z, ep.z_QString(), zeile);
+                        }
                         tz.zeile_anhaengen(zeile);
                     }
                     //Zeilen in Programmliste einfügen:
