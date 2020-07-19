@@ -52,6 +52,7 @@ SOURCES += \
         Dialoge/dialog_programmlisten.cpp \
         Dialoge/dialog_rta.cpp \
         Dialoge/dialog_saege.cpp \
+        Dialoge/dialog_schnellaenderung.cpp \
         Dialoge/dialog_spiegeln.cpp \
         Dialoge/dialog_topf.cpp \
         Dialoge/dialog_userinput.cpp \
@@ -120,6 +121,7 @@ HEADERS += \
         Dialoge/dialog_programmlisten.h \
         Dialoge/dialog_rta.h \
         Dialoge/dialog_saege.h \
+        Dialoge/dialog_schnellaenderung.h \
         Dialoge/dialog_spiegeln.h \
         Dialoge/dialog_topf.h \
         Dialoge/dialog_userinput.h \
@@ -223,6 +225,7 @@ FORMS += \
         Dialoge/dialog_programmlisten.ui \
         Dialoge/dialog_rta.ui \
         Dialoge/dialog_saege.ui \
+        Dialoge/dialog_schnellaenderung.ui \
         Dialoge/dialog_spiegeln.ui \
         Dialoge/dialog_topf.ui \
         Dialoge/dialog_userinput.ui \

@@ -1,7 +1,7 @@
 #ifndef TODO_H
 #define TODO_H
 
-#define PROGRAMMVERSION     "1.2020.04.24"
+#define PROGRAMMVERSION     "1.2020.07.19"
 /*#############################################################################
 Diese Klassen-Design-Regeln habe ich mir vorgenommen:
 - Variablen beginnen mit einem großen Buchstaben
@@ -15,7 +15,6 @@ in Arbeit:
 
 
 Weitere Wünsche:
-- Schnelländerung Bohrgruppe, und andere Parameter
 - HBE X umwandeln in HBE Y etc
 
 

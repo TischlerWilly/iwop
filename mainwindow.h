@@ -53,6 +53,7 @@
 #include "Dialoge/dialog_einstellungen.h"
 #include "Klassen/settings.h"
 #include "Klassen/userinput.h"
+#include "Dialoge/dialog_schnellaenderung.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -79,6 +80,7 @@ public slots:
     void slotNeedWKZ(QString dlgtyp);
     void slotGetEinstellungen(settings s);
     void slotGetZeilennummer(uint nr);
+    void slotGetSchnellaenderung(text_zeilenweise t);
 
 signals:
     void sendVorschauAktualisieren(programmtext t_neu, int aktuelle_programmzeile);
@@ -87,6 +89,7 @@ signals:
     void sendDialogData(QString text, bool openToChangeData);
     void sendAktiveProgrammzeile(int zeilennummer);
     void sendWKZlist(text_zeilenweise list);
+    void sendToSchnellaenderung(text_zeilenweise t, uint start, uint menge);
 
 private:
     Ui::MainWindow *ui;
@@ -130,6 +133,7 @@ private:
     Dialog_fgerawi   dlgfgerawi;
     Dialog_fbouzs    dlgfbouzs;
     Dialog_fboguzs   dlgfboguzs;
+    Dialog_schnellaenderung dlgschnellaenderung;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -270,6 +274,7 @@ private slots:
     void on_actionFraesbahn_teilen_in_akt_Zeile_triggered();
     void on_actionFraesbahn_teilen_vor_akt_Zeilen_triggered();
     void on_actionFraesbahn_verlaengern_Gerade_triggered();
+    void on_actionSchnellaenderung_Werte_triggered();
 };
 
 #endif // MAINWINDOW_H

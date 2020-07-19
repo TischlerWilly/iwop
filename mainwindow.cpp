@@ -255,6 +255,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&vorschaufenster, SIGNAL(sende_zeilennummer(uint)), this, SLOT(slotGetZeilennummer(uint)));
     connect(&dlgsettings, SIGNAL(signalSendEinsellungen(settings)), this, SLOT(slotGetEinstellungen(settings)));
 
+    connect(this, SIGNAL(sendToSchnellaenderung(text_zeilenweise, uint, uint)), \
+            &dlgschnellaenderung, SLOT(getData(text_zeilenweise, uint, uint)));
+    connect(&dlgschnellaenderung, SIGNAL(sendData(text_zeilenweise)), \
+            this, SLOT(slotGetSchnellaenderung(text_zeilenweise)));
+
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
 }
@@ -1206,6 +1211,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionFraesbahn_teilen_vor_akt_Zeilen->setDisabled(true);
     ui->actionFraesbahn_teilen_in_akt_Zeile->setDisabled(true);
     ui->actionFraesbahn_verlaengern_Gerade->setDisabled(true);
+    ui->actionSchnellaenderung_Werte->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
@@ -1265,6 +1271,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionFraesbahn_teilen_vor_akt_Zeilen->setEnabled(true);
     ui->actionFraesbahn_teilen_in_akt_Zeile->setEnabled(true);
     ui->actionFraesbahn_verlaengern_Gerade->setEnabled(true);
+    ui->actionSchnellaenderung_Werte->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
@@ -6603,6 +6610,56 @@ void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
     }
 }
 
+void MainWindow::on_actionSchnellaenderung_Werte_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  \
+                (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+            if(items_menge > tt.prgtext()->text_zw().zeilenanzahl()-1)
+            {
+                items_menge = tt.prgtext()->text_zw().zeilenanzahl()-1;
+            }
+            emit sendToSchnellaenderung(tt.prgtext()->text_zw(), row_erstes+1, items_menge);
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt an dem man Änderungen vornehmen kann!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
+void MainWindow::slotGetSchnellaenderung(text_zeilenweise t)
+{
+    if(t.text() != tt.prgtext()->text())
+    {
+        tt.prgtext()->set_text(t.text());
+        aktualisiere_anzeigetext();
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        vorschauAktualisieren();
+        update_windowtitle();
+        QApplication::restoreOverrideCursor();
+    }
+}
+
 //---------------------------------------------------Dialoge wkz
 void MainWindow::on_pushButton_MakeFraeser_clicked()
 {
@@ -6803,6 +6860,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 
