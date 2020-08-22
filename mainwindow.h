@@ -196,6 +196,7 @@ private:
     void aktualisiere_offene_dateien_menu();    
     void closeEvent(QCloseEvent *ce);
     QString ausgabepfad_postprozessor();
+    text_zeilenweise zwert_to_zvar(text_zeilenweise bearb);
 
     //Funktionen Sichtbarkeiten:
     void hideElemets_noFileIsOpen();

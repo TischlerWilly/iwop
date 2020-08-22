@@ -6096,6 +6096,7 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                     {
                         kopie_t.zeile_ersaetzen(zeinum_beg+i, tz_neu.zeile(i));
                     }
+                    kopie_t = zwert_to_zvar(kopie_t);
                     tt.prgtext()->set_text(kopie_t.text());
                     aktualisiere_anzeigetext();
                     vorschauAktualisieren();
@@ -6124,6 +6125,67 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
         mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
         mb.exec();
     }
+}
+
+text_zeilenweise MainWindow::zwert_to_zvar(text_zeilenweise bearb)
+{
+    //Diese Funktion  prüft ob aufeinander folgende Fräsbahnen den gleichen Z-Wert haben
+    //Wenn dies der Fall ist wird der Wert mit dem Platzhalter "Z" ersetzt
+    double z = 0;
+    bool gesund = false;
+    for(uint i = 1; i<=bearb.zeilenanzahl() ;i++)
+    {
+        QString zeile = bearb.zeile(i);
+        if(zeile.contains(DLG_FAUF))
+        {
+            gesund = true;
+            z = get_param(FAUF_Z, zeile).toDouble();
+        }else if(zeile.contains(DLG_FABF) || zeile.contains(DLG_FABF2))
+        {
+            gesund = false;
+        }else if(zeile.contains(DLG_FGERADE))
+        {
+            if(gesund == true)
+            {
+                double z_neu = get_param(FGERADE_Z, zeile).toDouble();
+                if(z == z_neu)
+                {
+                    zeile = set_param(FGERADE_Z, "Z", zeile);
+                }else
+                {
+                    z = z_neu;
+                }
+            }
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            if(gesund == true)
+            {
+                double z_neu = get_param(FBOUZS_ZE, zeile).toDouble();
+                if(z == z_neu)
+                {
+                    zeile = set_param(FBOUZS_ZE, "Z", zeile);
+                }else
+                {
+                    z = z_neu;
+                }
+            }
+        }else if(zeile.contains(DLG_FBOGUZS))
+        {
+            if(gesund == true)
+            {
+                double z_neu = get_param(FBOGUZS_ZE, zeile).toDouble();
+                if(z == z_neu)
+                {
+                    zeile = set_param(FBOGUZS_ZE, "Z", zeile);
+                }else
+                {
+                    z = z_neu;
+                }
+            }
+        }
+        bearb.zeile_ersaetzen(i, zeile);
+    }
+    return bearb;
 }
 
 void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
