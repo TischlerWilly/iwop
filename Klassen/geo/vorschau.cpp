@@ -17,7 +17,7 @@ vorschau::vorschau(QWidget *parent) :
 }
 
 
-void vorschau::paintEvent(QPaintEvent *)
+void vorschau::update_cad()
 {
     werkstueck_darstellung_berechnen();
     QPainter painter(this);
@@ -109,6 +109,12 @@ void vorschau::paintEvent(QPaintEvent *)
             zeichneFkon(spalten.zeile(ii), Aktuelle_zeilennummer);
         }
     }
+    this->update();
+}
+
+void vorschau::paintEvent(QPaintEvent *)
+{
+    update_cad();
 }
 
 void vorschau::zeichneGeotext(QString geometrieElement, uint i)
@@ -1136,7 +1142,7 @@ void vorschau::mousePressEvent(QMouseEvent *event)
         msgedit += " bearbeiten";
 
         QMenu m(this);
-        m.addAction("Ansicht einpassen", this, SLOT(slot_Zf_gleich_eins()), 0) ;
+        m.addAction("Ansicht einpassen", this, SLOT(slot_zf_gleich_eins()), 0) ;
         m.addAction(msg_pos_wst, this, SLOT(slot_tunix()), 0) ;
         m.addAction(msgedit, this, SLOT(slot_sende_zeilennummer()), 0) ;
         m.exec(this->mapFrom(this, QCursor::pos()));
@@ -1163,7 +1169,7 @@ void vorschau::slot_zf_gleich_eins()
     Zf = 1;
     Npv.x = 0;
     Npv.y = 0;
-    this->update();
+    update_cad();
 }
 
 void vorschau::slot_tunix()
