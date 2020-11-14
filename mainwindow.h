@@ -170,6 +170,7 @@ private:
     QString         kopierterEintrag_t;
     QString         kopierterEintrag_w;
     bool            speichern_unter_flag;
+    bool            eine_datei_ist_offen;
 
     //Funktionen:
     QString loadConfig();

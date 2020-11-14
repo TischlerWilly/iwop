@@ -62,6 +62,16 @@ MainWindow::MainWindow(QWidget *parent) :
         mb.exec();        
         dir_prg.mkdir(pf.path_prg());
     }
+    QDir dir_dlgbilder(pf.path_dlgbilder());
+    if(!dir_dlgbilder.exists())
+    {
+        dir_dlgbilder.mkdir(pf.path_dlgbilder());
+    }
+    QDir dir_toolbaricons(pf.path_toolbaricons());
+    if(!dir_toolbaricons.exists())
+    {
+        dir_toolbaricons.mkdir(pf.path_toolbaricons());
+    }
     QDir dir_user(pf.path_user());
     if(!dir_user.exists())
     {
@@ -260,6 +270,58 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgschnellaenderung, SIGNAL(sendData(text_zeilenweise)), \
             this, SLOT(slotGetSchnellaenderung(text_zeilenweise)));
 
+    //Toolbar:
+    QString path_icons = pf.path_toolbaricons();
+    path_icons += QDir::separator();
+    QString path_icon;
+    //----------------------------------------Datei neu:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_new.png";
+    const QIcon icon_doc_new = QIcon::fromTheme("Datei neu", QIcon(path_icon));
+    QAction *act_doc_new = new QAction(icon_doc_new, tr("&Datei neu"), this);//Text ist der Tool-Tipp
+    act_doc_new->setStatusTip("Datei neu");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_new, SIGNAL(triggered()), this, SLOT(on_actionNeu_triggered()));
+    ui->mainToolBar->addAction(act_doc_new);
+    //----------------------------------------Datei öffnen:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_open.png";
+    const QIcon icon_doc_open = QIcon::fromTheme("Datei oeffnen", QIcon(path_icon));
+    QAction *act_doc_open = new QAction(icon_doc_open, tr("&Datei öffnen"), this);//Text ist der Tool-Tipp
+    act_doc_open->setStatusTip("Datei öffnen");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_open, SIGNAL(triggered()), this, SLOT(on_actionOffnen_triggered()));
+    ui->mainToolBar->addAction(act_doc_open);
+    //----------------------------------------Datei speichern:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_save.png";
+    const QIcon icon_doc_save = QIcon::fromTheme("Datei speichern", QIcon(path_icon));
+    QAction *act_doc_save = new QAction(icon_doc_save, tr("&Datei speichern"), this);//Text ist der Tool-Tipp
+    act_doc_save->setStatusTip("Datei speichern");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_save, SIGNAL(triggered()), this, SLOT(on_actionDateiSpeichern_triggered()));
+    ui->mainToolBar->addAction(act_doc_save);
+    //----------------------------------------Datei schließen:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_close.png";
+    const QIcon icon_doc_close = QIcon::fromTheme("Datei schließen", QIcon(path_icon));
+    QAction *act_doc_close = new QAction(icon_doc_close, tr("&Datei schließen"), this);//Text ist der Tool-Tipp
+    act_doc_close->setStatusTip("Datei schließen");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_close, SIGNAL(triggered()), this, SLOT(on_actionDateiSchliessen_triggered()));
+    ui->mainToolBar->addAction(act_doc_close);
+    //----------------------------------------
+    QLabel *spacer = new QLabel(this);
+    spacer->setFixedWidth(50);
+    ui->mainToolBar->addWidget(spacer);
+    //----------------------------------------
+    //----------------------------------------Kommentar fmc:
+    path_icon  = path_icons;
+    path_icon += "16x16_fmc_kommentar.png";
+    const QIcon icon_fmc_kommentar = QIcon::fromTheme("Kommentar fmc", QIcon(path_icon));
+    QAction *act_fmc_kommentar = new QAction(icon_fmc_kommentar, tr("&Kommentar fmc"), this);//Text ist der Tool-Tipp
+    act_fmc_kommentar->setStatusTip("Kommentar fmc");//Wird unten in der Status-Bar angezeigt
+    connect(act_fmc_kommentar, SIGNAL(triggered()), this, SLOT(on_actionMakeKommentar_triggered()));
+    ui->mainToolBar->addAction(act_fmc_kommentar);
+    //----------------------------------------
+
+
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
 }
@@ -322,7 +384,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     int breite_a = tmp;
     ui->listWidget_Werkzeug->setFixedWidth(breite_a/4);
-    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -50;
+    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -70;
     if(tmp < 1)
     {
         tmp = 1;
@@ -352,9 +414,9 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     vorschaufenster.move(breitePrgListe+5,10);
     vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-breitePrgListe-10);
-    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-60);
+    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-80);
     ui->listWidget_Programmliste->setFixedWidth(breitePrgListe-10);
-    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-60);
+    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-80);
 
     //-------------------------------------------
     QMainWindow::resizeEvent(event);
@@ -1160,6 +1222,7 @@ QString MainWindow::ausgabepfad_postprozessor()
 //---------------------------------------------------Sichtbarkeiten
 void MainWindow::hideElemets_noFileIsOpen()
 {
+    eine_datei_ist_offen = false;
     ui->listWidget_Programmliste->hide();
     //Menü Datei:
     ui->actionDateiSpeichern->setDisabled(true);
@@ -1216,10 +1279,18 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
     vorschaufenster.hide();
+    //Toolbar:
+    // 1 = Datei neu
+    // 2 = Datei öffnen
+    ui->mainToolBar->actions().at(2)->setDisabled(true);//Datei speichern
+    ui->mainToolBar->actions().at(3)->setDisabled(true);//Datei schließen
+    // 4 = Spacer
+    ui->mainToolBar->actions().at(5)->setDisabled(true);//fmc Kommentar
 }
 
 void MainWindow::showElements_aFileIsOpen()
 {
+    eine_datei_ist_offen = true;
     ui->listWidget_Programmliste->show();
     //Menü Datei:
     ui->actionDateiSpeichern->setEnabled(true);
@@ -1276,6 +1347,13 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
     vorschaufenster.show();
+    //Toolbar:
+    // 1 = Datei neu
+    // 2 = Datei öffnen
+    ui->mainToolBar->actions().at(2)->setEnabled(true);//Datei speichern
+    ui->mainToolBar->actions().at(3)->setEnabled(true);//Datei schließen
+    // 4 = Spacer
+    ui->mainToolBar->actions().at(5)->setEnabled(true);//fmc Kommentar
 }
 
 bool MainWindow::elementIstEingeblendet()
@@ -5489,10 +5567,13 @@ void MainWindow::on_actionMakeKommentar_triggered()
         mb.exec();
     }else
     {
-        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
-        connect(this, SIGNAL(sendDialogData(QString,bool)), &kom, SLOT(getDialogData(QString,bool)));
-        QString msg = vorlage_kom;
-        emit sendDialogData(msg, false);
+        if(eine_datei_ist_offen == true)
+        {
+            disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+            connect(this, SIGNAL(sendDialogData(QString,bool)), &kom, SLOT(getDialogData(QString,bool)));
+            QString msg = vorlage_kom;
+            emit sendDialogData(msg, false);
+        }
     }
 }
 
