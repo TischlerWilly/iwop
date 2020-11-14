@@ -27,6 +27,7 @@ protected:
 private:
     void zeichneGeotext(QString geometrieElement, uint i);
     void zeichneFkon(QString geometrieElement, uint i);
+    void update_cad();
     float sf();
     void set_sf(float neuer_faktor);
     void werkstueck_darstellung_berechnen();

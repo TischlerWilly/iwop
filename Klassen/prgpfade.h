@@ -13,6 +13,8 @@ public:
     QString path_user_postprozessor();
     QString path_dlgbilder();
     QString path_dlgbilder_();
+    QString path_toolbaricons();
+    QString path_toolbaricons_();
     QString path_wkzbilder();
     QString path_wkzbilder_();
     QString path_inifile();
@@ -25,6 +27,7 @@ private:
     //Ordner:
     QString Dir_wkzbilder;
     QString Dir_dlgbilder;
+    QString Dir_toolbaricons;
 
     //ini-Dateien:
     QString Inifile;

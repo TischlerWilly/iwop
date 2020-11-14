@@ -62,6 +62,16 @@ MainWindow::MainWindow(QWidget *parent) :
         mb.exec();        
         dir_prg.mkdir(pf.path_prg());
     }
+    QDir dir_dlgbilder(pf.path_dlgbilder());
+    if(!dir_dlgbilder.exists())
+    {
+        dir_dlgbilder.mkdir(pf.path_dlgbilder());
+    }
+    QDir dir_toolbaricons(pf.path_toolbaricons());
+    if(!dir_toolbaricons.exists())
+    {
+        dir_toolbaricons.mkdir(pf.path_toolbaricons());
+    }
     QDir dir_user(pf.path_user());
     if(!dir_user.exists())
     {
@@ -255,6 +265,63 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&vorschaufenster, SIGNAL(sende_zeilennummer(uint)), this, SLOT(slotGetZeilennummer(uint)));
     connect(&dlgsettings, SIGNAL(signalSendEinsellungen(settings)), this, SLOT(slotGetEinstellungen(settings)));
 
+    connect(this, SIGNAL(sendToSchnellaenderung(text_zeilenweise, uint, uint)), \
+            &dlgschnellaenderung, SLOT(getData(text_zeilenweise, uint, uint)));
+    connect(&dlgschnellaenderung, SIGNAL(sendData(text_zeilenweise)), \
+            this, SLOT(slotGetSchnellaenderung(text_zeilenweise)));
+
+    //Toolbar:
+    QString path_icons = pf.path_toolbaricons();
+    path_icons += QDir::separator();
+    QString path_icon;
+    //----------------------------------------Datei neu:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_new.png";
+    const QIcon icon_doc_new = QIcon::fromTheme("Datei neu", QIcon(path_icon));
+    QAction *act_doc_new = new QAction(icon_doc_new, tr("&Datei neu"), this);//Text ist der Tool-Tipp
+    act_doc_new->setStatusTip("Datei neu");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_new, SIGNAL(triggered()), this, SLOT(on_actionNeu_triggered()));
+    ui->mainToolBar->addAction(act_doc_new);
+    //----------------------------------------Datei öffnen:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_open.png";
+    const QIcon icon_doc_open = QIcon::fromTheme("Datei oeffnen", QIcon(path_icon));
+    QAction *act_doc_open = new QAction(icon_doc_open, tr("&Datei öffnen"), this);//Text ist der Tool-Tipp
+    act_doc_open->setStatusTip("Datei öffnen");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_open, SIGNAL(triggered()), this, SLOT(on_actionOffnen_triggered()));
+    ui->mainToolBar->addAction(act_doc_open);
+    //----------------------------------------Datei speichern:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_save.png";
+    const QIcon icon_doc_save = QIcon::fromTheme("Datei speichern", QIcon(path_icon));
+    QAction *act_doc_save = new QAction(icon_doc_save, tr("&Datei speichern"), this);//Text ist der Tool-Tipp
+    act_doc_save->setStatusTip("Datei speichern");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_save, SIGNAL(triggered()), this, SLOT(on_actionDateiSpeichern_triggered()));
+    ui->mainToolBar->addAction(act_doc_save);
+    //----------------------------------------Datei schließen:
+    path_icon  = path_icons;
+    path_icon += "16x16_doc_close.png";
+    const QIcon icon_doc_close = QIcon::fromTheme("Datei schließen", QIcon(path_icon));
+    QAction *act_doc_close = new QAction(icon_doc_close, tr("&Datei schließen"), this);//Text ist der Tool-Tipp
+    act_doc_close->setStatusTip("Datei schließen");//Wird unten in der Status-Bar angezeigt
+    connect(act_doc_close, SIGNAL(triggered()), this, SLOT(on_actionDateiSchliessen_triggered()));
+    ui->mainToolBar->addAction(act_doc_close);
+    //----------------------------------------
+    QLabel *spacer = new QLabel(this);
+    spacer->setFixedWidth(50);
+    ui->mainToolBar->addWidget(spacer);
+    //----------------------------------------
+    //----------------------------------------Kommentar fmc:
+    path_icon  = path_icons;
+    path_icon += "16x16_fmc_kommentar.png";
+    const QIcon icon_fmc_kommentar = QIcon::fromTheme("Kommentar fmc", QIcon(path_icon));
+    QAction *act_fmc_kommentar = new QAction(icon_fmc_kommentar, tr("&Kommentar fmc"), this);//Text ist der Tool-Tipp
+    act_fmc_kommentar->setStatusTip("Kommentar fmc");//Wird unten in der Status-Bar angezeigt
+    connect(act_fmc_kommentar, SIGNAL(triggered()), this, SLOT(on_actionMakeKommentar_triggered()));
+    ui->mainToolBar->addAction(act_fmc_kommentar);
+    //----------------------------------------
+
+
     update_gui();
     this->setWindowState(Qt::WindowMaximized);
 }
@@ -317,7 +384,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     int breite_a = tmp;
     ui->listWidget_Werkzeug->setFixedWidth(breite_a/4);
-    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -50;
+    tmp = ui->tab_Werkzeug->height() - 15 - ui->pushButton_MakeFraeser->height() - 15 - ui->pushButton_wkz_speichern->height() - 15 -70;
     if(tmp < 1)
     {
         tmp = 1;
@@ -347,9 +414,9 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     vorschaufenster.move(breitePrgListe+5,10);
     vorschaufenster.setFixedWidth(ui->tab_Programmliste->width()-breitePrgListe-10);
-    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-60);
+    vorschaufenster.setFixedHeight(ui->tab_Programmliste->height()-80);
     ui->listWidget_Programmliste->setFixedWidth(breitePrgListe-10);
-    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-60);
+    ui->listWidget_Programmliste->setFixedHeight(ui->tab_Programmliste->height()-80);
 
     //-------------------------------------------
     QMainWindow::resizeEvent(event);
@@ -1155,6 +1222,7 @@ QString MainWindow::ausgabepfad_postprozessor()
 //---------------------------------------------------Sichtbarkeiten
 void MainWindow::hideElemets_noFileIsOpen()
 {
+    eine_datei_ist_offen = false;
     ui->listWidget_Programmliste->hide();
     //Menü Datei:
     ui->actionDateiSpeichern->setDisabled(true);
@@ -1206,14 +1274,23 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionFraesbahn_teilen_vor_akt_Zeilen->setDisabled(true);
     ui->actionFraesbahn_teilen_in_akt_Zeile->setDisabled(true);
     ui->actionFraesbahn_verlaengern_Gerade->setDisabled(true);
+    ui->actionSchnellaenderung_Werte->setDisabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setDisabled(true);
     //anderes:
     vorschaufenster.hide();
+    //Toolbar:
+    // 1 = Datei neu
+    // 2 = Datei öffnen
+    ui->mainToolBar->actions().at(2)->setDisabled(true);//Datei speichern
+    ui->mainToolBar->actions().at(3)->setDisabled(true);//Datei schließen
+    // 4 = Spacer
+    ui->mainToolBar->actions().at(5)->setDisabled(true);//fmc Kommentar
 }
 
 void MainWindow::showElements_aFileIsOpen()
 {
+    eine_datei_ist_offen = true;
     ui->listWidget_Programmliste->show();
     //Menü Datei:
     ui->actionDateiSpeichern->setEnabled(true);
@@ -1265,10 +1342,18 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionFraesbahn_teilen_vor_akt_Zeilen->setEnabled(true);
     ui->actionFraesbahn_teilen_in_akt_Zeile->setEnabled(true);
     ui->actionFraesbahn_verlaengern_Gerade->setEnabled(true);
+    ui->actionSchnellaenderung_Werte->setEnabled(true);
     //Menü Extras:
     ui->actionProgrammliste_anzeigen->setEnabled(true);
     //anderes:
     vorschaufenster.show();
+    //Toolbar:
+    // 1 = Datei neu
+    // 2 = Datei öffnen
+    ui->mainToolBar->actions().at(2)->setEnabled(true);//Datei speichern
+    ui->mainToolBar->actions().at(3)->setEnabled(true);//Datei schließen
+    // 4 = Spacer
+    ui->mainToolBar->actions().at(5)->setEnabled(true);//fmc Kommentar
 }
 
 bool MainWindow::elementIstEingeblendet()
@@ -5482,10 +5567,13 @@ void MainWindow::on_actionMakeKommentar_triggered()
         mb.exec();
     }else
     {
-        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
-        connect(this, SIGNAL(sendDialogData(QString,bool)), &kom, SLOT(getDialogData(QString,bool)));
-        QString msg = vorlage_kom;
-        emit sendDialogData(msg, false);
+        if(eine_datei_ist_offen == true)
+        {
+            disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+            connect(this, SIGNAL(sendDialogData(QString,bool)), &kom, SLOT(getDialogData(QString,bool)));
+            QString msg = vorlage_kom;
+            emit sendDialogData(msg, false);
+        }
     }
 }
 
@@ -6089,6 +6177,7 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
                     {
                         kopie_t.zeile_ersaetzen(zeinum_beg+i, tz_neu.zeile(i));
                     }
+                    kopie_t = zwert_to_zvar(kopie_t);
                     tt.prgtext()->set_text(kopie_t.text());
                     aktualisiere_anzeigetext();
                     vorschauAktualisieren();
@@ -6117,6 +6206,67 @@ void MainWindow::on_actionFraesrichtung_umkehren_triggered()
         mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
         mb.exec();
     }
+}
+
+text_zeilenweise MainWindow::zwert_to_zvar(text_zeilenweise bearb)
+{
+    //Diese Funktion  prüft ob aufeinander folgende Fräsbahnen den gleichen Z-Wert haben
+    //Wenn dies der Fall ist wird der Wert mit dem Platzhalter "Z" ersetzt
+    double z = 0;
+    bool gesund = false;
+    for(uint i = 1; i<=bearb.zeilenanzahl() ;i++)
+    {
+        QString zeile = bearb.zeile(i);
+        if(zeile.contains(DLG_FAUF))
+        {
+            gesund = true;
+            z = get_param(FAUF_Z, zeile).toDouble();
+        }else if(zeile.contains(DLG_FABF) || zeile.contains(DLG_FABF2))
+        {
+            gesund = false;
+        }else if(zeile.contains(DLG_FGERADE))
+        {
+            if(gesund == true)
+            {
+                double z_neu = get_param(FGERADE_Z, zeile).toDouble();
+                if(z == z_neu)
+                {
+                    zeile = set_param(FGERADE_Z, "Z", zeile);
+                }else
+                {
+                    z = z_neu;
+                }
+            }
+        }else if(zeile.contains(DLG_FBOUZS))
+        {
+            if(gesund == true)
+            {
+                double z_neu = get_param(FBOUZS_ZE, zeile).toDouble();
+                if(z == z_neu)
+                {
+                    zeile = set_param(FBOUZS_ZE, "Z", zeile);
+                }else
+                {
+                    z = z_neu;
+                }
+            }
+        }else if(zeile.contains(DLG_FBOGUZS))
+        {
+            if(gesund == true)
+            {
+                double z_neu = get_param(FBOGUZS_ZE, zeile).toDouble();
+                if(z == z_neu)
+                {
+                    zeile = set_param(FBOGUZS_ZE, "Z", zeile);
+                }else
+                {
+                    z = z_neu;
+                }
+            }
+        }
+        bearb.zeile_ersaetzen(i, zeile);
+    }
+    return bearb;
 }
 
 void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
@@ -6192,12 +6342,24 @@ void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
                     {
                         zeile = set_param(FGERADE_X, mipu.x_QString(), zeile);
                         zeile = set_param(FGERADE_Y, mipu.y_QString(), zeile);
-                        zeile = set_param(FGERADE_Z, mipu.z_QString(), zeile);
+                        if(sp.z() == mipu.z())
+                        {
+                            zeile = set_param(FGERADE_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERADE_Z, mipu.z_QString(), zeile);
+                        }
                     }else if(zeile.contains(DLG_FGERAWI))
                     {
                         double l = s.laenge3d()/2;
                         zeile = set_param(FGERAWI_L, double_to_qstring(l), zeile);
-                        zeile = set_param(FGERAWI_Z, mipu.z_QString(), zeile);
+                        if(sp.z() == mipu.z())
+                        {
+                            zeile = set_param(FGERAWI_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERAWI_Z, mipu.z_QString(), zeile);
+                        }
                     }
                     //X-Y-Z-Wert in Fräser-Aufruf einfügen:
                     fauf = set_param(FAUF_X, mipu.x_QString(), fauf);
@@ -6219,11 +6381,23 @@ void MainWindow::on_actionFraesbahn_teilen_in_akt_Zeile_triggered()
                     {
                         zeile = set_param(FGERADE_X, ep.x_QString(), zeile);
                         zeile = set_param(FGERADE_Y, ep.y_QString(), zeile);
-                        zeile = set_param(FGERADE_Z, ep.z_QString(), zeile);
+                        if(mipu.z() == ep.z())
+                        {
+                            zeile = set_param(FGERADE_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERADE_Z, ep.z_QString(), zeile);
+                        }
                         tz.zeile_anhaengen(zeile);
                     }else if(zeile.contains(DLG_FGERAWI))
                     {
-                        zeile = set_param(FGERAWI_Z, ep.z_QString(), zeile);
+                        if(mipu.z() == ep.z())
+                        {
+                            zeile = set_param(FGERAWI_Z, "Z", zeile);
+                        }else
+                        {
+                            zeile = set_param(FGERAWI_Z, ep.z_QString(), zeile);
+                        }
                         tz.zeile_anhaengen(zeile);
                     }
                     //Zeilen in Programmliste einfügen:
@@ -6579,6 +6753,56 @@ void MainWindow::on_actionFraesbahn_verlaengern_Gerade_triggered()
     }
 }
 
+void MainWindow::on_actionSchnellaenderung_Werte_triggered()
+{
+    if(ui->tabWidget->currentIndex() == INDEX_PROGRAMMLISTE)
+    {
+        if((ui->listWidget_Programmliste->currentIndex().isValid())  &&  \
+                (ui->listWidget_Programmliste->currentItem()->isSelected()))
+        {
+            QList<QListWidgetItem*> items = ui->listWidget_Programmliste->selectedItems();
+            int items_menge = items.count();
+            int row_erstes = 0;//Nummer des ersten Elementes
+            for(int i=0; i<ui->listWidget_Programmliste->count() ;i++)
+            {
+                if(ui->listWidget_Programmliste->item(i)->isSelected())
+                {
+                    row_erstes = i;
+                    break;
+                }
+            }
+            if(items_menge > tt.prgtext()->text_zw().zeilenanzahl()-1)
+            {
+                items_menge = tt.prgtext()->text_zw().zeilenanzahl()-1;
+            }
+            emit sendToSchnellaenderung(tt.prgtext()->text_zw(), row_erstes+1, items_menge);
+        }else
+        {
+            QMessageBox mb;
+            mb.setText("Sie haben noch nichts ausgewaelt an dem man Änderungen vornehmen kann!");
+            mb.exec();
+        }
+    }else
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den Reiter Programmliste!");
+        mb.exec();
+    }
+}
+
+void MainWindow::slotGetSchnellaenderung(text_zeilenweise t)
+{
+    if(t.text() != tt.prgtext()->text())
+    {
+        tt.prgtext()->set_text(t.text());
+        aktualisiere_anzeigetext();
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        vorschauAktualisieren();
+        update_windowtitle();
+        QApplication::restoreOverrideCursor();
+    }
+}
+
 //---------------------------------------------------Dialoge wkz
 void MainWindow::on_pushButton_MakeFraeser_clicked()
 {
@@ -6779,6 +7003,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

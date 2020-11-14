@@ -230,6 +230,8 @@
     <addaction name="actionMakeSpiegeln"/>
     <addaction name="actionMakeLage_aendern"/>
     <addaction name="separator"/>
+    <addaction name="actionSchnellaenderung_Werte"/>
+    <addaction name="separator"/>
     <addaction name="actionBogenrichtung_umkehren"/>
     <addaction name="separator"/>
     <addaction name="actionFraesrichtung_umkehren"/>
@@ -267,6 +269,9 @@
    <addaction name="menuExtras"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -590,6 +595,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actionSchnellaenderung_Werte">
+   <property name="text">
+    <string>Schnelländerung Werte</string>
    </property>
   </action>
  </widget>
