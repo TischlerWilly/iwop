@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/tbico">
+        <file>toolbaricons/16x16_doc_close.png</file>
+        <file>toolbaricons/16x16_doc_new.png</file>
+        <file>toolbaricons/16x16_doc_open.png</file>
+        <file>toolbaricons/16x16_doc_save.png</file>
+        <file>toolbaricons/16x16_fmc_kommentar.png</file>
+    </qresource>
+</RCC>

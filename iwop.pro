@@ -245,3 +245,6 @@ DISTFILES += \
     iwop.ico
 
 RC_ICONS = iwop.ico
+
+RESOURCES += \
+    toolbaricons.qrc
