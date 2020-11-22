@@ -278,9 +278,19 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNeu"/>
+   <addaction name="actionOffnen"/>
+   <addaction name="actionDateiSpeichern"/>
+   <addaction name="actionDateiSchliessen"/>
+   <addaction name="separator"/>
+   <addaction name="actionMakeKommentar"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNeu">
+   <property name="icon">
+    <iconset resource="toolbaricons.qrc">
+     <normaloff>:/tbico/toolbaricons/16x16_doc_new.png</normaloff>:/tbico/toolbaricons/16x16_doc_new.png</iconset>
+   </property>
    <property name="text">
     <string>Neu</string>
    </property>
@@ -307,6 +317,10 @@
    </property>
   </action>
   <action name="actionOffnen">
+   <property name="icon">
+    <iconset resource="toolbaricons.qrc">
+     <normaloff>:/tbico/toolbaricons/16x16_doc_open.png</normaloff>:/tbico/toolbaricons/16x16_doc_open.png</iconset>
+   </property>
    <property name="text">
     <string>Offnen</string>
    </property>
@@ -397,6 +411,10 @@
    </property>
   </action>
   <action name="actionDateiSpeichern">
+   <property name="icon">
+    <iconset resource="toolbaricons.qrc">
+     <normaloff>:/tbico/toolbaricons/16x16_doc_save.png</normaloff>:/tbico/toolbaricons/16x16_doc_save.png</iconset>
+   </property>
    <property name="text">
     <string>Speichern</string>
    </property>
@@ -413,6 +431,10 @@
    </property>
   </action>
   <action name="actionDateiSchliessen">
+   <property name="icon">
+    <iconset resource="toolbaricons.qrc">
+     <normaloff>:/tbico/toolbaricons/16x16_doc_close.png</normaloff>:/tbico/toolbaricons/16x16_doc_close.png</iconset>
+   </property>
    <property name="text">
     <string>Schließen</string>
    </property>
@@ -426,6 +448,10 @@
    </property>
   </action>
   <action name="actionMakeKommentar">
+   <property name="icon">
+    <iconset resource="toolbaricons.qrc">
+     <normaloff>:/tbico/toolbaricons/16x16_fmc_kommentar.png</normaloff>:/tbico/toolbaricons/16x16_fmc_kommentar.png</iconset>
+   </property>
    <property name="text">
     <string>Kommentar</string>
    </property>
@@ -604,6 +630,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="toolbaricons.qrc"/>
+ </resources>
  <connections/>
 </ui>

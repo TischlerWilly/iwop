@@ -4,7 +4,6 @@ prgpfade::prgpfade()
 {
     Dir_dlgbilder         = "dlgbilder";
     Dir_wkzbilder         = "wkzbilder";
-    Dir_toolbaricons      = "toolbaricons";
     Inifile               = "konfiguration.ini";
     Inifile_postprozessor = "postprozessor.ini";
     Inifile_wkz           = "wkz.ini";
@@ -31,21 +30,6 @@ QString prgpfade::path_dlgbilder_()
 {
     QString tmp;
     tmp = path_dlgbilder();
-    tmp += QDir::separator();
-    return tmp;
-}
-QString prgpfade::path_toolbaricons()
-{
-    QString tmp;
-    tmp = path_prg();
-    tmp += QDir::separator();
-    tmp += Dir_toolbaricons;
-    return tmp;
-}
-QString prgpfade::path_toolbaricons_()
-{
-    QString tmp;
-    tmp = path_toolbaricons();
     tmp += QDir::separator();
     return tmp;
 }
