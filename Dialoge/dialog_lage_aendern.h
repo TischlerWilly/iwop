@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_lage_aendern(QWidget *parent = nullptr);
+    explicit Dialog_lage_aendern(QWidget *parent = NULL);
     ~Dialog_lage_aendern();
     QString get_default();
 

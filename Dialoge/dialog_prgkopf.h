@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit DialogPrgKopf(QWidget *parent = nullptr);
+    explicit DialogPrgKopf(QWidget *parent = NULL);
     ~DialogPrgKopf();
     QString get_default();
 

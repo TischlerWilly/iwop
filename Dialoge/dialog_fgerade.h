@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_fgerade(QWidget *parent = nullptr);
+    explicit Dialog_fgerade(QWidget *parent = NULL);
     ~Dialog_fgerade();
     QString get_default();
 

@@ -26,7 +26,7 @@ signals:
     void sendDialogDataModifyed(QString text);
 
 public:
-    explicit Dialog_fraeser(QWidget *parent = nullptr);
+    explicit Dialog_fraeser(QWidget *parent = NULL);
     ~Dialog_fraeser();
 
 public slots:

@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_Bohren(QWidget *parent = nullptr);
+    explicit Dialog_Bohren(QWidget *parent = NULL);
     ~Dialog_Bohren();
     QString get_default();
 

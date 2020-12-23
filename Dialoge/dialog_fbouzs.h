@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_fbouzs(QWidget *parent = nullptr);
+    explicit Dialog_fbouzs(QWidget *parent = NULL);
     ~Dialog_fbouzs();
     QString get_default();
 
