@@ -15,7 +15,18 @@ prgpfade::prgpfade()
 QString prgpfade::path_prg()
 {
     QString tmp;
-    tmp = "C:\\Program Files\\iwop";
+
+    QString win = "C:\\Program Files";
+    QDir win_dir(win);
+    if(win_dir.exists())//Programm läuft wuf Windows
+    {
+        tmp = "C:\\Program Files\\iwop";
+    }else
+    {
+        tmp = QDir::homePath();
+        tmp += QDir::separator();
+        tmp += ".iwop_prg";
+    }
     return tmp;
 }
 QString prgpfade::path_dlgbilder()
@@ -40,7 +51,16 @@ QString prgpfade::path_user()
     QString tmp;
     tmp = QDir::homePath();
     tmp += QDir::separator();
-    tmp += ".iwop";
+
+    QString win = "C:\\Program Files";
+    QDir win_dir(win);
+    if(win_dir.exists())//Programm läuft wuf Windows
+    {
+        tmp += ".iwop";
+    }else
+    {
+        tmp += ".iwop_user";
+    }
     return tmp;
 }
 QString prgpfade::path_user_postprozessor()
