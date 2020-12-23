@@ -14,7 +14,7 @@ class Dialog_einstellungen : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog_einstellungen(QWidget *parent = nullptr);
+    explicit Dialog_einstellungen(QWidget *parent = NULL);
     ~Dialog_einstellungen();
     void set_einstellungen(settings einstellungen);
     settings einstellungen();

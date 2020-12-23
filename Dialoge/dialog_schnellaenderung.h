@@ -21,7 +21,7 @@ class Dialog_schnellaenderung : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog_schnellaenderung(QWidget *parent = nullptr);
+    explicit Dialog_schnellaenderung(QWidget *parent = NULL);
     ~Dialog_schnellaenderung();
 
 private slots:

@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_loreiae(QWidget *parent = nullptr);
+    explicit Dialog_loreiae(QWidget *parent = NULL);
     ~Dialog_loreiae();
     QString get_default();
 

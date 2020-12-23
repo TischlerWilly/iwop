@@ -181,7 +181,7 @@ text_zeilenweise werkzeug::anzeigetext()
         if(zeile.contains(WKZ_FRAESER))
         {
             QString msg;
-            if(zeile.at(0)=="/" && zeile.at(1) == "/")
+            if(zeile.at(0)=='/' && zeile.at(1) == '/')
             {
                 msg = "//";
             }
@@ -191,7 +191,7 @@ text_zeilenweise werkzeug::anzeigetext()
         }else if(zeile.contains(WKZ_SAEGE))
         {
             QString msg;
-            if(zeile.at(0)=="/" && zeile.at(1) == "/")
+            if(zeile.at(0)=='/' && zeile.at(1) == '/')
             {
                 msg = "//";
             }

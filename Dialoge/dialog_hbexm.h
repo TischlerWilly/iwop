@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_hbexm(QWidget *parent = nullptr);
+    explicit Dialog_hbexm(QWidget *parent = NULL);
     ~Dialog_hbexm();
     QString get_default();
 

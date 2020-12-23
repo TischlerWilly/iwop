@@ -22,7 +22,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_spiegeln(QWidget *parent = nullptr);
+    explicit Dialog_spiegeln(QWidget *parent = NULL);
     ~Dialog_spiegeln();
     QString get_default();
 

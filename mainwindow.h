@@ -67,7 +67,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = NULL);
     ~MainWindow();
     void set_arg(int argc, char *argv[]);
 
