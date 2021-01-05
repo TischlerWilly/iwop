@@ -1779,6 +1779,52 @@ void MainWindow::on_actionOffnen_triggered()
     }
 }
 
+void MainWindow::on_action_Offne_von_Zwischenablage_triggered()
+{
+    int max = ANZAHL_OFFENER_DATEIEN;
+    if(tt.size() >= max)
+    {
+        QString msg;
+        msg += "Bitter zuerst eine Datei schliessen!\n";
+        msg += "Es koennen maximal ";
+        msg += int_to_qstring(max);
+        msg += " Dateien gleichzeitig offen sein!";
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+        return;
+    }else
+    {
+        QClipboard *clipboard = QApplication::clipboard();
+        QString pfad = clipboard->text();
+        if(!pfad.isEmpty())
+        {
+            if(pfad.contains(".fmc"))
+            {
+                openFile(pfad);
+            }else
+            {
+                QString msg;
+                msg  = "Die Zwischenablage enthällt keinen gültigen Dateinamen!";
+                msg += "\n";
+                msg += "Datei konnte nicht geöffnet werden.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }else
+        {
+            QString msg;
+            msg  = "In der Zwischenablage ist kein Text gespeichert!";
+            msg += "\n";
+            msg += "Datei konnte nicht geöffnet werden.";
+            QMessageBox mb;
+            mb.setText(msg);
+            mb.exec();
+        }
+    }
+}
+
 void MainWindow::openFile(QString pfad)
 {
     //Prüfen, ob Datei bereits geöffnet ist:
@@ -6977,6 +7023,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

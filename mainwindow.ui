@@ -162,6 +162,7 @@
     </widget>
     <addaction name="actionNeu"/>
     <addaction name="actionOffnen"/>
+    <addaction name="action_Offne_von_Zwischenablage"/>
     <addaction name="menuLetzte_Dateien"/>
     <addaction name="menuOffene_Dateien"/>
     <addaction name="actionNaechste_offen_Datei"/>
@@ -280,6 +281,7 @@
    </attribute>
    <addaction name="actionNeu"/>
    <addaction name="actionOffnen"/>
+   <addaction name="action_Offne_von_Zwischenablage"/>
    <addaction name="actionDateiSpeichern"/>
    <addaction name="actionDateiSchliessen"/>
    <addaction name="separator"/>
@@ -322,7 +324,7 @@
      <normaloff>:/tbico/toolbaricons/16x16_doc_open.png</normaloff>:/tbico/toolbaricons/16x16_doc_open.png</iconset>
    </property>
    <property name="text">
-    <string>Offnen</string>
+    <string>Öffnen</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -626,6 +628,18 @@
   <action name="actionSchnellaenderung_Werte">
    <property name="text">
     <string>Schnelländerung Werte</string>
+   </property>
+  </action>
+  <action name="action_Offne_von_Zwischenablage">
+   <property name="icon">
+    <iconset resource="toolbaricons.qrc">
+     <normaloff>:/tbico/toolbaricons/16x16-doc_open_clipboard.png</normaloff>:/tbico/toolbaricons/16x16-doc_open_clipboard.png</iconset>
+   </property>
+   <property name="text">
+    <string>Öffne von Zwischenablage</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>
