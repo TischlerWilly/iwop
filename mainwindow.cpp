@@ -122,8 +122,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if(!openpath.isEmpty())
     {
-        openpath += QDir::separator();
-        openpath += "fmc";
         QDir tmpdir(openpath);
         if(tmpdir.exists())
         {
@@ -1121,14 +1119,26 @@ QString MainWindow::ausgabepfad_postprozessor()
 {
     prgpfade pf;
     QString pfad;
-    QFile file(pf.path_inifile_postprozessor());
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        //Keine inidatei vom Postprozessor gefunden
-    } else
+    QFile file_V2(pf.path_inifile_postprozessor_V2());
+    QFile file_V3(pf.path_inifile_postprozessor_V3());
+    if (file_V3.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         text_zeilenweise tz;
-        tz.set_text(file.readAll());
+        tz.set_text(file_V3.readAll());
+        for(uint i=1; i<=tz.zeilenanzahl() ;i++)
+        {
+            QString zeile = tz.zeile(i);
+            if(zeile.contains("verzeichnis_zielABC:"))
+            {
+                pfad = text_rechts(zeile, "\t");
+                break;//for
+            }
+        }
+        file_V3.close();
+    }else if (file_V2.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        text_zeilenweise tz;
+        tz.set_text(file_V2.readAll());
         bool useB = false;
         QString a,b;
         for(uint i=1; i<=tz.zeilenanzahl() ;i++)
@@ -1158,7 +1168,15 @@ QString MainWindow::ausgabepfad_postprozessor()
         {
             pfad = b;
         }
-        file.close();
+        if(!pfad.isEmpty())
+        {
+            pfad += QDir::separator();
+            pfad += "fmc";
+        }
+        file_V2.close();
+    }else
+    {
+        //Keine inidatei vom Postprozessor gefunden
     }
     return pfad;
 }
