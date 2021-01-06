@@ -16,7 +16,8 @@ public:
     QString path_wkzbilder();
     QString path_wkzbilder_();
     QString path_inifile();
-    QString path_inifile_postprozessor();
+    QString path_inifile_postprozessor_V2();
+    QString path_inifile_postprozessor_V3();
     QString path_inifile_wkz();
     QString path_iniLetzteDateien();
     QString path_iniCadMaschine();
@@ -28,7 +29,8 @@ private:
 
     //ini-Dateien:
     QString Inifile;
-    QString Inifile_postprozessor;
+    QString Inifile_postprozessor_V2;
+    QString Inifile_postprozessor_V3;
     QString Inifile_wkz;
     QString Ini_letzteDateien;
     QString Ini_cadMaschine;

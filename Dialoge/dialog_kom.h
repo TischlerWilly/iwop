@@ -22,7 +22,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_kom(QWidget *parent = nullptr);
+    explicit Dialog_kom(QWidget *parent = NULL);
     ~Dialog_kom();
     QString get_default();
 

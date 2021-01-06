@@ -25,7 +25,7 @@ signals:
     void signalNeedWKZ(QString dlgtyp);
 
 public:
-    explicit Dialog_rta(QWidget *parent = nullptr);
+    explicit Dialog_rta(QWidget *parent = NULL);
     ~Dialog_rta();
     QString get_default();
 

@@ -5,5 +5,6 @@
         <file>toolbaricons/16x16_doc_open.png</file>
         <file>toolbaricons/16x16_doc_save.png</file>
         <file>toolbaricons/16x16_fmc_kommentar.png</file>
+        <file>toolbaricons/16x16-doc_open_clipboard.png</file>
     </qresource>
 </RCC>

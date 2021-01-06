@@ -13,7 +13,7 @@ class Dialog_userinput : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog_userinput(QWidget *parent = nullptr);
+    explicit Dialog_userinput(QWidget *parent = NULL);
     ~Dialog_userinput();
     void set_default(QString d);
 

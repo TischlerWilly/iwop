@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_loreima(QWidget *parent = nullptr);
+    explicit Dialog_loreima(QWidget *parent = NULL);
     ~Dialog_loreima();
     QString get_default();
 

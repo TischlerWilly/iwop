@@ -14,6 +14,7 @@
 #include <QBrush>
 #include <QListWidgetItem>
 #include <QRect>
+#include <QClipboard>
 #include "Klassen/geo/vorschau.h"
 #include "Klassen/programmtexte.h"
 #include "todo.h"
@@ -67,7 +68,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = NULL);
     ~MainWindow();
     void set_arg(int argc, char *argv[]);
 
@@ -277,6 +278,7 @@ private slots:
     void on_actionFraesbahn_teilen_vor_akt_Zeilen_triggered();
     void on_actionFraesbahn_verlaengern_Gerade_triggered();
     void on_actionSchnellaenderung_Werte_triggered();
+    void on_action_Offne_von_Zwischenablage_triggered();
 };
 
 #endif // MAINWINDOW_H

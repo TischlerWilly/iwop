@@ -122,8 +122,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if(!openpath.isEmpty())
     {
-        openpath += QDir::separator();
-        openpath += "fmc";
         QDir tmpdir(openpath);
         if(tmpdir.exists())
         {
@@ -1121,14 +1119,26 @@ QString MainWindow::ausgabepfad_postprozessor()
 {
     prgpfade pf;
     QString pfad;
-    QFile file(pf.path_inifile_postprozessor());
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        //Keine inidatei vom Postprozessor gefunden
-    } else
+    QFile file_V2(pf.path_inifile_postprozessor_V2());
+    QFile file_V3(pf.path_inifile_postprozessor_V3());
+    if (file_V3.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         text_zeilenweise tz;
-        tz.set_text(file.readAll());
+        tz.set_text(file_V3.readAll());
+        for(uint i=1; i<=tz.zeilenanzahl() ;i++)
+        {
+            QString zeile = tz.zeile(i);
+            if(zeile.contains("verzeichnis_zielABC:"))
+            {
+                pfad = text_rechts(zeile, "\t");
+                break;//for
+            }
+        }
+        file_V3.close();
+    }else if (file_V2.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        text_zeilenweise tz;
+        tz.set_text(file_V2.readAll());
         bool useB = false;
         QString a,b;
         for(uint i=1; i<=tz.zeilenanzahl() ;i++)
@@ -1158,7 +1168,15 @@ QString MainWindow::ausgabepfad_postprozessor()
         {
             pfad = b;
         }
-        file.close();
+        if(!pfad.isEmpty())
+        {
+            pfad += QDir::separator();
+            pfad += "fmc";
+        }
+        file_V2.close();
+    }else
+    {
+        //Keine inidatei vom Postprozessor gefunden
     }
     return pfad;
 }
@@ -1757,6 +1775,52 @@ void MainWindow::on_actionOffnen_triggered()
         for(uint i=1; i<=tz.zeilenanzahl();i++)
         {
             openFile(tz.zeile(i));
+        }
+    }
+}
+
+void MainWindow::on_action_Offne_von_Zwischenablage_triggered()
+{
+    int max = ANZAHL_OFFENER_DATEIEN;
+    if(tt.size() >= max)
+    {
+        QString msg;
+        msg += "Bitter zuerst eine Datei schliessen!\n";
+        msg += "Es koennen maximal ";
+        msg += int_to_qstring(max);
+        msg += " Dateien gleichzeitig offen sein!";
+        QMessageBox mb;
+        mb.setText(msg);
+        mb.exec();
+        return;
+    }else
+    {
+        QClipboard *clipboard = QApplication::clipboard();
+        QString pfad = clipboard->text();
+        if(!pfad.isEmpty())
+        {
+            if(pfad.contains(".fmc"))
+            {
+                openFile(pfad);
+            }else
+            {
+                QString msg;
+                msg  = "Die Zwischenablage enthällt keinen gültigen Dateinamen!";
+                msg += "\n";
+                msg += "Datei konnte nicht geöffnet werden.";
+                QMessageBox mb;
+                mb.setText(msg);
+                mb.exec();
+            }
+        }else
+        {
+            QString msg;
+            msg  = "In der Zwischenablage ist kein Text gespeichert!";
+            msg += "\n";
+            msg += "Datei konnte nicht geöffnet werden.";
+            QMessageBox mb;
+            mb.setText(msg);
+            mb.exec();
         }
     }
 }
@@ -3832,7 +3896,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_PKOPF;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3861,7 +3926,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_PENDE;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3875,7 +3941,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_KOM;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3887,7 +3954,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_HALT;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3902,7 +3970,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_BO;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3929,7 +3998,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_BOY;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3963,7 +4033,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_BOX;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -3997,7 +4068,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_LOREIAE;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4029,7 +4101,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_LOREIMA;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4059,7 +4132,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_TOPF;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4098,7 +4172,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_HBEXP;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4128,7 +4203,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_HBEXM;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4158,7 +4234,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_HBEYP;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4188,7 +4265,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_HBEYM;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4218,7 +4296,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_NUT;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4250,7 +4329,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_KTA;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4276,7 +4356,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_RTA;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4305,7 +4386,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_VAR;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4320,7 +4402,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_VAR10;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4353,7 +4436,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_FAUF;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4383,7 +4467,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_FABF;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4399,7 +4484,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_FGERADE;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4420,7 +4506,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_FGERAWI;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4441,7 +4528,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_FBOUZS;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4465,7 +4553,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_FBOGUZS;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4489,7 +4578,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_SPIEGELN;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -4505,7 +4595,8 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
         {
             msg += DLG_LAGE_AENDERN;
             msg += "\n";
-            if(zeile.at(0)=="/" && zeile.at(1)=="/")
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
             {
                 msg += FMCAUSGEBL;
                 msg += "\n";
@@ -6932,6 +7023,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

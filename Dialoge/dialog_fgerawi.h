@@ -23,7 +23,7 @@ signals:
     void signalSaveConfig(QString text);
 
 public:
-    explicit Dialog_fgerawi(QWidget *parent = nullptr);
+    explicit Dialog_fgerawi(QWidget *parent = NULL);
     ~Dialog_fgerawi();
     QString get_default();
 
