@@ -4645,9 +4645,17 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
     QString fileName;
     if((tt.prgname().contains("Unbekannt ") && tt.prgname().length() <= 13)  ||  speichern_unter_flag == true)
     {
-        //Dialog öffnen zum Wählen des Speicherortes und des Namens:
-        fileName = QFileDialog::getSaveFileName(this, tr("Datei Speichern"), \
-                                                pfad_oefne_fmc, tr("fmc Dateien (*.fmc)"));
+        //Dialog öffnen zum Wählen des Speicherortes und des Namens:        
+        if(speichern_unter_flag == false)
+        {
+            fileName = QFileDialog::getSaveFileName(this, tr("Datei Speichern"), \
+                                                    pfad_oefne_fmc, tr("fmc Dateien (*.fmc)"));
+        }else
+        {
+            fileName = QFileDialog::getSaveFileName(this, tr("Datei Speichern unter"), \
+                                                    tt.prgname(), tr("fmc Dateien (*.fmc)"));
+        }
+
         if(!fileName.isEmpty())
         {
             QFileInfo info = fileName;
