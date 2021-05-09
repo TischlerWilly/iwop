@@ -24,7 +24,7 @@ QString variablen_durch_werte_ersetzten(QString variablen, QString formeltext)
     QString returnstring = "";
     for(int i=0 ; i<formeltext.count() ;i++)
     {
-        if(  ist_buchstabe(formeltext.at(i)) || (i>0 && ist_buchstabe(formeltext.at(i-1)) && ist_ziffer(formeltext.at(i)))   )
+        if(  ist_buchstabe(formeltext.at(i), true) || (i>0 && ist_buchstabe(formeltext.at(i-1), true) && ist_ziffer(formeltext.at(i)))   )
         {
             variablennahme += formeltext.at(i);
 
@@ -92,7 +92,7 @@ bool ist_zahl(const QString text)
     return true;
 }
 
-bool ist_buchstabe(QChar zeichen)
+bool ist_buchstabe(QChar zeichen, bool erweitert)
 {
     zeichen = zeichen.toUpper();
     bool erg = false;
@@ -100,6 +100,12 @@ bool ist_buchstabe(QChar zeichen)
     if(zeichen=='A'||zeichen=='B'||zeichen=='C'||zeichen=='D'||zeichen=='E'||zeichen=='F'||zeichen=='G'||zeichen=='H'||zeichen=='I'||zeichen=='J'||zeichen=='K'||zeichen=='L'||zeichen=='M'||zeichen=='N'||zeichen=='O'||zeichen=='P'||zeichen=='Q'||zeichen=='R'||zeichen=='S'||zeichen=='T'||zeichen=='U'||zeichen=='V'||zeichen=='W'||zeichen=='X'||zeichen=='Y'||zeichen=='Z')
     {
         erg = true;
+    }else if(erweitert == true)
+    {
+        if(zeichen=='_')
+        {
+            erg = true;
+        }
     }
 
     return erg;

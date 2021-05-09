@@ -306,7 +306,9 @@ QString programmtext::param_to_klartext(QString prgzeile, QString parname, QStri
     {
         parwert = text_mitte(prgzeile, parname, ENDPAR);              //Parameter-Wert selektieren
     }
+
     parwert = variablen_durch_werte_ersetzten(varlist, parwert);  //Variablen durch Werte ersetzen
+
     parwert = ausdruck_auswerten(parwert);                        //Ergebnis der Berechnung bekommen
 
     QString kt = parname;
@@ -1103,6 +1105,7 @@ void programmtext::aktualisiere_klartext_var()
             tmp = text_mitte(zeile, FAUF_AFB, ENDPAR);
             tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
             tmp = ausdruck_auswerten(tmp);
+
             if(tmp.toFloat() == true)
             {
                 QString zeile_klartext;

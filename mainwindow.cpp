@@ -1843,12 +1843,12 @@ void MainWindow::openFile(QString pfad)
             QApplication::setOverrideCursor(Qt::WaitCursor);
             QString quelle = QString::fromLatin1(file.readAll());
             programmtext t;
+            t.set_wkz(wkz);
             bool readonly;
             t.set_text(import_fmc(quelle, readonly, pfad).text());
             t.set_nurlesend(readonly);
             undo_redo tmpur;
             tmpur.set_groesse_max(set.anz_undo_prg_int());
-            t.set_wkz(wkz);
             tt.add(t, pfad, tmpur);
             file.close();
 
