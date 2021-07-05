@@ -252,6 +252,7 @@
     </property>
     <addaction name="actionMakeKreistasche"/>
     <addaction name="actionMakeRechtecktasche"/>
+    <addaction name="actionMakeStulp"/>
     <addaction name="separator"/>
     <addaction name="actionMakeFauf"/>
     <addaction name="actionMakeAbfahren"/>
@@ -640,6 +641,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionMakeStulp">
+   <property name="text">
+    <string>Stulp</string>
    </property>
   </action>
  </widget>

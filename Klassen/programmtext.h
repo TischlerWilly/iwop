@@ -38,6 +38,7 @@
 #include "Defines/define_fgerawi.h"
 #include "Defines/define_fbouzs.h"
 #include "Defines/define_fboguzs.h"
+#include "Dialoge/dialog_stulp.h"
 #include "werkzeug.h"
 
 

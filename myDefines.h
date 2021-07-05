@@ -54,6 +54,7 @@
 #define DLG_FGERAWI             "[G_WINK40]"
 #define DLG_FBOUZS              "[G2]"
 #define DLG_FBOGUZS             "[G3]"
+#define DLG_STULP               "[ZYSTUL40]"
 #define LISTENENDE              ">ENDE"
 
 #define FMCNULL                 "(NULL)"

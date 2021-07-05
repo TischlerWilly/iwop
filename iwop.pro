@@ -54,6 +54,7 @@ SOURCES += \
         Dialoge/dialog_saege.cpp \
         Dialoge/dialog_schnellaenderung.cpp \
         Dialoge/dialog_spiegeln.cpp \
+        Dialoge/dialog_stulp.cpp \
         Dialoge/dialog_topf.cpp \
         Dialoge/dialog_userinput.cpp \
         Dialoge/dialog_var.cpp \
@@ -94,6 +95,7 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        Defines/define_stulp.h \
         Dialoge/dialog_bohren.h \
         Dialoge/dialog_bohren_x.h \
         Dialoge/dialog_bohren_y.h \
@@ -123,6 +125,7 @@ HEADERS += \
         Dialoge/dialog_saege.h \
         Dialoge/dialog_schnellaenderung.h \
         Dialoge/dialog_spiegeln.h \
+        Dialoge/dialog_stulp.h \
         Dialoge/dialog_topf.h \
         Dialoge/dialog_userinput.h \
         Dialoge/dialog_var.h \
@@ -227,6 +230,7 @@ FORMS += \
         Dialoge/dialog_saege.ui \
         Dialoge/dialog_schnellaenderung.ui \
         Dialoge/dialog_spiegeln.ui \
+        Dialoge/dialog_stulp.ui \
         Dialoge/dialog_topf.ui \
         Dialoge/dialog_userinput.ui \
         Dialoge/dialog_var.ui \

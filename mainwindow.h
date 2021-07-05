@@ -55,6 +55,7 @@
 #include "Klassen/settings.h"
 #include "Klassen/userinput.h"
 #include "Dialoge/dialog_schnellaenderung.h"
+#include "Dialoge/dialog_stulp.h"
 
 #define INDEX_PROGRAMMLISTE 0
 #define INDEX_WERKZEUGLISTE 1
@@ -135,6 +136,7 @@ private:
     Dialog_fbouzs    dlgfbouzs;
     Dialog_fboguzs   dlgfboguzs;
     Dialog_schnellaenderung dlgschnellaenderung;
+    Dialog_stulp    dlgstulp;
 
     //Variablen:
     QStringList     konfiguration_ini;
@@ -167,6 +169,7 @@ private:
     QString         vorlage_fboguzs;
     QString         vorlage_spiegeln;
     QString         vorlage_lageaendern;
+    QString         vorlage_stulp;
     QString         pfad_oefne_fmc;
     QString         kopierterEintrag_t;
     QString         kopierterEintrag_w;
@@ -279,6 +282,7 @@ private slots:
     void on_actionFraesbahn_verlaengern_Gerade_triggered();
     void on_actionSchnellaenderung_Werte_triggered();
     void on_action_Offne_von_Zwischenablage_triggered();
+    void on_actionMakeStulp_triggered();
 };
 
 #endif // MAINWINDOW_H

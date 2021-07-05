@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_var10                   = dlgvar10.get_default();
     vorlage_spiegeln                = dlgspiegeln.get_default();
     vorlage_lageaendern             = dlglageaendern.get_default();
+    vorlage_stulp                   = dlgstulp.get_default();
     //settings_anz_undo_t             = "10";
     speichern_unter_flag            = false;
     tt.clear();
@@ -188,6 +189,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlgfboguzs, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgspiegeln, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlglageaendern, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlgstulp, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&prgende, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -218,6 +220,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlglageaendern, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgsaege, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlgstulp, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
 
     connect(&prgkopf, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&prgende, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -248,11 +251,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlglageaendern, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgfraeser, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgsaege, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlgstulp, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
 
     connect(&dlgnut, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
     connect(&dlgkta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
     connect(&dlgrta, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
     connect(&dlgfauf, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
+    connect(&dlgstulp, SIGNAL(signalNeedWKZ(QString)), this, SLOT(slotNeedWKZ(QString)));
 
     connect(&vorschaufenster, SIGNAL(sende_maus_pos(QPoint)), this, SLOT(slot_maus_pos(QPoint)));
     connect(&vorschaufenster, SIGNAL(sende_zeilennummer(uint)), this, SLOT(slotGetZeilennummer(uint)));
@@ -712,6 +717,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_LAGE_AENDERN))
                 {
                     vorlage_lageaendern = selektiereEintrag(text, DLG_LAGE_AENDERN, ENDE_ZEILE);
+                }else if(text.contains(DLG_STULP))
+                {
+                    vorlage_stulp = selektiereEintrag(text, DLG_STULP, ENDE_ZEILE);
                 }
             }
     }
@@ -879,6 +887,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       vorlage_lageaendern;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_STULP;
+    inhaltVonKonfiguration +=       vorlage_stulp;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
     //-------------------------------------------
     inhaltVonKonfiguration +=       ENDE_DIALOGE;
     inhaltVonKonfiguration +=       "\n";
@@ -1009,6 +1021,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_LAGE_AENDERN))
         {
             vorlage_lageaendern = selektiereEintrag(text, DLG_LAGE_AENDERN, ENDE_ZEILE);
+        }else if(text.contains(DLG_STULP))
+        {
+            vorlage_stulp = selektiereEintrag(text, DLG_STULP, ENDE_ZEILE);
         }
 
         //Daten in Datei sichern:
@@ -1219,6 +1234,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeNut->setDisabled(true);
     ui->actionMakeKreistasche->setDisabled(true);
     ui->actionMakeRechtecktasche->setDisabled(true);
+    ui->actionMakeStulp->setDisabled(true);
     ui->actionMakeVariable->setDisabled(true);
     ui->actionMakeVariablen10->setDisabled(true);
     ui->actionMakeFauf->setDisabled(true);
@@ -1280,6 +1296,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeNut->setEnabled(true);
     ui->actionMakeKreistasche->setEnabled(true);
     ui->actionMakeRechtecktasche->setEnabled(true);
+    ui->actionMakeStulp->setEnabled(true);
     ui->actionMakeVariable->setEnabled(true);
     ui->actionMakeVariablen10->setEnabled(true);
     ui->actionMakeFauf->setEnabled(true);
@@ -3772,6 +3789,82 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_STULP))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_STULP;
+            prgzeile += vorlage_stulp;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(STULP_WKZ)  && zeile.indexOf(STULP_WKZ)==0  )
+                {
+                    prgzeile = replaceparam(STULP_WKZ, prgzeile, zeile);
+                }else if(zeile.contains(STULP_X)  && zeile.indexOf(STULP_X)==0  )
+                {
+                    prgzeile = replaceparam(STULP_X, prgzeile, zeile);
+                }else if(zeile.contains(STULP_Y)  && zeile.indexOf(STULP_Y)==0  )
+                {
+                    prgzeile = replaceparam(STULP_Y, prgzeile, zeile);
+                }else if(zeile.contains(STULP_Z)  && zeile.indexOf(STULP_Z)==0  )
+                {
+                    prgzeile = replaceparam(STULP_Z, prgzeile, zeile);
+                }else if(zeile.contains(STULP_L)  && zeile.indexOf(STULP_L)==0  )
+                {
+                    prgzeile = replaceparam(STULP_L, prgzeile, zeile);
+                }else if(zeile.contains(STULP_B)  && zeile.indexOf(STULP_B)==0  )
+                {
+                    prgzeile = replaceparam(STULP_B, prgzeile, zeile);
+                }else if(zeile.contains(STULP_TI)  && zeile.indexOf(STULP_TI)==0  )
+                {
+                    prgzeile = replaceparam(STULP_TI, prgzeile, zeile);
+                }else if(zeile.contains(STULP_RAD)  && zeile.indexOf(STULP_RAD)==0  )
+                {
+                    prgzeile = replaceparam(STULP_RAD, prgzeile, zeile);
+                }else if(zeile.contains(STULP_FALZVERSATZ)  && zeile.indexOf(STULP_FALZVERSATZ)==0  )
+                {
+                    prgzeile = replaceparam(STULP_FALZVERSATZ, prgzeile, zeile);
+                }else if(zeile.contains(STULP_ZUST)  && zeile.indexOf(STULP_ZUST)==0  )
+                {
+                    prgzeile = replaceparam(STULP_ZUST, prgzeile, zeile);
+                }else if(zeile.contains(STULP_GEGENL)  && zeile.indexOf(STULP_GEGENL)==0  )
+                {
+                    prgzeile = replaceparam(STULP_GEGENL, prgzeile, zeile);
+                }else if(zeile.contains(STULP_SEITE)  && zeile.indexOf(STULP_SEITE)==0  )
+                {
+                    prgzeile = replaceparam(STULP_SEITE, prgzeile, zeile);
+                }else if(zeile.contains(STULP_EINVO)  && zeile.indexOf(STULP_EINVO)==0  )
+                {
+                    prgzeile = replaceparam(STULP_EINVO, prgzeile, zeile);
+                }else if(zeile.contains(STULP_VO)  && zeile.indexOf(STULP_VO)==0  )
+                {
+                    prgzeile = replaceparam(STULP_VO, prgzeile, zeile);
+                }else if(zeile.contains(STULP_DREHZ)  && zeile.indexOf(STULP_DREHZ)==0  )
+                {
+                    prgzeile = replaceparam(STULP_DREHZ, prgzeile, zeile);
+                }else if(zeile.contains(STULP_WKZAKT)  && zeile.indexOf(STULP_WKZAKT)==0  )
+                {
+                    prgzeile = replaceparam(STULP_WKZAKT, prgzeile, zeile);
+                }else if(zeile.contains(STULP_BEZ)  && zeile.indexOf(STULP_BEZ)==0  )
+                {
+                    prgzeile = replaceparam(STULP_BEZ, prgzeile, zeile);
+                }else if(zeile.contains(STULP_AFB)  && zeile.indexOf(STULP_AFB)==0  )
+                {
+                    prgzeile = replaceparam(STULP_AFB, prgzeile, zeile);
+                }else if (zeile.contains(STULP_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(  zeile.contains("[DOCINFO]") || zeile.contains("[VARDEFAU]")  )
         {
             continue;
@@ -4612,6 +4705,36 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(LAGE_AENDERN_BEZ, zeile);
             msg += exportparam(LAGE_AENDERN_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_STULP))
+        {
+            msg += DLG_STULP;
+            msg += "\n";
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(STULP_WKZ, zeile);
+            msg += exportparam(STULP_X, zeile);
+            msg += exportparam(STULP_Y, zeile);
+            msg += exportparam(STULP_Z, zeile);
+            msg += exportparam(STULP_L, zeile);
+            msg += exportparam(STULP_B, zeile);
+            msg += exportparam(STULP_TI, zeile);
+            msg += exportparam(STULP_RAD, zeile);
+            msg += exportparam(STULP_FALZVERSATZ, zeile);
+            msg += exportparam(STULP_ZUST, zeile);
+            msg += exportparam(STULP_GEGENL, zeile);
+            msg += exportparam(STULP_SEITE, zeile);
+            msg += exportparam(STULP_EINVO, zeile);
+            msg += exportparam(STULP_VO, zeile);
+            msg += exportparam(STULP_DREHZ, zeile);
+            msg += exportparam_direktwert(STULP_WKZAKT, "1");
+            msg += exportparam(STULP_BEZ, zeile);
+            msg += exportparam(STULP_AFB, zeile);
+            msg += "\n";
         }
     }
     return msg;
@@ -4916,6 +5039,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_LAGE_AENDERN))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlglageaendern, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_STULP))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgstulp, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }
         }
@@ -5989,6 +6116,22 @@ void MainWindow::on_actionMakeLage_aendern_triggered()
     }
 }
 
+void MainWindow::on_actionMakeStulp_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlgstulp, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_stulp;
+        emit sendDialogData(msg, false);
+    }
+}
+
 //---------------------------------------------------Dialoge Manipulation
 void MainWindow::on_actionBogenrichtung_umkehren_triggered()
 {
@@ -7026,11 +7169,32 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
             }
         }
         emit sendWKZlist(wlist.wkzlist(WKZ_FRAESER, FRAESER_NAME));//Nur die Namen übergeben
+    }else if(dlgtyp == DLG_STULP)
+    {
+        connect(this, SIGNAL(sendWKZlist(text_zeilenweise)), &dlgstulp, SLOT(getWKZlist(text_zeilenweise)));
+        werkzeug wlist;
+        for(uint i=1; i<=wkz.tz().zeilenanzahl() ;i++)
+        {
+            QString zeile = wkz.zeile(i);
+            if(zeile.contains(WKZ_FRAESER))
+            {
+                QString filter;
+                filter  = FRAESER_VERTIKAL;
+                filter += "0";//0 == Horizontal
+                if(zeile.contains(filter))
+                {
+                    wlist.zeile_anhaengen(zeile);
+                }
+            }
+        }
+        emit sendWKZlist(wlist.wkzlist(WKZ_FRAESER, FRAESER_NAME));//Nur die Namen übergeben
     }
 }
 
 
 //---------------------------------------------------
+
+
 
 
 

@@ -1385,6 +1385,40 @@ void programmtext::aktualisiere_klartext_var()
                 Klartext.zeilen_anhaengen(" ");//leere Zeile
                 Var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_STULP))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, STULP_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_STULP;
+                zeile_klartext += param_to_klartext_orginal(zeile, STULP_WKZ);
+                zeile_klartext += param_to_klartext(zeile, STULP_X, VAR_STULP_X, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_Y, VAR_STULP_Y, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_Z, VAR_STULP_Z, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_L, VAR_STULP_L, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_B, VAR_STULP_B, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_TI, VAR_STULP_TI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_RAD, VAR_STULP_RAD, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_FALZVERSATZ, VAR_STULP_FALZVERSATZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_ZUST, VAR_STULP_ZUST, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_GEGENL, VAR_STULP_GEGENL, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_SEITE, VAR_STULP_SEITE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_EINVO, VAR_STULP_EINVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_VO, VAR_STULP_VO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, STULP_DREHZ, VAR_STULP_DREHZ, variablen, true);
+                //NUT_BEZ
+
+                Klartext.zeilen_anhaengen(zeile_klartext);
+                Var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                Klartext.zeilen_anhaengen(" ");//leere Zeile
+                Var.zeile_anhaengen(variablen);
+            }
         }else
         {
             Klartext.zeilen_anhaengen(" ");//leere Zeile
@@ -3885,6 +3919,206 @@ void programmtext::aktualisiere_geo()
                 Fraeserdarst.add_kreis(k);
                 Geo.zeilenvorschub();
                 Fraeserdarst.zeilenvorschub();
+            }else if(zeile.contains(DLG_STULP))
+            {
+                //Darstellung von oben:
+                punkt3d mipu;
+                mipu.set_x(text_mitte(zeile, STULP_X, ENDPAR));
+                mipu.set_y(text_mitte(zeile, STULP_Y, ENDPAR));
+                mipu.set_z(text_mitte(zeile, STULP_Z, ENDPAR));
+
+                rechteck3d r;
+                r.set_bezugspunkt(MITTE);
+                r.set_farbe(FARBE_SCHWARZ);
+                r.set_farbe_fuellung(FARBE_ROSE);
+                r.set_stil(STIL_GESTRICHELT);
+
+                double ti = text_mitte(zeile, STULP_TI, ENDPAR).toDouble();
+                punkt3d einfpu = mipu;
+                double seite = text_mitte(zeile, STULP_SEITE, ENDPAR).toInt();
+                double falzversatz = text_mitte(zeile, STULP_FALZVERSATZ, ENDPAR).toDouble();
+                if(seite == 1)
+                {
+                    r.set_drewi(0);
+                    einfpu.set_y(einfpu.y()+ti/2+falzversatz);
+                }else if(seite == 2)
+                {
+                    r.set_drewi(90);
+                    einfpu.set_x(einfpu.x()-ti/2-falzversatz);
+                }else if(seite == 3)
+                {
+                    r.set_drewi(180);
+                    einfpu.set_y(einfpu.y()-ti/2-falzversatz);
+                }else // 4
+                {
+                    r.set_drewi(270);
+                    einfpu.set_x(einfpu.x()+ti/2+falzversatz);
+                }
+
+                r.set_einfuegepunkt(einfpu);
+                r.set_laenge(text_mitte(zeile, STULP_L, ENDPAR).toDouble());
+                r.set_breite(ti);
+
+                r = spiegeln_rechteck3d(r, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                r = lageaendern_rechteck3d(r, lageaendern_afb,\
+                                          lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                          lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                          lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                          lageaendern_wi_alt, lageaendern_geswi_alt);
+                r.set_einfuegepunkt(nullpunkt_wst.x() + r.einfpunkt().x(), nullpunkt_wst.y() + r.einfpunkt().y(), 0);
+
+                Geo.add_rechteck(r);
+
+                //Darstellung des Fräsers:
+                double wkzdm = 5;
+                double wkznutzl = 20;
+                QString wkzname = text_mitte(zeile, STULP_WKZ, ENDPAR);
+                text_zeilenweise wkzlist_name;
+                wkzlist_name = Wkz.wkzlist(WKZ_FRAESER, FRAESER_NAME);
+                text_zeilenweise wkzlist_dm;
+                wkzlist_dm = Wkz.wkzlist(WKZ_FRAESER, FRAESER_DM);
+                text_zeilenweise wkzlist_nutzl;
+                wkzlist_nutzl = Wkz.wkzlist(WKZ_FRAESER, FRAESER_NUTZL);
+
+                for(uint i=1; i<=wkzlist_name.zeilenanzahl() ;i++)
+                {
+                    if(wkzlist_name.zeile(i) == wkzname)
+                    {
+                        if(wkzlist_dm.zeile(i).toDouble() > 0)
+                        {
+                            wkzdm = wkzlist_dm.zeile(i).toDouble();
+                        }
+                        if(wkzlist_nutzl.zeile(i).toDouble() > 0)
+                        {
+                            wkznutzl = wkzlist_nutzl.zeile(i).toDouble();
+                        }
+                    }
+                }
+                rechteck3d rwkz, rwkzaufn;
+                rwkz.set_bezugspunkt(MITTE);
+                rwkz.set_farbe(FARBE_SCHWARZ);
+                rwkz.set_farbe_fuellung(FARBE_SCHWARZ);
+                rwkz.set_stil(STIL_DURCHGEHEND);
+                double aufn_dm = 50;
+                double aufn_h = 40;
+
+                mipu.set_x(text_mitte(zeile, STULP_X, ENDPAR));
+                mipu.set_y(text_mitte(zeile, STULP_Y, ENDPAR));
+                mipu.set_z(text_mitte(zeile, STULP_Z, ENDPAR));
+                einfpu = mipu;
+                punkt3d einfpuaufn = einfpu;;
+                if(seite == 1)
+                {
+                    rwkz.set_drewi(0);
+                    rwkzaufn = rwkz;
+                    einfpu.set_y(einfpu.y()-wkznutzl/2+ti+falzversatz);
+                    einfpuaufn.set_y(mipu.y()-wkznutzl-aufn_h/2+ti+falzversatz);
+                }else if(seite == 2)
+                {
+                    rwkz.set_drewi(90);
+                    rwkzaufn = rwkz;
+                    einfpu.set_x(einfpu.x()+wkznutzl/2-ti-falzversatz);
+                    einfpuaufn.set_x(mipu.x()+wkznutzl+aufn_h/2-ti-falzversatz);
+                }else if(seite == 3)
+                {
+                    rwkz.set_drewi(180);
+                    rwkzaufn = rwkz;
+                    einfpu.set_y(einfpu.y()+wkznutzl/2-ti-falzversatz);
+                    einfpuaufn.set_y(mipu.y()+wkznutzl+aufn_h/2-ti-falzversatz);
+                }else // 4
+                {
+                    rwkz.set_drewi(270);
+                    rwkzaufn = rwkz;
+                    einfpu.set_x(einfpu.x()-wkznutzl/2+ti+falzversatz);
+                    einfpuaufn.set_x(mipu.x()-wkznutzl-aufn_h/2+ti+falzversatz);
+                }
+                rwkz.set_einfuegepunkt(einfpu);
+                rwkz.set_laenge(wkzdm);
+                rwkz.set_breite(wkznutzl);
+
+                rwkz = spiegeln_rechteck3d(rwkz, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                rwkz = lageaendern_rechteck3d(rwkz, lageaendern_afb,\
+                                          lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                          lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                          lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                          lageaendern_wi_alt, lageaendern_geswi_alt);
+                rwkz.set_einfuegepunkt(nullpunkt_wst.x() + rwkz.einfpunkt().x(), nullpunkt_wst.y() + rwkz.einfpunkt().y(), 0);
+                Fraeserdarst.add_rechteck(rwkz);
+
+                rwkzaufn.set_einfuegepunkt(einfpuaufn);
+                rwkzaufn.set_laenge(aufn_dm);
+                rwkzaufn.set_breite(aufn_h);
+
+                rwkzaufn = spiegeln_rechteck3d(rwkzaufn, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                rwkzaufn = lageaendern_rechteck3d(rwkzaufn, lageaendern_afb,\
+                                          lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                          lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                          lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                          lageaendern_wi_alt, lageaendern_geswi_alt);
+                rwkzaufn.set_einfuegepunkt(nullpunkt_wst.x() + rwkzaufn.einfpunkt().x(), nullpunkt_wst.y() + rwkzaufn.einfpunkt().y(), 0);
+                Fraeserdarst.add_rechteck(rwkzaufn);
+
+                //Darstellung von der Kante:
+                if(kantenansicht == true)
+                {
+                    rechteck3d rkante;
+                    rkante.set_bezugspunkt(MITTE);
+                    rkante.set_farbe(FARBE_SCHWARZ);
+                    rkante.set_farbe_fuellung(FARBE_ROSE);
+                    rkante.set_stil(STIL_DURCHGEHEND);
+                    rkante.set_rad(text_mitte(zeile, STULP_RAD, ENDPAR).toDouble());
+                    rkante.set_laenge(text_mitte(zeile, STULP_L, ENDPAR).toDouble());
+                    rkante.set_breite(text_mitte(zeile, STULP_B, ENDPAR).toDouble());
+
+                    if(seite == 1)
+                    {
+                        rkante.set_drewi(0);
+                        double x = text_mitte(zeile, STULP_X, ENDPAR).toDouble();
+                        //double y = text_mitte(zeile, STULP_Y, ENDPAR).toDouble();
+                        double z = text_mitte(zeile, STULP_Z, ENDPAR).toDouble();
+                        einfpu.set_x(nullpunkt_un.x() + x);
+                        einfpu.set_y(nullpunkt_un.y() - z);
+                        rkante.set_einfuegepunkt(einfpu);
+                    }else if(seite == 2)
+                    {
+                        rkante.set_drewi(90);
+                        //double x = text_mitte(zeile, STULP_X, ENDPAR).toDouble();
+                        double y = text_mitte(zeile, STULP_Y, ENDPAR).toDouble();
+                        double z = text_mitte(zeile, STULP_Z, ENDPAR).toDouble();
+                        einfpu.set_x(nullpunkt_re.x() + z);
+                        einfpu.set_y(nullpunkt_re.y() + y);
+                        rkante.set_einfuegepunkt(einfpu);
+                    }else if(seite == 3)
+                    {
+                        rkante.set_drewi(180);
+                        double x = text_mitte(zeile, STULP_X, ENDPAR).toDouble();
+                        //double y = text_mitte(zeile, STULP_Y, ENDPAR).toDouble();
+                        double z = text_mitte(zeile, STULP_Z, ENDPAR).toDouble();
+                        einfpu.set_x(nullpunkt_ob.x() + x);
+                        einfpu.set_y(nullpunkt_ob.y() + z);
+                        rkante.set_einfuegepunkt(einfpu);
+                    }else // 4
+                    {
+                        rkante.set_drewi(270);
+                        //double x = text_mitte(zeile, STULP_X, ENDPAR).toDouble();
+                        double y = text_mitte(zeile, STULP_Y, ENDPAR).toDouble();
+                        double z = text_mitte(zeile, STULP_Z, ENDPAR).toDouble();
+                        einfpu.set_x(nullpunkt_li.x() - z);
+                        einfpu.set_y(nullpunkt_li.y() + y);
+                        rkante.set_einfuegepunkt(einfpu);
+                    }
+                    rkante = spiegeln_rechteck3d(rkante, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                    rkante = lageaendern_rechteck3d(rkante, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
+                    rkante.set_einfuegepunkt(nullpunkt_wst.x() + rkante.einfpunkt().x(), nullpunkt_wst.y() + rkante.einfpunkt().y(), 0);
+                    Geo.add_rechteck(rkante);
+                }
+
+                Geo.zeilenvorschub();
+                Fraeserdarst.zeilenvorschub();
             }else
             {
                 Geo.zeilenvorschub();
@@ -3995,6 +4229,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_FBOGUZS))
         {
             tmp += text_mitte(zeile, FBOGUZS_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_STULP))
+        {
+            tmp += text_mitte(zeile, STULP_BEZ, ENDPAR);
         }else if(zeile.contains(LISTENENDE))
         {
             tmp += "...";
