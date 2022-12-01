@@ -950,6 +950,38 @@ void programmtext::aktualisiere_klartext_var()
                 Klartext.zeilen_anhaengen(" ");//leere Zeile
                 Var.zeile_anhaengen(variablen);
             }
+        }else if(zeile.contains(DLG_HBEEINZ))
+        {
+            QString tmp;
+            tmp = text_mitte(zeile, HBEEINZ_AFB, ENDPAR);
+            tmp = variablen_durch_werte_ersetzten(variablen, tmp);//Variablen durch Werte ersetzen
+            tmp = ausdruck_auswerten(tmp);
+            if(tmp.toFloat() == true)
+            {
+                QString zeile_klartext;
+                zeile_klartext += DLG_HBEEINZ;
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_X, VAR_HBEEINZ_X, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_Y, VAR_HBEEINZ_Y, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_WI, VAR_HBEEINZ_WI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_BOTI, VAR_HBEEINZ_BOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_Z, VAR_HBEEINZ_Z, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_DM, VAR_HBEEINZ_DM, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_GRUPPE, VAR_HBEEINZ_GRUPPE, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_NWI, VAR_HBEEINZ_NWI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_MBZ, VAR_HBEEINZ_MBZ, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_ANBOTI, VAR_HBEEINZ_ANBOTI, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_ANBOVO, VAR_HBEEINZ_ANBOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_BOVO, VAR_HBEEINZ_BOVO, variablen, true);
+                zeile_klartext += param_to_klartext(zeile, HBEEINZ_DREHZ, VAR_HBEEINZ_DREHZ, variablen, true);
+                //HBEEINZ_BEZ
+
+                Klartext.zeilen_anhaengen(zeile_klartext);
+                Var.zeile_anhaengen(variablen);
+            }else
+            {//Wenn AFB == 0;
+                Klartext.zeilen_anhaengen(" ");//leere Zeile
+                Var.zeile_anhaengen(variablen);
+            }
         }else if(zeile.contains(DLG_NUT))
         {
             QString tmp;
@@ -3083,6 +3115,61 @@ void programmtext::aktualisiere_geo()
                 }
                 Geo.zeilenvorschub();
                 Fraeserdarst.zeilenvorschub();
+            }else if(zeile.contains(DLG_HBEEINZ))
+            {
+                double x = text_mitte(zeile, HBEEINZ_X, ENDPAR).toDouble();
+                double y = text_mitte(zeile, HBEEINZ_Y, ENDPAR).toDouble();
+                double dm = text_mitte(zeile, HBEEINZ_DM, ENDPAR).toDouble();
+                double ti = text_mitte(zeile, HBEEINZ_BOTI, ENDPAR).toDouble();
+                double wi = text_mitte(zeile, HBEEINZ_WI, ENDPAR).toDouble();
+
+                rechteck3d r;
+                r.set_stil(STIL_DURCHGEHEND);
+                r.set_farbe(FARBE_SCHWARZ);
+                r.set_farbe_fuellung(FARBE_BRAUN);
+                if(wi == 0)
+                {
+                    r.set_bezugspunkt(LINKS);
+                    r.set_laenge(ti);
+                    r.set_breite(dm);
+                }else if(wi == 90)
+                {
+                    r.set_bezugspunkt(UNTEN);
+                    r.set_laenge(dm);
+                    r.set_breite(ti);
+                }else if(wi == 180)
+                {
+                    r.set_bezugspunkt(RECHTS);
+                    r.set_laenge(ti);
+                    r.set_breite(dm);
+                }else if(wi == 270)
+                {
+                    r.set_bezugspunkt(OBEN);
+                    r.set_laenge(dm);
+                    r.set_breite(ti);
+                }else//nicht ortogonal, kann unsere Maschine gar nicht bohren
+                {
+                    r.set_bezugspunkt(MITTE);
+                    r.set_laenge(ti);
+                    r.set_breite(dm);
+                    r.set_drewi(wi);
+                }
+                punkt3d p;
+                p.set_x(nullpunkt_wst.x() + x);
+                p.set_y(nullpunkt_wst.y() + y);
+                r.set_einfuegepunkt(p);
+
+                rechteck3d rgeo = r;
+                rgeo = spiegeln_rechteck3d(rgeo, spiegeln_xbed, spiegeln_ybed, spiegeln_xpos, spiegeln_ypos);
+                rgeo = lageaendern_rechteck3d(rgeo, lageaendern_afb,\
+                                              lageaendern_xalt, lageaendern_yalt, lageaendern_xneu, lageaendern_yneu,\
+                                              lageaendern_wi, lageaendern_geswi, lageaendern_kettenmas,\
+                                              lageaendern_xalt_alt, lageaendern_yalt_alt, lageaendern_xneu_alt, lageaendern_yneu_alt,\
+                                              lageaendern_wi_alt, lageaendern_geswi_alt);
+
+                Geo.add_rechteck(rgeo);
+                Geo.zeilenvorschub();
+                Fraeserdarst.zeilenvorschub();
             }else if(zeile.contains(DLG_NUT))
             {
                 punkt3d sp;
@@ -4191,6 +4278,9 @@ void programmtext::aktualisiere_anzeigetext()
         }else if(zeile.contains(DLG_HBEYM))
         {
             tmp += text_mitte(zeile, HBEYM_BEZ, ENDPAR);
+        }else if(zeile.contains(DLG_HBEEINZ))
+        {
+            tmp += text_mitte(zeile, HBEEINZ_BEZ, ENDPAR);
         }else if(zeile.contains(DLG_NUT))
         {
             tmp += text_mitte(zeile, NUT_BEZ, ENDPAR);

@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     vorlage_hbexm                   = dlghbexm.get_default();
     vorlage_hbeyp                   = dlghbeyp.get_default();
     vorlage_hbeym                   = dlghbeym.get_default();
+    vorlage_hbeeinz                 = dlghbeeinz.get_default();
     vorlage_nut                     = dlgnut.get_default();
     vorlage_kta                     = dlgkta.get_default();
     vorlage_rta                     = dlgrta.get_default();
@@ -176,6 +177,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbexm, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlghbeyp, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlghbeym, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
+    connect(&dlghbeeinz, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgnut, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgkta, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
     connect(&dlgrta, SIGNAL(signalSaveConfig(QString)), this, SLOT(slotSaveConfig(QString)));
@@ -205,6 +207,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbexm, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlghbeyp, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlghbeym, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
+    connect(&dlghbeeinz, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgnut, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgkta, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
     connect(&dlgrta, SIGNAL(sendDialogData(QString)), this, SLOT(getDialogData(QString)));
@@ -236,6 +239,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&dlghbexm, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlghbeyp, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlghbeym, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
+    connect(&dlghbeeinz, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgnut, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgkta, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
     connect(&dlgrta, SIGNAL(sendDialogDataModifyed(QString)), this, SLOT(getDialogDataModify(QString)));
@@ -428,8 +432,8 @@ void MainWindow::update_windowtitle()
             name = "Neue Datei";
         }else
         {
-            QFileInfo info = name;
-            name = info.baseName();
+            //QFileInfo info = name;
+            //name = info.baseName();
             if(tt.prgtext()->nurlesend())
             {
                 name += " [schreibgeschützt]";
@@ -440,8 +444,7 @@ void MainWindow::update_windowtitle()
             name += "*";
         }
         QString fenstertitel = PROGRAMMNAME;
-        //fenstertitel += " ( " + name + " )";
-        fenstertitel += " ( " + tt.prgname() + " )";
+        fenstertitel += " ( " + name + " )";
         this->setWindowTitle(fenstertitel);
     }else
     {
@@ -679,6 +682,9 @@ QString MainWindow::loadConfig()
                 }else if(text.contains(DLG_HBEYM))
                 {
                     vorlage_hbeym = selektiereEintrag(text, DLG_HBEYM, ENDE_ZEILE);
+                }else if(text.contains(DLG_HBEEINZ))
+                {
+                    vorlage_hbeeinz = selektiereEintrag(text, DLG_HBEEINZ, ENDE_ZEILE);
                 }else if(text.contains(DLG_NUT))
                 {
                     vorlage_nut = selektiereEintrag(text, DLG_NUT, ENDE_ZEILE);
@@ -836,6 +842,10 @@ QString MainWindow::saveConfig()
     inhaltVonKonfiguration +=       vorlage_hbeym;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
     inhaltVonKonfiguration +=       "\n";
+    inhaltVonKonfiguration +=       DLG_HBEEINZ;
+    inhaltVonKonfiguration +=       vorlage_hbeeinz;
+    inhaltVonKonfiguration +=       ENDE_ZEILE;
+    inhaltVonKonfiguration +=       "\n";
     inhaltVonKonfiguration +=       DLG_NUT;
     inhaltVonKonfiguration +=       vorlage_nut;
     inhaltVonKonfiguration +=       ENDE_ZEILE;
@@ -983,6 +993,9 @@ void MainWindow::slotSaveConfig(QString text)
         }else if(text.contains(DLG_HBEYM))
         {
             vorlage_hbeym = selektiereEintrag(text, DLG_HBEYM, ENDE_ZEILE);
+        }else if(text.contains(DLG_HBEEINZ))
+        {
+            vorlage_hbeeinz = selektiereEintrag(text, DLG_HBEEINZ, ENDE_ZEILE);
         }else if(text.contains(DLG_NUT))
         {
             vorlage_nut = selektiereEintrag(text, DLG_NUT, ENDE_ZEILE);
@@ -1232,6 +1245,7 @@ void MainWindow::hideElemets_noFileIsOpen()
     ui->actionMakeHBE_X_minus->setDisabled(true);
     ui->actionMakeHBE_Y_plus->setDisabled(true);
     ui->actionMakeHBE_Y_minus->setDisabled(true);
+    ui->actionMakeHBE_einzeln->setDisabled(true);
     ui->actionMakeNut->setDisabled(true);
     ui->actionMakeKreistasche->setDisabled(true);
     ui->actionMakeRechtecktasche->setDisabled(true);
@@ -1294,6 +1308,7 @@ void MainWindow::showElements_aFileIsOpen()
     ui->actionMakeHBE_X_minus->setEnabled(true);
     ui->actionMakeHBE_Y_plus->setEnabled(true);
     ui->actionMakeHBE_Y_minus->setEnabled(true);
+    ui->actionMakeHBE_einzeln->setEnabled(true);
     ui->actionMakeNut->setEnabled(true);
     ui->actionMakeKreistasche->setEnabled(true);
     ui->actionMakeRechtecktasche->setEnabled(true);
@@ -3009,6 +3024,73 @@ text_zeilenweise MainWindow::import_fmc(QString quelle, bool &readonly, QString 
             }
             i--;
             retz.zeile_anhaengen(prgzeile);
+        }else if(zeile.contains(DLG_HBEEINZ))
+        {
+            QString prgzeile;
+            prgzeile  = DLG_HBEEINZ;
+            prgzeile += vorlage_hbeeinz;
+            prgzeile += ENDE_ZEILE;
+            i++;
+            zeile = tz.zeile(i);
+            zeile.replace("'",".");
+            while(!zeile.contains("[") && i<=tz.zeilenanzahl())
+            {
+                if(zeile.contains(HBEEINZ_X)  && zeile.indexOf(HBEEINZ_X)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_X, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_Y)  && zeile.indexOf(HBEEINZ_Y)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_Y, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_WI)  && zeile.indexOf(HBEEINZ_WI)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_WI, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_BOTI)  && zeile.indexOf(HBEEINZ_BOTI)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_BOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_Z)  && zeile.indexOf(HBEEINZ_Z)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_Z, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_DM)  && zeile.indexOf(HBEEINZ_DM)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_DM, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_GRUPPE)  && zeile.indexOf(HBEEINZ_GRUPPE)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_GRUPPE, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_NWI)  && zeile.indexOf(HBEEINZ_NWI)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_NWI, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_MBZ)  && zeile.indexOf(HBEEINZ_MBZ)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_MBZ, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_ANBOTI)  && zeile.indexOf(HBEEINZ_ANBOTI)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_ANBOTI, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_ANBOVO)  && zeile.indexOf(HBEEINZ_ANBOVO)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_ANBOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_BOVO)  && zeile.indexOf(HBEEINZ_BOVO)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_BOVO, prgzeile, zeile);
+                }else if(zeile.contains(HBEEINZ_DREHZ)  && zeile.indexOf(HBEEINZ_DREHZ)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_DREHZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEEINZ_BEZ)  && zeile.indexOf(HBEEINZ_BEZ)==0  )
+                {
+                    prgzeile = replaceparam(HBEEINZ_BEZ, prgzeile, zeile);
+                }else if (zeile.contains(HBEEINZ_AFB)  && zeile.indexOf(HBEEINZ_AFB)==0  )
+                {
+                   prgzeile = replaceparam(HBEEINZ_AFB, prgzeile, zeile);
+                }else if (zeile.contains(HBEEINZ_AUSGEBL))
+                {
+                    QString tmp = "//";
+                    prgzeile = tmp + prgzeile;
+                }
+                i++;
+                zeile = tz.zeile(i);
+                zeile.replace("'",".");
+            }
+            i--;
+            retz.zeile_anhaengen(prgzeile);
         }else if(zeile.contains(DLG_NUT))
         {
             QString prgzeile;
@@ -4386,6 +4468,33 @@ QString MainWindow::export_fmc(text_zeilenweise tz)
             msg += exportparam(HBEYM_BEZ, zeile);
             msg += exportparam(HBEYM_AFB, zeile);
             msg += "\n";
+        }else if(zeile.contains(DLG_HBEEINZ))
+        {
+            msg += DLG_HBEEINZ;
+            msg += "\n";
+            QChar qc = '/';
+            if(zeile.at(0)==qc && zeile.at(1)==qc)
+            {
+                msg += FMCAUSGEBL;
+                msg += "\n";
+            }
+
+            msg += exportparam(HBEEINZ_X, zeile);
+            msg += exportparam(HBEEINZ_Y, zeile);
+            msg += exportparam(HBEEINZ_WI, zeile);
+            msg += exportparam(HBEEINZ_BOTI, zeile);
+            msg += exportparam(HBEEINZ_Z, zeile);
+            msg += exportparam(HBEEINZ_DM, zeile);
+            msg += exportparam(HBEEINZ_GRUPPE, zeile);
+            msg += exportparam(HBEEINZ_NWI, zeile);
+            msg += exportparam(HBEEINZ_MBZ, zeile);
+            msg += exportparam(HBEEINZ_ANBOTI, zeile);
+            msg += exportparam(HBEEINZ_ANBOVO, zeile);
+            msg += exportparam(HBEEINZ_BOVO, zeile);
+            msg += exportparam(HBEEINZ_DREHZ, zeile);
+            msg += exportparam(HBEEINZ_BEZ, zeile);
+            msg += exportparam(HBEEINZ_AFB, zeile);
+            msg += "\n";
         }else if(zeile.contains(DLG_NUT))
         {
             msg += DLG_NUT;
@@ -4830,11 +4939,8 @@ bool MainWindow::on_actionDateiSpeichern_triggered()
             file.open(QIODevice::WriteOnly | QIODevice::Text); //lege Datei neu an
             file.write(dateiInhalt.toLatin1()); //fülle Datei mit Inhalt
             file.close(); //beende Zugriff
-            QFileInfo info = tt.prgname();
-            QString tmp = PROGRAMMNAME;
-            tmp += " ( " + info.baseName() + " )";
-            this->setWindowTitle(tmp);
             tt.prgtext()->wurde_gespeichert();
+            update_windowtitle();
             aktuelisiere_letzte_dateien_inifile();
             aktualisiere_letzte_dateien_menu();
             aktualisiere_offene_dateien_menu();
@@ -4848,10 +4954,7 @@ void MainWindow::on_actionDateiSpeichern_unter_triggered()
     speichern_unter_flag = true;
     on_actionDateiSpeichern_triggered();
     speichern_unter_flag = false;
-    QFileInfo info = tt.prgname();
-    QString tmp = PROGRAMMNAME;
-    tmp += " ( " + info.baseName() + " )";
-    this->setWindowTitle(tmp);
+    update_windowtitle();
 }
 
 bool MainWindow::on_actionDateiSchliessen_triggered()
@@ -4988,6 +5091,10 @@ void MainWindow::on_action_aendern_triggered()
             }else if(programmzeile.contains(DLG_HBEYM))
             {
                 connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeym, SLOT(getDialogData(QString,bool)));
+                emit sendDialogData(programmzeile, true);
+            }else if(programmzeile.contains(DLG_HBEEINZ))
+            {
+                connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeeinz, SLOT(getDialogData(QString,bool)));
                 emit sendDialogData(programmzeile, true);
             }else if(programmzeile.contains(DLG_NUT))
             {
@@ -5905,6 +6012,22 @@ void MainWindow::on_actionMakeHBE_Y_minus_triggered()
         disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
         connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeym, SLOT(getDialogData(QString,bool)));
         QString msg = vorlage_hbeym;
+        emit sendDialogData(msg, false);
+    }
+}
+
+void MainWindow::on_actionMakeHBE_einzeln_triggered()
+{
+    if(ui->tabWidget->currentIndex() != INDEX_PROGRAMMLISTE)
+    {
+        QMessageBox mb;
+        mb.setText("Bitte wechseln Sie zuerst in den TAB Programme!");
+        mb.exec();
+    }else
+    {
+        disconnect(this, SIGNAL(sendDialogData(QString, bool)), 0, 0);
+        connect(this, SIGNAL(sendDialogData(QString,bool)), &dlghbeeinz, SLOT(getDialogData(QString,bool)));
+        QString msg = vorlage_hbeeinz;
         emit sendDialogData(msg, false);
     }
 }
@@ -7194,6 +7317,8 @@ void MainWindow::slotNeedWKZ(QString dlgtyp)
 
 
 //---------------------------------------------------
+
+
 
 
 

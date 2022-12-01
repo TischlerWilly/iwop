@@ -40,6 +40,7 @@
 #define DLG_HBEXM               "[HBXMIN40]"
 #define DLG_HBEYP               "[HBYPLU40]"
 #define DLG_HBEYM               "[HBYMIN40]"
+#define DLG_HBEEINZ             "[HBEINW40]"
 #define DLG_SPIEGELN            "[SWSPIE40]"
 #define DLG_LAGE_AENDERN        "[SWLAGE40]"
 #define DLG_NUT                 "[ZYSNUT40]"

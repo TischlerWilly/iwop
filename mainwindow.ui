@@ -223,6 +223,7 @@
     <addaction name="actionMakeHBE_X_minus"/>
     <addaction name="actionMakeHBE_Y_plus"/>
     <addaction name="actionMakeHBE_Y_minus"/>
+    <addaction name="actionMakeHBE_einzeln"/>
    </widget>
    <widget class="QMenu" name="menuManipulation">
     <property name="title">
@@ -646,6 +647,11 @@
   <action name="actionMakeStulp">
    <property name="text">
     <string>Stulp</string>
+   </property>
+  </action>
+  <action name="actionMakeHBE_einzeln">
+   <property name="text">
+    <string>HBE einzeln</string>
    </property>
   </action>
  </widget>

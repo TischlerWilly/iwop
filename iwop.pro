@@ -37,6 +37,7 @@ SOURCES += \
         Dialoge/dialog_fgerawi.cpp \
         Dialoge/dialog_fraeser.cpp \
         Dialoge/dialog_halt.cpp \
+        Dialoge/dialog_hbeeinz.cpp \
         Dialoge/dialog_hbexm.cpp \
         Dialoge/dialog_hbexp.cpp \
         Dialoge/dialog_hbeym.cpp \
@@ -95,6 +96,7 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        Defines/define_hbeeinzeln.h \
         Defines/define_stulp.h \
         Dialoge/dialog_bohren.h \
         Dialoge/dialog_bohren_x.h \
@@ -108,6 +110,7 @@ HEADERS += \
         Dialoge/dialog_fgerawi.h \
         Dialoge/dialog_fraeser.h \
         Dialoge/dialog_halt.h \
+        Dialoge/dialog_hbeeinz.h \
         Dialoge/dialog_hbexm.h \
         Dialoge/dialog_hbexp.h \
         Dialoge/dialog_hbeym.h \
@@ -213,6 +216,7 @@ FORMS += \
         Dialoge/dialog_fgerawi.ui \
         Dialoge/dialog_fraeser.ui \
         Dialoge/dialog_halt.ui \
+        Dialoge/dialog_hbeeinz.ui \
         Dialoge/dialog_hbexm.ui \
         Dialoge/dialog_hbexp.ui \
         Dialoge/dialog_hbeym.ui \

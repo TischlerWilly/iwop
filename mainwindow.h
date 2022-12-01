@@ -35,6 +35,7 @@
 #include "Dialoge/dialog_hbexm.h"
 #include "Dialoge/dialog_hbeyp.h"
 #include "Dialoge/dialog_hbeym.h"
+#include "Dialoge/dialog_hbeeinz.h"
 #include "Dialoge/dialog_spiegeln.h"
 #include "Dialoge/dialog_lage_aendern.h"
 #include "Klassen/werkzeug.h"
@@ -120,6 +121,7 @@ private:
     Dialog_hbexm     dlghbexm;
     Dialog_hbeyp     dlghbeyp;
     Dialog_hbeym     dlghbeym;
+    Dialog_hbeeinz   dlghbeeinz;
     Dialog_nut       dlgnut;
     Dialog_spiegeln  dlgspiegeln;
     Dialog_lage_aendern   dlglageaendern;
@@ -156,6 +158,7 @@ private:
     QString         vorlage_hbexm;
     QString         vorlage_hbeyp;
     QString         vorlage_hbeym;
+    QString         vorlage_hbeeinz;
     QString         vorlage_nut;
     QString         vorlage_kta;
     QString         vorlage_rta;
@@ -283,6 +286,7 @@ private slots:
     void on_actionSchnellaenderung_Werte_triggered();
     void on_action_Offne_von_Zwischenablage_triggered();
     void on_actionMakeStulp_triggered();
+    void on_actionMakeHBE_einzeln_triggered();
 };
 
 #endif // MAINWINDOW_H
