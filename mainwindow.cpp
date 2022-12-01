@@ -440,7 +440,8 @@ void MainWindow::update_windowtitle()
             name += "*";
         }
         QString fenstertitel = PROGRAMMNAME;
-        fenstertitel += " ( " + name + " )";
+        //fenstertitel += " ( " + name + " )";
+        fenstertitel += " ( " + tt.prgname() + " )";
         this->setWindowTitle(fenstertitel);
     }else
     {
