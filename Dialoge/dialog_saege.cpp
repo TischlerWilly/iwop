@@ -23,7 +23,7 @@ void Dialog_saege::clear()
     ui->lineEdit_dm->clear();
     ui->lineEdit_breite->clear();
     ui->comboBox_ausrichtung->clear();
-    ui->comboBox_ausrichtung->addItem("vertikel");  //Index 0
+    ui->comboBox_ausrichtung->addItem("vertikal");  //Index 0
     ui->comboBox_ausrichtung->addItem("horizontal");//Index 1
     loadwkzbild();
 }
