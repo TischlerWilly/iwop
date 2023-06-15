@@ -29,6 +29,7 @@ Dialog_schnellaenderung::Dialog_schnellaenderung(QWidget *parent) :
     Param_fauf.zeile_anhaengen("Abfahrtyp");
     Param_fauf.zeile_anhaengen("Anfahrwert");
     Param_fauf.zeile_anhaengen("Abfahrwert");
+    Param_fauf.zeile_anhaengen("Eintauchtyp");
 }
 
 Dialog_schnellaenderung::~Dialog_schnellaenderung()
@@ -278,6 +279,10 @@ void Dialog_schnellaenderung::on_pushButton_werte_aendern_clicked()
             {
                 wert_aendern(FAUF_ABWEG, wert_alt, wert_neu);
                 werte_ermitteln();
+            }else if(par == "Eintauchtyp")
+            {
+                wert_aendern(FAUF_EINTYP, wert_alt, wert_neu);
+                werte_ermitteln();
             }
         }
     }else
@@ -504,6 +509,9 @@ void Dialog_schnellaenderung::werte_ermitteln()
         }else if(par == "Abfahrwert")
         {
             parname = FAUF_ABWEG;
+        }else if(par == "Eintauchtyp")
+        {
+            parname = FAUF_EINTYP;
         }
         for(uint i = Startzeile; i <= Startzeile+Menge-1; i++)
         {

@@ -89,7 +89,7 @@
       <item row="8" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>Ralz-Versatz</string>
+         <string>Falz-Versatz</string>
         </property>
        </widget>
       </item>
@@ -262,7 +262,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
