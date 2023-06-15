@@ -95,7 +95,7 @@ QString Dialog_fauf::dialogDataToString()
     msg += ENDPAR;
 
     msg += FAUF_EINTYP;
-    msg += int_to_qstring(ui->spinBox_eintyp->value());
+    msg += ui->lineEdit_eintyp->text().toUpper().replace(",",".");
     msg += ENDPAR;
 
     msg += FAUF_ANWEG;
@@ -210,7 +210,7 @@ void Dialog_fauf::getDialogData(QString text, bool openToChangeData)
     parname = ENDPAR;
     parname += FAUF_EINTYP;
     tmp = selektiereEintrag(text, parname, ENDPAR);
-    ui->spinBox_eintyp->setValue(tmp.toInt());
+    ui->lineEdit_eintyp->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));
     parname = ENDPAR;
     parname += FAUF_ANWEG;
     ui->lineEdit_anweg->setText(selektiereEintrag(text, parname, ENDPAR).replace(".",","));

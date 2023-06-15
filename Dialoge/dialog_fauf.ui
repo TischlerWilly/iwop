@@ -295,16 +295,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QSpinBox" name="spinBox_eintyp">
-        <property name="minimum">
-         <number>-1</number>
-        </property>
-        <property name="maximum">
-         <number>1</number>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <widget class="QLabel" name="label_23">
         <property name="text">
@@ -397,6 +387,9 @@
       <item row="8" column="2">
        <widget class="QLineEdit" name="lineEdit_evers"/>
       </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="lineEdit_eintyp"/>
+      </item>
      </layout>
     </widget>
     <widget class="QLabel" name="label_bild_2">
@@ -462,7 +455,7 @@
   <tabstop>pushButton_save</tabstop>
   <tabstop>spinBox_antyp</tabstop>
   <tabstop>spinBox_abtyp</tabstop>
-  <tabstop>spinBox_eintyp</tabstop>
+  <tabstop>lineEdit_eintyp</tabstop>
   <tabstop>lineEdit_anweg</tabstop>
   <tabstop>lineEdit_abweg</tabstop>
   <tabstop>lineEdit_anvo</tabstop>
